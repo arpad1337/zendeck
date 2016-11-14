@@ -18,7 +18,8 @@ import ApplicationController from './controllers/application';
 // S E R V I C E S
 
 import UserService from './services/user';
-import MessageBusService from './services/user';
+import MessageBusService from './services/message-bus';
+import ModalService from './services/modal';
 
 // I N T E R C E P T O R S
 
@@ -32,5 +33,6 @@ module.controller( 'ApplicationController', ApplicationController );
 
 module.service( 'MessageBusService', MessageBusService );
 module.service( 'UserService', UserService );
+module.service( 'ModalService', ModalService );
 
 module.factory('sessionInterceptor', [...SessionInterceptor.$inject, (...params) => new SessionInterceptor(...params) ]);

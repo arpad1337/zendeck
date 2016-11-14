@@ -8,7 +8,9 @@ import ROUTES from './config/routes';
 import USER_STATUS from './config/user-status';
 
 const module = angular.module('ZenDeck', [
-	'pascalprecht.translate'
+	'pascalprecht.translate',
+	'ui.router',
+    'ui.router.state',
 ]);
 
 module.config(["$httpProvider", function($httpProvider){

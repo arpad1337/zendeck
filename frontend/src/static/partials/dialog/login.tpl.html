@@ -1,0 +1,22 @@
+<div class="modal">
+    <div class="container">
+        <h4>Login to your account</h4>
+        <a class="close" ng-click="cancel()"></a>
+        <div class="content">
+            <form>
+                <p>
+                    <label for="email">Email or username*</label>
+                    <input type="text" placeholder="email@example.com" id="email" ng-model="userOrEmail">
+                </p>
+                <p>
+                    <label for="password">Password*</label>
+                    <input type="password" placeholder="password" id="password" ng-model="password">
+                </p>
+            </form>
+        </div>
+        <div class="actions">
+            <button class="confirm" ng-click="ok()">Login</button>
+            <button class="cancel" ng-click="cancel()">Cancel</button>
+        </div>
+    </div>
+</div>

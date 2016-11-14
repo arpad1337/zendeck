@@ -41,6 +41,28 @@ body > header {
 						padding: 0px 4px;
 					}
 				}
+
+				&.login, &.sign-up > a {
+					background: $SECONDARY-LIGHT;
+					color: #fff;
+					font-size: 18px;
+					padding: 8px 16px;
+					margin: auto;
+					border: none;
+					font-weight: 400;
+					display: inline-block;
+					outline: none;
+					text-transform: uppercase;
+					text-decoration: none;
+					margin-top: 10px;
+  					margin-right: 8px;
+				}
+
+				&.sign-up > a {
+					background: #fff;
+					color:  $SECONDARY-LIGHT;
+				}
+
 				&.profile > a {
 					background: url('../img/avatar.jpg');
 					background-size: 36px 36px;
@@ -51,18 +73,21 @@ body > header {
 					width: 36px;
 					height: 36px;
 				}
+
 				&.groups > a {
 					width: 40px;
 					height: 38px;
 					background: url('../img/groups@2x.png');
 					background-size: 40px 38px;
 				}
+
 				&.feed > a {
 					width: 40px;
 					height: 38px;
 					background: url('../img/feed@2x.png');
 					background-size: 40px 38px;
 				}
+
 				&.messages > a {
 					width: 39px;
 					height: 38px;
@@ -72,6 +97,7 @@ body > header {
 						top: -4px;
 					}
 				}
+
 				&.notifications {
 					&.show-notifications .notifications-list {
 						display: block;

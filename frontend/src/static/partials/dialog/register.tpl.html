@@ -1,0 +1,30 @@
+<div class="modal">
+    <div class="container">
+        <h4>Sign up to ZenDeck</h4>
+        <a class="close" ng-click="cancel()"></a>
+        <div class="content">
+            <form>
+                <p>
+                    <label for="email">Email or username*</label>
+                    <input type="email" placeholder="email@example.com" id="email" ng-model="email">
+                </p>
+                <p>
+                    <label for="password">Password*</label>
+                    <input type="password" placeholder="password" id="password" ng-model="password">
+                </p>
+                <p>
+                    <label for="username">Username*</label>
+                    <input type="text" placeholder="type here" id="username" ng-model="username">
+                </p>
+                <p>
+                    <label for="fullname">Full name</label>
+                    <input type="text" placeholder="Type your name here" id="fullname" ng-model="fullname">
+                </p>
+            </form>
+        </div>
+        <div class="actions">
+            <button class="confirm" ng-click="ok()">Sign up</button>
+            <button class="cancel" ng-click="cancel()">Cancel</button>
+        </div>
+    </div>
+</div>

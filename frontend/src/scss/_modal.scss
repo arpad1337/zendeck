@@ -6,7 +6,7 @@
 	bottom: 0;
 	width: 100%;
 	height: 100%;
-	z-index: 10000;
+	z-index: 10001;
 	.container {
 		position: fixed;
 		z-index: 10002;
@@ -25,6 +25,7 @@
 			font-weight: bold;
 			color: $SECONDARY-LIGHT;
 		}
+
 		.actions {
 			float: right;
 			> button {
@@ -140,6 +141,17 @@
 			margin: 10px 0;
 			@extend .clear;
 		}
+
+		input {
+			border: 1px solid $WHITE !important;
+			padding: 10px !important;
+			min-width: 200px !important;
+			background: $WHITE !important;
+			&:hover, &:focus {
+				background: $FOOTER-LIGHT !important;
+			}
+		}
+
 		textarea {
 			border: 1px solid $WHITE;
 			width: 418px;
@@ -151,17 +163,18 @@
 		}
 		@extend .clear;
 	}
-	&:after {
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		z-index: 10001;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		content: " ";
-		display: block;
-		background: rgba(255, 255, 255, 0.7);
-	}
+}
+
+.modal-background {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 10000;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	content: " ";
+	display: block;
+	background: rgba(255, 255, 255, 0.7);
 }
