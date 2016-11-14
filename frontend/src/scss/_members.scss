@@ -1,0 +1,49 @@
+section[role="members"] {
+	margin: auto;
+	.members {
+		margin: 0 -5px;
+		.member {
+			&.admin {
+				.pic {
+					border-color: $MAIN-LIGHT;
+				}
+				.name {
+					color: $MAIN-LIGHT;
+				}
+			}
+			width: 25%;
+			height: 190px;
+			float: left;
+			.pic {
+				width: 130px;
+				height: 130px;
+				@include border-radius(80px);
+				border: 5px solid $FOOTER-LIGHT;
+				margin: auto;
+				background-size: cover;
+				color: $WHITE;
+			}
+			.name {
+				text-align: center;
+				color: $SECONDARY-DARK;
+				width: 130px;
+				margin: auto;
+			}
+			&:hover {
+				.name {
+					color: $SECONDARY-LIGHT;
+				}
+				.pic {
+					border-color: $SECONDARY-LIGHT;
+				}
+			}
+		}
+		&:after {
+			width: 1px;
+			height: 1px;
+			clear: both;
+			display: block;
+			content: " ";
+		}
+	}
+}

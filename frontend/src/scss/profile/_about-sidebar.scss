@@ -1,0 +1,26 @@
+section[role="about"] {
+	.about {
+		margin: 0 auto;
+		font-weight: 300;
+		background: $FOOTER-LIGHT;
+		padding: 10px;
+	}
+	.joined {
+		margin-top: 10px;
+		color:$MAIN-LIGHT;
+		&:before {
+			background-image: url("../img/clock_big@2x.png");
+			background-size: 22px 22px;
+			background-position-x: right;
+			background-position-y: 2px;
+			background-repeat: no-repeat;
+			content: " ";
+			width: 22px;
+			height: 24px;
+			display: block;
+			float: left;
+			margin-top: -3px;
+			margin-right: 4px;
+		}
+	}
+}

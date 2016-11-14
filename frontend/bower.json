@@ -1,0 +1,25 @@
+{
+  "name": "zendeck",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "@rpi1337"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "zendeck.co",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-translate": "^2.11.0",
+    "angular-translate-loader-static-files": "^2.11.0",
+    "jquery": "~3.0.0",
+    "angular-datetime": "~3.2.2"
+  }
+}

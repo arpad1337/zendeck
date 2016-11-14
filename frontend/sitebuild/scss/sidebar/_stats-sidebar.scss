@@ -1,0 +1,54 @@
+section[role="stats"] {
+	a {
+		color: $SECONDARY-LIGHT;
+		margin-bottom: 4px;
+		font-size: 14px;
+		line-height: 20px;
+		display: block;
+		&:hover {
+			color: $SECONDARY-DARK;
+		}
+		&:before {
+			content: " ";
+			width: 16px;
+			height: 16px;
+			float: left;
+			display: block;
+			background: $SECONDARY-LIGHT;
+			padding: 2px;
+			background-position: 2px 2px;
+			margin-right: 4px;
+		}
+		&.members:before {
+			background-image: url(../img/members.png);
+			background-repeat: no-repeat;
+			background-size: 16px 16px;
+		}
+		&.article:before {
+			background-image: url(../img/article.png);
+			background-repeat: no-repeat;
+			background-size: 16px 15px;
+		}
+		&.videos:before {
+			background-image: url(../img/video.png);
+			background-repeat: no-repeat;
+			background-size: 16px 15px;
+		}
+		&.events:before {
+			background-image: url(../img/events.png);
+			background-repeat: no-repeat;
+			background-size: 15px 15px;
+		}
+		&.feed:before {
+			background-image: url(../img/feed_mini.png);
+			background-repeat: no-repeat;
+			background-size: 15px 15px;
+		}
+		&.camera:before {
+			background-image: url(../img/camera.png);
+			background-repeat: no-repeat;
+			background-position: 3px 3px;
+			background-size: 14px 12px;
+		}
+	}
+}

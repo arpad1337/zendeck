@@ -1,0 +1,160 @@
+{
+	"COMMON": {
+		"MORE": "More"
+	},
+	"HEADER": {
+		"MENU": {
+			"FEED": "Feed",
+			"GROUPS": "Groups",
+			"NOTIFICATIONS": "Notificatons",
+			"MESSAGES": "Messages",
+			"PROFILE": "Profile"
+		},
+		"SUB_MENU": {
+			"FEED": "Feed",
+			"MEMBERS": "Members",
+			"STARRED": "Starred",
+			"JOIN_GROUP": "Join group",
+			"INVITE_FRIENDS": "Invite friends",
+			"CREATE_FILETER": "Create filter",
+			"ADD_FRIEND": "Add friend",
+			"SEND_NEW_MESSAGE": "Send a message"
+		}
+	},
+	"FOOTER": {
+		"COL_1": {
+			"TITLE": "Help",
+			"ABOUT": "About",
+			"FAQ": "FAQ",
+			"CONTACT": "Contact"
+		},
+		"COL_2": {
+			"TITLE": "Legal",
+			"TNC": "Terms & Conditions",
+			"PRIVACY_POLICY": "Privacy Policy",
+			"COOKIE_POLICY": "Cookie Policy"
+		},
+		"COPYRIGHT": "&copy; Pear Labz LLC."
+	},
+	"SEARCH": {
+		"TITLE": "Search",
+		"MORE_RESULTS": "More results"
+	},
+	"RIGHT_COLUMN": {
+		"FRIENDS": {
+			"TITLE": "Friends"
+		},
+		"GROUPS": {
+			"TITLE": "Groups",
+			"CTA": "Create group"
+		},
+		"TRENDING_TAGS": {
+			"TITLE": "Trending tags"
+		},
+		"ABOUT": {
+			"TITLE": "About",
+			"MEMBERS": "{{memberCount}} member joined",
+			"ARTICLE": "{{articleCount}} article posted",
+			"PHOTO": "{{photoCount}} photo shared",
+			"VIDEOS": "{{videoCount}} video linked",
+			"EVENTS": "{{eventScheduled}} event scheduled"
+		},
+		"STATS": {
+			"TITLE": "Stats",
+			"FRIENDS": "{{friendCount}} friends",
+			"ARTICLES": "{{articleCount}} article posted",
+			"PHOTOS": "{{photoCount}} photos shared",
+			"VIDEOS": "{{videoCount}} videos linked",
+			"EVENTS": "{{eventCount}} linked"
+		},
+		"RECENT_TAGS": {
+			"TITLE": "Recent tags"
+		},
+		"GROUPS": {
+			"TITLE": "Groups"
+		}
+	},
+	"NOTIFICATIONS": {
+		"GROUP_INVITATION": "{{invitee}} has invited you to {{group}}",
+		"GROUP_INVITATION_ACCEPTED": "{{invited}} has accepted your invitation to {{group}}",
+		"PLATFORM_INVITATION": "{{invited}} has joined to ZenDeck",
+		"STARRED_POST": "{{starringUser}} starred your <a href=\"{{postUrl}}\">post</a>",
+		"STARRED_POST_MULTI": "{{su1}}, {{su2}} and {{moreCount}} starred your <a href=\"{{postUrl}}\">post</a>",
+		"FRIEND_REQUEST": "{{invitee}} sent you a friend request",
+		"LIKED_POST": "{{likedPost}} liked your <a href=\"{{postUrl}}\">post</a>",
+		"LIKED_POST_MULTI": "{{su1}}, {{su2}} and {{moreCount}} starred your <a href=\"{{postUrl}}\">post</a>",
+		"GROUP_INVITATION": "{{invitee}} invited your to the <a href=\"{{groupUrl}}\">{{groupName}} Group</a>"
+	},
+	"FEED": {
+		"POST_ENTRY": {
+			"IN_GROUP": "from <a href=\"{{groupUrl}}\">{{groupName}} Group</a>",
+			"TIME_AGO_SUFFIX": "{{value}} ago",
+			"LIKES": "{{value}} people like this",
+			"LINK_BOX": {
+				"AUTHOR": "{{author}} from {{pageUrl}}"
+			},
+			"COMMENT_BOX": {
+				"PREVIOUS_COMMENTS": "previous comments ({{number}})"
+			}
+		},
+		"POST_BOX": {
+			"TITLE": "Post to feed",
+			"SEND": "Post",
+			"PLACEHOLDER": "Write your post here"
+		}
+	},
+	"GROUPS": {
+		"TITLE": "Groups",
+		"CTA": "Create group",
+		"MEMBER_COUNT": "{{memberCount}} member"
+	},
+	"MESSAGES": {
+		"TITLE": "Messages",
+		"OPEN_THREAD": "Open thread",
+		"RECENT_FRIENDS": "Recent friends"
+	},
+	"PROFILE": {
+		"TITLE": "Posts",
+		"ABOUT": "About",
+		"CHANGE_COVER": "Change cover photo",
+		"CHANGE_PROFILE_PIC": "Change profile picture",
+		"EDIT_ABOUT": "Edit about",
+		"CHANGE_NAME": "Change name"
+	},
+	"MEMBERS": {
+		"TITLE": "Members"
+	},
+	"MODALS": {
+		"SEND_NEW_MESSAGE": {
+			"TITLE": "Send new message",
+			"SELECT_RECIPIENT": "Select recipient",
+			"MESSAGE": "Message",
+			"PLACEHOLDER": "Type your message here...",
+			"OK": "Send message",
+			"CANCEL": "Cancel"
+		},
+		"CREATE_FILTER": {
+			"TITLE": "Create filter",
+			"FILTER_NAME": "Name of the filter",
+			"PLACEHOLDER": "Type a title",
+			"OK": "Create",
+			"CANCEL": "Cancel"
+		},
+		"INVITE_FRIEND": {
+			"TITLE": "Invite friend",
+			"EMAIL": "Type your friends email address",
+			"PLACEHOLDER": "email@example.com",
+			"OK": "Send invitation",
+			"CANCEL": "Cancel"
+		},
+		"FRIEND_INVITED": {
+			"TITLE": "Friend invited",
+			"OK": "Invitation to {{email}} has been sent"
+		},
+		"FRIEND_REQUESTED": {
+			"TITLE": "Oops, seems like {{friendName}} has already joined to ZenDeck",
+			"MESSAGE": "We sent a frient request behalf of you, once it gets accepted, we will let you know",
+			"OK": "Cool"
+		}
+	}
+}

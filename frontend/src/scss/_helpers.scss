@@ -1,0 +1,109 @@
+.reset {
+	margin: 0;
+	border: 0;
+	padding: 0;
+}
+
+@mixin transition($transition-property, $transition-time, $method) {
+    -webkit-transition: $transition-property $transition-time $method;
+    -moz-transition: $transition-property $transition-time $method;
+    -ms-transition: $transition-property $transition-time $method;
+    -o-transition: $transition-property $transition-time $method;
+    transition: $transition-property $transition-time $method;
+}
+
+@mixin transform($transform) {
+	-webkit-transform: $transform;
+	-moz-transform: $transform;
+    -o-transform: $transform;
+	-ms-transform: $transform;
+	transform: $transform; 
+}
+
+@mixin border-radius($radius) {
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	border-radius: $radius;
+}
+
+@mixin placeholder($color) {
+	input[placeholder],
+		    [placeholder],
+    *[placeholder], {
+  		color: $color;
+	}
+	::-webkit-input-placeholder { /* WebKit browsers */
+	    color: $color;
+	}
+	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	   color: $color;
+	   opacity:  1;
+	}
+	::-moz-placeholder { /* Mozilla Firefox 19+ */
+	   color: $color;
+	   opacity:  1;
+	}
+	:-ms-input-placeholder { /* Internet Explorer 10+ */
+	   color: $color;
+	}
+}
+
+.tooltip {
+	@include transition(all, 0.3s, ease-in-out);
+	background: $SECONDARY-LIGHT;
+	color: $WHITE;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-weight: normal;
+	font-size: 14px;
+	position: absolute;
+	opacity: 0;
+	text-align: center;
+	text-indent: 0;
+	height: 0px;
+	padding: 0;
+}
+.has-tooltip {
+	&:hover .tooltip {
+		opacity: 1;
+		height: auto;
+		padding: 4px 8px;
+	}
+}
+
+.main-light {
+	color: $MAIN-LIGHT;
+}
+
+.label {
+	display: inline;
+	padding: 2px 4px;
+	background: $MAIN-LIGHT;
+	font-size: 10px;
+	color: $WHITE;
+	text-transform: uppercase;
+	text-decoration: none;
+	margin: 0 2px 0 0;
+	height: 16px;
+	line-height: 16px;
+	&:hover {
+		background-color: $MAIN-DARK;
+	}
+}
+.mrt-30 {
+	margin-top: 30px;
+}
+.prt-30 {
+	padding-top: 30px;
+}
+
+.clear {
+	&:after {
+		content: " ";
+		width: 1px;
+		height: 1px;
+		display: block;
+		clear: both;
+	}
+}

@@ -1,0 +1,91 @@
+main > nav {
+	ul {
+		position: fixed;
+		top: 60px;
+		padding: 0 10px;
+		left: 0;
+		right: 0;
+	  	width: auto;
+	  	background: rgba(0, 191, 255, 0.6);
+	}
+  	&:after {
+  		background: $SECONDARY-LIGHT;
+  		position: fixed;
+  		top: 60px;
+  		left: 0;
+  		min-height: 26px;
+  		width: 100%;
+  		content: " ";
+  		display: block;
+  		z-index: 91;
+  	}
+  	ul, li {
+		margin: 0;
+		display: inline-block;
+		z-index: 101;
+	}
+	li {
+		position: relative;
+		padding: 0;
+		a {
+			padding: 3px 10px 5px;
+			color: $WHITE;
+			text-decoration: none;
+			font-size: 14px;
+			line-height: 18px;
+			display: inline-block;
+			&:hover, &.active {
+				background: $SECONDARY-DARK;
+			}
+			&.create {
+				background-image: url(../img/plus.png);
+				background-repeat: no-repeat;
+				background-position: 87px 5px;
+				background-size: 15px 15px;
+				padding-right: 24px;
+			}
+			&.star {
+				background-image: url(../img/star.png);
+				background-repeat: no-repeat;
+				background-position: 62px 4px;
+				background-size: 16px 16px;
+				padding-right: 30px;
+			}
+			&.members {
+				background-image: url(../img/members.png);
+				background-repeat: no-repeat;
+				background-position: 72px 4px;
+				background-size: 16px 16px;
+				padding-right: 27px;
+			}
+			&.article {
+				background-image: url(../img/article.png);
+				background-repeat: no-repeat;
+				background-position: 61px 5px;
+				background-size: 16px 15px;
+				padding-right: 27px;
+			}
+			&.videos {
+				background-image: url(../img/video.png);
+				background-repeat: no-repeat;
+				background-position: 56px 5px;
+				background-size: 16px 15px;
+				padding-right: 27px;
+			}
+			&.events {
+				background-image: url(../img/events.png);
+				background-repeat: no-repeat;
+				background-position: 56px 5px;
+				background-size: 15px 15px;
+				padding-right: 27px;
+			}
+			&.feed {
+				background-image: url(../img/feed_mini.png);
+				background-repeat: no-repeat;
+				background-position: 47px 5px;
+				background-size: 15px 15px;
+				padding-right: 27px;
+			}
+		}
+	}
+}

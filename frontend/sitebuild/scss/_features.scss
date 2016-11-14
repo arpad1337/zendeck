@@ -1,0 +1,56 @@
+section[role="features"] {
+	background: $SECONDARY-LIGHT;
+	color: $WHITE;
+	.feature {
+		width: 50%;
+		float: left;
+		min-height: 160px;
+		margin-bottom: 20px;
+		h2 {
+			font-size: 18px;
+			margin: 20px 0 10px;
+			text-align: center;
+		}
+		.description {
+			padding: 0 30px;
+			font-weight: 400;
+			text-align: center;
+			font-size: 16px;
+		}
+		span {
+			display: block;
+			margin: 20px auto 0;
+			&.groups {
+				width: 40px;
+				height: 38px;
+				background: url('../img/groups@2x.png');
+				background-size: 40px 38px;
+			}
+			&.feed {
+				width: 40px;
+				height: 38px;
+				background: url('../img/feed@2x.png');
+				background-size: 40px 38px;
+			}
+			&.messages {
+				width: 39px;
+				height: 38px;
+				background: url('../img/messages@2x.png');
+				background-size: 39px 38px;
+			}
+			&.search {
+				width: 38px;
+				height: 38px;
+				background: url('../img/search@2x.png');
+				background-size: 38px 38px;
+			}
+		}
+	}
+	&::after {
+		content: " ";
+		width: 1px;
+		height: 1px;
+		display: block;
+		clear: both;
+	}	
+}

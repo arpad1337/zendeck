@@ -1,0 +1,99 @@
+section[role="events"] {
+	.events {
+		h5 {
+			font-size: 18px;
+			color: $MAIN-LIGHT;
+			margin: 0;
+		}
+		.event {
+			margin-top: 10px;
+			position: relative;
+			background: $FOOTER-LIGHT;
+			padding: 10px;
+			.hour {
+				color: $MAIN-LIGHT;
+				height: 23px;
+				line-height: 20px;
+				display: inline-block;
+				position: absolute;
+				right: 40px;
+				top: 10px;
+				&:after {
+					background-image: url('../img/clock_big@2x.png');
+					background-size: 22px 22px;
+					background-position-x:  right;
+					background-position-y: 2px;
+					background-repeat: no-repeat;
+					content: " ";
+					width: 22px;
+					height: 24px;
+					display: block;
+					float: right;
+					margin-top: -3px;
+					margin-left: 4px;
+				}
+			}
+			.star {
+				position: absolute;
+				right: 10px;
+				top: 10px;
+				width: 20px;
+				height: 19px;
+				background: url('../img/star_big.png');
+				background-size: cover;
+				display: block;
+				position: absolute;
+				&:hover {
+					background-image: url('../img/star_big-hover.png');
+				}
+			}
+			a {
+				text-decoration: none;
+				color: $SECONDARY-LIGHT;
+				&:hover {
+					color: $SECONDARY-DARK;
+				}
+			}
+			h6 {
+				font-size: 18px;
+				color: $SECONDARY-LIGHT;
+				margin: 0;
+			}
+			button {
+				width: 60px;
+		  		text-align: center;
+		  		background-color: $SECONDARY-LIGHT;
+		  		color: $WHITE;
+		  		border: none;
+		  		margin: auto;
+		  		display: block;
+		  		font-weight: normal;
+		  		float: right;
+		  		margin-top: -23px;
+		  		line-height: 18px;
+		  		&:hover {
+		  			background-color: $SECONDARY-DARK;
+		  		}
+			}
+			.friends {
+				margin: 10px -2px 0;
+				.friend {
+					margin: 0 2px;
+					width: 46px;
+					height: 46px;
+					border: 2px solid $WHITE;
+					@include border-radius(55px);
+					background-size: cover;
+					float: left;
+				}
+				&:after {
+					content: " ";
+					width: 1px;
+					height: 1px;
+					display: block;
+					clear: both;
+				}
+			}
+		}
+	}
+}

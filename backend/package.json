@@ -1,0 +1,28 @@
+{
+  "name": "zendeck-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@rpi1337",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^1.2.4",
+    "koa-better-body": "^3.0.2",
+    "koa-router": "^5.4.0",
+    "pg": "^4.5.5",
+    "pg-hstore": "^2.3.2",
+    "aws-sdk": "^2.4.2",
+    "es6-promisify": "^4.1.0",
+    "gm": "^1.22.0",
+    "redis": "^2.6.0-2",
+    "request-promise": "^3.0.0",
+    "sequelize": "^3.23.3"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^2.4.0"
+  }
+}

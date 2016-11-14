@@ -1,0 +1,78 @@
+section[role="articles"] {
+	margin: 0 -5px;
+	h4 {
+		text-indent: 5px;
+	}
+	.article {
+		&.highlighted {
+			width: 100%;
+		}
+		float: left;
+		width: 50%;
+		height: 305px;
+		position: relative;
+		.entry {
+			margin: 5px 5px -5px;
+			height: 295px;
+			header {
+				background: rgba(92, 227, 208, 0.8);
+				position: absolute;
+				bottom: 5px;
+				right: 5px;
+				left: 5px;
+				padding: 10px;
+				h5, h6 {
+					margin: 0;
+					color: $WHITE;;
+				}
+				h5 {
+					font-size: 18px;
+				}
+				h6 {
+					font-weight: normal;
+					font-size: 14px;
+					span {
+						font-weight: bold;	
+					}
+				}
+				.date {
+					color: $WHITE;
+					font-size: 10px;
+					display: inline-block;;
+					&:after {
+						background-image: url('../img/clock@2x.png');
+						background-size: 16px 16px;
+						background-position-x:  right;
+						background-position-y: 2px;
+						background-repeat: no-repeat;
+						content: " ";
+						width: 16px;
+						height: 18px;
+						display: block;
+						float: right;
+						margin-top: -3px;
+						margin-left: 4px;
+					}
+				}
+				.star {
+					width: 20px;
+					height: 19px;
+					background: url('../img/star.png');
+					background-size: cover;
+					display: block;
+					position: absolute;
+					right: 10px;
+					bottom: 10px;
+					
+				}
+			}
+		}
+	}
+	&:after {
+		content: " ";
+		width: 1px;
+		height: 1px;
+		display: block;
+		clear: both;
+	}
+}

@@ -1,0 +1,12 @@
+section[role="create-filter"] {
+	input {
+		padding: 8px;
+		border: 1px solid $FOOTER-LIGHT;
+		width: 582px;
+		font-weight: normal;
+		margin-top: -6px;
+		&:hover, &:focus {
+			background-color: $FOOTER-LIGHT;
+		}
+	}
+}

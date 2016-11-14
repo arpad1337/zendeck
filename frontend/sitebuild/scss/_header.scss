@@ -1,0 +1,256 @@
+body > header {
+	background: $MAIN-LIGHT;
+	height: 60px;
+	color: $WHITE;
+	position: fixed;
+	top: 0;
+	z-index: 2;
+	width: 100%;
+	h1 {
+		font-weight: 300;
+		margin:auto;
+		font-size: 36px;
+		line-height: 60px;
+		text-indent: 20px;
+	}
+	nav {
+		position: absolute;
+		right: 0;
+		top: 0;
+		ul {
+			@extend .reset;
+			margin-top: 10px;
+			display: inline-block;
+			li {
+				@extend .reset;
+				display: inline-block;
+				margin-right: 10px;
+				& > a {
+					display: block;
+					position: relative;
+					background-repeat: no-repeat;
+					> span {
+						color: $WHITE;
+						@include border-radius(20px);
+						position: absolute;
+						top: -2px;
+						right: -2px;
+						font-size: 12px;
+						color: #fff;
+						background: $RED;
+						padding: 0px 4px;
+					}
+				}
+				&.profile > a {
+					background: url('../img/avatar.jpg');
+					background-size: 36px 36px;
+					border: 2px solid $WHITE;
+					-webkit-border-radius: 36px;
+					-moz-border-radius: 36px;
+					border-radius: 36px;
+					width: 36px;
+					height: 36px;
+				}
+				&.groups > a {
+					width: 40px;
+					height: 38px;
+					background: url('../img/groups@2x.png');
+					background-size: 40px 38px;
+				}
+				&.feed > a {
+					width: 40px;
+					height: 38px;
+					background: url('../img/feed@2x.png');
+					background-size: 40px 38px;
+				}
+				&.messages > a {
+					width: 39px;
+					height: 38px;
+					background: url('../img/messages@2x.png');
+					background-size: 39px 38px;
+					span {
+						top: -4px;
+					}
+				}
+				&.notifications {
+					&.show-notifications .notifications-list {
+						display: block;
+					}
+					> a {
+						width: 36px;
+						height: 40px;
+						background: url('../img/bell@2x.png');
+						background-size: 36px 40px;
+					}
+					.notifications-list {
+						&:before {
+							width: 0;
+							height: 0;
+							border-style: solid;
+							border-width: 0 11px 10px 10px;
+							border-color: transparent transparent #ffffff transparent;
+							content: " ";
+							display: block;
+							position: absolute;
+							left: 99px;
+							top: -10px;
+						}
+						position: absolute;
+						z-index: 1000;
+						color: $WHITE;
+						display: none;
+						border: 2px solid #fff;
+						background: none;
+						margin-top: 10px;
+						width: 222px;
+						left: -93px;
+						line-height: 18px;
+						h4 {
+							margin: -8px;
+							padding: 8px;
+							text-transform: uppercase;
+						}
+						a {
+							text-decoration: none;
+							padding: 8px;
+							font-size: 14px;
+							color:$WHITE;
+							background: $MAIN-DARK;
+							display: block;
+							border-top: 1px solid $MAIN-LIGHT;
+							&:first-child {
+								border: none;
+							}
+							&:hover, .label:hover {
+								background: $MAIN-LIGHT;
+							}
+							&.more {
+								text-transform: uppercase;
+								text-align: center;
+							}
+							span {
+								  background-image: url('img/avatar.jpg');
+								  width: 30px;
+								  height: 30px;
+								  display: block;
+								  padding: 0;
+								  float: left;
+								  border: 2px solid $WHITE;
+								  background-size: cover;
+								  @include border-radius(20px);
+								  margin-right: 4px;
+							}
+						}
+					}
+				}
+			}
+		}
+		& .search {
+			display: inline-block;
+			margin-right: 10px;
+			min-width: 38px;
+			height: 42px;
+			line-height: 42px;
+			&.opened .icon, &:hover .icon {
+				-ms-transform: rotate(-90deg); /* IE 9 */
+    			-webkit-transform: rotate(-90deg); /* Safari */
+    			transform: rotate(-90deg);
+			}
+			.icon {
+				z-index: 10000;
+				position: relative;
+				@include transition(all, 0.6s, ease-in-out);
+				width: 38px;
+				height: 38px;
+				background: url('../img/search@2x.png');
+				background-size: 38px 38px;
+				display: block;
+				border: none;
+				margin-top: 3px;
+				&:focus {
+					outline: none;
+				}
+			}
+			&.opened input, &:hover input {
+				width: 200px;
+				background: $MAIN-DARK;
+				padding-right: 42px;
+			}
+			&.show-results .results {
+				display: block;
+			}
+			.results {
+				position: absolute;
+				z-index: 1000;
+				color: $WHITE;
+				display: none;
+				border: 2px solid #fff;
+				border-top: 2px solid $MAIN-DARK;
+				background: none;
+				margin-top: -3px;
+				width: 222px;
+				left: 14px;
+				line-height: 18px;
+				h4 {
+					margin: -8px;
+					padding: 8px;
+					text-transform: uppercase;
+				}
+				a {
+					text-decoration: none;
+					padding: 8px;
+					font-size: 14px;
+					color:$WHITE;
+					background: $MAIN-DARK;
+					display: block;
+					border-top: 1px solid $MAIN-LIGHT;
+					&:hover, .label:hover {
+						background: $MAIN-LIGHT;
+					}
+					&.more {
+						text-transform: uppercase;
+						text-align: center;
+					}
+				}
+			}
+			input {
+				@include transition(all, 0.6s, ease-in-out);
+				width: 0px;
+				position: relative;
+				z-index: 1;
+				margin-top: 3px;
+				display: block;
+				float: left;
+				border: 2px solid white;
+				background: transparent;
+				height: 34px;
+				line-height: 34px;
+				padding: 0 32px 0 10px;
+				-webkit-border-radius: 34px;
+				-moz-border-radius: 34px;
+				border-radius: 34px;
+				margin-right: -38px;
+				&::-webkit-input-placeholder { /* WebKit browsers */
+					color:$WHITE;
+				}
+				&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+					color:$WHITE;
+				opacity:  1;
+				}
+				&::-moz-placeholder { /* Mozilla Firefox 19+ */
+					color:$WHITE;
+				opacity:  1;
+				}
+				&:-ms-input-placeholder { /* Internet Explorer 10+ */
+					color:$WHITE;
+				}
+				&:focus {
+					outline: none;
+					background: $MAIN-DARK;
+					width: 200px;
+					padding-right: 42px;
+				}
+			}
+		}
+	}
+}

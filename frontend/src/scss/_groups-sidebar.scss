@@ -1,0 +1,32 @@
+section[role="groups-sidebar"] {
+	ul, li {
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		list-style-type: none;
+		a {
+			text-decoration: none;
+			color: $WHITE;
+			background:$SECONDARY-LIGHT;
+			display: block;
+			font-size: 16px;
+			padding: 4px 8px;
+			&:hover {
+				background: $SECONDARY-DARK;
+			}
+			&:before {
+				background-image: url(../img/members.png);
+				background-repeat: no-repeat;
+				background-size: 16px 16px;
+				display: block;
+				content: " ";
+				float: left;
+				width: 16px;
+				height: 16px;
+				margin-top: 4px;
+				margin-right: 4px;
+			}
+		}
+	}
+}

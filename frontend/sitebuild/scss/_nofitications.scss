@@ -1,0 +1,11 @@
+section[role="notifications"] {
+	.author-pic {
+		width: 30px;
+		height: 30px;
+		background-size: 30px 30px;
+		margin-right: 8px;
+		border: 2px solid $MAIN-LIGHT;
+		@include border-radius(50px);
+		float: left;
+	}	
+}

@@ -1,0 +1,22 @@
+section[role="groups"] {
+	.group {
+		width: 25%;
+		.entry {
+			margin: 5px 5px -5px;
+			height: 295px;
+			header {
+				background: rgba(92, 227, 208, 0.8);
+				position: absolute;
+				bottom: 5px;
+				right: 5px;
+				left: 5px;
+				padding: 10px;
+				h5, h6 {
+					margin: 0;
+					color: $WHITE;;
+				}
+				h5 {
+					font-size: 18px;
+				}
+	}
+}

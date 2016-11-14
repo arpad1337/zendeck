@@ -1,0 +1,29 @@
+section[role="notifications"] {
+	.notification {
+		display: block;
+		line-height: 34px;
+		margin-bottom: 10px;
+		border-top: 1px solid $FOOTER-LIGHT;
+		padding-top: 10px;
+		&:first-child {
+			border-top: 0;
+		}
+		.author-pic {
+			width: 30px;
+			height: 30px;
+			background-size: 30px 30px;
+			margin-right: 8px;
+			border: 2px solid $MAIN-LIGHT;
+			@include border-radius(50px);
+			float: left;
+		}
+		a {
+			text-decoration: none;
+			color: $SECONDARY-LIGHT;
+			&.author {
+				color: $MAIN-LIGHT;
+			}
+		}
+		@extend .clear;
+	}
+}

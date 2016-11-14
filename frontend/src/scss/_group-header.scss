@@ -1,0 +1,36 @@
+main > header {
+	height: 300px;
+	margin: -2px -2px 0;
+	position: relative;
+	z-index: 100;
+	background-size: cover;
+	h1 {
+		text-align: center;
+		margin: 0;
+		padding-top: 110px;
+		font-size: 42px;
+		color: $WHITE;
+		text-shadow: 1px 1px 0 #000;
+	}
+	h2 {
+		text-align: center;
+		margin: 0;
+		padding: 10px 0;
+		position: absolute;
+		display: block;
+		width: 100%;
+		bottom: 0;
+		background: rgba(92, 227, 208, 0.4);
+		font-weight: normal;
+		color: $WHITE;
+		span {
+			background-image: url('../img/location@2x.png');
+			background-size: 24px 33px;
+			padding-left: 30px;
+			background-repeat: no-repeat;
+			display: inline-block;
+			height: 31px;
+			text-shadow: 1px 1px 0 #000;
+		}
+	}
+}

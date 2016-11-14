@@ -1,0 +1,371 @@
+<!doctype html>
+<html ng-app="ZenDeck">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>ZenDeck</title>
+        <meta name="description" content="A social discussion platform.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+        <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/components.css">
+    </head>
+    <body ng-controller="ApplicationController as APP">
+        <header>
+            <h1 ui-sref="app"><strong>Zen</strong>Deck</h1>
+            <div ng-if="app.isUserLoggedIn">
+                <nav>
+                    <div class="search opened">
+                        <input type="text" name="search" placeholder="Frontend Meetup Group">
+                        <button class="icon"></button>
+                    </div>
+                    <ul>
+                        <li class="feed has-tooltip" alt="Feed">
+                            <a href="feed.html"></a>
+                        </li>
+                        <li class="groups has-tooltip" alt="Groups">
+                            <a href="groups.html"></a>
+                        </li>
+                        <li class="notifications has-tooltip" alt="Notifications">
+                            <a href="notifications.html"><span>128</span></a>
+                        </li>
+                        <li class="messages has-tooltip" alt="Messages">
+                            <a href="messages.html"><span>2</span></a>
+                        </li>
+                        <li class="profile has-tooltip" alt="Profile">
+                            <a href="profile.html"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div ng-if="!app.isUserLoggedIn">
+                logged out
+            </div>
+        </header>
+
+        <main>
+            <nav>
+                <ul>
+                    <li><a href="feed.html" class="feed active">Feed</a></li>
+                    <li><a href="jobs.html" class="star">Starred</a></li>
+                    <li><a href="jobs.html" class="filter ">Jobs</a></li>
+                </ul>
+                <div class="actions"><a href="create-filter.html" class="create">Create filter</a></div>
+            </nav>
+            <div class="wrap prt-30">
+                <div class="content">
+                    <section role="posting-box">
+                        <h4>Post to feed</h4>
+                        <div class="create-post">
+                            <textarea placeholder="Write your post here..."></textarea>
+                            <div class="labels">
+                                <ul>
+                                    <li>
+                                        <span>
+                                            article
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <input type="text" placeholder=". . .">
+                                        <!-- <button class="label"></button> -->
+                                    </li>
+                                </ul>
+                            </div>
+                            <button class="post-content">Post</button>
+                            <div class="suggested-tags">
+                                <div class="labels">
+                                    <ul>
+                                        <li>
+                                            <span>
+                                                suggested
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span>
+                                                tags
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span>
+                                                come
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span>
+                                                here
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section role="feed">
+                        <h4>Posts</h4>
+                        <div class="post left">
+                            <div class="head">
+                                <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
+                                <div class="author">John Doe</div>
+                                <div class="from">from <a href="components.html">Frontend Meetup Group</a></div>
+                                <div class="date">23 hour ago</div>
+                                <a class="hearth">20 people like this</a>
+                                <a class="star"></a>
+                                <div class="labels">
+                                    <ul>
+                                        <li>
+                                            <a href="#">
+                                                article
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                marketing
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                customer development
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                inbound
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                discussion
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <aside>
+                                <div class="content">
+                                    <div class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Maecenas lacinia odio nec dignissim elementum. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.</div>
+                                </div>
+                                <div class="comment-area">
+                                    <div class="pagination">
+                                        <a href="#">previous comments (16)</a>
+                                    </div>
+                                    <div class="comments">
+                                        <div class="comment">
+                                            <div class="author-pic has-tooltip" alt="2m" style="background-image:url('img/avatar.jpg')"></div>
+                                            <div class="message">
+                                                <a class="author" href="#author">John Doe></a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis.<span class="date">2 minutes ago</span>
+                                            </div>
+                                        </div>
+                                        <div class="comment">
+                                            <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
+                                            <div class="message">
+                                                <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.<span class="date">2 minutes ago</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="add-comment">
+                                         <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
+                                         <textarea placeholder="write comment here..."></textarea>
+                                    </div>
+                                </div>
+                            <aside>
+                        </div>
+                        <div class="post left">
+                            <div class="head">
+                                <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
+                                <div class="author">John Doe</div>
+                                <div class="date">23 hour ago</div>
+                                <a class="hearth">20 people like this</a>
+                                <a class="star"></a>
+                                <div class="labels">
+                                    <ul>
+                                        <li>
+                                            <a href="#">
+                                                article
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                marketing
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                customer development
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                inbound
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                discussion
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <aside>
+                                <div class="content">
+                                    <div class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Maecenas lacinia odio nec dignissim elementum. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.</div>
+                                </div>
+                                <div class="comment-area">
+                                    <div class="pagination">
+                                        <a href="#">previous comments (16)</a>
+                                    </div>
+                                    <div class="comments">
+                                        <div class="comment">
+                                            <div class="author-pic has-tooltip" alt="2m" style="background-image:url('img/avatar.jpg')"></div>
+                                            <div class="message">
+                                                <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis.<span class="date">2 minutes ago</span>
+                                            </div>
+                                        </div>
+                                        <div class="comment">
+                                            <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
+                                            <div class="message">
+                                                <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.<span class="date">2 minutes ago</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="add-comment">
+                                         <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
+                                         <textarea placeholder="write comment here..."></textarea>
+                                    </div>
+                                </div>
+                            <aside>
+                        </div>
+                    </section>
+                </div>
+                <aside>
+                    <section role="friends-sidebar">
+                        <h4>Friends</h4>
+                        <div class="friends">
+                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
+                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
+                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
+                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
+                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
+                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
+                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
+                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
+                        </div>
+                    </section>
+                    <section role="groups-sidebar">
+                        <h4>Groups</h4>
+                        <ul>
+                            <li><a href="components.html">Frontend Meetup Group <span>4</span></a></li>
+                            <li><a href="components.html">Frontend Meetup Group</a></li>
+                            <li><a href="components.html">Frontend Meetup Group</a></li>
+                            <li><a href="components.html">Frontend Meetup Group</a></li>
+                        </ul>
+                        <a href="create-group.html">Create group</a>
+                    </section>
+                    <section role="trending-tags">
+                        <h4>Trending tags</h4>
+                        <div class="labels">
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        article (12)
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        marketing (14)
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        customer development (33)
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        inbound (2)
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        discussion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        discussion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        discussion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        discussion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        discussion
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        discussion
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </aside>
+            </div>
+        </main>
+
+        <footer>
+            <div class="column">
+                <h3>Help</h3>
+                <ul>
+                    <li><a href="#/about">About</a></li>
+                    <li><a href="#/faq">FAQ</a></li>
+                    <li><a href="#/contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#/terms">Terms &amp; Conditions</a></li>
+                    <li><a href="#/privacy">Privacy Policy</a></li>
+                    <li><a href="#/cookie">Cookie Policy</a></li>
+                </ul>
+            </div>
+            <div class="social">
+                <a href="https://www.facebook.com/thezendeck" class="facebook has-tooltip" alt="Facebook"></a>
+                <a href="https://twitter.com/ZenDeck" class="twitter has-tooltip" alt="Twitter"></a>
+            </div>
+            <div class="copyright">
+                <span class="main-light">&copy; Pear Labs LLC.</span> 
+            </div>
+        </footer>
+
+
+        <script src="js/vendor.js"></script>
+        <script src="js/app.js"></script>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-46818022-2', 'auto');
+            ga('send', 'pageview');
+        </script>
+    </body>
+</html>

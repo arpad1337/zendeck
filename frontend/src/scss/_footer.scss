@@ -1,0 +1,90 @@
+footer {
+	background: $FOOTER-DARK;
+	width: 100%;
+	font-weight: 300;
+	color: $FOOTER-LIGHT;
+	font-size: 12px;
+	position: relative;
+	@extend .reset;
+	ul {
+		@extend .reset;	
+		list-style-type: none;
+		min-width: 100px;
+		padding-left: 20px !important;
+		li {
+			@extend .reset;
+			display: block;
+			a {
+				color: $FOOTER-LIGHT;
+				text-decoration: none;
+				font-size: 14px;
+				&:hover {
+					color: $WHITE;
+				}
+			}
+		}
+	}
+	h3 {
+		font-size: 16px;
+ 		margin: 0 0 6px;
+ 		color: $WHITE;
+ 		text-shadow: 1px 1px 0px #000;
+ 		padding-left: 20px;
+	}
+	.column {
+		float: left;
+		display: inline-block;
+		margin: 20px 20px 40px 0;
+		padding-right: 20px;
+		border-left: 1px solid $FOOTER-LIGHT;
+		height: 100px;
+		&:first-child {
+			margin-left: 40px;
+			border: none;
+		}
+	}
+	.copyright {
+		position: absolute;
+		bottom: 20px;
+		right: 0;
+		left: 0;
+		margin: auto;
+		width: 160px;
+		text-align: center;
+	}
+	&::after {
+		content: " ";
+		width: 1px;
+		height: 1px;
+		display: block;
+		clear: both;
+	}
+	.social {
+		position: absolute;
+		right: 35px;
+		top: 20px;
+		text-align: center;
+		.facebook {
+			background-image: url('../img/facebook@2x.png');
+			&:hover {
+				background-image: url('../img/facebook-hover@2x.png');
+			}
+		}
+		.twitter {
+			background-image: url('../img/twitter@2x.png');
+			&:hover {
+				background-image: url('../img/twitter-hover@2x.png');
+			}
+		}
+		a {
+			width: 38px;
+			height: 42px;
+			background-size: 38px 42px;
+			display: inline-block;
+			margin: 5px;
+			.tooltip {
+				margin-top: 4px;
+			}
+		}
+	}
+}

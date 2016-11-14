@@ -1,0 +1,74 @@
+section[role="groups-sidebar"] {
+	text-align: right;
+	h4 {
+		text-align: left;
+	}
+	ul, li {
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		list-style-type: none;
+		a {
+			text-align: left;
+			text-decoration: none;
+			color: $WHITE;
+			color:$SECONDARY-LIGHT;
+			display: block;
+			font-size: 14px;
+			position: relative;
+			margin-bottom: 4px;
+			line-height: 20px;
+			&:hover {
+				color: $SECONDARY-DARK;
+			}
+			&:before {
+				background-image: url(../img/members.png);
+				background-repeat: no-repeat;
+				background-size: 16px 16px;
+				background-position: 2px 2px;
+				display: block;
+				content: " ";
+				float: left;
+				width: 16px;
+				height: 16px;
+				margin-top: 0px;
+				margin-right: 4px;
+				background-color:$SECONDARY-LIGHT;
+				padding: 2px;
+			}
+			span {
+				position: absolute;
+				right: 4px;
+				top: 4px;
+			}
+		}
+	}
+	> a {
+		background: $SECONDARY-LIGHT;
+		color: $WHITE;
+		display: inline-block;
+		padding: 2px 8px;
+		text-align: center;
+		height: 20px;
+		line-height: 20px;
+		text-decoration: none;
+		margin-top: 4px;
+		&:hover {
+			background: $SECONDARY-DARK;
+		}
+		&:after {
+			background-image: url(../img/plus.png);
+			background-repeat: no-repeat;
+			background-size: 15px 15px;
+			content: " ";
+			display: inline-block;
+			width: 15px;
+			height: 15px;
+			margin-top: 3px;
+			margin-left: 4px;
+			margin-right: -4px;
+			float: right;
+		}
+	}
+}

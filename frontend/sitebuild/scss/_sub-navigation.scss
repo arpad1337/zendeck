@@ -1,0 +1,120 @@
+main > nav {
+	ul {
+		position: fixed;
+		top: 60px;
+		padding: 0 10px;
+		left: 0;
+		right: 0;
+	  	width: auto;
+	  	background: rgba(0, 191, 255, 0.6);
+	}
+  	&:after {
+  		background: $SECONDARY-LIGHT;
+  		position: fixed;
+  		top: 60px;
+  		left: 0;
+  		min-height: 26px;
+  		width: 100%;
+  		content: " ";
+  		display: block;
+  		z-index: 91;
+  	}
+  	.actions {
+		text-align: right;
+		position: fixed;
+		top: 60px;
+		right: 3px;
+		z-index: 102;
+		a {
+			color: $WHITE;
+			display: inline-block;
+			padding: 1px 6px;
+			text-align: center;
+			height: 18px;
+			line-height: 18px;
+			text-decoration: none;
+			margin-top: 3px;
+		}
+	}
+  	ul, li {
+		margin: 0;
+		display: inline-block;
+		z-index: 101;
+	}
+	li {
+		position: relative;
+		padding: 0;
+	}
+	a {
+		padding: 3px 10px 5px;
+		color: $WHITE;
+		text-decoration: none;
+		font-size: 14px;
+		line-height: 18px;
+		display: inline-block;
+		&:after {
+			display: block;
+			content: " ";
+			float: right;
+			width: 16px;
+			height: 16px;
+			margin-top: 2px;
+			margin-left: 4px;
+		}
+		&:hover, &.active {
+			background: $SECONDARY-DARK;
+		}
+		&.create:after {
+			background-image: url(../img/plus.png);
+			background-repeat: no-repeat;
+			background-size: 15px 15px;
+		}
+		&.star:after {
+			background-image: url(../img/star.png);
+			background-repeat: no-repeat;
+			background-size: 16px 16px;
+		}
+		&.members:after {
+			background-image: url(../img/members.png);
+			background-repeat: no-repeat;
+			background-size: 16px 16px;
+		}
+		&.filter:after {
+			background-image: url(../img/filter.png);
+			background-repeat: no-repeat;
+			background-size: 16px 16px;
+		}
+		&.message:after {
+			background-image: url(../img/mail.png);
+			background-repeat: no-repeat;
+			background-size: 16px 16px;
+			margin-top: 1px;
+		}
+		&.article:after {
+			background-image: url(../img/article.png);
+			background-repeat: no-repeat;
+			background-size: 16px 15px;
+		}
+		&.videos:after {
+			background-image: url(../img/video.png);
+			background-repeat: no-repeat;
+			background-size: 16px 15px;
+		}
+		&.events:after {
+			background-image: url(../img/events.png);
+			background-repeat: no-repeat;
+			background-size: 15px 15px;
+		}
+		&.feed:after {
+			background-image: url(../img/feed_mini.png);
+			background-repeat: no-repeat;
+			background-size: 15px 15px;
+		}
+		&.camera:after {
+			background-image: url(../img/camera.png);
+			background-repeat: no-repeat;
+			background-size: 14px 12px;
+			background-position-y: 1px;
+		}
+	}
+}

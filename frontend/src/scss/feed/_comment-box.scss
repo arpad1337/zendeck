@@ -1,0 +1,65 @@
+.comment-area {
+	font-weight: normal;
+	background: $FOOTER-LIGHT;
+	padding: 8px 8px 1px;
+	font-size: 12px;
+	.pagination {
+		text-align: center;
+		margin-bottom: 4px;
+		a {
+			text-decoration: none;
+			color: $MAIN-DARK;
+			&:hover {
+				color: $MAIN-LIGHT;
+			}
+		}
+	}
+	.comments {
+		.comment {
+			margin: 0 0 7px;
+			.message {
+				width: 462px;
+				margin-left: 42px;
+			}
+		}
+	}
+	.author-pic {
+		width: 30px;
+		height: 30px;
+		background-size: 30px 30px;
+		margin-right: 8px;
+		border: 2px solid $MAIN-LIGHT;
+		@include border-radius(50px);
+		float: left;
+	}
+	.author {
+		padding: 0;
+		font-size: 12px;
+		color: $MAIN-DARK;
+		text-decoration: none;
+		&:hover {
+			color: $MAIN-LIGHT;
+		}
+	}
+	.add-comment {
+		padding-bottom: 4px;
+	}
+	.date {
+		color: $MAIN-DARK;
+		display: block;
+		font-size: 10px;
+		font-weight: normal;
+	}
+	textarea {
+		width: 442px;
+		padding: 4px;
+		background: $FOOTER-LIGHT;
+		border: 1px solid $WHITE;
+		resize: none;
+		outline: none;
+		-webkit-appearance: none;
+		&:hover, &:focus {
+			background: $WHITE;
+		}
+	}
+}

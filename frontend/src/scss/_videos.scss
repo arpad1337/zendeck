@@ -1,0 +1,151 @@
+section[role="videos"] {
+	h4 {
+		margin-bottom: 10px;
+	}
+	.videos {
+		margin: -5px -5px 0;
+		.video {
+			width: 50%;
+			float: left;
+			position: relative;
+			.thumbnail {
+				height: 225px;
+				background: $FOOTER-DARK;
+				margin: 5px;
+			}
+			.caption {
+				background: rgba(92, 227, 208, 0.8);
+				background: rgba(92, 227, 208, 0.8);
+				position: absolute;
+				bottom: 5px;
+				right: 5px;
+				left: 5px;
+				padding: 10px;
+				h5, h6 {
+					color: $WHITE;
+					margin: 0;
+				}
+				h5 {
+					font-size: 18px;
+				}
+				h6 {
+					font-weight: normal;
+					font-size: 14px;
+					span {
+						font-weight: bold;	
+					}
+				}
+				.date {
+					position: absolute;
+					right: 10px;
+					bottom: 10px;
+					color: #fff;
+					padding-right: 18px;
+					background-image: url('../img/clock@2x.png');
+					background-size: 16px 16px;
+					background-position-x:  right;
+					background-position-y: 2px;
+					background-repeat: no-repeat;
+					height: 20px;
+					line-height: 20px;
+					font-size: 10px;
+				}
+			}
+		}
+		&:after {
+			width: 1px;
+			height: 1px;
+			clear: both;
+			display: block;
+			content: " ";
+		}
+	}
+	.highlighted {
+		position: relative;
+		margin-bottom: 30px;
+		padding-bottom: 30px;
+		border-bottom: 1px solid $FOOTER-LIGHT;
+		.caption {
+			position: relative;
+			margin-bottom: 10px;
+		}
+		.comment-area {
+			float: left;
+		}
+		.info {
+			width: 80px;
+			float: left;
+			display: block;
+			text-align: center;
+			.date {
+				color: $MAIN-LIGHT;
+				height: 23px;
+				line-height: 20px;
+				display: inline-block;
+				&:after {
+					background-image: url('../img/clock_big@2x.png');
+					background-size: 22px 22px;
+					background-position-x:  right;
+					background-position-y: 2px;
+					background-repeat: no-repeat;
+					content: " ";
+					width: 22px;
+					height: 24px;
+					display: block;
+					float: right;
+					margin-top: -3px;
+					margin-left: 4px;
+				}
+			}
+		}
+		.video-container {
+			width: 600px;
+			height: 450px;
+			background: $FOOTER-DARK;
+			display: block;
+			position: relative;
+			&:after {
+				width: 80px;
+				height: 80px;
+				content: " ";
+				display: block;
+				background-size: 80px 80px;
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				margin: auto;
+				background-image:url(../img/play@2x.png);
+			}
+
+			&:hover:after {
+				background-image:url(../img/play-hover@2x.png);
+			}
+		}
+		h5 {
+			margin: 10px 0 0;
+			font-size: 18px;
+			color: $MAIN-LIGHT;
+		}
+		h6 {
+			font-size: 16px;
+			margin: 0;
+			font-weight: normal;
+			span, a {
+				text-decoration: none;
+				color: $MAIN-LIGHT;
+			}
+			a:hover {
+				color: $MAIN-DARK;
+			}
+		}
+		&:after {
+			content: " ";
+			width: 1px;
+			height: 1px;
+			display: block;
+			clear: both;
+		}
+	}
+}

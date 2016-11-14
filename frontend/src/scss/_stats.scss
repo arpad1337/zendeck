@@ -1,0 +1,35 @@
+section[role="stats"] {
+	div {
+		background: $SECONDARY-LIGHT;
+		color: $WHITE;
+		padding: 4px;
+		text-indent: 20px;
+		background-position: 6px 4px;
+		font-size: 12px;
+		&.members {
+			background-image: url(../img/members.png);
+			background-repeat: no-repeat;
+			background-size: 16px 16px;
+		}
+		&.article {
+			background-image: url(../img/article.png);
+			background-repeat: no-repeat;
+			background-size: 16px 15px;
+		}
+		&.videos {
+			background-image: url(../img/video.png);
+			background-repeat: no-repeat;
+			background-size: 16px 15px;
+		}
+		&.events {
+			background-image: url(../img/events.png);
+			background-repeat: no-repeat;
+			background-size: 15px 15px;
+		}
+		&.feed {
+			background-image: url(../img/feed_mini.png);
+			background-repeat: no-repeat;
+			background-size: 15px 15px;
+		}
+	}
+}
