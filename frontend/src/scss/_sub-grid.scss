@@ -1,8 +1,8 @@
 main {
 	.wrap {
-		min-height: 470px;
 		width: 920px;
 		margin: auto;
+		margin-bottom: 20px;
 		& > .content {
 			width: 600px;
 			float: left;

@@ -14,7 +14,17 @@
                 </p>
                 <p>
                     <label for="username">Username*</label>
-                    <input type="text" placeholder="type here" id="username" ng-model="username">
+                    <input type="text" placeholder="type here" id="username" ng-model="username"
+                    ng-change="checkUsernameAvailability()"
+                    >
+                    <span ng-class="isUsernameAvailable ? 'available' : ''" ng-if="username.trim().length > 2" class="hint">
+                        <span ng-if="isUsernameAvailable">
+                            This username is available!
+                        </span>
+                        <span ng-if="!isUsernameAvailable">
+                            This username is taken, try again
+                        </span>
+                    </span>
                 </p>
                 <p>
                     <label for="fullname">Full name</label>

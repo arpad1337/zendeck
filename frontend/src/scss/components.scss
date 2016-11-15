@@ -1,6 +1,8 @@
 @import "variables";
 @import "helpers";
 
+@import "modal";
+
 @import "sub-header";
 @import "sub-navigation";
 @import "sub-grid";
@@ -27,5 +29,3 @@
 @import "notifications";
 
 @import "profile/about-sidebar";
-
-@import "modal";

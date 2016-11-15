@@ -14,6 +14,8 @@ import createComponent from './helpers/create-component';
 // C O N T R O L L E R S
 
 import ApplicationController from './controllers/application'; 
+import LandingController from './controllers/landing'; 
+import SearchController from './controllers/search'; 
 
 // S E R V I C E S
 
@@ -30,6 +32,8 @@ import SessionInterceptor from './interceptors/session';
 // B I N D I N G S
 
 module.controller( 'ApplicationController', ApplicationController );
+module.controller( 'LandingController', LandingController );
+module.controller( 'SearchController', SearchController );
 
 module.service( 'MessageBusService', MessageBusService );
 module.service( 'UserService', UserService );

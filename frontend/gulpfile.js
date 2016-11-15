@@ -49,6 +49,7 @@ const imagemin = require('gulp-imagemin');
 const replace = require('gulp-replace');
 const jsonminify = require('gulp-jsonminify');
 const mergeJSON = require('gulp-merge-json');
+const fs = require('fs');
 
 // HELPERS
 
@@ -232,6 +233,7 @@ registerTask('build-index', () => {
 		.src( searchPaths )
 		.pipe(replace(/{{__CONFIG__}}/g, JSON.stringify( require('./config/resources')( ENV ), null, '\t' ) ) )
 		.pipe(replace(/{{__ENV__}}/g, ENV ))
+		.pipe(replace(/{{__LANDING__}}/g, fs.readFileSync('./src/static/views/landing.tpl.html').toString() ))
 		.pipe(replace(/{{__VERSION__}}/g, ( Math.floor( Math.random() * 999999999 ) ) ))
 		.pipe( gulp.dest( BUILD_FOLDER ) )
 		.pipe( htmlmin({ collapseWhitespace: true }) )
@@ -336,9 +338,9 @@ registerTask('build-app', () => {
             babelify.configure(BABEL_CONFIG)
         )
         .bundle()
-        .pipe(source('app.js'))
-        .pipe(buffer())
-		.pipe( uglify().on('error', console.log) )
+        .pipe( source('app.js') )
+        .pipe( buffer() )
+		.pipe( uglify().on( 'error', console.log ) )
 		.pipe( gulp.dest(
 				[
 					DISTRIBUTION_FOLDER,

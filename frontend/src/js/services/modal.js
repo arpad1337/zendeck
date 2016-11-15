@@ -27,29 +27,36 @@ class ModalService {
 		this.$compile = $compile;
 
 		this._modalQueue = [];
+		this._openedModalsHashMap = {};
 	}
 
-	openDialog( type, payload ) {
+	openDialog( type, payload, callback ) {
 		const promise = this.$q.defer();
 		const descriptor = DIALOG_DESCIPTORS[ String(type) ];
-		const scope = this._createModalInstance( descriptor, promise, payload );
+		const scope = this._createModalInstance( descriptor, promise, payload, callback );
 		this._modalQueue.push({
 			descriptor: descriptor,
-			scope: scope
-		})
+			scope: scope,
+			type: type
+		});
 		this._openNextModal();
 		return promise.promise;
 	}
 
-	_createModalInstance( descriptor, promise, payload ) {
+	_createModalInstance( descriptor, promise, payload, callback ) {
 	 	const scope = this.$rootScope.$new();
 	 	if( payload ) {
 	 		for( let k in payload ) {
-	 			scope[k] = payload[k];
+	 			if( typeof payload[k] === 'function' ) {
+	 				scope[k] = payload[k].bind( null, scope );
+	 			} else {
+	 				scope[k] = payload[k];
+	 			}
 	 		}
 	 	}
-		scope.ok = this._validateAndSubmitFunctor( descriptor, scope, promise );
+		scope.ok = this._okFunctor( scope, promise, callback );
 		scope.cancel = this._cancelFunctor( scope, promise );
+		scope.dismiss = this._dismissFunctor( scope, promise );
 		return scope;
 	}
 
@@ -62,42 +69,74 @@ class ModalService {
 		};
 	}
 
-	_validateAndSubmitFunctor( descriptor, scope, promise ) {
+	_dismissFunctor( scope, promise ) {
 		let self = this;
 		return function() {
-			if(
-				descriptor.validate && 
-				typeof descriptor.validate === 'function'
-			) {
-				if( descriptor.validate( scope ) ) {
-					promise.resolve( scope );
-					scope.$element.remove();
-					this._openNextModal();
-				}
-				return;
-			}
-			promise.resolve( scope );
+			promise.resolve(scope);
 			scope.$element.remove();
 			self._openNextModal();
 		};
 	}
 
+	_okFunctor( scope, promise, callback ) {
+		let self = this;
+		return function() {
+			if( callback && typeof callback === 'function' ) {
+				try {
+					callback(scope);
+				} catch( e ) {
+
+				}
+			} else {
+				promise.resolve( scope );
+				scope.$element.remove();
+				self._openNextModal();
+			}
+		};
+	}
+
 	_openNextModal() {
+		let self = this;
 		if( this._modalQueue.length === 0 ) {
 			return;
 		}
 		let model = this._modalQueue.shift();
-		this.$templateRequest(model.descriptor.templateUrl).then((template) => {
-			let $element = this.$compile( $(template) )( model.scope );
+		let key = model.type + JSON.stringify( model.descriptor );
+		if( this._openedModalsHashMap[ key ] ) {
+			console.log('ModalService->_openNextModal Model type <' + model.type + '> already opened');
+			return;
+		}
+		this._openedModalsHashMap[ key ] = true;
+		self.$templateRequest(model.descriptor.templateUrl).then((template) => {
+			let $element = self.$compile( $(template) )( model.scope );
 			let $background = $('<div class="modal-background">');
 			let origiCancel = model.scope.cancel;
-			model.scope.cancel = function(){
+			let origiOk = model.scope.ok;
+			let origiDismiss = model.scope.dismiss;
+			model.scope.ok = function() {
+				delete self._openedModalsHashMap[ key ];
+				origiOk();
+			}
+			model.scope.cancel = function() {
+				delete self._openedModalsHashMap[ key ];
 				$background.remove();
 				origiCancel();
 			};
-			$background.bind('click', model.scope.cancel);
+			model.scope.dismiss = function() {
+				delete self._openedModalsHashMap[ key ];
+				$background.remove();
+				origiDismiss();
+			}
 			$('body').append($background);
 			$('body').append($element);
+			$background.bind('click', model.scope.cancel);
+			let stopPropagation = function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				return false;
+			};
+			$background.bind('scroll', stopPropagation);
+			$element.bind('scroll', stopPropagation);
 			model.scope.$element = $element;
 		});
 	}

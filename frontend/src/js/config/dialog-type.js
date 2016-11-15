@@ -10,43 +10,22 @@ const DIALOG_TYPE = new Enum([
 	'LOGIN',
 	'REGISTER',
 	'LOGOUT',
-	'ERROR'
+	'ERROR',
+	'SUBSCRIPTION_SUCCESFUL'
 ], 'DIALOG_TYPE');
 
 const DIALOG_DESCIPTORS = {};
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.REGISTER.toString() ] = {
-	templateUrl: 'partials/dialog/register.tpl.html',
-	validate: (model) => {
-		if( !Validator.validateEmail( model.email ) ) {
-			return false;
-		}
-
-		if( !Validator.validatePasswordStrength( model.password ) ) {
-			return false;
-		}
-
-		if( Validator.isFieldEmpty( model.username ) ) {
-			return false
-		}
-
-		return true;
-	}
+	templateUrl: 'partials/dialog/register.tpl.html'
 };
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.LOGIN.toString() ] = {
-	templateUrl: 'partials/dialog/login.tpl.html',
-	validate: (model) => {
-		if( !Validator.validatePasswordStrength( model.password ) ) {
-			return false;
-		}
+	templateUrl: 'partials/dialog/login.tpl.html'
+};
 
-		if( Validator.isFieldEmpty( model.userOrEmail ) ) {
-			return false
-		}
-
-		return true;
-	}
+DIALOG_DESCIPTORS[ DIALOG_TYPE.SUBSCRIPTION_SUCCESFUL.toString() ] = {
+	templateUrl: 'partials/dialog/subscription-successful.tpl.html'
 };
 
 export {

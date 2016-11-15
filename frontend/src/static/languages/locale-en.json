@@ -125,6 +125,20 @@
 		"TITLE": "Members"
 	},
 	"MODALS": {
+		"SUBSCRIPTION_SUCCESFUL": {
+			"TITLE": "Subscription successful",
+			"MESSAGE": "You have succesfully subscribed to the ZenDeck newsletter.<br><br>Thank you!",
+			"OK": "Dismiss"
+		},
+		"LOGIN": {
+			"TITLE": "Login to your account",
+			"EMAIL_OR_USERNAME": "Email or username",
+			"EMAIL_OR_USERNAME_PLACEHOLDER": "email@example.com",
+			"PASSWORD": "Password",
+			"PASSWORD_PLACEHOLDER": "password",
+			"OK": "Login",
+			"CANCEL": "Cancel"
+		},
 		"SEND_NEW_MESSAGE": {
 			"TITLE": "Send new message",
 			"SELECT_RECIPIENT": "Select recipient",
@@ -156,5 +170,9 @@
 			"MESSAGE": "We sent a frient request behalf of you, once it gets accepted, we will let you know",
 			"OK": "Cool"
 		}
+	},
+	"ABOUT": {
+		"TITLE": "About this page",
+		"CONTENT": "This website has been created by @rpi1337."
 	}
 }

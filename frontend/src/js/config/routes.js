@@ -3,7 +3,9 @@
  */
 
 import STATES from './states';
-import USER_STATUS from './user-status';
+import {
+	USER_STATUS
+} from './user-status';
 
 const ROUTES = [
 	{
@@ -15,10 +17,10 @@ const ROUTES = [
 		}
 	},
 	{
-		state: STATES.APPLICATION.SELF,
+		state: STATES.ABOUT,
 		opts: {
-			abstract: true,
-			view: 'views/application-frame.tpl.html'
+			path: '/about',
+			view: 'views/about.tpl.html'
 		}
 	},
 	{
@@ -71,7 +73,8 @@ const ROUTES = [
 		opts: {
 			path: '/:userName',
 			controller: 'ProfileController',
-			view: 'views/profile.tpl.html'
+			view: 'views/profile.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
 		}
 	}
 ];

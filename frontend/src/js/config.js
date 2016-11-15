@@ -5,7 +5,10 @@
 require("babel-polyfill");
 
 import ROUTES from './config/routes';
-import USER_STATUS from './config/user-status';
+import {
+	USER_STATUS,
+	USER_STATUS_ORDERED
+} from './config/user-status';
 
 const module = angular.module('ZenDeck', [
 	'pascalprecht.translate',
@@ -63,7 +66,7 @@ module.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 						return userService.getCurrentUser().then(function(user) {
 							if( route.requiredStatus ) {
 								let index = USER_STATUS_ORDERED.indexOf( route.requiredStatus );
-								let userIndex = USER_STATUS_ORDERED.indexOf( user.status );
+								let userIndex = USER_STATUS_ORDERED.indexOf( USER_STATUS[ user.status ] );
 								if( userIndex < index ) {
 									throw new Error("User status doens't fullfill the endpoints requirements");
 								}
@@ -78,8 +81,23 @@ module.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		$stateProvider.state(state.state, descriptor);
 	});
 
-	$urlRouterProvider.otherwise('/welcome');
+	$urlRouterProvider.otherwise('/');
 
+}]);
+
+module.config(['$translateProvider', function ($translateProvider) {
+    $translateProvider.useStaticFilesLoader({
+        prefix: 'languages/locale-',
+        suffix: '.json'
+    });
+
+    $translateProvider.preferredLanguage('en');
+}]);
+
+module.filter("htmlSafe", ['$sce', function($sce) {
+    return function(htmlCode){
+        return $sce.trustAsHtml(htmlCode);
+    };
 }]);
 
 export default module;

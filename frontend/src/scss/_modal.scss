@@ -26,10 +26,61 @@
 			color: $SECONDARY-LIGHT;
 		}
 
+		label {
+			width: 140px;
+			display: block;
+			float: left;
+			line-height: 40px;
+		}
+		p {
+			margin: 10px 0;
+			@extend .clear;
+		}
+
+		.hint {
+			color: #666;
+  			font-size: 12px;
+  			&:before {
+  				content: " ";
+  				display: inline-block;
+  			}
+		}
+
+		.message {
+			font-size: 16px;
+			text-align: center;
+			padding: 10px;
+		}
+
+		* > input[type="text"],
+		* > input[type="email"],
+		* > input[type="password"] {
+			border: 1px solid #fff;
+			padding: 10px;
+			min-width: 200px;
+			background: $WHITE;
+			&:hover, &:focus {
+				background: $FOOTER-LIGHT;
+			}
+		}
+
+		textarea {
+			border: 1px solid $WHITE;
+			width: 418px;
+			padding: 8px;
+			background: $WHITE;
+			&:hover, &:focus {
+				background: $FOOTER-LIGHT;
+			}
+		}
+
+		@extend .clear;
+
 		.actions {
 			float: right;
 			> button {
 				border: 1px solid $SECONDARY-LIGHT;
+				font-size: 16px;
 			}
 			.confirm {
 				background: $SECONDARY-LIGHT;
@@ -131,37 +182,6 @@
 				}
 			}
 		}
-		label {
-			width: 140px;
-			display: block;
-			float: left;
-			line-height: 40px;
-		}
-		p {
-			margin: 10px 0;
-			@extend .clear;
-		}
-
-		input {
-			border: 1px solid $WHITE !important;
-			padding: 10px !important;
-			min-width: 200px !important;
-			background: $WHITE !important;
-			&:hover, &:focus {
-				background: $FOOTER-LIGHT !important;
-			}
-		}
-
-		textarea {
-			border: 1px solid $WHITE;
-			width: 418px;
-			padding: 8px;
-			background: $WHITE;
-			&:hover, &:focus {
-				background: $FOOTER-LIGHT;
-			}
-		}
-		@extend .clear;
 	}
 }
 

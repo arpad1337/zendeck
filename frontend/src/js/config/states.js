@@ -5,14 +5,14 @@
 const STATES = {
 	LANDING: 'landing',
 	APPLICATION: {
-		SELF: 'app',
-		FEED: 'app.feed',
-		GROUPS: 'app.groups',
-		GROUP_BY_NAME: 'app.groupByName',
-		NOTIFICATIONS: 'app.notifications',
-		MESSAGES: 'app.messages',
-		PROFILE: 'app.profile'	
-	}
+		FEED: 'feed',
+		GROUPS: 'groups',
+		GROUP_BY_NAME: 'groupByName',
+		NOTIFICATIONS: 'notifications',
+		MESSAGES: 'messages',
+		PROFILE: 'profile'	
+	},
+	ABOUT: 'about'
 };
 
 export default STATES;

@@ -1,7 +1,6 @@
 section[role="motto"] {
-	    height: 600px;
-
-	background: url('../img/index.jpg');
+	height: 600px;
+	background: url('../img/index.jpg') $MAIN-LIGHT;
 	background-size: cover;
 	background-position: center center;
 	width: 100%;
@@ -38,6 +37,7 @@ section[role="motto"] {
 		outline: none;
 		text-transform: uppercase;
 		text-decoration: none;
+		cursor:pointer;
 		&:hover {
 			background: $SECONDARY-DARK;
 		}

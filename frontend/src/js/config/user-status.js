@@ -10,4 +10,9 @@ const USER_STATUS = new Enum([
 	'DEACTIVATED'
 ], 'USER_STATUS');
 
-export default USER_STATUS;
+const USER_STATUS_ORDERED = USER_STATUS.keys;
+
+export { 
+	USER_STATUS,
+	USER_STATUS_ORDERED
+}

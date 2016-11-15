@@ -1,3 +1,31 @@
+main {
+	min-height: calc(100% - 301px);
+	.wrap {
+		width: calc(100% - 20px) !important;
+		padding: 0 10px;
+		& > .content {
+			width: auto !important;
+		}
+	}
+}
+
+header {
+	h1 {
+		width: 43px;
+		float: left;
+		overflow: hidden;
+	}
+}
+
+body > header nav ul li.login, body > header nav ul li.sign-up > a {
+	font-size: 16px !important;
+	margin-top: 0;
+}
+
+.modal .container {
+	width: 300px !important;
+	top: 60px !important;
+}
 
 footer {
 	.social {
@@ -11,7 +39,7 @@ footer {
 	}
 	.column {
 		margin-bottom: 100px;
-		width: 110px;
+		width: calc(50% - 50px);
 		&:first-child {
 			margin-left: 10px;
 		}
@@ -26,4 +54,26 @@ section[role="motto"] {
 			font-size: 32px !important;
 		}
 	}
+}
+
+section[role="features"] {
+	width: 100%;
+}
+section[role="subscription"] {
+	button {
+		font-size: 18px !important;
+  		padding: 5px 10px !important;
+	}
+}
+
+.search {
+	position: absolute;
+	left: calc(100% - 302px);
+	margin-right: 0 !important;
+	background: $MAIN-LIGHT;
+}
+
+body > header nav ul li {
+	display: inline-block;
+	margin: 0 4px !important;
 }

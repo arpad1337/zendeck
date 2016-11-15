@@ -68,9 +68,18 @@ textarea {
     -webkit-appearance: none;
 }
 
+html {
+    min-height: 100%;
+}
+
 body {
-	position: relative;
+	position: absolute;
     background: $MAIN-LIGHT;
+    min-height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 @import "header";
@@ -85,6 +94,8 @@ main {
     margin-top: 60px;
     z-index: 1;
     background: $WHITE;
+    min-height: calc(100% - 241px);
+    padding-bottom: 20px;
 }
 
 footer {
@@ -226,3 +237,5 @@ footer {
         page-break-after: avoid;
     }
 }
+
+@import "components";

@@ -1,22 +1,22 @@
 <div class="modal">
     <div class="container">
-        <h4>Login to your account</h4>
+        <h4>{{ 'MODALS.LOGIN.TITLE' |translate }}</h4>
         <a class="close" ng-click="cancel()"></a>
         <div class="content">
             <form>
                 <p>
-                    <label for="email">Email or username*</label>
-                    <input type="text" placeholder="email@example.com" id="email" ng-model="userOrEmail">
+                    <label for="email">{{ 'MODALS.LOGIN.EMAIL_OR_USERNAME' |translate }}*</label>
+                    <input type="text" placeholder="{{ 'MODALS.LOGIN.EMAIL_OR_USERNAME_PLACEHOLDER' |translate }}" id="email" ng-model="userOrEmail">
                 </p>
                 <p>
-                    <label for="password">Password*</label>
-                    <input type="password" placeholder="password" id="password" ng-model="password">
+                    <label for="password">{{ 'MODALS.LOGIN.PASSWORD' |translate }}*</label>
+                    <input type="password" placeholder="{{ 'MODALS.LOGIN.PASSWORD_PLACEHOLDER' |translate }}" id="password" ng-model="password">
                 </p>
             </form>
         </div>
         <div class="actions">
-            <button class="confirm" ng-click="ok()">Login</button>
-            <button class="cancel" ng-click="cancel()">Cancel</button>
+            <button class="confirm" ng-click="ok()">{{ 'MODALS.LOGIN.OK' |translate }}</button>
+            <button class="cancel" ng-click="cancel()">{{ 'MODALS.LOGIN.CANCEL' |translate }}</button>
         </div>
     </div>
 </div>

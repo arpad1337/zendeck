@@ -1,7 +1,7 @@
 <section role="motto" data-stellar-background-ratio="0.5">
     <div class="wrap">
         <h1>Social discussion platform <br><span>for your interests</span></h1>
-        <a href="#subscription">Join the community</a>
+        <a ng-click="APP.openRegisterModal()">Join the community</a>
     </div>
 </section>
 <section role="features">
@@ -39,8 +39,8 @@
     <p>
         Type your email below and we will let you know when the beta period starts.
     </p>
-    <form method="post" action="subscribe.php">
-        <input type="email" placeholder="email@example.com" name="email">
-        <button type="submit">Notify me</button>
+    <form>
+        <input type="email" placeholder="email@example.com" name="email" ng-model="ctrl.email">
+        <button type="submit" ng-click="ctrl.submit()">Notify me</button>
     </form>
 </section>

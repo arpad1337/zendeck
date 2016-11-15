@@ -1,0 +1,25 @@
+<nav>
+    <div class="search">
+        <div style="position: relative">
+        <input type="text" name="search" placeholder="{{ctrl.currentSearchTerm}}" ng-model="ctrl.currentSearchTerm">
+        <button class="icon"></button>
+        </div>
+    </div>
+    <ul>
+        <li class="feed has-tooltip" alt="Feed">
+            <a ui-sref="feed"></a>
+        </li>
+        <li class="groups has-tooltip" alt="Groups">
+            <a ui-sref="groups"></a>
+        </li>
+        <li class="notifications has-tooltip" alt="Notifications">
+            <a ui-sref="notifications"><span>128</span></a>
+        </li>
+        <li class="messages has-tooltip" alt="Messages">
+            <a ui-sref="messages"><span>2</span></a>
+        </li>
+        <li class="profile has-tooltip" alt="Profile">
+            <a href="#/{{APP.currentUser.username}}"></a>
+        </li>
+    </ul>
+</nav>
