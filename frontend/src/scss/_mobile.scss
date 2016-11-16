@@ -58,6 +58,12 @@ main > nav {
 	}
 }
 
+.create-post .embed .resource {
+	position: relative !important;
+	bottom: 0 !important;
+	left: 0 !important;
+}
+
 footer {
 	.social {
 		top: initial;

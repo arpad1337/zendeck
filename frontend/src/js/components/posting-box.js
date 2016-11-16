@@ -120,7 +120,9 @@ class PostingBoxComponent {
 			console.log( 'PostingBoxComponent->textareaFocusout scraping url', url );
 			let pageMeta = await this.delegate.scrapeUrl( url );
 			pageMeta.tags.forEach((tag) => {
-				this.newPost.suggestedTags.push(tag);
+				if( this.newPost.suggestedTags.indexOf( tag ) === -1 ) {
+					this.newPost.suggestedTags.push(tag);
+				}
 			});
 			this.linkPreview = pageMeta;
 			this.scope.$digest();
