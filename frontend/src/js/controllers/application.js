@@ -73,7 +73,8 @@ class ApplicationController {
 	openRegisterModal() {
 		let extension = {
 			checkUsernameAvailability: this.checkUsernameAvailability.bind( this ),
-			isUsernameAvailable: true
+			isUsernameAvailable: true,
+			isBusiness: false
 		}
 		this.modalService.openDialog( this.modalService.DIALOG_TYPE.REGISTER, extension, this.register.bind( this ) ).then(console.log.bind(console));
 	}
@@ -115,14 +116,24 @@ class ApplicationController {
 
 	async register( model ) {
 		if( this.validateRegistration( model ) ) {
-			await this.userService.register({
-				username: model.username,
-				fullname: model.fullname,
-				password: model.password,
-				email: model.email,
-				isBusiness: model.isBusiness || false
-			});
-			model.dismiss();
+			try {
+				await this.userService.register({
+					username: model.username,
+					fullname: model.fullname,
+					password: model.password,
+					email: model.email,
+					isBusiness: (model.isBusiness == "true")
+				});
+				model.dismiss();
+			} catch( e ) {
+				if( e.status === 403 ) {
+					// login disabled
+					model.dismiss();
+					this.modalService.openDialog( this.modalService.DIALOG_TYPE.PREREG_SUCCESFUL );
+					return;
+				}
+				console.error(e);
+			}
 		}
 	}
 

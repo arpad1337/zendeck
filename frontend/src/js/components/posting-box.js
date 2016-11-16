@@ -103,7 +103,9 @@ class PostingBoxComponent {
 	addSuggestedTag( tag ) {
 		tag = tag.trim().toLowerCase();
 		this.newPost.suggestedTags.splice( this.newPost.suggestedTags.indexOf( tag ), 1);
-		this.newPost.tags.push( tag );
+		if( this.newPost.tags.indexOf( tag ) === -1 ) {
+			this.newPost.tags.push( tag );
+		}
 	}
 
 	removePreview() {
@@ -120,7 +122,9 @@ class PostingBoxComponent {
 			console.log( 'PostingBoxComponent->textareaFocusout scraping url', url );
 			let pageMeta = await this.delegate.scrapeUrl( url );
 			pageMeta.tags.forEach((tag) => {
-				if( this.newPost.suggestedTags.indexOf( tag ) === -1 ) {
+				if( this.newPost.suggestedTags.indexOf( tag ) === -1 &&
+					this.newPost.tags.indexOf( tag ) === -1 
+				) {
 					this.newPost.suggestedTags.push(tag);
 				}
 			});

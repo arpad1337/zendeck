@@ -15,12 +15,7 @@ class UserService {
 		id = Number( id );
 		return UserModel.findOne({
 			where: {
-				id: id,
-				$or: [{
-					status: 'SUBMITED'
-				}, {
-					status: 'REGISTERED'
-				}]
+				id: id
 			}
 		}).then( model => model.getPublicView() );
 	}
@@ -51,14 +46,26 @@ class UserService {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		return UserModel.findOne({
 			where: {
-				username: username
+				username: username,
+				enabled: true,
+				$or: [{
+					status: 'SUBMITED'
+				}, {
+					status: 'REGISTERED'
+				}]
 			}
 		}).then( model => model.getPublicView() );
 	}
 
 	createUser( payload ) {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
-		return UserModel.create( payload ).then( user => user.getPublicView() );
+		return UserModel.create({
+			username: payload.username,
+			email: payload.email,
+			password: payload.password,
+			fullname: payload.fullname,
+			isBusiness: payload.isBusiness
+		});
 	}
 
 	static get instance() {

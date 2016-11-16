@@ -30,6 +30,17 @@
                     <label for="fullname">Full name</label>
                     <input type="text" placeholder="Type your name here" id="fullname" ng-model="fullname">
                 </p>
+                <p>
+                    <label for="isBusiness">Business Account?</label>
+                    <label class="radio">
+                        <input type="radio" placeholder="Type your name here" id="isBusiness" 
+                        ng-model="isBusiness" value="true"> Yes
+                    </label>
+                    <label class="radio">
+                        <input type="radio" placeholder="Type your name here" id="isBusiness" 
+                        ng-model="isBusiness" value="false" ng-checked="true"> No 
+                    </label>
+                </p>
             </form>
         </div>
         <div class="actions">

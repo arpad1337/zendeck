@@ -17,6 +17,7 @@ class UserController {
 			let user = yield this.userService.getUserById( id );
 			context.body = user;
 		} catch( e ) {
+			context.session = null;
 			context.throw( 401 );
 		}
 	}

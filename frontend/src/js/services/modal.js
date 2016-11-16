@@ -64,8 +64,7 @@ class ModalService {
 		let self = this;
 		return function() {
 			promise.reject();
-			scope.$element.remove();
-			scope.$background.remove();
+			scope.closeModal();
 			self._openNextModal();
 		};
 	}
@@ -74,8 +73,7 @@ class ModalService {
 		let self = this;
 		return function() {
 			promise.resolve(scope);
-			scope.$element.remove();
-			scope.$background.remove();
+			scope.closeModal();
 			self._openNextModal();
 		};
 	}
@@ -91,8 +89,7 @@ class ModalService {
 				}
 			} else {
 				promise.resolve( scope );
-				scope.$element.remove();
-				scope.$background.remove();
+				scope.closeModal();
 				self._openNextModal();
 			}
 		};
@@ -111,35 +108,43 @@ class ModalService {
 		}
 		this._openedModalsHashMap[ key ] = true;
 		self.$templateRequest(model.descriptor.templateUrl).then((template) => {
-			let $element = self.$compile( $(template) )( model.scope );
-			let $background = $('<div class="modal-background">');
-			let origiCancel = model.scope.cancel;
-			let origiOk = model.scope.ok;
-			let origiDismiss = model.scope.dismiss;
-			model.scope.ok = function() {
-				delete self._openedModalsHashMap[ key ];
-				origiOk();
-			}
-			model.scope.cancel = function() {
-				delete self._openedModalsHashMap[ key ];
-				origiCancel();
-			};
-			model.scope.dismiss = function() {
-				delete self._openedModalsHashMap[ key ];
-				origiDismiss();
-			}
-			$('body').append($background);
-			$('body').append($element);
-			$background.bind('click', model.scope.cancel);
+			model.scope.$element = self.$compile( $(template) )( model.scope );
+			model.scope.$background = $('<div class="modal-background">');
+			model.scope.lastScrollPos = $('body').scrollTop();
+
+			model.scope.$background.height( window.innerHeight + 'px');
+			$('body').append(model.scope.$background);
+			$('body').append(model.scope.$element );
+			model.scope.$background.bind('click', model.scope.cancel);
+
 			let stopPropagation = function(e) {
 				e.preventDefault();
 				e.stopPropagation();
 				return false;
 			};
-			$background.bind('scroll', stopPropagation);
-			$element.bind('scroll', stopPropagation);
-			model.scope.$element = $element;
-			model.scope.$background = $background;
+
+			model.scope.$background.bind('scroll touch', stopPropagation);
+			model.scope.$element.bind('scroll', stopPropagation);
+			$('body').css('overflow','hidden');
+			$('body').css('position','fixed');
+			$('body').css('top', -model.scope.lastScrollPos + 'px');
+
+			model.scope.closeModal = function() {
+				delete self._openedModalsHashMap[ key ];
+				model.scope.$element.remove();
+				model.scope.$background.remove();
+				$('body').css('overflow', '');
+				$('body').css('position','');
+				$('body').css('top','');
+				$('body').scrollTop( model.scope.lastScrollPos );
+			}
+
+			setTimeout(() => {
+				model.scope.$background.addClass('show');
+				model.scope.$element.addClass('show');
+			}, 1);
+		}).catch(() => {
+			delete this._openedModalsHashMap[ key ];
 		});
 	}
 

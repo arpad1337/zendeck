@@ -18,7 +18,7 @@ class AuthController {
 			context.session.user = user;
 			context.body = user;
 		} catch( e ) {
-			context.throw( 403, e.message );
+			context.throw( e.message, 403 );
 		}
 	}
 
@@ -28,12 +28,20 @@ class AuthController {
 		const username = fields.username;
 		const password = fields.password;
 		const fullname = fields.fullname;
+		const isBusiness = fields.isBusiness;
 		try {
-			let user = yield this.authService.register( email, password, username, fullname );
+			let user = yield this.authService.register( email, password, username, fullname, isBusiness );
+			if( !user.enabled ) {
+				throw new Error('User login disabled');
+			}
 			context.session.user = user;
 			context.body = user;
 		} catch(e) {
-			context.throw( 400, e.message );
+			if( e.message === 'User login disabled' ) {
+				context.throw( e.message, 403 );
+				return;
+			}
+			context.throw( e.message, 400 );
 		}
 	}
 

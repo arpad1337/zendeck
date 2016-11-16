@@ -141,6 +141,11 @@
 			"MESSAGE": "You have succesfully subscribed to the ZenDeck newsletter.<br><br>Thank you!",
 			"OK": "Dismiss"
 		},
+		"PREREG_SUCCESFUL": {
+			"TITLE": "Registration successful",
+			"MESSAGE": "You have succesfully registered to the ZenDeck Beta test. We will let you know once your account gets activated, please keep an eye on your inbox.<br><br>Thank you!",
+			"OK": "Dismiss"
+		},
 		"LOGIN": {
 			"TITLE": "Login to your account",
 			"EMAIL_OR_USERNAME": "Email or username",

@@ -18,6 +18,7 @@ const HiddenFieldsAndComputedPropsTrait = {
             	delete json.phoneNumber;
             	delete json.email;
             	delete json.settings;
+            	delete json.enabled;
             }
             return json;
         }
@@ -60,6 +61,10 @@ const model = sequelizeModelHelper.buildModel(
 		},
 		isBusiness: {
 			field: 'is_business',
+			type: TYPES.BOOLEAN,
+			defaultValue: false
+		},
+		enabled: {
 			type: TYPES.BOOLEAN,
 			defaultValue: false
 		},

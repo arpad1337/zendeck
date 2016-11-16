@@ -44,6 +44,10 @@ module.exports = {
 				type: TYPES.BOOLEAN,
 				defaultValue: false
 			},
+			enabled: {
+				type: TYPES.BOOLEAN,
+				defaultValue: false
+			},
 			status: {
 				type: TYPES.ENUM,
 				values: [

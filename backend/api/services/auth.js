@@ -13,9 +13,9 @@ class AuthService {
 
 	login( usernameOrEmail, password ) {
 		return this.userService.searchUserByKeyword( usernameOrEmail ).then((user) => {
-			console.log('?????', user);
 			if( user &&
-				user.password == Util.createSHA256Hash( password )
+				user.password == Util.createSHA256Hash( password ) &&
+				user.enabled
 			) {				
 				return this.userService.getUserById( user.id );
 			}
@@ -23,12 +23,13 @@ class AuthService {
 		});
 	}
 
-	register( email, password, username, fullname ) {
+	register( email, password, username, fullname, isBusiness ) {
 		return this.userService.createUser({
 			email: email,
 			password: Util.createSHA256Hash( password ),
 			username: username,
-			fullname: fullname
+			fullname: fullname,
+			isBusiness: isBusiness
 		}).then((user) => {
 			if( user ) {
 				return this.userService.getUserById( user.id );

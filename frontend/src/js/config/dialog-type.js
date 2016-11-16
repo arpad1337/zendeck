@@ -11,7 +11,8 @@ const DIALOG_TYPE = new Enum([
 	'REGISTER',
 	'LOGOUT',
 	'ERROR',
-	'SUBSCRIPTION_SUCCESFUL'
+	'SUBSCRIPTION_SUCCESFUL',
+	'PREREG_SUCCESFUL'
 ], 'DIALOG_TYPE');
 
 const DIALOG_DESCIPTORS = {};
@@ -26,6 +27,10 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.LOGIN.toString() ] = {
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.SUBSCRIPTION_SUCCESFUL.toString() ] = {
 	templateUrl: 'partials/dialog/subscription-successful.tpl.html'
+};
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.PREREG_SUCCESFUL.toString() ] = {
+	templateUrl: 'partials/dialog/prereg-successful.tpl.html'
 };
 
 export {
