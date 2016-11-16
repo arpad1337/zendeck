@@ -30,6 +30,7 @@ class AuthController {
 		const fullname = fields.fullname;
 		try {
 			let user = yield this.authService.register( email, password, username, fullname );
+			context.session.user = user;
 			context.body = user;
 		} catch(e) {
 			context.throw( 400, e.message );

@@ -31,6 +31,12 @@ class ApplicationController {
 	_initializeApplication() {
 		this.messageBusService.on( this.messageBusService.MESSAGES.USER.LOGOUT, this._onUserLoggedOut.bind(this) );
 		this.messageBusService.on( this.messageBusService.MESSAGES.USER.LOGIN, this._onUserLoggedIn.bind(this) );
+		this.$rootScope.$on('$stateChangeSuccess', (e, newState) => {
+			if( newState.name === STATES.LANDING && this.isUserLoggedIn ) {
+				e.preventDefault();
+				this.$state.go( STATES.APPLICATION.FEED.POSTS );
+			}
+		})
 		this.userService.getCurrentUser();
 	}
 
@@ -47,14 +53,14 @@ class ApplicationController {
 	}
 
 	_onUserLoggedIn() {
-		if( window.location.hash === '#/' ) {
-			this.$state.go( STATES.APPLICATION.FEED );
+		if( this.$state.current.name == STATES.LANDING ) {
+			this.$state.go( STATES.APPLICATION.FEED.POSTS );
 		}
 	}
 
 	gotoIndex() {
 		if( this.isUserLoggedIn ) {
-			this.$state.go(STATES.APPLICATION.FEED);
+			this.$state.go(STATES.APPLICATION.FEED.POSTS);
 			return;
 		}
 		this.$state.go(STATES.LANDING);
@@ -69,7 +75,7 @@ class ApplicationController {
 			checkUsernameAvailability: this.checkUsernameAvailability.bind( this ),
 			isUsernameAvailable: true
 		}
-		this.modalService.openDialog( this.modalService.DIALOG_TYPE.REGISTER, extension).then(console.log.bind(console));
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.REGISTER, extension, this.register.bind( this ) ).then(console.log.bind(console));
 	}
 
 	async checkUsernameAvailability( model ) {
@@ -109,7 +115,13 @@ class ApplicationController {
 
 	async register( model ) {
 		if( this.validateRegistration( model ) ) {
-			await this.userService.register( model );
+			await this.userService.register({
+				username: model.username,
+				fullname: model.fullname,
+				password: model.password,
+				email: model.email,
+				isBusiness: model.isBusiness || false
+			});
 			model.dismiss();
 		}
 	}
@@ -119,9 +131,9 @@ class ApplicationController {
 			return false;
 		}
 
-		if( !Validator.validatePasswordStrength( model.password ) ) {
-			return false;
-		}
+		// if( !Validator.validatePasswordStrength( model.password ) ) {
+		// 	return false;
+		// }
 
 		if( Validator.isFieldEmpty( model.username ) ) {
 			return false

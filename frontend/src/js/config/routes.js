@@ -23,33 +23,67 @@ const ROUTES = [
 			view: 'views/about.tpl.html'
 		}
 	},
+
+	// FEED
+
 	{
-		state: STATES.APPLICATION.FEED,
+		state: STATES.APPLICATION.FEED.SELF,
 		opts: {
+			abstract: true,
 			path: '/feed',
-			controller: 'FeedController',
 			view: 'views/feed.tpl.html',
+			controller: 'FeedController',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},
+
 	{
-		state: STATES.APPLICATION.GROUPS,
+		state: STATES.APPLICATION.FEED.POSTS,
 		opts: {
-			path: '/groups',
-			controller: 'GroupsController',
-			view: 'views/groups.tpl.html',
+			path: '/posts',
+			view: 'views/feed/list.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},
+
 	{
-		state: STATES.APPLICATION.GROUP_BY_NAME,
+		state: STATES.APPLICATION.FEED.STARRED,
 		opts: {
-			path: '/groups/:groupName',
-			controller: 'GroupByNameController',
-			view: 'views/group-by-name.tpl.html',
+			path: '/starred',
+			view: 'views/feed/starred.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},
+
+	{
+		state: STATES.APPLICATION.FEED.FILTERED,
+		opts: {
+			path: '/filtered/:filterId',
+			view: 'views/feed/filtered.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+
+	// GROUPS
+
+	// {
+	// 	state: STATES.APPLICATION.GROUPS,
+	// 	opts: {
+	// 		path: '/groups',
+	// 		controller: 'GroupsController',
+	// 		view: 'views/groups.tpl.html',
+	// 		requiredStatus: USER_STATUS.SUBMITED
+	// 	}
+	// },
+	// {
+	// 	state: STATES.APPLICATION.GROUP_BY_NAME,
+	// 	opts: {
+	// 		path: '/groups/:groupName',
+	// 		controller: 'GroupByNameController',
+	// 		view: 'views/group-by-name.tpl.html',
+	// 		requiredStatus: USER_STATUS.SUBMITED
+	// 	}
+	// },
 	{
 		state: STATES.APPLICATION.NOTIFICATIONS,
 		opts: {

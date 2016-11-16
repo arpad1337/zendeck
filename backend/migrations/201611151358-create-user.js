@@ -36,6 +36,14 @@ module.exports = {
 			photos: {
 				type: TYPES.JSON
 			},
+			birth_date: {
+				type: TYPES.STRING( 10 )
+			},
+			is_business: {
+				field: 'is_business',
+				type: TYPES.BOOLEAN,
+				defaultValue: false
+			},
 			status: {
 				type: TYPES.ENUM,
 				values: [

@@ -21,6 +21,7 @@
     "angular-translate-loader-static-files": "^2.11.0",
     "jquery": "~3.0.0",
     "angular-datetime": "~3.2.2",
-    "angular-ui-router": "~0.3.2"
+    "angular-ui-router": "~0.3.2",
+    "angular-elastic": "~2.5.1"
   }
 }

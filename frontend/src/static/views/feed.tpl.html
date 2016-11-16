@@ -1,195 +1,34 @@
             <nav>
                 <ul>
-                    <li><a href="feed.html" class="feed active">Feed</a></li>
-                    <li><a href="jobs.html" class="star">Starred</a></li>
-                    <li><a href="jobs.html" class="filter ">Jobs</a></li>
+                    <li>
+                        <a ui-sref="feed.posts" class="feed" 
+                        ng-class="ctrl.activeState == ctrl.FEED_STATES.POSTS ? 'active' : ''">
+                            {{ 'HEADER.SUB_MENU.FEED' | translate }}
+                    </a>
+                    </li>
+                    <li>
+                        <a ui-sref="feed.starred" class="star"
+                        ng-class="ctrl.activeState == ctrl.FEED_STATES.STARRED ? 'active' : ''"
+                        >
+                            {{ 'HEADER.SUB_MENU.STARRED' | translate }}
+                        </a>
+                    </li>
+                    <li ng-repeat="filter in ctrl.filters">
+                        <a 
+                            ui-sref="feed.filtered({filterId: filter.id})" 
+                            ng-click="ctrl.selectFilter( filter.id )"
+                            class="filter "
+                            ng-class="ctrl.activeFilter == filter.id ? 'active' : ''"
+                        >
+                            {{ filter.name }}
+                        </a>
+                    </li>
                 </ul>
                 <div class="actions"><a href="create-filter.html" class="create">Create filter</a></div>
             </nav>
             <div class="wrap prt-30">
-                <div class="content">
-                    <section role="posting-box">
-                        <h4>Post to feed</h4>
-                        <div class="create-post">
-                            <textarea placeholder="Write your post here..."></textarea>
-                            <div class="labels">
-                                <ul>
-                                    <li>
-                                        <span>
-                                            article
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <input type="text" placeholder=". . .">
-                                        <!-- <button class="label"></button> -->
-                                    </li>
-                                </ul>
-                            </div>
-                            <button class="post-content">Post</button>
-                            <div class="suggested-tags">
-                                <div class="labels">
-                                    <ul>
-                                        <li>
-                                            <span>
-                                                suggested
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span>
-                                                tags
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span>
-                                                come
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span>
-                                                here
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section role="feed">
-                        <h4>Posts</h4>
-                        <div class="post left">
-                            <div class="head">
-                                <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                <div class="author">John Doe</div>
-                                <div class="from">from <a href="components.html">Frontend Meetup Group</a></div>
-                                <div class="date">23 hour ago</div>
-                                <a class="hearth">20 people like this</a>
-                                <a class="star"></a>
-                                <div class="labels">
-                                    <ul>
-                                        <li>
-                                            <a href="#">
-                                                article
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                marketing
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                customer development
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                inbound
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                discussion
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <aside>
-                                <div class="content">
-                                    <div class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Maecenas lacinia odio nec dignissim elementum. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.</div>
-                                </div>
-                                <div class="comment-area">
-                                    <div class="pagination">
-                                        <a href="#">previous comments (16)</a>
-                                    </div>
-                                    <div class="comments">
-                                        <div class="comment">
-                                            <div class="author-pic has-tooltip" alt="2m" style="background-image:url('img/avatar.jpg')"></div>
-                                            <div class="message">
-                                                <a class="author" href="#author">John Doe></a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis.<span class="date">2 minutes ago</span>
-                                            </div>
-                                        </div>
-                                        <div class="comment">
-                                            <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                            <div class="message">
-                                                <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.<span class="date">2 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="add-comment">
-                                         <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                         <textarea placeholder="write comment here..."></textarea>
-                                    </div>
-                                </div>
-                            <aside>
-                        </div>
-                        <div class="post left">
-                            <div class="head">
-                                <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                <div class="author">John Doe</div>
-                                <div class="date">23 hour ago</div>
-                                <a class="hearth">20 people like this</a>
-                                <a class="star"></a>
-                                <div class="labels">
-                                    <ul>
-                                        <li>
-                                            <a href="#">
-                                                article
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                marketing
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                customer development
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                inbound
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                discussion
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <aside>
-                                <div class="content">
-                                    <div class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Maecenas lacinia odio nec dignissim elementum. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.</div>
-                                </div>
-                                <div class="comment-area">
-                                    <div class="pagination">
-                                        <a href="#">previous comments (16)</a>
-                                    </div>
-                                    <div class="comments">
-                                        <div class="comment">
-                                            <div class="author-pic has-tooltip" alt="2m" style="background-image:url('img/avatar.jpg')"></div>
-                                            <div class="message">
-                                                <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis.<span class="date">2 minutes ago</span>
-                                            </div>
-                                        </div>
-                                        <div class="comment">
-                                            <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                            <div class="message">
-                                                <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.<span class="date">2 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="add-comment">
-                                         <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                         <textarea placeholder="write comment here..."></textarea>
-                                    </div>
-                                </div>
-                            <aside>
-                        </div>
-                    </section>
+                <div class="content" ui-view>
+                    
                 </div>
                 <aside>
                     <section role="friends-sidebar">

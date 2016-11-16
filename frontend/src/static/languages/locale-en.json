@@ -86,6 +86,11 @@
 		"GROUP_INVITATION": "{{invitee}} invited your to the <a href=\"{{groupUrl}}\">{{groupName}} Group</a>"
 	},
 	"FEED": {
+		"POSTS_TITLE": "Posts",
+		"STARRED_TITLE": "Starred posts",
+		"FILTERED_TITLE": "Posts by",
+		"SAVE_TO_COLLECTION": "Save",
+		"SAVE_TO_COLLECTION_TOOLTIP": "It is a shared filter. Save \"{{filterName}}\" to collection:",
 		"POST_ENTRY": {
 			"IN_GROUP": "from <a href=\"{{groupUrl}}\">{{groupName}} Group</a>",
 			"TIME_AGO_SUFFIX": "{{value}} ago",

@@ -2,9 +2,11 @@ main {
 	min-height: calc(100% - 301px);
 	.wrap {
 		width: calc(100% - 20px) !important;
-		padding: 0 10px;
+		padding-left:10px;
+		padding-right:10px;
 		& > .content {
-			width: auto !important;
+			width: 100% !important;
+			margin-right: 0px !important;
 		}
 	}
 }
@@ -25,6 +27,25 @@ body > header nav ul li.login, body > header nav ul li.sign-up > a {
 .modal .container {
 	width: 300px !important;
 	top: 60px !important;
+}
+
+aside {
+	display: none;
+}
+
+section[role="posting-box"] {
+	width: 100%;
+	.create-post {
+		width: 100%;
+		textarea {
+			width: calc(100% - 18px);
+		}
+		.labels {
+			ul {
+				width: calc(100% - 70px);
+			}
+		}
+	}
 }
 
 footer {

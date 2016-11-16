@@ -1,0 +1,7 @@
+<posting-box 
+	delegate="ctrl"
+></posting-box>
+<section role="feed">
+    <h4>{{ 'FEED.POSTS_TITLE' | translate }}</h4>
+    <post-entry ng-repeat="post in cltr.posts" post="post" delegate="ctrl"></post-entry>
+</section>

@@ -14,6 +14,7 @@ const module = angular.module('ZenDeck', [
 	'pascalprecht.translate',
 	'ui.router',
     'ui.router.state',
+    'monospaced.elastic'
 ]);
 
 module.config(["$httpProvider", function($httpProvider){
@@ -93,6 +94,20 @@ module.config(['$translateProvider', function ($translateProvider) {
 
     $translateProvider.preferredLanguage('en');
 }]);
+
+module.directive('enterPress', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.enterPress);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});
 
 module.filter("htmlSafe", ['$sce', function($sce) {
     return function(htmlCode){

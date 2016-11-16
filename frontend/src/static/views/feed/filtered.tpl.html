@@ -1,0 +1,10 @@
+<section role="feed">
+    <h4>
+    	{{ 'FEED.FILTERED_TITLE' | translate }} 
+    	<span class="label" ng-repeat=" tag in ctrl.currentFilter.tags " >{{ tag }}</span>
+    </h4>
+    <p ng-if="ctrl.currentFilter.shared" ng-include="'partials/shared-filter-cta.tpl.html'">
+    	
+	</p>
+    <post-entry ng-repeat="post in cltr.starred" post="post" delegate="ctrl"></post-entry>
+</section>

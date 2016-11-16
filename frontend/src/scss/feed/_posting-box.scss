@@ -1,6 +1,7 @@
 .create-post {
 	width: 600px;
 	margin: 10px auto 40px;
+	position: relative;
 	textarea {
 		resize: none;
 		padding: 8px;
@@ -43,6 +44,9 @@
 		margin-top: 8px;
 		border: 0;
 		display: block;
+		ul {
+			width: 530px;
+		}
 		ul, li {
 			padding: 0;
 			margin: 0;

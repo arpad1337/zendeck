@@ -1,0 +1,40 @@
+                    <section role="posting-box">
+                        <h4>{{ 'FEED.POST_BOX.TITLE' | translate }}</h4>
+                        <div class="create-post">
+                            <textarea 
+                                placeholder="{{ 'FEED.POST_BOX.PLACEHOLDER' | translate }}"
+                                ng-model="vm.content"
+                                ng-blur="vm.textareaFocusout()"
+                                class="msd-elastic"
+                            >
+                            </textarea>
+                            <div class="labels">
+                                <ul>
+                                    <posting-box-tag
+                                        ng-repeat="tag in vm.newPost.tags track by $index"
+                                        delegate="vm"
+                                        tag="tag">
+                                    </posting-box-tag>
+                                    <posting-box-tag
+                                        delegate="vm"
+                                    >
+                                    </posting-box-tag>
+                                </ul>
+                            </div>
+                            <button class="post-content">{{ 'FEED.POST_BOX.SEND' | translate }}</button>
+                            <div class="suggested-tags">
+                                <div class="labels">
+                                    <ul>
+                                        <li 
+                                            ng-repeat="tag in vm.newPost.suggestedTags track by $index"
+                                            ng-click="vm.addSuggestedTag(tag)"
+                                        >
+                                            <span>
+                                                {{tag}}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>

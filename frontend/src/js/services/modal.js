@@ -65,6 +65,7 @@ class ModalService {
 		return function() {
 			promise.reject();
 			scope.$element.remove();
+			scope.$background.remove();
 			self._openNextModal();
 		};
 	}
@@ -74,6 +75,7 @@ class ModalService {
 		return function() {
 			promise.resolve(scope);
 			scope.$element.remove();
+			scope.$background.remove();
 			self._openNextModal();
 		};
 	}
@@ -90,6 +92,7 @@ class ModalService {
 			} else {
 				promise.resolve( scope );
 				scope.$element.remove();
+				scope.$background.remove();
 				self._openNextModal();
 			}
 		};
@@ -119,12 +122,10 @@ class ModalService {
 			}
 			model.scope.cancel = function() {
 				delete self._openedModalsHashMap[ key ];
-				$background.remove();
 				origiCancel();
 			};
 			model.scope.dismiss = function() {
 				delete self._openedModalsHashMap[ key ];
-				$background.remove();
 				origiDismiss();
 			}
 			$('body').append($background);
@@ -138,6 +139,7 @@ class ModalService {
 			$background.bind('scroll', stopPropagation);
 			$element.bind('scroll', stopPropagation);
 			model.scope.$element = $element;
+			model.scope.$background = $background;
 		});
 	}
 

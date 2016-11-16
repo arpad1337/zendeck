@@ -1,0 +1,8 @@
+<li ng-if="!vm.editable" ng-click="vm.remove()">
+    <span>
+        {{vm.tag}}
+    </span>
+</li>
+<li ng-if="vm.editable">
+    <input type="text" placeholder=". . ." ng-model="vm.tag" enter-press="vm.add()">
+</li>

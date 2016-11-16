@@ -28,7 +28,7 @@ class UserService {
 			return this.$q.resolve( this._currentUser );
 		}
 		return this.$http.get(CONFIG.API_PATH + '/user/me').then((r) => {
-			let isFirstAttempt = this.isUserLoggedIn;
+			let isFirstAttempt = !this.isUserLoggedIn;
 			this._currentUser = r.data;
 			if( isFirstAttempt ) {
 				this.messageBusService.emit( this.messageBusService.MESSAGES.USER.LOGIN, this._currentUser );

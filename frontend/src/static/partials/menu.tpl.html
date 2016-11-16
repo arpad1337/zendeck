@@ -1,13 +1,15 @@
 <nav>
-    <div class="search">
-        <div style="position: relative">
-        <input type="text" name="search" placeholder="{{ctrl.currentSearchTerm}}" ng-model="ctrl.currentSearchTerm">
-        <button class="icon"></button>
+    <div class="fleft">
+        <div class="search">
+            <div style="position: relative">
+            <input type="text" name="search" placeholder="{{ctrl.currentSearchTerm}}" ng-model="ctrl.currentSearchTerm">
+            <button class="icon"></button>
+            </div>
         </div>
     </div>
     <ul>
         <li class="feed has-tooltip" alt="Feed">
-            <a ui-sref="feed"></a>
+            <a ui-sref="feed.posts"></a>
         </li>
         <li class="groups has-tooltip" alt="Groups">
             <a ui-sref="groups"></a>

@@ -54,6 +54,15 @@ const model = sequelizeModelHelper.buildModel(
 		photos: {
 			type: TYPES.JSON
 		},
+		birthDate: {
+			field: 'birth_date',
+			type: TYPES.STRING(10)
+		},
+		isBusiness: {
+			field: 'is_business',
+			type: TYPES.BOOLEAN,
+			defaultValue: false
+		},
 		status: {
 			type: TYPES.ENUM,
 			values: [

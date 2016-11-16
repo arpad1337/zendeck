@@ -5,12 +5,23 @@
 const STATES = {
 	LANDING: 'landing',
 	APPLICATION: {
-		FEED: 'feed',
-		GROUPS: 'groups',
-		GROUP_BY_NAME: 'groupByName',
+		FEED: {
+			SELF: 'feed',
+			POSTS: 'feed.posts',
+			STARRED: 'feed.starred',
+			FILTERED: 'feed.filtered'
+		},
+		GROUPS: {
+			SELF: 'groups',
+			GROUP_LIST_VIEW: 'groups.list',
+			GROUP_BY_NAME: 'groups.groupByName',
+			GROUP_BY_NAME_MEMBERS: 'groups.groupByName.members',
+			GROUP_BY_NAME_STARRED: 'groups.groupByName.starred'
+		},
 		NOTIFICATIONS: 'notifications',
 		MESSAGES: 'messages',
-		PROFILE: 'profile'	
+		PROFILE: 'profile',
+		SETTINGS: 'settings'
 	},
 	ABOUT: 'about'
 };
