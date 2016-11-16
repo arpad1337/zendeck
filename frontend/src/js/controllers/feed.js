@@ -10,15 +10,17 @@ class FeedController {
 		return [
 			'$scope',
 			'$state',
+			'FeedService',
 			'FilterService'
 		];
 	}
 
-	constructor( $scope, $state, filterService ) {
+	constructor( $scope, $state, feedService, filterService ) {
 		this.$scope = $scope;
 		this.$state = $state;
 		this._activeFilter = null;
 		this.filterService = filterService;
+		this.feedService = feedService;
 
 		this._initState();
 
@@ -58,7 +60,7 @@ class FeedController {
 	}
 
 	async scrapeUrl( url ) {
-		console.log( url );
+		return this.feedService.scrapeUrl( url );
 	}
 
 	get activeFilter() {

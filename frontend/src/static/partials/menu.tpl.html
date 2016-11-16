@@ -20,8 +20,20 @@
         <li class="messages has-tooltip" alt="Messages">
             <a ui-sref="messages"><span>2</span></a>
         </li>
-        <li class="profile has-tooltip" alt="Profile">
-            <a href="#/{{APP.currentUser.username}}"></a>
+        <li class="profile has-tooltip" alt="Profile"
+            ng-init="hover=false"
+            ng-mouseenter="hover = true"
+            ng-mouseleave="hover = false"
+        >
+            <a href="#/{{APP.currentUser.username}}" ng-class="{hover: hover}"></a>
+            <ul>
+                <li>
+                    <a ui-sref="settings">{{ 'HEADER.PROFILE.SETTINGS' | translate }}</a>
+                </li>
+                <li>
+                    <a ng-click="APP.logout()">{{ 'HEADER.PROFILE.LOGOUT' | translate }}</a>
+                </li>
+            </ul>
         </li>
     </ul>
 </nav>

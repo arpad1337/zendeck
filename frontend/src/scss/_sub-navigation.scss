@@ -52,6 +52,38 @@ main > nav {
 		font-size: 14px;
 		line-height: 18px;
 		display: inline-block;
+		&.filter {
+			& + ul {
+				display: none;
+				position: absolute;
+				z-index: 103;
+				top: 26px;
+				left: 0;
+				width: auto;
+				padding: 0 !important;
+				li {
+					background: $SECONDARY-LIGHT;
+					border-top: 1px solid $SECONDARY-DARK;
+					width: 100%;
+					a {
+						width: calc(100% - 20px);
+						&.active {
+							background: $SECONDARY-DARK;
+						}
+					}
+					&:first-child {
+						border-top: none;
+					}
+					&:hover {
+						background: $SECONDARY-DARK;
+					}
+				}
+			}
+			&.hover + ul,
+			&:hover + ul {
+				display: block;
+			}
+		}
 		&:after {
 			display: block;
 			content: " ";

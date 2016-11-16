@@ -48,6 +48,16 @@ section[role="posting-box"] {
 	}
 }
 
+main > nav {
+	.actions {
+		a {
+			span {
+				display: none;
+			}
+		}
+	}
+}
+
 footer {
 	.social {
 		top: initial;

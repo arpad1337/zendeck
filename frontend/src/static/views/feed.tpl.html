@@ -13,18 +13,34 @@
                             {{ 'HEADER.SUB_MENU.STARRED' | translate }}
                         </a>
                     </li>
-                    <li ng-repeat="filter in ctrl.filters">
-                        <a 
-                            ui-sref="feed.filtered({filterId: filter.id})" 
-                            ng-click="ctrl.selectFilter( filter.id )"
-                            class="filter "
-                            ng-class="ctrl.activeFilter == filter.id ? 'active' : ''"
-                        >
-                            {{ filter.name }}
+                    <li
+                        ng-init="hover=false"
+                        ng-mouseenter="hover = true"
+                        ng-mouseleave="hover = false"
+                    >
+                        <a class="filter" 
+                            ng-class="{hover: hover, active: (ctrl.activeFilter != null )}">
+                            Filters
                         </a>
+                        <ul>
+                            <li ng-repeat="filter in ctrl.filters">
+                                <a 
+                                    ui-sref="feed.filtered({filterId: filter.id})" 
+                                    ng-click="ctrl.selectFilter( filter.id )"
+                                    class=" "
+                                    ng-class="ctrl.activeFilter == filter.id ? 'active' : ''"
+                                >
+                                    {{ filter.name }}
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
-                <div class="actions"><a href="create-filter.html" class="create">Create filter</a></div>
+                <div class="actions">
+                    <a href="create-filter.html" class="create">
+                        <span>{{ 'HEADER.SUB_MENU.CREATE_FILTER' | translate }}</span>
+                    </a>
+                </div>
             </nav>
             <div class="wrap prt-30">
                 <div class="content" ui-view>

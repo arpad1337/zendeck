@@ -7,7 +7,9 @@ import Util from '../helpers/util';
 class PostingBoxComponent {
 
 	static get $inject() {
-		return [];
+		return [
+			
+		];
 	}
 
 	static get $descriptor() {
@@ -20,7 +22,10 @@ class PostingBoxComponent {
 			bindToController: true,
 			controllerAs: 'vm',
 			transclude: true,
-			controller: this
+			controller: this,
+			link: (scope) => {
+				scope.vm.scope = scope;
+			}
 		};
 	}
 
@@ -34,8 +39,13 @@ class PostingBoxComponent {
 			content: "",
 			urls: [],
 			tags: [],
-			suggestedTags: ['hello', 'moto']
+			suggestedTags: [],
+			preview: false
 		};
+		this.linkPreview = null;
+		this._timer = false;	
+		this.textareaFocusout = this.textareaFocusout.bind( this );
+		this._urlIndex = 0;
 	}
 
 	get content() {
@@ -53,16 +63,18 @@ class PostingBoxComponent {
 						this.newPost.urls[ i ] != url
 					) {
 						this.newPost.urls[ i ] = url;
-						console.log('juhu2', url);
+						if( this._timer && this.newPost.urls.length == 1 ) {
+							clearTimeout( this._timer );
+							this._timer = setTimeout( this.textareaFocusout, 1000 );
+						}
 						match = true;
 					}
 					return match;
 				})
 				if( !alreadyEvaluated && url != null ) {
-					console.log('juhu', url);
 					this.newPost.urls.push( url );
 					if( this.newPost.urls.length == 1 ) {
-						this.textareaFocusout();
+						setTimeout( this.textareaFocusout, 1000 );
 					}
 				}
 			});
@@ -94,10 +106,24 @@ class PostingBoxComponent {
 		this.newPost.tags.push( tag );
 	}
 
-	textareaFocusout() {
-		if( this._delegateRespondsToSelector( 'scrapeUrl' ) ) {
-			let url = this.newPost.urls[ 0 ];
-			this.delegate.scrapeUrl( url );
+	removePreview() {
+		this.linkPreview = null;
+		this._urlIndex++;
+	}
+
+	async textareaFocusout() {
+		if( this._delegateRespondsToSelector( 'scrapeUrl' ) && this.linkPreview == null ) {
+			if( this._urlIndex === this.newPost.urls.length ) {
+				return;
+			}
+			let url = this.newPost.urls[ this._urlIndex ];
+			console.log( 'PostingBoxComponent->textareaFocusout scraping url', url );
+			let pageMeta = await this.delegate.scrapeUrl( url );
+			pageMeta.tags.forEach((tag) => {
+				this.newPost.suggestedTags.push(tag);
+			});
+			this.linkPreview = pageMeta;
+			this.scope.$digest();
 		}
 	}
 
@@ -109,6 +135,8 @@ class PostingBoxComponent {
 					.trim()
 					.replace(/\n\s*\n\s*\n/g, '\n\n')
 					.replace(/  +/g, ' ');
+				this.newPost.urls = this.newPost.content.match( PostingBoxComponent.URL_PATERN );
+				this.newPost.preview = this._urlIndex < this.newPost.urls.length ? this._urlIndex : false;
 				await this.delegate.commit( this.newPost );
 			}
 		} catch( e ) {

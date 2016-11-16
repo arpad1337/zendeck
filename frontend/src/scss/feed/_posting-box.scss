@@ -40,6 +40,63 @@
 		font-size: 12px;
 		margin: 4px 0 -4px;
 	}
+	.embed {
+		color: $FOOTER-DARK;
+		text-decoration: none;
+		display: block;
+		padding: 8px;
+		border: 1px solid $FOOTER-LIGHT;
+		margin-top: 8px;
+		min-height: 160px;
+		font-size: 12px;
+		position: relative;
+		.cover {
+			float: left;
+			margin-right: 8px;
+		}
+		h3 {
+			color: $MAIN-LIGHT;
+			margin: 0;
+			font-size: 16px;
+			margin: 0 0 8px;
+			font-weight: normal;
+		}
+		p {
+			margin: 0;
+		}
+		.resource {
+			color: $FOOTER-DARK;
+			position: absolute;
+			bottom: 8px;
+			font-weight: normal;
+			left: 176px;
+			span {
+				color: $MAIN-LIGHT;
+			}
+		}
+		.delete {
+			display: block;
+			position: absolute;
+			right: 0;
+			top: 0;
+			background: $SECONDARY-LIGHT;
+			&:hover {
+				background: $SECONDARY-DARK;
+			}
+			&:after {
+				background-image: url(../img/plus.png);
+				background-repeat: no-repeat;
+				background-size: 15px 15px;
+				display: block;
+				content: " ";
+				float: right;
+				width: 16px;
+				height: 16px;
+				color: white;
+				@include transform( rotate(45deg) !important );
+			}
+		}
+	}
 	.labels {
 		margin-top: 8px;
 		border: 0;

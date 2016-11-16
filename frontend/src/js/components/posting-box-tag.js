@@ -24,7 +24,6 @@ class PostingBoxTagComponent {
 	}
 
 	constructor() {
-		console.log(arguments);
 		if( !this.tag ) {
 			this.editable = true;
 			this.tag = '';

@@ -16,9 +16,13 @@
 			"STARRED": "Starred",
 			"JOIN_GROUP": "Join group",
 			"INVITE_FRIENDS": "Invite friends",
-			"CREATE_FILETER": "Create filter",
+			"CREATE_FILTER": "Create filter",
 			"ADD_FRIEND": "Add friend",
 			"SEND_NEW_MESSAGE": "Send a message"
+		},
+		"PROFILE": {
+			"SETTINGS": "Settings",
+			"LOGOUT": "Logout"
 		}
 	},
 	"FOOTER": {
@@ -89,8 +93,10 @@
 		"POSTS_TITLE": "Posts",
 		"STARRED_TITLE": "Starred posts",
 		"FILTERED_TITLE": "Posts by",
+		"LINK_PREVIEW_TITLE": "Link preview",
 		"SAVE_TO_COLLECTION": "Save",
 		"SAVE_TO_COLLECTION_TOOLTIP": "It is a shared filter. Save \"{{filterName}}\" to collection:",
+		"LINK_PREVIEW": "<span>{{author}}</span> from <span>{{medium}}</span>",
 		"POST_ENTRY": {
 			"IN_GROUP": "from <a href=\"{{groupUrl}}\">{{groupName}} Group</a>",
 			"TIME_AGO_SUFFIX": "{{value}} ago",

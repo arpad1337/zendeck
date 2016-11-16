@@ -23,7 +23,7 @@ body > header {
 		line-height: 60px;
 		text-indent: 20px;
 		cursor: pointer;
-		margin-top: -1px;
+		margin-top: -2px;
 	}
 	nav {
 		position: absolute;
@@ -92,7 +92,7 @@ body > header {
 					ul {
 						display: none;
 						position: absolute;
-						right: 10px;
+						right: 8px;
 						top: 40px;
 						width: 180px;
 						z-index: 10000;
@@ -105,7 +105,8 @@ body > header {
 							border-top: 1px solid $MAIN-LIGHT;
 							text-align: center;
 							font-weight: bold;
-
+							cursor: pointer;
+							margin: 0 !important;
 							&:first-child {
 								border-top: none;
 							}
@@ -114,7 +115,7 @@ body > header {
 							}
 						}
 					}
-					&:hover {
+					&:hover, &.hover {
 						ul {
 							display: block;
 						}

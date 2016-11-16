@@ -21,7 +21,9 @@
                                     </posting-box-tag>
                                 </ul>
                             </div>
-                            <button class="post-content">{{ 'FEED.POST_BOX.SEND' | translate }}</button>
+                            <button class="post-content"
+                                ng-disabled="vm.buttonEnabled"
+                            >{{ 'FEED.POST_BOX.SEND' | translate }}</button>
                             <div class="suggested-tags">
                                 <div class="labels">
                                     <ul>
@@ -34,6 +36,20 @@
                                             </span>
                                         </li>
                                     </ul>
+                                </div>
+                            </div>
+                            <div ng-if="vm.linkPreview">
+                                <h4>{{'FEED.LINK_PREVIEW_TITLE' | translate}}</h4>
+                                <div class="embed">
+                                    <div class="cover">
+                                        <img ng-src="{{vm.linkPreview.picture.large}}" width="160" height="160" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+                                    </div>
+                                    <h3>{{vm.linkPreview.title}}</h3>
+                                    <p>{{vm.linkPreview.shortContent}}</p>
+                                    <div class="resource" ng-bind-html=" 'FEED.LINK_PREVIEW' | translate : { author: vm.linkPreview.author, medium: vm.linkPreview.medium } | htmlSafe ">
+                                        
+                                    </div>
+                                    <div class="delete" ng-click="vm.removePreview()"></div>
                                 </div>
                             </div>
                         </div>
