@@ -1,11 +1,18 @@
 section[role="features"] {
 	background: $SECONDARY-LIGHT;
 	color: $WHITE;
+	width: 100%;
+	.fwrap {
+		max-width: 944px;
+		margin: auto;
+		width: 100%;
+		@extend .clear;
+	}
 	.feature {
 		width: 50%;
 		float: left;
 		min-height: 160px;
-		margin-bottom: 20px;
+		margin: 20px 0;
 		h2 {
 			font-size: 18px;
 			margin: 20px 0 10px;

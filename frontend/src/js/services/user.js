@@ -65,7 +65,7 @@ class UserService {
 		});
 	}
 
-	checkUsername() {
+	checkUsername( username ) {
 		let promise = this.$q.defer();
 		setTimeout(() => {
 			promise.resolve(true)
@@ -73,8 +73,16 @@ class UserService {
 		return promise.promise;
 	}
 
-	subscribeToNewsletter( email ) {
-		return this.$http.post( CONFIG.API_PATH + '/auth/subscibe', { email: email } ).then( r => r.data ).catch( _ => 'ok' );
+	checkEmail( email ) {
+		let promise = this.$q.defer();
+		setTimeout(() => {
+			promise.resolve(false)
+		}, Math.random() * 1000);
+		return promise.promise;
+	}
+
+	subscribeToNewsletter( name, email ) {
+		return this.$http.post( CONFIG.API_PATH + '/auth/subscibe', { email: email, fullname: name } ).then( r => r.data ).catch( _ => 'ok' );
 	}
 
 }

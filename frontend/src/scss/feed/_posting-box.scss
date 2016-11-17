@@ -84,16 +84,16 @@
 				background: $SECONDARY-DARK;
 			}
 			&:after {
-				background-image: url(../img/plus.png);
+				background: url('../img/close.png');
+				background-size: 10px 10px;
+				margin: 4px -1px -1px 4px;
 				background-repeat: no-repeat;
-				background-size: 15px 15px;
 				display: block;
 				content: " ";
 				float: right;
 				width: 16px;
 				height: 16px;
 				color: white;
-				@include transform( rotate(45deg) !important );
 			}
 		}
 	}

@@ -14,7 +14,8 @@ const module = angular.module('ZenDeck', [
 	'pascalprecht.translate',
 	'ui.router',
     'ui.router.state',
-    'monospaced.elastic'
+    'monospaced.elastic',
+    'angular-loading-bar'
 ]);
 
 module.config(["$httpProvider", function($httpProvider){
@@ -24,6 +25,10 @@ module.config(["$httpProvider", function($httpProvider){
     }
     $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
     $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+}]);
+
+module.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+	cfpLoadingBarProvider.includeSpinner = false;
 }]);
 
 module.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {

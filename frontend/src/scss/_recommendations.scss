@@ -1,0 +1,63 @@
+section[role="recommendations"] {
+	background: $SECONDARY-DARK;
+	color: $WHITE;
+	width: 100%;
+	h3 {
+		text-align: center;
+		font-size: 24px;
+		margin: 20px;
+		font-weight: normal;
+	}
+	.recommendation {
+		@extend .clear;
+		max-width: 900px;
+		padding: 10px;
+		display: block;
+		margin: auto;
+		position: relative;
+		margin: 20px auto 40px;
+		.photo {
+			float: left;
+			img {
+				border-radius: 128px;
+				border: 4px solid white;
+				width: 100px;
+				height: 100px;
+				float: left;
+				margin-right: 10px;
+			}
+		}
+		.name {
+			font-size: 16px;
+			font-weight: bold;
+		}
+		.profession {
+			font-size: 14px;
+		}
+		.quote {
+			font-size: 16px;
+			font-style: italic;
+			padding: 10px 30px;
+			margin-left: 110px;
+			&:after,
+			&:before {
+				position: absolute;
+				top: 54px;
+				content: "\"";
+				display: block;
+				font-size: 32px;
+				width: 30px;
+				height: 30px;
+				text-align: right;
+				font-style: italic;
+				font-family: "Times New Roman", Georgia, Serif;
+			}
+			&:after {
+				right: 10px;
+			}
+			&:before {
+				left: 110px;
+			}
+		}
+	}
+}

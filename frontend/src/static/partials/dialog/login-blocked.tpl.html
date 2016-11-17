@@ -1,0 +1,12 @@
+<div class="modal">
+    <div class="container">
+        <h4>{{ 'MODALS.LOGIN_BLOCKED.TITLE' | translate }}</h4>
+        <a class="close" ng-click="cancel()"></a>
+        <div class="content">
+            <p class="message" data-ng-bind-html="'MODALS.LOGIN_BLOCKED.MESSAGE' | translate | htmlSafe"></p>
+        </div>
+        <div class="actions">
+            <button class="confirm" ng-click="ok()">{{ 'MODALS.LOGIN_BLOCKED.OK' | translate }}</button>
+        </div>
+    </div>
+</div>

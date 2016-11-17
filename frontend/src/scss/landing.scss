@@ -1,11 +1,7 @@
 @import "variables";
 @import "helpers";
-
-section {
-    float: left;
-}
-
 @import "motto";
+@import "recommendations";
 @import "features";
 @import "subscription";
 
@@ -37,7 +33,6 @@ section {
 
 	section[role="subscription"] {
 		input {
-			font-weight: 300;
 			width: 220px;
 		}
 	}

@@ -1,51 +1,69 @@
 <div class="modal">
     <div class="container">
-        <h4>Sign up to ZenDeck</h4>
+        <h4>{{ 'MODALS.REGISTER.TITLE' | translate }}</h4>
         <a class="close" ng-click="cancel()"></a>
         <div class="content">
             <form>
                 <p>
-                    <label for="email">Email or username*</label>
-                    <input type="email" placeholder="email@example.com" id="email" ng-model="email">
+                    <label for="email">{{ 'MODALS.REGISTER.EMAIL' | translate }}*</label>
+                    <input type="email" placeholder="{{ 'MODALS.REGISTER.PLACEHOLDER' | translate }}" id="email" ng-model="email"
+                        ng-change="checkEmailIfRegistered()"
+                    >
+                    <span ng-if="!isEmailNotRegistered" class="hint">
+                        <span class="negative">Already registered!</span> What about <a ng-click="cancel();gotoLogin()">logging in?</a>
+                    </span>
                 </p>
                 <p>
-                    <label for="password">Password*</label>
-                    <input type="password" placeholder="password" id="password" ng-model="password">
+                    <label for="password">{{ 'MODALS.REGISTER.PASSWORD' | translate }}*</label>
+                    <input type="password" placeholder="{{ 'MODALS.REGISTER.PLACEHOLDER' | translate }}" id="password" ng-model="password">
                 </p>
                 <p>
-                    <label for="username">Username*</label>
-                    <input type="text" placeholder="type here" id="username" ng-model="username"
+                    <label for="username">{{ 'MODALS.REGISTER.USERNAME' | translate }}*</label>
+                    <input type="text" placeholder="{{ 'MODALS.REGISTER.PLACEHOLDER' | translate }}" id="username" ng-model="username"
                     ng-change="checkUsernameAvailability()"
                     >
                     <span ng-class="isUsernameAvailable ? 'available' : ''" ng-if="username.trim().length > 2" class="hint">
-                        <span ng-if="isUsernameAvailable">
-                            This username is available!
+                        <span ng-if="isUsernameAvailable" class="positive">
+                            Available!
                         </span>
-                        <span ng-if="!isUsernameAvailable">
-                            This username is taken, try again
+                        <span ng-if="!isUsernameAvailable" class="negative">
+                            Taken
                         </span>
                     </span>
                 </p>
                 <p>
-                    <label for="fullname">Full name</label>
-                    <input type="text" placeholder="Type your name here" id="fullname" ng-model="fullname">
+                    <label for="fullname">{{ 'MODALS.REGISTER.FULLNAME' | translate }}</label>
+                    <input type="text" placeholder="{{ 'MODALS.REGISTER.PLACEHOLDER' | translate }}" id="fullname" ng-model="fullname">
                 </p>
                 <p>
-                    <label for="isBusiness">Business Account?</label>
+                    <label for="isBusiness">{{ 'MODALS.REGISTER.IS_BUSINESS' | translate }}</label>
                     <label class="radio">
-                        <input type="radio" placeholder="Type your name here" id="isBusiness" 
-                        ng-model="isBusiness" value="true"> Yes
+                        <input type="radio" id="isBusiness" 
+                        ng-model="isBusiness" value="true"> {{ 'MODALS.REGISTER.YES' | translate }}
                     </label>
                     <label class="radio">
-                        <input type="radio" placeholder="Type your name here" id="isBusiness" 
-                        ng-model="isBusiness" value="false" ng-checked="true"> No 
+                        <input type="radio" id="isBusiness" 
+                        ng-model="isBusiness" value="false" ng-checked="true"> {{ 'MODALS.REGISTER.NO' | translate }} 
                     </label>
                 </p>
             </form>
         </div>
+        <div class="secondary-actions">
+            Or go to <a ng-click="cancel();gotoLogin()">Login</a>
+        </div>
         <div class="actions">
-            <button class="confirm" ng-click="ok()">Sign up</button>
-            <button class="cancel" ng-click="cancel()">Cancel</button>
+            <modal-button
+                    class-name="'confirm'"
+                    callback="ok()"
+                >
+                    {{ 'MODALS.REGISTER.OK' | translate }}
+                </modal-button>
+                <modal-button
+                    class-name="'cancel'"
+                    callback="cancel()"
+                >
+                    {{ 'MODALS.REGISTER.CANCEL' |translate }}
+                </modal-button>
         </div>
     </div>
 </div>

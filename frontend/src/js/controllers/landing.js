@@ -15,6 +15,7 @@ class LandingController {
 
 	constructor( userService, modalService ) {
 		this._email = '';
+		this._name = '';
 		this.userService = userService;
 		this.modalService = modalService;
 	}
@@ -27,9 +28,17 @@ class LandingController {
 		return this._email;
 	}
 
+	set name( value ) {
+		this._name = value;
+	}
+
+	get email() {
+		return this._name;
+	}
+
 	async submit() {
-		if( Validator.validateEmail( this._email ) ) {
-			let result = await this.userService.subscribeToNewsletter( this._email );
+		if( Validator.validateEmail( this._email ) && !Validator.isFieldEmpty( this._name ) ) {
+			let result = await this.userService.subscribeToNewsletter( this._name, this._email );
 			if( result ) {
 				this.modalService.openDialog( this.modalService.DIALOG_TYPE.SUBSCRIPTION_SUCCESFUL );
 			}

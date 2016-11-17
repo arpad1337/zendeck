@@ -24,9 +24,24 @@ body > header nav ul li.login, body > header nav ul li.sign-up > a {
 	margin-top: 0;
 }
 
+body > header nav {
+	.search {
+		position: absolute;
+		left: calc(100% - 302px);
+		margin-right: 0 !important;
+		background: $MAIN-LIGHT;
+	}
+}
+
 .modal .container {
-	width: 300px !important;
-	top: 60px !important;
+	width: calc(100% - 40px) !important;
+	max-width: 578px;
+	max-height: calc(100% - 40px) !important;
+	height: auto;
+	top: 10px !important;
+	left: 10px;
+	right: 10px;
+	overflow: auto;
 }
 
 aside {
@@ -96,18 +111,33 @@ section[role="motto"] {
 section[role="features"] {
 	width: 100%;
 }
+
+section[role="recommendations"] {
+	.recommendation {
+		margin-bottom: 20px;
+		.photo {
+			img {
+				width: 60px;
+				height: 60px;
+			}
+		}
+
+		.quote {
+			margin-left: 70px !important;
+			font-size: 14px;
+			&:before {
+				left: 70px !important;
+			}
+		}
+
+	}
+}
+
 section[role="subscription"] {
 	button {
 		font-size: 18px !important;
   		padding: 5px 10px !important;
 	}
-}
-
-.search {
-	position: absolute;
-	left: calc(100% - 302px);
-	margin-right: 0 !important;
-	background: $MAIN-LIGHT;
 }
 
 body > header nav ul li {

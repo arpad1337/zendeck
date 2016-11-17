@@ -5,42 +5,78 @@
     </div>
 </section>
 <section role="features">
-    <div class="feature social">
-        <span class="groups"></span>
-        <h2>Social</h2>
-        <div class="description">
-            Find groups and start the conversation based upon your interests.
+    <div class="fwrap">
+        <div class="feature social">
+            <span class="groups"></span>
+            <h2>Social</h2>
+            <div class="description">
+                Find groups and start the conversation based upon your interests.
+            </div>
+        </div>
+        <div class="feature searchable">
+            <span class="search"></span>
+            <h2>Searchable</h2>
+            <div class="description">
+                Search for topics and content by using rich filters and hashtags.
+            </div>
+        </div>
+        <div class="feature thematic">
+            <span class="feed"></span>
+            <h2>Thematic</h2>
+            <div class="description">
+                All the content are picked semantically, placed on channels of your preferences.
+            </div>
+        </div>
+        <div class="feature personal">
+            <span class="messages"></span>
+            <h2>Personal</h2>
+            <div class="description">
+                Create private groups and send messages to your friends.
+            </div>
         </div>
     </div>
-    <div class="feature searchable">
-        <span class="search"></span>
-        <h2>Searchable</h2>
-        <div class="description">
-            Search for topics and content by using rich filters and hashtags.
+</section>
+<section role="recommendations">
+    <h3>What people say about <strong>Zen</strong>Deck</h3>
+    <div class="recommendation">
+        <div class="photo">
+            <img src="img/reco_54.jpg">
+        </div>
+        <div class="name">Natalia Kovacs</div>
+        <div class="profession">CS student at Stanford</div>
+        <div class="quote">
+            Its a brilliant way to communicate with my classmates while keeping all course materials organized.
         </div>
     </div>
-    <div class="feature thematic">
-        <span class="feed"></span>
-        <h2>Thematic</h2>
-        <div class="description">
-            All the content are picked semantically, placed on channels of your preferences.
+    <div class="recommendation">
+        <div class="photo">
+            <img src="img/reco_66.jpg">
+        </div>
+        <div class="name">Dave Thomson</div>
+        <div class="profession">lecturer at MIT Fintech Lab</div>
+        <div class="quote">
+            Love the way how custom filters work, makes my life way more easier when doing industry research.
         </div>
     </div>
-    <div class="feature personal">
-        <span class="messages"></span>
-        <h2>Personal</h2>
-        <div class="description">
-            Create private groups and send messages to your friends.
+    <div class="recommendation">
+        <div class="photo">
+            <img src="img/reco_96.jpg">
+        </div>
+        <div class="name">Tom Sheehan</div>
+        <div class="profession">journalist at The Verge</div>
+        <div class="quote">
+            There is no simpler way to check what people posting about recent gadgets or products all around the world than with ZenDeck, whether its originated from a medium or these are just customer reviews.
         </div>
     </div>
 </section>
 <section role="subscription" id="subscription">
-    <h3>Subscribe</h3>
+    <h3>Subscribe to newletter</h3>
     <p>
         Type your email below and we will let you know when the beta period starts.
     </p>
     <form>
-        <input type="email" placeholder="email@example.com" name="email" ng-model="ctrl.email">
+        <input type="name" placeholder="Type your name here" required name="email" ng-model="ctrl.name">
+        <input type="email" placeholder="email@example.com" required name="email" ng-model="ctrl.email">
         <button type="submit" ng-click="ctrl.submit()">Notify me</button>
     </form>
 </section>

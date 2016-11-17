@@ -14,9 +14,24 @@
                 </p>
             </form>
         </div>
+        <div class="secondary-actions">
+            <a ng-click="cancel();gotoForgotPassword()">
+                {{ 'MODALS.LOGIN.FORGOT_PASSWORD_CTA' | translate  }}
+            </a>
+        </div>
         <div class="actions">
-            <button class="confirm" ng-click="ok()">{{ 'MODALS.LOGIN.OK' |translate }}</button>
-            <button class="cancel" ng-click="cancel()">{{ 'MODALS.LOGIN.CANCEL' |translate }}</button>
+               <modal-button
+                    class-name="'confirm'"
+                    callback="ok()"
+                >
+                    {{ 'MODALS.LOGIN.OK' |translate }}
+                </modal-button>
+                <modal-button
+                    class-name="'cancel'"
+                    callback="cancel()"
+                >
+                    {{ 'MODALS.LOGIN.CANCEL' |translate }}
+                </modal-button>
         </div>
     </div>
 </div>

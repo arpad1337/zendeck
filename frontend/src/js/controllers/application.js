@@ -67,14 +67,36 @@ class ApplicationController {
 	}
 
 	openLoginModal() {
-		this.modalService.openDialog( this.modalService.DIALOG_TYPE.LOGIN, {}, this.login.bind( this ) ).then(console.log.bind(console));
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.LOGIN, {
+			error: {
+				usernameOrEmail: null,
+				backend: null,
+				gotoForgotPassword: this.openForgotPasswordModal.bind(this)
+			}
+		}, this.login.bind( this ) ).then(console.log.bind(console));
+	}
+
+	openForgotPasswordModal() {
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.FORGOT_PASSWORD, {
+			error: {
+				usernameOrEmail: null
+			}
+		}, this.fogotPassword.bind( this ) ).then(console.log.bind(console));
 	}
 
 	openRegisterModal() {
 		let extension = {
 			checkUsernameAvailability: this.checkUsernameAvailability.bind( this ),
+			checkEmailIfRegistered: this.checkEmailIfRegistered.bind( this ),
 			isUsernameAvailable: true,
-			isBusiness: false
+			isEmailNotRegistered: true,
+			isBusiness: false,
+			gotoLogin: this.openLoginModal.bind( this ),
+			error: {
+				password: null,
+				email: null,
+				backend: null
+			}
 		}
 		this.modalService.openDialog( this.modalService.DIALOG_TYPE.REGISTER, extension, this.register.bind( this ) ).then(console.log.bind(console));
 	}
@@ -100,12 +122,49 @@ class ApplicationController {
 		}
 	}
 
+	async checkEmailIfRegistered( model ) {
+		model.email = model.email.trim();
+		if( Validator.validateEmail( model.email ) ) {
+			if( !model.lock2 ) {
+				model.lock2 = true;
+				let email = model.email;
+				console.log( 'ApplicationController->checkEmailIfRegistered email', email );
+				model.isEmailNotRegistered = await this.userService.checkEmail( email );
+				model.lock2 = false;
+				if( model.email != email ) {
+					// debouncing request
+					model.lock2 = true;
+					setTimeout(() => {
+						model.lock2 = false;
+						this.checkEmailIfRegistered( model )
+					}, 1000);
+				}
+			}
+		} else {
+			model.isEmailNotRegistered = true;
+		}
+	}
+
 	async login( model ) {
 		console.log(model);
 		if( this.validateLogin( model ) ) {
+			try {
 			await this.userService.login( model.userOrEmail, model.password );
 			model.dismiss();
+			} catch( e ) {
+				if( e.status === 401 ) {
+					// login disabled
+					model.dismiss();
+					this.modalService.openDialog( this.modalService.DIALOG_TYPE.LOGIN_BLOCKED );
+					return;
+				}
+				model.error.backend = e.message;
+			}
 		}
+	}
+
+	async fogotPassword( model ) {
+		console.log(model);
 	}
 
 	async logout() {
@@ -132,7 +191,7 @@ class ApplicationController {
 					this.modalService.openDialog( this.modalService.DIALOG_TYPE.PREREG_SUCCESFUL );
 					return;
 				}
-				console.error(e);
+				model.error.backend = e.message;
 			}
 		}
 	}
@@ -142,9 +201,9 @@ class ApplicationController {
 			return false;
 		}
 
-		// if( !Validator.validatePasswordStrength( model.password ) ) {
-		// 	return false;
-		// }
+		if( !Validator.validatePasswordStrength( model.password ) ) {
+			return false;
+		}
 
 		if( Validator.isFieldEmpty( model.username ) ) {
 			return false

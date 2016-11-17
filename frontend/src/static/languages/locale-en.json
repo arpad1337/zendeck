@@ -146,12 +146,26 @@
 			"MESSAGE": "You have succesfully registered to the ZenDeck Beta test. We will let you know once your account gets activated, please keep an eye on your inbox.<br><br>Thank you!",
 			"OK": "Dismiss"
 		},
+		"REGISTER": {
+			"TITLE": "Sign up to ZenDeck",
+			"EMAIL": "Email",
+			"PASSWORD": "Password",
+			"USERNAME": "Username",
+			"FULLNAME": "Fullname",
+			"IS_BUSINESS": "Business Account?",
+			"PLACEHOLDER": "Type here",
+			"YES": "Yes",
+			"NO": "No",
+			"OK": "Sign up",
+			"CANCEL": "Cancel"
+		},
 		"LOGIN": {
 			"TITLE": "Login to your account",
 			"EMAIL_OR_USERNAME": "Email or username",
 			"EMAIL_OR_USERNAME_PLACEHOLDER": "email@example.com",
 			"PASSWORD": "Password",
 			"PASSWORD_PLACEHOLDER": "password",
+			"FORGOT_PASSWORD_CTA": "Forgot password?",
 			"OK": "Login",
 			"CANCEL": "Cancel"
 		},
@@ -185,6 +199,11 @@
 			"TITLE": "Oops, seems like {{friendName}} has already joined to ZenDeck",
 			"MESSAGE": "We sent a frient request behalf of you, once it gets accepted, we will let you know",
 			"OK": "Cool"
+		},
+		"LOGIN_BLOCKED": {
+			"TITLE": "Login blocked",
+			"MESSAGE": "Due to too many login attempts we temporary blocked your account. Please try again later.",
+			"OK": "Understood"
 		}
 	},
 	"ABOUT": {

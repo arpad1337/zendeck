@@ -12,7 +12,8 @@ const DIALOG_TYPE = new Enum([
 	'LOGOUT',
 	'ERROR',
 	'SUBSCRIPTION_SUCCESFUL',
-	'PREREG_SUCCESFUL'
+	'PREREG_SUCCESFUL',
+	'LOGIN_BLOCKED'
 ], 'DIALOG_TYPE');
 
 const DIALOG_DESCIPTORS = {};
@@ -32,6 +33,10 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.SUBSCRIPTION_SUCCESFUL.toString() ] = {
 DIALOG_DESCIPTORS[ DIALOG_TYPE.PREREG_SUCCESFUL.toString() ] = {
 	templateUrl: 'partials/dialog/prereg-successful.tpl.html'
 };
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.LOGIN_BLOCKED.toString() ] = {
+	templateUrl: 'partials/dialog/login-blocked.tpl.html'
+}
 
 export {
 	DIALOG_TYPE,

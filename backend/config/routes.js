@@ -7,7 +7,8 @@ const ROUTES = [
 		path: '/auth/login',
 		controller: 'auth',
 		action: 'login',
-		method: 'post'
+		method: 'post',
+		middlewares: ['rate-limiter']
 	},
 	{
 		path: '/auth/logout',

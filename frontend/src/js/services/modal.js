@@ -83,7 +83,7 @@ class ModalService {
 		return function() {
 			if( callback && typeof callback === 'function' ) {
 				try {
-					callback(scope);
+					return callback(scope);
 				} catch( e ) {
 
 				}

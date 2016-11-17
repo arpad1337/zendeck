@@ -40,9 +40,25 @@ $TRANSITION-DURATION: 0.3s;
 			@extend .clear;
 		}
 
+		a {
+			color: $SECONDARY-DARK;
+			&:hover {
+				color: $SECONDARY-LIGHT;
+			}
+		}
+
 		.hint {
 			color: #666;
   			font-size: 12px;
+  			display: inline-block;
+  			&.positive,
+  			.positive {
+  				color: $GREEN;
+  			}
+  			&.negative,
+  			.negative {
+  				color: $RED;
+  			}
   			&:before {
   				content: " ";
   				display: inline-block;
@@ -60,7 +76,7 @@ $TRANSITION-DURATION: 0.3s;
 		* > input[type="password"] {
 			border: 1px solid #fff;
 			padding: 10px;
-			min-width: 200px;
+			min-width: 260px;
 			background: $WHITE;
 			&:hover, &:focus {
 				background: $FOOTER-LIGHT;
@@ -117,9 +133,14 @@ $TRANSITION-DURATION: 0.3s;
 
 		@extend .clear;
 
+		.secondary-actions {
+			float: left;
+			line-height: 29px;
+		}
+
 		.actions {
 			float: right;
-			> button {
+			button {
 				border: 1px solid $SECONDARY-LIGHT;
 				font-size: 16px;
 			}

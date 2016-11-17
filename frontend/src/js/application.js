@@ -30,6 +30,7 @@ import FeedService from './services/feed';
 
 import PostingBoxComponent from './components/posting-box';
 import PostingBoxTagComponent from './components/posting-box-tag';
+import ModalButtonComponent from './components/modal-button';
 
 // I N T E R C E P T O R S
 
@@ -52,5 +53,6 @@ module.service( 'FeedService', FeedService );
 
 module.directive( 'postingBox', createComponent( PostingBoxComponent ) );
 module.directive( 'postingBoxTag', createComponent( PostingBoxTagComponent ) );
+module.directive( 'modalButton', createComponent( ModalButtonComponent ) );
 
 module.factory('sessionInterceptor', [...SessionInterceptor.$inject, (...params) => new SessionInterceptor(...params) ]);
