@@ -71,8 +71,8 @@ class ApplicationController {
 			error: {
 				usernameOrEmail: null,
 				backend: null,
-				gotoForgotPassword: this.openForgotPasswordModal.bind(this)
-			}
+			},
+			gotoForgotPassword: this.openForgotPasswordModal.bind(this)
 		}, this.login.bind( this ) ).then(console.log.bind(console));
 	}
 

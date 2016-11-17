@@ -186,7 +186,11 @@ registerTask('copy-static', () => {
 	const partialFilesFolder = [ SRC_FOLDER, 'static', 'partials', '*.*' ].join( '/' );
 	const viewFilesFolder = [ SRC_FOLDER, 'static', 'views', '*.*' ].join( '/' );
 	const languageFilesFolder = [ SRC_FOLDER, 'static', 'languages', '*.*' ].join( '/' );
-	const searchPaths = [staticFilesFolder].concat( '!' + partialFilesFolder ).concat( '!' + viewFilesFolder ).concat( '!' + imageFilesFolder ).concat( '!' + languageFilesFolder );
+	const searchPaths = [staticFilesFolder]
+		.concat( '!' + partialFilesFolder )
+		.concat( '!' + viewFilesFolder )
+		.concat( '!' + imageFilesFolder )
+		.concat( '!' + languageFilesFolder );
 
 	WATCHES.push({
 		taskName: 'copy-static',
@@ -218,6 +222,20 @@ registerTask('copy-images', () => {
         }))
 		.pipe( gulp.dest( BUILD_FOLDER + '/img' ) )
 		.pipe( gulp.dest( DISTRIBUTION_FOLDER + '/img' ) );
+});
+
+registerTask('copy-favicons', () => {
+	const searchPaths = [ SRC_FOLDER + '/static/*', '!' + SRC_FOLDER + '/static/index.html' ];
+
+	WATCHES.push({
+		taskName: 'copy-favicons',
+		paths: searchPaths
+	});
+
+	return gulp
+		.src( searchPaths )
+		.pipe( gulp.dest( BUILD_FOLDER ) )
+		.pipe( gulp.dest( DISTRIBUTION_FOLDER  ) );
 });
 
 registerTask('build-index', () => {

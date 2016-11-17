@@ -4,11 +4,13 @@
 
 const UserService = require( './user' );
 const Util = require('../../util/util');
+const OTP_SECRET = require('../../config/secrets').OTP_SECRET;
 
 class AuthService {
 
-	constructor( userService ) {
+	constructor( userService, emailProvider ) {
 		this.userService = userService;
+		this.emailProvider = emailProvider;
 	}
 
 	login( usernameOrEmail, password ) {
@@ -38,10 +40,40 @@ class AuthService {
 		});
 	}
 
+	forgotPassword( usernameOrEmail ) {
+		return this.searchUserByKeyword( usernameOrEmail ).then((user) => {
+			if( user ) {
+				const OTPModel = this.databaseProvider.getModelByName( 'otp' );
+				const OTP = Math.floor( Math.random() * (1000000 - 1) );
+				const signature = Util.createSignatureForKey( OTP, OTP_SECRET );
+				const now = new Date();
+				return OTPModel.create({
+					userId: user.id,
+					pincode: signature,
+					expiration: ( now.setSeconds( now.getSeconds() + 60 * 5 ) ),
+					type: 'PASSWORD_RESET'
+				}).then(() => {
+					return this.emailProvider.sendForgotPasswordEmail( user.fullname, user.email, OTP );
+				}).then(() => {
+					return true;
+				}).catch(() => {
+					return false;
+				});
+			}
+			throw new Error('User not found');
+		});
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const userService = UserService.instance;
-			this.singleton = new AuthService( userService );
+			const emailProvider = { // mock for now
+				sendForgotPasswordEmail: () => {
+					console.log( arguments );
+					return Promise.resolve(true);
+				}
+			}
+			this.singleton = new AuthService( userService, emailProvider );
 		}
 		return this.singleton;
 	}

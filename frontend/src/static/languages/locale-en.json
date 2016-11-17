@@ -169,6 +169,13 @@
 			"OK": "Login",
 			"CANCEL": "Cancel"
 		},
+		"FORGOT_PASSWORD": {
+			"TITLE": "Forgot password",
+			"EMAIL_OR_USERNAME": "Email or username",
+			"EMAIL_OR_USERNAME_PLACEHOLDER": "email@example.com",
+			"OK": "Send reset link",
+			"CANCEL": "Cancel"
+		},
 		"SEND_NEW_MESSAGE": {
 			"TITLE": "Send new message",
 			"SELECT_RECIPIENT": "Select recipient",

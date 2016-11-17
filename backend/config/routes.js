@@ -23,6 +23,18 @@ const ROUTES = [
 		method: 'post'
 	},
 	{
+		path: '/auth/forgot-password',
+		controller: 'auth',
+		action: 'forgotPassword',
+		method: 'post'
+	},
+	{
+		path: '/auth/password-reset',
+		controller: 'auth',
+		action: 'resetPassword',
+		method: 'post'
+	},
+	{
 		path: '/user/me',
 		controller: 'user',
 		action: 'getCurrentUser',

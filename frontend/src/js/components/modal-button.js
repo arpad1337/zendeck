@@ -25,7 +25,6 @@ class ModalButtonComponent {
 
 	constructor() {
 		this.buttonEnabled = true;
-		console.log('ke?',this);
 	}
 
 	async commit() {

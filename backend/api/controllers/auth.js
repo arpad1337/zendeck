@@ -18,7 +18,7 @@ class AuthController {
 			context.session.user = user;
 			context.body = user;
 		} catch( e ) {
-			context.throw( e.message, 403 );
+			context.throw( 403, e.message );
 		}
 	}
 
@@ -38,10 +38,22 @@ class AuthController {
 			context.body = user;
 		} catch(e) {
 			if( e.message === 'User login disabled' ) {
-				context.throw( e.message, 403 );
+				context.throw( 403, e.message );
 				return;
 			}
-			context.throw( e.message, 400 );
+			context.throw( 400, e.message );
+		}
+	}
+
+	*fogotPassword( context ) {
+		const usernameOrEmail = context.request.fields;
+		try {
+			let status = this.authService.forgotPassword( usernameOrEmail );
+			context.body = {
+				status: status
+			};
+		} catch( e ) {
+			this.throw( 404, e.message );
 		}
 	}
 

@@ -2,6 +2,11 @@ section[role="features"] {
 	background: $SECONDARY-LIGHT;
 	color: $WHITE;
 	width: 100%;
+	h3 {
+		font-weight: normal;
+		text-align: center;
+		font-size: 24px;
+	}
 	.fwrap {
 		max-width: 944px;
 		margin: auto;
