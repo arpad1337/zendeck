@@ -64,7 +64,8 @@ class UserService {
 			email: payload.email,
 			password: payload.password,
 			fullname: payload.fullname,
-			isBusiness: payload.isBusiness
+			isBusiness: payload.isBusiness,
+			termsAccepted: payload.termsAccepted
 		});
 	}
 

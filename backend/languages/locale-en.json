@@ -1,0 +1,14 @@
+{
+	"EMAIL": {
+		"COMMON": {
+			"FOOTER": "&copy; ZenDeck.co"
+		},
+		"FORGOT_PASSWORD": {
+			"SUBJECT": "Password reset requested at ZenDeck.co",
+			"TITLE": "Password reset requested",
+			"DESCIPTION": "You have requested a password reset at ZenDeck.co",
+			"ACTION": "Reset my password",
+			"BODY": "<h2>Dear {{USERNAME}}</h2><p>You have requested a password reset at {{DATE}}. Click the link below:</p>"
+		}
+	}
+}

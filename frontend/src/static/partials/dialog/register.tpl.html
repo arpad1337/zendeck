@@ -46,6 +46,11 @@
                         ng-model="isBusiness" value="false" ng-checked="true"> {{ 'MODALS.REGISTER.NO' | translate }} 
                     </label>
                 </p>
+                <p class="stretch">
+                    <label for="tac">I accept the <a ui-sref="tac">terms &amp; conditions</a>
+                        <input type="checkbox" id="tac" ng-model="termsAccepted">
+                    </label>
+                </p>
             </form>
         </div>
         <div class="secondary-actions">

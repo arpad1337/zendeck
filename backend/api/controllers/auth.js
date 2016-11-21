@@ -29,8 +29,9 @@ class AuthController {
 		const password = fields.password;
 		const fullname = fields.fullname;
 		const isBusiness = fields.isBusiness;
+		const termsAccepted = fields.termsAccepted;
 		try {
-			let user = yield this.authService.register( email, password, username, fullname, isBusiness );
+			let user = yield this.authService.register( email, password, username, fullname, isBusiness, termsAccepted );
 			if( !user.enabled ) {
 				throw new Error('User login disabled');
 			}
@@ -45,16 +46,21 @@ class AuthController {
 		}
 	}
 
-	*fogotPassword( context ) {
-		const usernameOrEmail = context.request.fields;
+	*forgotPassword( context ) {
+		const usernameOrEmail = context.request.fields.usernameOrEmail;
 		try {
-			let status = this.authService.forgotPassword( usernameOrEmail );
+			let status = yield this.authService.forgotPassword( usernameOrEmail );
 			context.body = {
 				status: status
 			};
 		} catch( e ) {
-			this.throw( 404, e.message );
+			console.error(e.message, e.stack);
+			context.throw( 404, e.message );
 		}
+	}
+
+	*resetPassword( context ) {
+
 	}
 
 	*logout( context ) {

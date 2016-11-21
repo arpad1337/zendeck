@@ -5,10 +5,14 @@
 const UserService = require( './user' );
 const Util = require('../../util/util');
 const OTP_SECRET = require('../../config/secrets').OTP_SECRET;
+const HTMLEMailFactory = require('../../util/html-email-factory');
+const DatabaseProvider = require('../../providers/database');
+const EmailProvider = require('../../providers/email');
 
 class AuthService {
 
-	constructor( userService, emailProvider ) {
+	constructor( databaseProvider, userService, emailProvider ) {
+		this.databaseProvider = databaseProvider;
 		this.userService = userService;
 		this.emailProvider = emailProvider;
 	}
@@ -25,13 +29,17 @@ class AuthService {
 		});
 	}
 
-	register( email, password, username, fullname, isBusiness ) {
+	register( email, password, username, fullname, isBusiness, termsAccepted ) {
+		if( !termsAccepted ) {
+			throw new Error('Terms and conditions not accepted');
+		}
 		return this.userService.createUser({
 			email: email,
 			password: Util.createSHA256Hash( password ),
 			username: username,
 			fullname: fullname,
-			isBusiness: isBusiness
+			isBusiness: isBusiness,
+			termsAccepted: termsAccepted
 		}).then((user) => {
 			if( user ) {
 				return this.userService.getUserById( user.id );
@@ -41,22 +49,29 @@ class AuthService {
 	}
 
 	forgotPassword( usernameOrEmail ) {
-		return this.searchUserByKeyword( usernameOrEmail ).then((user) => {
+		return this.userService.searchUserByKeyword( usernameOrEmail ).then((user) => {
 			if( user ) {
 				const OTPModel = this.databaseProvider.getModelByName( 'otp' );
 				const OTP = Math.floor( Math.random() * (1000000 - 1) );
 				const signature = Util.createSignatureForKey( OTP, OTP_SECRET );
 				const now = new Date();
+				const later = new Date();
 				return OTPModel.create({
 					userId: user.id,
 					pincode: signature,
-					expiration: ( now.setSeconds( now.getSeconds() + 60 * 5 ) ),
+					expiration: ( later.setSeconds( now.getSeconds() + 60 * 5 ) ),
 					type: 'PASSWORD_RESET'
 				}).then(() => {
-					return this.emailProvider.sendForgotPasswordEmail( user.fullname, user.email, OTP );
+					const email = HTMLEMailFactory.createPasswordResetEmail({
+						ACTION_URL: 'http://dev.zendeck.co/#/password-reset/' + signature,
+						USERNAME: user.username,
+						DATE: now
+					});
+					return this.emailProvider.sendEmail( user.email, email.subject, email.body );
 				}).then(() => {
 					return true;
-				}).catch(() => {
+				}).catch((e) => {
+					console.log(e, e.stack);
 					return false;
 				});
 			}
@@ -66,14 +81,10 @@ class AuthService {
 
 	static get instance() {
 		if( !this.singleton ) {
+			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
-			const emailProvider = { // mock for now
-				sendForgotPasswordEmail: () => {
-					console.log( arguments );
-					return Promise.resolve(true);
-				}
-			}
-			this.singleton = new AuthService( userService, emailProvider );
+			const emailProvider = EmailProvider.instance;
+			this.singleton = new AuthService( databaseProvider, userService, emailProvider );
 		}
 		return this.singleton;
 	}

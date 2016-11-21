@@ -91,10 +91,13 @@ class ApplicationController {
 			isUsernameAvailable: true,
 			isEmailNotRegistered: true,
 			isBusiness: false,
+			termsAccepted: false,
 			gotoLogin: this.openLoginModal.bind( this ),
 			error: {
 				password: null,
 				email: null,
+				username: null,
+				termsAccepted: null,
 				backend: null
 			}
 		}
@@ -181,7 +184,8 @@ class ApplicationController {
 					fullname: model.fullname,
 					password: model.password,
 					email: model.email,
-					isBusiness: (model.isBusiness == "true")
+					isBusiness: (model.isBusiness == "true"),
+					termsAccepted: model.termsAccepted
 				});
 				model.dismiss();
 			} catch( e ) {
@@ -209,13 +213,17 @@ class ApplicationController {
 			return false
 		}
 
+		if( !model.termsAccepted ) {
+			return false;
+		}
+
 		return true;
 	}
 
 	validateLogin( model ) {
-		// if( !Validator.validatePasswordStrength( model.password ) ) {
-		// 	return false;
-		// }
+		if( Validator.isFieldEmpty( model.password ) ) {
+			return false;
+		}
 
 		if( Validator.isFieldEmpty( model.userOrEmail ) ) {
 			return false
