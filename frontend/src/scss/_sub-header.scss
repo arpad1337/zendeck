@@ -1,9 +1,10 @@
 main > header {
-	height: 300px;
+	height: 400px;
 	margin: -2px -2px 0;
 	position: relative;
 	z-index: 100;
-	background-size: cover;
+	background-size: cover !important;
+	background-position-y: 50% !important;
 	h1 {
 		text-align: center;
 		margin: 0;

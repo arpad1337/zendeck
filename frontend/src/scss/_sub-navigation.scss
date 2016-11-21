@@ -102,6 +102,11 @@ main > nav {
 			background-repeat: no-repeat;
 			background-size: 15px 15px;
 		}
+		&.hearth:after {
+			background-image: url(../img/hearth-white.png);
+			background-repeat: no-repeat;
+			background-size: 16px 16px;
+		}
 		&.star:after {
 			background-image: url(../img/star.png);
 			background-repeat: no-repeat;

@@ -13,7 +13,7 @@
 		"SUB_MENU": {
 			"FEED": "Feed",
 			"MEMBERS": "Members",
-			"STARRED": "Starred",
+			"LIKED": "Liked",
 			"JOIN_GROUP": "Join group",
 			"INVITE_FRIENDS": "Invite friends",
 			"CREATE_FILTER": "Create filter",
@@ -91,7 +91,7 @@
 	},
 	"FEED": {
 		"POSTS_TITLE": "Posts",
-		"STARRED_TITLE": "Starred posts",
+		"LIKED_TITLE": "Liked posts",
 		"FILTERED_TITLE": "Posts by",
 		"LINK_PREVIEW_TITLE": "Link preview",
 		"SAVE_FILTER": "Save",

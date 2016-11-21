@@ -33,6 +33,34 @@ body > header nav {
 	}
 }
 
+.post {
+	width: auto !important;
+}
+
+.post .head .labels {
+	clear: both;
+}
+.post .head .star {
+	position: relative !important;
+	float: left !important;
+	top: 0 !important;
+	right: 0 !important;
+	margin-top: -1px;
+	clear: right;
+}
+.post .head .hearth {
+	text-align: left !important;
+	position: relative !important;
+	top: 0 !important;
+	right: 0 !important;
+	float: left;
+	margin: 10px auto;
+	&:after {
+		float: left !important;
+		margin-right: 4px;
+	}
+}
+
 .modal .container {
 	width: calc(100% - 40px) !important;
 	max-width: 578px;

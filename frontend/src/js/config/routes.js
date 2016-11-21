@@ -53,10 +53,10 @@ const ROUTES = [
 	},
 
 	{
-		state: STATES.APPLICATION.FEED.STARRED,
+		state: STATES.APPLICATION.FEED.LIKED,
 		opts: {
-			path: '/starred',
-			view: 'views/feed/starred.tpl.html',
+			path: '/liked',
+			view: 'views/feed/liked.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},

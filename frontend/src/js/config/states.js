@@ -9,7 +9,7 @@ const STATES = {
 		FEED: {
 			SELF: 'feed',
 			POSTS: 'feed.posts',
-			STARRED: 'feed.starred',
+			LIKED: 'feed.liked',
 			FILTERED: 'feed.filtered'
 		},
 		GROUPS: {
