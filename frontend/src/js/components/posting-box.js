@@ -90,7 +90,7 @@ class PostingBoxComponent {
 		if( tag.length < 3 ) {
 			return;
 		}
-		if( this.newPost.tags.indexOf( tag ) === -1 ) {
+		if( this.newPost.tags.length <= 20 && this.newPost.tags.indexOf( tag ) === -1 ) {
 			this.newPost.tags.push( tag );
 		}
 	}

@@ -120,5 +120,20 @@ module.filter("htmlSafe", ['$sce', function($sce) {
     };
 }]);
 
+module.filter('pretifyNumber', function(){
+	return function( value ) {
+		const stringValue = String( value );
+		if( value.length > 9 ) {
+			return value.substr( 0, value.length - 9 ) +'b';
+		}
+		else if( value.length > 6 ) {
+			return value.substr( 0, value.length - 6 ) +'m';
+		}
+		else if( value.length > 3) {
+			return value.substr( 0, value.length - 3 ) +'k';
+		}
+	};
+})
+
 export default module;
 

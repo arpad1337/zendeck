@@ -57,6 +57,23 @@ class UserService {
 		}).then( model => model.getPublicView() );
 	}
 
+	getUsersByIds( ids ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		return UserModel.find({
+			where: {
+				id: ids,
+				enabled: true,
+				$or: [{
+					status: 'SUBMITED'
+				}, {
+					status: 'REGISTERED'
+				}]
+			}
+		}).then( models => {
+			return models.map( model => model.getPublicView() );
+		});
+	}
+
 	createUser( payload ) {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		return UserModel.create({
@@ -66,6 +83,15 @@ class UserService {
 			fullname: payload.fullname,
 			isBusiness: payload.isBusiness,
 			termsAccepted: payload.termsAccepted
+		});
+	}
+
+	updateUser( id, payload ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		return UserModel.update( payload, {
+			where: {
+				id: id
+			}
 		});
 	}
 

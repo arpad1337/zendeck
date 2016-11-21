@@ -35,8 +35,15 @@ class ApplicationController {
 			if( newState.name === STATES.LANDING && this.isUserLoggedIn ) {
 				e.preventDefault();
 				this.$state.go( STATES.APPLICATION.FEED.POSTS );
+				return;
 			}
-		})
+			if( newState.name === STATES.PASSWORD_RESET ) {
+				e.preventDefault();
+				let otpSignature = this.$state.params.token;
+				this.openPasswordResetModal( otpSignature );
+				return;
+			}
+		});
 		this.userService.getCurrentUser();
 	}
 
@@ -64,6 +71,16 @@ class ApplicationController {
 			return;
 		}
 		this.$state.go(STATES.LANDING);
+	}
+
+	openPasswordResetModal( signature ) {
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.PASSWORD_RESET, {
+			signature: signature,
+			error: {
+				backend: null,
+				usernameOrEmail: null
+			}
+		}, this.resetPassword.bind( this )).then(console.log.bind(console));
 	}
 
 	openLoginModal() {
@@ -149,7 +166,6 @@ class ApplicationController {
 	}
 
 	async login( model ) {
-		console.log(model);
 		if( this.validateLogin( model ) ) {
 			try {
 			await this.userService.login( model.userOrEmail, model.password );
@@ -161,13 +177,41 @@ class ApplicationController {
 					this.modalService.openDialog( this.modalService.DIALOG_TYPE.LOGIN_BLOCKED );
 					return;
 				}
-				model.error.backend = e.message;
+				model.error.backend = e.data;
 			}
 		}
 	}
 
 	async fogotPassword( model ) {
-		console.log(model);
+		try {
+			await this.userService.fogotPassword( model.usernameOrEmail );
+			model.dismiss();
+			this.modalService.openDialog( this.modalService.DIALOG_TYPE.PASSWORD_RESET_SENT );
+		} catch(e) {
+			model.error.backend = e.message;
+		}
+	}
+
+	async resetPassword( model ) {
+		try {
+			console.log(model);
+			await this.userService.resetPassword( model.signature, model.password );
+			model.dismiss();
+			this.$state.go( STATES.APPLICATION.FEED.POSTS );
+		} catch(e) {
+			switch( e.status ) {
+				case 403: {
+					model.dismiss();
+					this.modalService.openDialog( this.modalService.DIALOG_TYPE.LOGIN_DISABLED );
+					return;
+					break;
+				}
+				case 400: {
+					break;
+				}
+			}
+			model.error.backend = e.data;
+		}
 	}
 
 	async logout() {
@@ -195,7 +239,7 @@ class ApplicationController {
 					this.modalService.openDialog( this.modalService.DIALOG_TYPE.PREREG_SUCCESFUL );
 					return;
 				}
-				model.error.backend = e.message;
+				model.error.backend = e.data;
 			}
 		}
 	}

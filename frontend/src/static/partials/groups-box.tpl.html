@@ -1,0 +1,14 @@
+<section role="groups-sidebar">
+    <h4>Groups</h4>
+    <ul ng-if="ctrl.groups">
+        <li
+        	ng-repeat="group in ctrl.groups track by $index"
+        >
+        	<a ui-sref="groups.groupByName({slug:group.slug})">{{group.name}} <span>{{group.newPosts}}</span></a>
+        </li>
+    </ul>
+    <div ng-if="ctrl.groups.length === 0" class="empty">
+        You have no groups yet. Why not searching?
+    </div>
+    <a ng-click="ctrl.openCreateGroupModal()">Create group</a>
+</section>

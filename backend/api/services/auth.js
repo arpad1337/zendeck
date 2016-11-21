@@ -9,6 +9,8 @@ const HTMLEMailFactory = require('../../util/html-email-factory');
 const DatabaseProvider = require('../../providers/database');
 const EmailProvider = require('../../providers/email');
 
+const ENV = require('../../config/environment');
+
 class AuthService {
 
 	constructor( databaseProvider, userService, emailProvider ) {
@@ -25,7 +27,7 @@ class AuthService {
 			) {				
 				return this.userService.getUserById( user.id );
 			}
-			throw new Error('User not exists');
+			throw new Error('Password mismatch');
 		});
 	}
 
@@ -44,7 +46,7 @@ class AuthService {
 			if( user ) {
 				return this.userService.getUserById( user.id );
 			}
-			throw new Error('User not exists');
+			throw new Error('User doesn\'t exists');
 		});
 	}
 
@@ -63,19 +65,56 @@ class AuthService {
 					type: 'PASSWORD_RESET'
 				}).then(() => {
 					const email = HTMLEMailFactory.createPasswordResetEmail({
-						ACTION_URL: 'http://dev.zendeck.co/#/password-reset/' + signature,
-						USERNAME: user.username,
+						ACTION_URL: ENV.BASE_URL + '/#/password-reset/' + signature,
+						USERNAME: user.username.toUpperCase(),
 						DATE: now
 					});
 					return this.emailProvider.sendEmail( user.email, email.subject, email.body );
 				}).then(() => {
 					return true;
 				}).catch((e) => {
-					console.log(e, e.stack);
 					return false;
 				});
 			}
 			throw new Error('User not found');
+		});
+	}
+
+	resetPassword( signature, password ) {
+		const OTPModel = this.databaseProvider.getModelByName( 'otp' );
+		return OTPModel.findOne({
+			where: {
+				pincode: signature
+			}
+		}).then((OTP) => {
+			if(!OTP) {
+				throw new Error('Token mismatch');
+			}
+			OTP = OTP.get();
+			const now = new Date();
+			if( OTP.expiration < now ) {
+				return OTPModel.destroy({
+					where: {
+						id: OTP.id
+					}
+				}).then( _ => {
+					throw new Error('OTP expired');
+				});
+			}
+			return this.userService.getUserById( OTP.userId ).then((user) => {
+				return Promise.all([
+					this.userService.updateUser( user.id, {
+						password: Util.createSHA256Hash( password )
+					}),
+					OTPModel.destroy({
+						where: {
+							id: OTP.id
+						}
+					})
+				]).then( _ => {
+					return user;
+				});
+			});
 		});
 	}
 

@@ -4,6 +4,7 @@
 
 const STATES = {
 	LANDING: 'landing',
+	PASSWORD_RESET: 'password-reset',
 	APPLICATION: {
 		FEED: {
 			SELF: 'feed',

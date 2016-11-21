@@ -1,0 +1,26 @@
+<section role="friends-sidebar">
+    <h4>Friends</h4>
+    <div class="friends">
+        <div ng-if="ctrl.friends.length === 0" class="empty">
+            You have no friends yet. Why not searching?
+        </div>
+        <div
+            ng-repeat="friend in ctrl.friends track by $index"
+            title="@{{friend.username}}"
+        >
+            <a
+                ng-if="friend.photos.small"
+                class="friend" 
+                style="background-image:url('{{friend.photos.small}}')"
+            >
+            </a>
+            <a
+                ng-if="!friend.photos.small"
+                class="friend" 
+                ng-init="startChar = friend.username.substr(0,1)"
+            >
+                {{ startChar }}
+            </a>
+        </div>
+    </div>
+</section>

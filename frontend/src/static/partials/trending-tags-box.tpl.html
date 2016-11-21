@@ -1,0 +1,12 @@
+<section role="trending-tags" ng-if="ctrl.trendingTags">
+    <h4>Trending tags</h4>
+    <div class="labels">
+        <ul>
+            <li ng-repeat="tag in ctrl.trendingTags track by $index">
+                <a ng-click="ctrl.createTemporaryFilterWithTag( tag.name )">
+                    {{tag.name}} ({{tag.postCount | pretifyNumber }})
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>

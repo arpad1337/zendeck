@@ -25,6 +25,7 @@ import MessageBusService from './services/message-bus';
 import ModalService from './services/modal';
 import FilterService from './services/filter';
 import FeedService from './services/feed';
+import FriendService from './services/friend';
 
 // C O M P O N E N T S
 
@@ -50,6 +51,7 @@ module.service( 'UserService', UserService );
 module.service( 'ModalService', ModalService );
 module.service( 'FilterService', FilterService );
 module.service( 'FeedService', FeedService );
+module.service( 'FriendService', FriendService );
 
 module.directive( 'postingBox', createComponent( PostingBoxComponent ) );
 module.directive( 'postingBoxTag', createComponent( PostingBoxTagComponent ) );

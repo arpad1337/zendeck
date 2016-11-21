@@ -51,6 +51,19 @@ class UserService {
 		});
 	}
 
+	fogotPassword( usernameOrEmail ) {
+		return this.$http.post( CONFIG.API_PATH + '/auth/forgot-password', {usernameOrEmail: usernameOrEmail} ).then((r) => {
+			return r.data;
+		});
+	}
+
+	resetPassword( signature, password ) {
+		return this.$http.post( CONFIG.API_PATH + '/auth/reset-password', {signature: signature, password: password} ).then((r) => {
+			this.getCurrentUser();
+			return r.data;
+		});
+	}
+
 	logout() {
 		return this.$http.post( CONFIG.API_PATH + '/auth/logout' ).then((r) => {
 			this._currentUser = null;

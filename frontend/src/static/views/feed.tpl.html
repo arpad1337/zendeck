@@ -37,7 +37,7 @@
                     </li>
                 </ul>
                 <div class="actions">
-                    <a href="create-filter.html" class="create">
+                    <a ng-click="ctrl.openCreateFilterDialog()" class="create">
                         <span>{{ 'HEADER.SUB_MENU.CREATE_FILTER' | translate }}</span>
                     </a>
                 </div>
@@ -47,85 +47,8 @@
                     
                 </div>
                 <aside>
-                    <section role="friends-sidebar">
-                        <h4>Friends</h4>
-                        <div class="friends">
-                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
-                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
-                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
-                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
-                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
-                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
-                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
-                            <div class="friend" style="background-image:url('img/avatar.jpg')"></div>
-                        </div>
-                    </section>
-                    <section role="groups-sidebar">
-                        <h4>Groups</h4>
-                        <ul>
-                            <li><a href="components.html">Frontend Meetup Group <span>4</span></a></li>
-                            <li><a href="components.html">Frontend Meetup Group</a></li>
-                            <li><a href="components.html">Frontend Meetup Group</a></li>
-                            <li><a href="components.html">Frontend Meetup Group</a></li>
-                        </ul>
-                        <a href="create-group.html">Create group</a>
-                    </section>
-                    <section role="trending-tags">
-                        <h4>Trending tags</h4>
-                        <div class="labels">
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        article (12)
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        marketing (14)
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        customer development (33)
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        inbound (2)
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        discussion
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        discussion
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        discussion
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        discussion
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        discussion
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        discussion
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </section>
+                    <div ng-include="'partials/friends-box.tpl.html'"></div>
+                    <div ng-include="'partials/groups-box.tpl.html'"></div>
+                    <div ng-include="'partials/trending-tags-box.tpl.html'"></div>
                 </aside>
             </div>

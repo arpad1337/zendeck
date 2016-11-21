@@ -3,17 +3,18 @@
  */
 
 const UserService = require( '../services/user' );
+const FriendService = require( '../services/friend' );
 
 class UserController {
 
-	constructor( userService ) {
+	constructor( userService, friendService ) {
 		this.userService = userService;
+		this.friendService = friendService;
 	}
 
 	*getCurrentUser( context ) {
 		let id = context.session.user.id;
 		try {
-			console.log(this);
 			let user = yield this.userService.getUserById( id );
 			context.body = user;
 		} catch( e ) {
@@ -27,6 +28,9 @@ class UserController {
 		username = String( username ).trim();
 		try {
 			let user = yield this.userService.getUserByUsername( username );
+			if( context.session && context.session.user && context.session.user.id ) {
+				this.friendService.touchFriendByUsername( context.session.user.id, username );
+			}
 			context.body = user;
 		} catch( e ) {
 			this.throw( 404 );
@@ -36,6 +40,7 @@ class UserController {
 	static get instance() {
 		if( !this.singleton ) {
 			const userService = UserService.instance;
+			const friendService = FriendService.instance;
 			this.singleton = new UserController( userService );
 		}
 		return this.singleton;

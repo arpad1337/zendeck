@@ -44,6 +44,9 @@ module.exports = {
 				type: TYPES.BOOLEAN,
 				defaultValue: false
 			},
+			about: {
+				type: TYPES.TEXT
+			},
 			enabled: {
 				type: TYPES.BOOLEAN,
 				defaultValue: false

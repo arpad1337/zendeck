@@ -52,6 +52,7 @@ main > nav {
 		font-size: 14px;
 		line-height: 18px;
 		display: inline-block;
+		cursor: pointer;
 		&.filter {
 			& + ul {
 				display: none;
@@ -59,7 +60,7 @@ main > nav {
 				z-index: 103;
 				top: 26px;
 				left: 0;
-				width: auto;
+				width: 120px;
 				padding: 0 !important;
 				li {
 					background: $SECONDARY-LIGHT;

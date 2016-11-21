@@ -94,8 +94,7 @@
 		"STARRED_TITLE": "Starred posts",
 		"FILTERED_TITLE": "Posts by",
 		"LINK_PREVIEW_TITLE": "Link preview",
-		"SAVE_TO_COLLECTION": "Save",
-		"SAVE_TO_COLLECTION_TOOLTIP": "It is a shared filter. Save \"{{filterName}}\" to collection:",
+		"SAVE_FILTER": "Save",
 		"LINK_PREVIEW": "<span>{{author}}</span> from <span>{{medium}}</span>",
 		"POST_ENTRY": {
 			"IN_GROUP": "from <a href=\"{{groupUrl}}\">{{groupName}} Group</a>",
@@ -176,6 +175,18 @@
 			"OK": "Send reset link",
 			"CANCEL": "Cancel"
 		},
+		"PASSWORD_RESET": {
+			"TITLE": "Set new password",
+			"PASSWORD": "New password",
+			"PASSWORD_PLACEHOLDER": "password",
+			"OK": "Update password & log in",
+			"CANCEL": "Cancel"
+		},
+		"PASSWORD_RESET_SENT": {
+			"TITLE": "Password reset link sent",
+			"MESSAGE": "You have succesfully requested a password reset. Please check your inbox and follow the link to set a new password.",
+			"OK": "Dismiss"
+		},
 		"SEND_NEW_MESSAGE": {
 			"TITLE": "Send new message",
 			"SELECT_RECIPIENT": "Select recipient",
@@ -187,8 +198,10 @@
 		"CREATE_FILTER": {
 			"TITLE": "Create filter",
 			"FILTER_NAME": "Name of the filter",
+			"FILTER_NAME_PLACEHOLDER": "Type here",
 			"PLACEHOLDER": "Type a title",
 			"OK": "Create",
+			"SAVE": "Save",
 			"CANCEL": "Cancel"
 		},
 		"INVITE_FRIEND": {
@@ -210,6 +223,11 @@
 		"LOGIN_BLOCKED": {
 			"TITLE": "Login blocked",
 			"MESSAGE": "Due to too many login attempts we temporary blocked your account. Please try again later.",
+			"OK": "Understood"
+		},
+		"LOGIN_DISABLED": {
+			"TITLE": "Login blocked",
+			"MESSAGE": "Seems like this account has been disabled, unable to log in.",
 			"OK": "Understood"
 		}
 	},

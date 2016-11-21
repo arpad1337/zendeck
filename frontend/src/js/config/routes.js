@@ -23,6 +23,12 @@ const ROUTES = [
 			view: 'views/about.tpl.html'
 		}
 	},
+	{
+		state: STATES.PASSWORD_RESET,
+		opts: {
+			path: '/password-reset/:token'
+		}
+	},
 
 	// FEED
 

@@ -9,33 +9,26 @@ const connection = databaseProvider.connection;
 const sequelizeModelHelper = require('../util/sequelize-model-helper');
 
 const model = sequelizeModelHelper.buildModel(
-	'otp',
+	'friend',
 	{
 		userId: {
 			field: 'user_id',
 			type: TYPES.INTEGER,
 			allowNull: false
 		},
-		pincode: {
-			type: TYPES.STRING(128) // ONLY A HASH
-		},
-		type: {
-			type: TYPES.ENUM,
-			values: [
-				'PASSWORD_RESET',
-				'TWO_FACTOR_AUTH'
-			],
-			defaultValue: 'PASSWORD_RESET'
-		},
-		expiration: {
-			type: TYPES.DATE
+		friendId: {
+			field: 'friend_id',
+			type: TYPES.INTEGER,
+			allowNull: false
 		}
 	},
 	[
-		sequelizeModelHelper.TIMESTAMPS_SETTINGS
+		sequelizeModelHelper.TIMESTAMPS_SETTINGS,
+		sequelizeModelHelper.PARANOID_MODEL_SETTINGS
 	]
+
 );
 
-const OTP = connection.define( 'OTP', model.schema, model.settings );
+const Friend = connection.define( 'Friend', model.schema, model.settings );
 
-module.exports = OTP;
+module.exports = Friend;

@@ -60,7 +60,22 @@ class AuthController {
 	}
 
 	*resetPassword( context ) {
-
+		const signature = context.request.fields.signature;
+		const password = context.request.fields.password;
+		try {
+			let user = yield this.authService.resetPassword( signature, password );
+			if( !user.enabled ) {
+				throw new Error('User login disabled');
+			}
+			context.session.user = user;
+			context.body = user;
+		} catch(e) {
+			if( e.message === 'User login disabled' ) {
+				context.throw( 403, e.message );
+				return;
+			}
+			context.throw( 400, e.message );
+		}
 	}
 
 	*logout( context ) {

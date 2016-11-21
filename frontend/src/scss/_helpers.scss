@@ -48,6 +48,17 @@
 	}
 }
 
+section {
+	.empty {
+		text-align: center;
+		padding: 10px;
+		font-size: 14px;
+	}
+	.pl0 {
+		padding-left: 0 !important;
+	}
+}
+
 .tooltip {
 	@include transition(all, 0.3s, ease-in-out);
 	background: $SECONDARY-LIGHT;

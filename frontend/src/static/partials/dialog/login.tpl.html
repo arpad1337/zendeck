@@ -12,6 +12,7 @@
                     <label for="password">{{ 'MODALS.LOGIN.PASSWORD' |translate }}*</label>
                     <input type="password" placeholder="{{ 'MODALS.LOGIN.PASSWORD_PLACEHOLDER' |translate }}" id="password" ng-model="password">
                 </p>
+                <p ng-if="error.backend" class="hint negative">{{error.backend}}</p>
             </form>
         </div>
         <div class="secondary-actions">

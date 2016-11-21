@@ -14,7 +14,11 @@ const DIALOG_TYPE = new Enum([
 	'SUBSCRIPTION_SUCCESFUL',
 	'PREREG_SUCCESFUL',
 	'LOGIN_BLOCKED',
-	'FORGOT_PASSWORD'
+	'FORGOT_PASSWORD',
+	'PASSWORD_RESET_SENT',
+	'PASSWORD_RESET',
+	'LOGIN_DISABLED',
+	'CREATE_FILTER'
 ], 'DIALOG_TYPE');
 
 const DIALOG_DESCIPTORS = {};
@@ -41,6 +45,22 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.LOGIN_BLOCKED.toString() ] = {
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.FORGOT_PASSWORD.toString() ] = {
 	templateUrl: 'partials/dialog/forgot-password.tpl.html'
+}
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.PASSWORD_RESET.toString() ] = {
+	templateUrl: 'partials/dialog/password-reset.tpl.html'
+}
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.PASSWORD_RESET_SENT.toString() ] = {
+	templateUrl: 'partials/dialog/password-reset-sent.tpl.html'
+}
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.LOGIN_DISABLED.toString() ] = {
+	templateUrl: 'partials/dialog/login-disabled.tpl.html'
+}
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.CREATE_FILTER.toString() ] = {
+	templateUrl: 'partials/dialog/create-filter.tpl.html'
 }
 
 export {

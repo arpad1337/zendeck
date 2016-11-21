@@ -8,6 +8,9 @@ h4 + .post {
 }
 
 .save-to-collection {
+	position: absolute;
+	top: 10px;
+	right: 0;
 	width: 60px;
 	text-align: right;
 	background-color: $SECONDARY-LIGHT;

@@ -1,10 +1,20 @@
 <section role="feed">
-    <h4>
-    	{{ 'FEED.FILTERED_TITLE' | translate }} 
-    	<span class="label" ng-repeat=" tag in ctrl.currentFilter.tags " >{{ tag }}</span>
-    </h4>
-    <p ng-if="ctrl.currentFilter.shared" ng-include="'partials/shared-filter-cta.tpl.html'">
-    	
-	</p>
+	<h4>{{ ctrl.currentFilter.name }} - {{ 'FEED.FILTERED_TITLE' | translate }}</h4>
+	<div class="create-post">
+    	<ul class="labels pl0">
+	    	<posting-box-tag
+	            ng-repeat="tag in ctrl.currentFilter.tags track by $index"
+	            delegate="ctrl"
+	            tag="tag">
+	        </posting-box-tag>
+	        <posting-box-tag
+	            delegate="ctrl"
+	        >
+	        </posting-box-tag>
+        </ul>
+    </div>
+	<a class="save-to-collection" ng-click="ctrl.saveCurrentFilter()" title="{{'FEED.SAVE_FILTER' | translate}}">
+		{{ 'FEED.SAVE_FILTER' | translate }}
+	</a>
     <post-entry ng-repeat="post in cltr.starred" post="post" delegate="ctrl"></post-entry>
 </section>
