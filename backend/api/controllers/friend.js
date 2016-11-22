@@ -58,6 +58,15 @@ class FriendController {
 		}
 	}
 
+	*getFriendRecommendations( context ) {
+		try {
+			let users = yield this.friendService.getRecommendations( context.session.user.id, context.request.ip ); // todo: IP based recommendation
+			context.body = users;
+		} catch( e ) {
+			context.throw(400, e.message);
+		}
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const friendService = FriendService.instance;

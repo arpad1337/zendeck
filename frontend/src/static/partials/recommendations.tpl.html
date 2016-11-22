@@ -1,0 +1,10 @@
+<p class="message">{{ 'FEED.RECOMMENDATIONS.MESSAGE' | translate }}</p>
+<h4>{{ 'FEED.RECOMMENDATIONS.TITLE' | translate }}</h4>
+<div class="mm5">
+<user-preview-card
+	ng-repeat="user in ctrl.recommendations track by $index"
+	user="user"
+	delegate="ctrl"
+>
+</user-preview-card>
+</div>

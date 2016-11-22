@@ -257,6 +257,10 @@ class ApplicationController {
 			return false
 		}
 
+		if( Validator.isFieldEmpty( model.fullname ) ) {
+			return false
+		}
+
 		if( !model.termsAccepted ) {
 			return false;
 		}

@@ -11,8 +11,9 @@ class FriendService {
 		return 20;
 	}
 
-	constructor( databaseProvider ) {
+	constructor( databaseProvider, userService ) {
 		this.databaseProvider = databaseProvider;
+		this.userService = userService;
 	}
 
 	touchFriendByUsername( userId, friendUsername ) {
@@ -35,11 +36,26 @@ class FriendService {
 		});
 	}
 
+	getAllFriendIdsByUserId( userId ) {
+		const FriendModel = this.databaseProvider.getModelByName( 'friend' );
+		return FriendModel.findAll({
+			where: {
+				userId: userId
+			}
+		}).then((friends) => {
+			if( !friends ) {
+				return [];
+			}
+			return friends.map( i => i.get('friendId') );
+		});
+	}
+
 	getFriendsByUserId( userId, page ) {
+		page = page || 1;
 		const limit = FriendService.LIMIT;
 		const offset = ( Number(page) - 1 ) * limit;
 		const FriendModel = this.databaseProvider.getModelByName( 'friend' );
-		return FriendModel.find({
+		return FriendModel.findAll({
 			where: {
 				userId: userId
 			},
@@ -52,7 +68,7 @@ class FriendService {
 			if( !friends ) {
 				return [];
 			}
-			let friendIds = friends.map( i => i.get('id') );
+			let friendIds = friends.map( i => i.get('friendId') );
 			return this.userService.getUsersByIds( friendIds );
 		});
 	}
@@ -90,11 +106,21 @@ class FriendService {
 		});
 	}
 
+	getRecommendations( userId, ip ) {
+		return this.getAllFriendIdsByUserId( userId ).then((friendIds) => {
+			if( !friendIds ) {
+				return [];
+			}
+			friendIds.push( userId );
+			return this.userService.getRandomUsersWithExcludingIds( friendIds );
+		});
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
-			this.singleton = new FriendService( databaseProvider );
+			this.singleton = new FriendService( databaseProvider, userService );
 		}
 		return this.singleton;
 	}

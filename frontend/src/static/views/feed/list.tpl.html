@@ -1,7 +1,13 @@
 <posting-box 
 	delegate="ctrl"
 ></posting-box>
-<section role="feed">
+<hr>
+<section role="feed" ng-if="ctrl.posts && ctrl.posts.length > 0">
     <h4>{{ 'FEED.POSTS_TITLE' | translate }}</h4>
     <post-entry ng-repeat="post in cltr.posts" post="post" delegate="ctrl"></post-entry>
 </section>
+<section 
+	role="recommendation"
+	ng-if="!ctrl.posts || ctrl.posts.length == 0" 
+	ng-include="'partials/recommendations.tpl.html'"
+></section>

@@ -13,11 +13,12 @@ class FeedController {
 			'FeedService',
 			'FilterService',
 			'FriendService',
+			'UserService',
 			'ModalService'
 		];
 	}
 
-	constructor( $scope, $state, feedService, filterService, friendService, modalService ) {
+	constructor( $scope, $state, feedService, filterService, friendService, userService, modalService ) {
 		this.$scope = $scope;
 		this.$state = $state;
 		this._activeFilter = null;
@@ -25,6 +26,7 @@ class FeedController {
 		this.feedService = feedService;
 		this.friendService = friendService;
 		this.modalService = modalService;
+		this.userService = userService;
 
 		this._initState();
 
@@ -32,12 +34,17 @@ class FeedController {
 	}
 
 	async _initState() {
+		this._page = 1;
 		this.filters = await this.filterService.getUserFilters();
 		if( this.$state.params.filterId ) {
 			this.selectFilter( this.$state.params.filterId );
 		}
 		this.friends = await this.friendService.getCurrentUserFriends(  );
 		this.trendingTags = await this.filterService.getTrendingTags();
+		this.posts = await this.feedService.getFeedByPage( this._page );
+		if( this.posts.length == 0 ) {
+			this.recommendations = await this.userService.getUserRecommendations();
+		}
 		this.groups = [];
 		this.$scope.$digest();
 	}
@@ -176,7 +183,19 @@ class FeedController {
 		return STATES.APPLICATION.FEED;
 	}
 
+	// RECOMMENDATIONS
 
+	async addFriend( username ) {
+		let friend = this.friends.find((f) => {
+			return f.username == username
+		});
+		if( friend ) {
+			await this.friendService.removeFriend( username );
+		} else {
+			await this.friendService.addFriend( username );
+		}
+		this.friends = await this.friendService.getCurrentUserFriends();
+	}
 
 
 }

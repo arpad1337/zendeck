@@ -94,6 +94,10 @@ class UserService {
 		return promise.promise;
 	}
 
+	getUserRecommendations() {
+		return this.$http.get( CONFIG.API_PATH + '/user/me/recommendation' ).then(r => r.data);
+	}
+
 	subscribeToNewsletter( name, email ) {
 		return this.$http.post( CONFIG.API_PATH + '/auth/subscibe', { email: email, fullname: name } ).then( r => r.data ).catch( _ => 'ok' );
 	}

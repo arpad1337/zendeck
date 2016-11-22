@@ -1,6 +1,10 @@
 {
 	"COMMON": {
-		"MORE": "More"
+		"MORE": "More",
+		"ADD_FRIEND": "Add friend",
+		"FOLLOW": "Follow",
+		"UNFRIEND": "Unfriend",
+		"UNFOLLOW": "Unfollow"
 	},
 	"HEADER": {
 		"MENU": {
@@ -111,6 +115,10 @@
 			"TITLE": "Post to feed",
 			"SEND": "Post",
 			"PLACEHOLDER": "Write your post here"
+		},
+		"RECOMMENDATIONS": {
+			"TITLE": "Suggested users to follow",
+			"MESSAGE": "Seems like you have no posts in your feed yet, what about adding few users?"
 		}
 	},
 	"GROUPS": {

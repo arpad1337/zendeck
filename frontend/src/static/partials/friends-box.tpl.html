@@ -7,6 +7,7 @@
         <div
             ng-repeat="friend in ctrl.friends track by $index"
             title="@{{friend.username}}"
+            ui-sref="profile({username:friend.username})"
         >
             <a
                 ng-if="friend.photos.small"
@@ -16,8 +17,10 @@
             </a>
             <a
                 ng-if="!friend.photos.small"
-                class="friend" 
-                ng-init="startChar = friend.username.substr(0,1)"
+                class="friend no-photo" 
+                ng-init="startChar = friend.username.substr(0,1).toUpperCase()"
+                ng-style="{background:friend.photos.profileColor}"
+                title="@{{friend.username}}"
             >
                 {{ startChar }}
             </a>

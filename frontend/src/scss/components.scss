@@ -19,8 +19,6 @@
 @import "sidebar/groups-sidebar";
 @import "sidebar/friends-sidebar";
 
-
-
 @import "members";
 @import "articles";
 @import "videos";
@@ -29,5 +27,7 @@
 @import "groups";
 @import "messages";
 @import "notifications";
+
+@import "user-preview-card";
 
 @import "profile/about-sidebar";

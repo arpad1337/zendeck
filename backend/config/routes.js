@@ -73,6 +73,13 @@ const ROUTES = [
 		controller: 'friend',
 		action: 'getFriendsByUsernameAndPage',
 		method: 'get'
+	},
+	{
+		path: '/user/me/recommendation',
+		controller: 'friend',
+		action: 'getFriendRecommendations',
+		middlewares: ['session-check'],
+		method: 'get'
 	}
 ];
 

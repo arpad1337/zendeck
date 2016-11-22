@@ -111,7 +111,7 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.PROFILE,
 		opts: {
-			path: '/:userName',
+			path: '/:username',
 			controller: 'ProfileController',
 			view: 'views/profile.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED

@@ -1,0 +1,41 @@
+<div class="user-preview"
+    ng-class="vm.isFriend ? 'following' : ''"
+>
+	<div
+        ng-if="vm.user.photos.medium"
+        class="photo" 
+        style="background-image:url('{{vm.user.photos.small}}')"
+    >
+    </div>
+    <div
+        ng-if="!vm.user.photos.medium"
+        class="photo no-photo" 
+        ng-init="startChar = vm.user.username.substr(0,1).toUpperCase()"
+        ng-style="{background:vm.user.photos.profileColor}"
+        title="@{{vm.user.username}}"
+    >
+        {{ startChar }}
+    </div>
+    <div class="right-col">
+    	<h5 
+    		ui-sref="profile({username:vm.user.username})"
+		>
+			{{vm.user.fullname}} <span>@{{vm.user.username}}</span>
+		</h5>
+    	<p class="about">{{vm.user.about}}</p>
+    	<button
+    		ng-disabled="!vm.buttonEnabled"
+    		ng-click="vm.addFriend()"
+    		ng-class="!vm.isFriend ? 'follow' : 'unfollow'"
+    	>
+    		<span ng-if="!vm.isFriend">
+    			<span ng-if="vm.user.isBusiness">{{ 'COMMON.FOLLOW' | translate }}</span>
+    			<span ng-if="!vm.user.isBusiness">{{ 'COMMON.ADD_FRIEND' | translate }}</span>
+    		</span>
+    		<span ng-if="vm.isFriend">
+    			<span ng-if="vm.user.isBusiness">{{ 'COMMON.UNFOLLOW' | translate }}</span>
+    			<span ng-if="!vm.user.isBusiness">{{ 'COMMON.UNFRIEND' | translate }}</span>
+    		</span>
+    	</button>
+    </div>
+</div>

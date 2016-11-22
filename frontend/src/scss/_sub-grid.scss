@@ -3,6 +3,15 @@ main {
 		width: 920px;
 		margin: auto;
 		margin-bottom: 20px;
+		section {
+			width: 100%;
+		}
+		hr {
+			clear: both;
+		}
+		.message {
+			text-align: center;
+		}
 		& > .content {
 			width: 600px;
 			float: left;

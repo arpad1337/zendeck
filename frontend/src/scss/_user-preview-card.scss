@@ -1,0 +1,84 @@
+/*
+ * @rpi1337
+ */
+
+.user-preview {
+	display: block;
+	float: left;
+	width: calc(50% - 30px);
+	margin: 5px;
+	padding: 10px;
+	background: $FOOTER-LIGHT;
+	position: relative;
+	&.following {
+		background: $WHITE;
+	}
+	&:hover {
+		background: $WHITE;
+	}
+	@extend .clear;
+	h5 {
+		font-weight: normal;
+		font-size: 16px;
+		margin: 0;
+		span {
+			color: $FOOTER-DARK;
+			font-size: 12px;
+		}
+	}
+	.about {
+		font-size: 12px;
+		margin: 0;
+		max-height: 40px;
+		overflow: hidden;
+	}
+	.photo {
+		text-align: center;
+		color: #fff;
+		width: 80px;
+		height: 80px;
+		line-height: 76px;
+		@include border-radius(120px);
+		border: 2px solid $FOOTER-LIGHT;
+		float: left;
+		font-size: 48px;
+		margin-right: 10px;
+	}
+	button {
+		background: $SECONDARY-LIGHT;
+		color: $WHITE;
+		border: none;
+		font-size: 14px;
+		position: absolute;
+		bottom: 10px;
+		right: 10px;
+		&:hover {
+			background: $SECONDARY-DARK;
+		}
+		&:after {
+			display: block;
+			content: " ";
+			float: right;
+			width: 16px;
+			height: 16px;
+			margin-top: 2px;
+			margin-left: 4px;
+		}
+		&.follow:after {
+			background-image: url(../img/plus.png);
+			background-repeat: no-repeat;
+			background-size: 15px 15px;
+		}
+		&.unfollow:after {
+			background-image: url(../img/minus.png);
+			background-repeat: no-repeat;
+			background-size: 15px 15px;
+		}
+	}
+}
+
+@media only screen and (max-width: 660px) {
+	.user-preview {
+		width: calc(100% - 30px);
+	}
+}

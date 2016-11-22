@@ -32,6 +32,7 @@ import FriendService from './services/friend';
 import PostingBoxComponent from './components/posting-box';
 import PostingBoxTagComponent from './components/posting-box-tag';
 import ModalButtonComponent from './components/modal-button';
+import UserPreviewCardComponent from './components/user-preview-card';
 
 // I N T E R C E P T O R S
 
@@ -56,5 +57,6 @@ module.service( 'FriendService', FriendService );
 module.directive( 'postingBox', createComponent( PostingBoxComponent ) );
 module.directive( 'postingBoxTag', createComponent( PostingBoxTagComponent ) );
 module.directive( 'modalButton', createComponent( ModalButtonComponent ) );
+module.directive( 'userPreviewCard', createComponent( UserPreviewCardComponent ) );
 
 module.factory('sessionInterceptor', [...SessionInterceptor.$inject, (...params) => new SessionInterceptor(...params) ]);

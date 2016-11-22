@@ -3,6 +3,7 @@
  */
 
 const DatabaseProvider = require('../../providers/database');
+const Util = require('../../util/util');
 
 class UserService {
 
@@ -59,7 +60,7 @@ class UserService {
 
 	getUsersByIds( ids ) {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
-		return UserModel.find({
+		return UserModel.findAll({
 			where: {
 				id: ids,
 				enabled: true,
@@ -82,7 +83,10 @@ class UserService {
 			password: payload.password,
 			fullname: payload.fullname,
 			isBusiness: payload.isBusiness,
-			termsAccepted: payload.termsAccepted
+			termsAccepted: payload.termsAccepted,
+			photos: {
+				profileColor: Util.generateRandomColor()
+			}
 		});
 	}
 
@@ -92,6 +96,24 @@ class UserService {
 			where: {
 				id: id
 			}
+		});
+	}
+
+	getRandomUsersWithExcludingIds( ids ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		return UserModel.findAll({
+			where: {
+				id: {
+					$notIn: ids
+				}
+			},
+			order: [
+			    ['updated_at', 'DESC'],
+			    ['created_at', 'DESC']
+			],
+			limit: 10
+		}).then( models => {
+			return models.map( model => model.getPublicView() );
 		});
 	}
 

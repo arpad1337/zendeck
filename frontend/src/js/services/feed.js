@@ -16,6 +16,14 @@ class FeedService {
 		this.$http = $http;
 	}
 
+	getFeedByPage() {
+		let promise = this.$q.defer();
+		setTimeout(() => {
+			promise.resolve([])
+		}, Math.random() * 1000);
+		return promise.promise;
+	}
+
 	scrapeUrl( url ) {
 		let promise = this.$q.defer();
 		setTimeout(() => {
