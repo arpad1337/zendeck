@@ -1,6 +1,9 @@
 section[role="friends-sidebar"] {
 	.friends {
 		margin: -2px;
+		tooltip {
+			float: left;
+		}
 		.friend {
 			margin: 2px;
 			width: 42px;
@@ -9,6 +12,7 @@ section[role="friends-sidebar"] {
 			@include border-radius(55px);
 			background-size: cover;
 			float: left;
+			cursor: pointer;
 			&.no-photo {
 				text-align: center;
 				line-height: 40px;

@@ -7,8 +7,9 @@
 	float: left;
 	width: calc(50% - 30px);
 	margin: 5px;
-	padding: 10px;
+	padding: 8px;
 	background: $FOOTER-LIGHT;
+	border: 1px solid $FOOTER-LIGHT;
 	position: relative;
 	&.following {
 		background: $WHITE;

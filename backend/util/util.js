@@ -25,6 +25,15 @@ const Util = {
 	        color += letters[Math.floor(Math.random() * 9)];
 	    }
 	    return color;
+	},
+
+	collectRuntimeParams: () => {
+		let params = {};
+        for (let i = 2; i < process.argv.length; i++) {
+            let key = process.argv[i].split('=')[0];
+            params[key] = process.argv[i].split('=')[1];
+        }
+        return params;
 	}
 
 };

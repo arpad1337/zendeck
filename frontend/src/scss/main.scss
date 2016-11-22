@@ -1,6 +1,7 @@
 /*! HTML5 Boilerplate v5.0 | MIT License | http://h5bp.com/ */
 
 @import "normalize";
+@import "variables";
 
 html {
     color: #222;
@@ -22,7 +23,7 @@ hr {
     display: block;
     height: 1px;
     border: 0;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid $FOOTER-LIGHT;
     margin: 1em 0;
     padding: 0;
 }
@@ -55,10 +56,9 @@ textarea {
 
 
 /* ==========================================================================
-   Author's custom styles
+   @rpi1337
    ========================================================================== */
 
-@import "variables";
 @import "helpers";
 
 * {

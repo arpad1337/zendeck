@@ -1,0 +1,35 @@
+<div
+	ng-click="vm.profilePicClicked()"
+	class="profile-pic"
+>
+	<div
+        ng-if="vm.user.photos[vm.size]"
+        class="photo" 
+        ng-style="{
+        	backgroundImage:url('{{vm.user.photos[vm.size].src}}'),
+        	width:vm.width + 'px',
+        	height:vm.height + 'px',
+        	backgroundSize: vm.width + 'px ' + vm.height + 'px' 
+        }"
+    >
+    </div>
+    <div
+        ng-if="!vm.user.photos[vm.size]"
+        class="photo no-photo" 
+        ng-style="{
+        	background:vm.user.profileColor,
+        	width:vm.width + 'px',
+        	height:vm.height + 'px',
+        	fontSize:vm.fontSize + 'px'
+        }"
+    >
+        <span
+        	ng-style="{
+        		height:vm.fontSize + 'px',
+        		lineHeight:vm.fontSize + 'px'
+        	}"
+        >
+        	{{ vm.startChar }}
+    	</span>
+    </div>
+</div>

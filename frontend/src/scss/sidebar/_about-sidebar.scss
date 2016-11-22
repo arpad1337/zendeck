@@ -1,0 +1,57 @@
+section[role="about"] {
+	position: relative;
+	.about, textarea {
+		margin: 0 auto;
+		font-weight: 300;
+		background: $FOOTER-LIGHT;
+		padding: 10px;
+		border: none;
+		width: calc(100% - 20px);
+	}
+	textarea {
+		padding: 6px;
+		background: $WHITE;
+		border: 2px dashed $FOOTER-LIGHT;
+	}
+	.joined {
+		margin-top: 10px;
+		color:$MAIN-LIGHT;
+		&:before {
+			background-image: url("../img/clock_big@2x.png");
+			background-size: 22px 22px;
+			background-position-x: right;
+			background-position-y: 2px;
+			background-repeat: no-repeat;
+			content: " ";
+			width: 22px;
+			height: 24px;
+			display: block;
+			float: left;
+			margin-top: -3px;
+			margin-right: 4px;
+		}
+	}
+	.edit {
+		position: absolute;
+		top: 9px;
+		right: 0px;
+		background: $SECONDARY-LIGHT;
+		color: $WHITE;
+		border: none;
+		&:hover {
+			background: $SECONDARY-DARK;
+		}
+		&:after {
+			display: block;
+			content: " ";
+			float: right;
+			width: 16px;
+			height: 16px;
+			margin-top: 2px;
+			margin-left: 4px;
+			background-image: url(../img/edit.png);
+			background-repeat: no-repeat;
+			background-size: 16px 16px;
+		}
+	}
+}

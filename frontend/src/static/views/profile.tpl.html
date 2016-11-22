@@ -1,161 +1,117 @@
-<header style="background:url(img/index.jpg)" class="profile-header">
-    <div class="profile-pic" style="background-image:url('img/avatar.jpg')"></div>
-    <h2>Ar Pi<br><span>@rpi1337<span></h2>
+<header 
+    ng-style="ctrl.profile.photos.cover ? {background:url(ctrl.profile.photos.cover)} : {background:ctrl.profile.profileColor}"
+    class="profile-header"
+
+>
+    <div ng-if="ctrl.isEditing">
+        <div
+            class="change-cover-pic cta"
+            ng-if="APP.currentUser.username == ctrl.profile.username"
+            ng-click="ctrl.openCoverPicUploadDialog()"
+        >   
+            {{ 'PROFILE.CHANGE_COVER_PIC' | translate }}
+        </div>
+        <div
+            class="delete-cover-pic cta"
+            ng-if="APP.currentUser.username == ctrl.profile.username"
+            ng-click="ctrl.deleteCoverPic()"
+        >   
+            {{ 'PROFILE.DELETE_COVER_PIC' | translate }}
+        </div>
+    </div>
+
+    <profile-pic
+        size="large"
+        user="ctrl.profile"
+    >
+    </profile-pic>
+    <div ng-if="ctrl.isEditing">
+        <div
+            class="change-profile-pic cta"
+            ng-if="APP.currentUser.username == ctrl.profile.username"
+            ng-click="ctrl.openProfilePicUploadDialog()"
+        >   
+            {{ 'PROFILE.CHANGE_PROFILE_PIC' | translate }}
+        </div>
+        <div
+            class="delete-profile-pic cta"
+            ng-if="APP.currentUser.username == ctrl.profile.username"
+            ng-click="ctrl.deleteProfilePic()"
+        >   
+            {{ 'PROFILE.DELETE_PROFILE_PIC' | translate }}
+        </div>
+    </div>
+
+    <h2 ng-style="{color:ctrl.profile.profileColor}">
+        <span ng-if="!ctrl.isEditing">
+            {{ctrl.profile.fullname}}
+        </span>
+        <span ng-if="ctrl.isEditing">
+            <input type="text" ng-model="ctrl.lastProfileFields.fullname">
+        </span>
+        <br>
+        <span class="username">@{{ctrl.profile.username}}<span>
+    </h2>
+
 </header>
+
+
 <nav>
     <ul>
         <li><a href="feed.html" class="feed active">Feed</a></li>
         <li><a href="members.html" class="members">Friends</a></li>
         <li><a href="photos.html" class="camera">Photos</a></li>
     </ul>
-    <div class="actions">
-        <a href="#" class="create">Add friend</a>
-        <a href="send-message.html" class="message">Send a message</a>
+    <div class="actions" ng-if="APP.currentUser.username != ctrl.profile.username">
+        <a href="#" class="create">
+            <span>Add friend</span>
+        </a>
+        <a href="send-message.html" class="message">
+            <span>Send a message</span>
+        </a>
     </div>
 </nav>
+
+
 <div class="wrap prt-30">
-    <div class="content">
-        <section role="feed">
-            <h4>Posts</h4>
-            <div class="post left">
-                <div class="head">
-                    <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                    <div class="author">John Doe</div>
-                    <div class="from">from <a href="components.html">Frontend Meetup Group</a></div>
-                    <div class="date">23 hour ago</div>
-                    <a class="hearth">20</a>
-                    <div class="labels">
-                        <ul>
-                            <li>
-                                <a href="#">
-                                                article
-                                            </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                                marketing
-                                            </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                                customer development
-                                            </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                                inbound
-                                            </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                                discussion
-                                            </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <aside>
-                    <div class="content">
-                        <div class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Maecenas lacinia odio nec dignissim elementum. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.</div>
-                    </div>
-                    <div class="comment-area">
-                        <div class="pagination">
-                            <a href="#">previous comments (16)</a>
-                        </div>
-                        <div class="comments">
-                            <div class="comment">
-                                <div class="author-pic has-tooltip" alt="2m" style="background-image:url('img/avatar.jpg')"></div>
-                                <div class="message">
-                                    <a class="author" href="#author">John Doe></a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis.<span class="date">2 minutes ago</span>
-                                </div>
-                            </div>
-                            <div class="comment">
-                                <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                <div class="message">
-                                    <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.<span class="date">2 minutes ago</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="add-comment">
-                            <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                            <textarea placeholder="write comment here..."></textarea>
-                        </div>
-                    </div>
-                    <aside>
-            </div>
-            <div class="post left">
-                <div class="head">
-                    <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                    <div class="author">John Doe</div>
-                    <div class="date">23 hour ago</div>
-                    <a class="hearth">20</a>
-                    <div class="labels">
-                        <ul>
-                            <li>
-                                <a href="#">
-                                                article
-                                            </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                                marketing
-                                            </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                                customer development
-                                            </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                                inbound
-                                            </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                                discussion
-                                            </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <aside>
-                    <div class="content">
-                        <div class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Maecenas lacinia odio nec dignissim elementum. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.</div>
-                    </div>
-                    <div class="comment-area">
-                        <div class="pagination">
-                            <a href="#">previous comments (16)</a>
-                        </div>
-                        <div class="comments">
-                            <div class="comment">
-                                <div class="author-pic has-tooltip" alt="2m" style="background-image:url('img/avatar.jpg')"></div>
-                                <div class="message">
-                                    <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis.<span class="date">2 minutes ago</span>
-                                </div>
-                            </div>
-                            <div class="comment">
-                                <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                <div class="message">
-                                    <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.<span class="date">2 minutes ago</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="add-comment">
-                            <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                            <textarea placeholder="write comment here..."></textarea>
-                        </div>
-                    </div>
-                    <aside>
-            </div>
-        </section>
+    <div class="content" ui-view>
+
     </div>
     <aside>
-        <section role="about">
-            <h4>About</h4>
-            <div class="about">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.</div>
-            <div class="joined">Joined 24th marc, 2015</div>
-        </section>
+        <section style="display: none">
+            <profile-pic
+                user="ctrl.profile"
+                size="xxsmall"
+            ></profile-pic>
+            <profile-pic
+                user="ctrl.profile"
+                size="xsmall"
+            ></profile-pic>
+            <profile-pic
+                user="ctrl.profile"
+            ></profile-pic>
+            <profile-pic
+                size="xmedium"
+                user="ctrl.profile"
+            ></profile-pic>
+            <profile-pic
+                size="medium"
+                user="ctrl.profile"
+            ></profile-pic>
+            <profile-pic
+                size="large"
+                user="ctrl.profile"
+            ></profile-pic>
+            <profile-pic
+                delegate="ctrl"
+                user="ctrl.profile"
+            ></profile-pic>
+
+
+
+
+        </section>  
+        <div ng-include="'partials/about-box.tpl.html'"></div>
         <section role="stats">
             <h4>Stats</h4>
             <a class="members">268 friend</a>

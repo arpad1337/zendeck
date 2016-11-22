@@ -17,6 +17,7 @@ import ApplicationController from './controllers/application';
 import LandingController from './controllers/landing'; 
 import SearchController from './controllers/search'; 
 import FeedController from './controllers/feed'; 
+import ProfileController from './controllers/profile'; 
 
 // S E R V I C E S
 
@@ -26,13 +27,18 @@ import ModalService from './services/modal';
 import FilterService from './services/filter';
 import FeedService from './services/feed';
 import FriendService from './services/friend';
+import FileUploadService from './services/file-upload';
 
 // C O M P O N E N T S
 
 import PostingBoxComponent from './components/posting-box';
+import PostEntryComponent from './components/post-entry';
 import PostingBoxTagComponent from './components/posting-box-tag';
 import ModalButtonComponent from './components/modal-button';
 import UserPreviewCardComponent from './components/user-preview-card';
+import {
+	ProfilePicComponent
+} from './components/profile-pic';
 
 // I N T E R C E P T O R S
 
@@ -46,6 +52,7 @@ module.controller( 'ApplicationController', ApplicationController );
 module.controller( 'LandingController', LandingController );
 module.controller( 'SearchController', SearchController );
 module.controller( 'FeedController', FeedController );
+module.controller( 'ProfileController', ProfileController );
 
 module.service( 'MessageBusService', MessageBusService );
 module.service( 'UserService', UserService );
@@ -53,10 +60,13 @@ module.service( 'ModalService', ModalService );
 module.service( 'FilterService', FilterService );
 module.service( 'FeedService', FeedService );
 module.service( 'FriendService', FriendService );
+module.service( 'FileUploadService', FileUploadService );
 
 module.directive( 'postingBox', createComponent( PostingBoxComponent ) );
+module.directive( 'postEntry', createComponent( PostEntryComponent ) );
 module.directive( 'postingBoxTag', createComponent( PostingBoxTagComponent ) );
 module.directive( 'modalButton', createComponent( ModalButtonComponent ) );
 module.directive( 'userPreviewCard', createComponent( UserPreviewCardComponent ) );
+module.directive( 'profilePic', createComponent( ProfilePicComponent ) );
 
 module.factory('sessionInterceptor', [...SessionInterceptor.$inject, (...params) => new SessionInterceptor(...params) ]);

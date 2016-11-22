@@ -1,4 +1,5 @@
 @import "loading-bar";
+@import "tooltips";
 
 @import "variables";
 @import "helpers";
@@ -18,6 +19,7 @@
 @import "sidebar/tags-sidebar";
 @import "sidebar/groups-sidebar";
 @import "sidebar/friends-sidebar";
+@import "sidebar/about-sidebar";
 
 @import "members";
 @import "articles";
@@ -28,6 +30,5 @@
 @import "messages";
 @import "notifications";
 
-@import "user-preview-card";
-
-@import "profile/about-sidebar";
+@import "components/user-preview-card";
+@import "components/profile-pic";

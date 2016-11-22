@@ -48,6 +48,7 @@ body > header nav {
 	margin-top: -1px;
 	clear: right;
 }
+.post .head .star,
 .post .head .hearth {
 	text-align: left !important;
 	position: relative !important;
@@ -61,6 +62,18 @@ body > header nav {
 	}
 }
 
+.post .comment-area profile-pic {
+	display: none;
+}
+
+.comment-area .comments .comment .message {
+	margin-left: 0 !important;
+}
+
+.comment-area textarea {
+	width: calc(100% - 10px) !important;
+}
+
 .modal .container {
 	width: calc(100% - 40px) !important;
 	max-width: 578px;
@@ -72,8 +85,16 @@ body > header nav {
 	overflow: auto;
 }
 
-aside {
-	display: none;
+main > nav a {
+	font-size: 12px !important;
+}
+
+.wrap > aside {
+	display: block;
+	width: 100% !important;
+	margin-top: 30px;
+	padding-top: 30px;
+	border-top: 1px solid $FOOTER-LIGHT;
 }
 
 section[role="posting-box"] {

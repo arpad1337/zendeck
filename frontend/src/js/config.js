@@ -15,7 +15,9 @@ const module = angular.module('ZenDeck', [
 	'ui.router',
     'ui.router.state',
     'monospaced.elastic',
-    'angular-loading-bar'
+    'angular-loading-bar',
+    '720kb.tooltips',
+    'yaru22.angular-timeago'
 ]);
 
 module.config(["$httpProvider", function($httpProvider){
@@ -30,6 +32,16 @@ module.config(["$httpProvider", function($httpProvider){
 module.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
 	cfpLoadingBarProvider.includeSpinner = false;
 }]);
+
+module.config(['tooltipsConfProvider', function configConf(tooltipsConfProvider) {
+  tooltipsConfProvider.configure({
+    'smart':true,
+    'size':'large',
+    'speed': 'slow',
+    'tooltipTemplateUrlCache': true,
+    'side': 'bottom'
+  });
+}])
 
 module.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
@@ -120,20 +132,28 @@ module.filter("htmlSafe", ['$sce', function($sce) {
     };
 }]);
 
+module.filter("shrinkContent", function() {
+	return function(val) {
+		return val.trim()
+			.replace(/\n\s*\n/g, '\n')
+			.replace(/  +/g, ' ');
+	}
+});
+
 module.filter('pretifyNumber', function(){
 	return function( value ) {
 		const stringValue = String( value );
-		if( value.length > 9 ) {
-			return value.substr( 0, value.length - 9 ) +'b';
+		if( stringValue.length > 9 ) {
+			return stringValue.substr( 0, stringValue.length - 9 ) +'b';
 		}
-		else if( value.length > 6 ) {
-			return value.substr( 0, value.length - 6 ) +'m';
+		else if( stringValue.length > 6 ) {
+			return stringValue.substr( 0, stringValue.length - 6 ) +'m';
 		}
-		else if( value.length > 3) {
-			return value.substr( 0, value.length - 3 ) +'k';
+		else if( stringValue.length > 3) {
+			return stringValue.substr( 0, stringValue.length - 3 ) +'k';
 		}
 	};
-})
+});
 
 export default module;
 

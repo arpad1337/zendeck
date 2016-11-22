@@ -21,7 +21,10 @@ const STATES = {
 		},
 		NOTIFICATIONS: 'notifications',
 		MESSAGES: 'messages',
-		PROFILE: 'profile',
+		PROFILE: {
+			SELF: 'profile',
+			POSTS: 'profile.posts'
+		},
 		SETTINGS: 'settings'
 	},
 	ABOUT: 'about'

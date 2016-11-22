@@ -16,5 +16,5 @@
 	<a class="save-to-collection" ng-click="ctrl.saveCurrentFilter()" title="{{'FEED.SAVE_FILTER' | translate}}">
 		{{ 'FEED.SAVE_FILTER' | translate }}
 	</a>
-    <post-entry ng-repeat="post in cltr.starred" post="post" delegate="ctrl"></post-entry>
+    <post-entry ng-repeat="post in cltr.starred track by $index" entry="post" delegate="ctrl"></post-entry>
 </section>

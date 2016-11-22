@@ -108,13 +108,23 @@ const ROUTES = [
 			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},
+
+	// PROFILE
+
 	{
-		state: STATES.APPLICATION.PROFILE,
+		state: STATES.APPLICATION.PROFILE.SELF,
 		opts: {
+			abstract: true,
 			path: '/:username',
 			controller: 'ProfileController',
-			view: 'views/profile.tpl.html',
-			requiredStatus: USER_STATUS.SUBMITED
+			view: 'views/profile.tpl.html'
+		}
+	},
+	{
+		state: STATES.APPLICATION.PROFILE.POSTS,
+		opts: {
+			path: '/profile',
+			view: 'views/profile/list.tpl.html'
 		}
 	}
 ];

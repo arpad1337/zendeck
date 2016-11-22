@@ -33,7 +33,8 @@ class UserController {
 			}
 			context.body = user;
 		} catch( e ) {
-			this.throw( 404 );
+			console.error(e, e.stack);
+			context.throw( 404 );
 		}
 	}
 
@@ -41,7 +42,7 @@ class UserController {
 		if( !this.singleton ) {
 			const userService = UserService.instance;
 			const friendService = FriendService.instance;
-			this.singleton = new UserController( userService );
+			this.singleton = new UserController( userService, friendService );
 		}
 		return this.singleton;
 	}

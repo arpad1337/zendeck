@@ -2,6 +2,10 @@
  * @rpi1337
  */
 
+import {
+	DIMENSIONS
+} from '../components/profile-pic';
+
 class UserService {
 
 	static get $inject() {
@@ -16,7 +20,9 @@ class UserService {
 		this.$q = $q;
 		this.$http = $http;
 		this.messageBusService = messageBusService;
+		this._loadingPromise = null;
 		this._currentUser = null;
+		this._userCache = {};
 	}
 
 	get currentUser() {
@@ -27,13 +33,60 @@ class UserService {
 		if( this._currentUser != null ) {
 			return this.$q.resolve( this._currentUser );
 		}
-		return this.$http.get(CONFIG.API_PATH + '/user/me').then((r) => {
+		if( this._loadingPromise ) {
+			return this._loadingPromise;
+		}
+		this._loadingPromise = this.$http.get(CONFIG.API_PATH + '/user/me').then((r) => {
 			let isFirstAttempt = !this.isUserLoggedIn;
 			this._currentUser = r.data;
 			if( isFirstAttempt ) {
 				this.messageBusService.emit( this.messageBusService.MESSAGES.USER.LOGIN, this._currentUser );
+				this._loadingPromise = null;
 			}
 			return this._currentUser;
+		});
+		return this._loadingPromise;
+	}
+
+	uploadProfilePic( photo ) {
+		let data = new FormData();
+		data.append( 'file', photo );
+		return this.$http.post(
+			CONFIG.API_PATH + '/user/me/photo', 
+			data, 
+			{
+            	transformRequest: angular.identity,
+            	headers: {'Content-Type': undefined}
+        	}
+        ).then((r) => {
+        	let resourceUrl = r.data.success;
+        	Object.keys( DIMENSIONS ).forEach(( key ) => {
+        		this._currentUser.photos[ key ] = {};
+        		this._currentUser.photos[ key ].src = resourceUrl;
+        		this._currentUser.photos[ key ].width = DIMENSIONS[ key ].width;
+        		this._currentUser.photos[ key ].src = DIMENSIONS[ key ].height;
+        	});
+        	return r.data;
+		});
+	}
+
+	updateCurrentUserProfile( payload ) {
+		return this.$http.post( CONFIG.API_PATH + '/user/me', payload ).then((r) => {
+			this._currentUser = r.data;
+			return r.data;
+		});
+	}
+
+	getProfileByUsername( username ) {
+		if( this.currentUser && username === this.currentUser.username ) {
+			return this.getCurrentUser();
+		}
+		if( this._userCache[ username ] ) {
+			return this.$q.resolve( this._userCache[ username ] );
+		}
+		return this.$http.get( CONFIG.API_PATH + '/user/' + username ).then((r) => {
+			this._userCache[ username ] = r.data;
+			return r.data;
 		});
 	}
 

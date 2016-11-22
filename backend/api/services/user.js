@@ -84,9 +84,7 @@ class UserService {
 			fullname: payload.fullname,
 			isBusiness: payload.isBusiness,
 			termsAccepted: payload.termsAccepted,
-			photos: {
-				profileColor: Util.generateRandomColor()
-			}
+			profileColor: Util.generateRandomColor()
 		});
 	}
 

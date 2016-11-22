@@ -20,12 +20,18 @@
         <li class="messages has-tooltip" alt="Messages">
             <a ui-sref="messages"><span>2</span></a>
         </li>
-        <li class="profile has-tooltip" alt="Profile"
+        <li class="profile" alt="Profile"
             ng-init="hover=false"
             ng-mouseenter="hover = true"
             ng-mouseleave="hover = false"
         >
-            <a href="#/{{APP.currentUser.username}}" ng-class="{hover: hover}"></a>
+            <a ui-sref="profile.posts({username:APP.currentUser.username})" 
+                ng-class="{hover: hover}">
+                <profile-pic
+                    user="APP.currentUser"
+                    size="xsmall"
+                ></profile-pic>
+            </a>
             <ul>
                 <li>
                     <a ui-sref="settings">{{ 'HEADER.PROFILE.SETTINGS' | translate }}</a>

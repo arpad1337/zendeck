@@ -101,7 +101,7 @@
 		"SAVE_FILTER": "Save",
 		"LINK_PREVIEW": "<span>{{author}}</span> from <span>{{medium}}</span>",
 		"POST_ENTRY": {
-			"IN_GROUP": "from <a href=\"{{groupUrl}}\">{{groupName}} Group</a>",
+			"IN_GROUP": "from <a href=\"{{groupUrl}}\">{{groupName}}</a>",
 			"TIME_AGO_SUFFIX": "{{value}} ago",
 			"LIKES": "{{value}} people like this",
 			"LINK_BOX": {
@@ -109,7 +109,13 @@
 			},
 			"COMMENT_BOX": {
 				"PREVIOUS_COMMENTS": "previous comments ({{number}})"
-			}
+			},
+			"BOOKMARKING": "Save post to collection",
+			"LIKEING": "Like this post",
+			"DISLIKEING": "Dislike this post",
+			"PREVIOUS_COMMENTS": "previous comments ({{difference}})",
+			"COMMENT_PLACEHOLDER": "Type your comment here",
+			"COMMENT_CTA": "Post"
 		},
 		"POST_BOX": {
 			"TITLE": "Post to feed",
@@ -134,10 +140,15 @@
 	"PROFILE": {
 		"TITLE": "Posts",
 		"ABOUT": "About",
-		"CHANGE_COVER": "Change cover photo",
+		"CHANGE_COVER_PIC": "Change cover photo",
+		"DELETE_COVER_PIC": "Delete cover photo",
 		"CHANGE_PROFILE_PIC": "Change profile picture",
+		"DELETE_PROFILE_PIC": "Delete profile picture",
 		"EDIT_ABOUT": "Edit about",
-		"CHANGE_NAME": "Change name"
+		"CHANGE_NAME": "Change name",
+		"NO_POSTS": "Seems like the user did not post anything yet.",
+		"MEMBER_SINCE_PREFIX": "Joined at",
+		"NO_ABOUT": "N/A"
 	},
 	"MEMBERS": {
 		"TITLE": "Members"

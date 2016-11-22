@@ -19,8 +19,9 @@ class FriendService {
 		this._friendCache = {};
 	}
 
-	getCurrentUserFriends() {
-		return this.getFriendsByUsername( 'me', true );
+	getCurrentUserFriends( force ) {
+		force = force || false;
+		return this.getFriendsByUsername( 'me', force );
 	}
 
 	getFriendsByUsername( username, force ) {

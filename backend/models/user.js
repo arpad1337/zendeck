@@ -63,6 +63,10 @@ const model = sequelizeModelHelper.buildModel(
 			type: TYPES.BOOLEAN,
 			defaultValue: false
 		},
+		profileColor: {
+			field: 'profile_color',
+			type: TYPES.STRING(7)
+		},
 		about: {
 			type: TYPES.TEXT
 		},

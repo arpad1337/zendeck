@@ -1,0 +1,19 @@
+<section role="about">
+    <button 
+        class="edit"
+        ng-if="APP.currentUser.username == ctrl.profile.username"
+        ng-click="ctrl.toggleEditing()">Edit profile
+    </button>
+    <h4>About</h4>
+    <div class="about" ng-if="!ctrl.isEditing">
+    	{{ ctrl.profile.about || 'PROFILE.NO_ABOUT' | translate }}
+    </div>
+    <textarea 	
+   		ng-if="ctrl.isEditing" 
+   		ng-model="ctrl.lastProfileFields.about"
+   		class="msd-elastic"
+   	></textarea>
+    <div class="joined">
+    	{{ 'PROFILE.MEMBER_SINCE_PREFIX' | translate }}: {{ctrl.profile.createdAt | date : 'MMM d, y'}}
+    </div>
+</section>

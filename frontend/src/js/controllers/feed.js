@@ -33,20 +33,31 @@ class FeedController {
 		window.feeeed = this;
 	}
 
-	async _initState() {
+	_initState() {
 		this._page = 1;
-		this.filters = await this.filterService.getUserFilters();
-		if( this.$state.params.filterId ) {
-			this.selectFilter( this.$state.params.filterId );
-		}
-		this.friends = await this.friendService.getCurrentUserFriends(  );
-		this.trendingTags = await this.filterService.getTrendingTags();
-		this.posts = await this.feedService.getFeedByPage( this._page );
-		if( this.posts.length == 0 ) {
-			this.recommendations = await this.userService.getUserRecommendations();
-		}
+		this.filterService.getUserFilters().then((filters) => {
+			this.filters = filters;
+			if( this.$state.params.filterId ) {
+				this.selectFilter( this.$state.params.filterId );
+			}
+		});
+		this.friendService.getCurrentUserFriends(  ).then((friends) => {
+			this.friends = friends;
+		});
+		this.filterService.getTrendingTags().then((trendingTags) => {
+			this.trendingTags = trendingTags;
+		});
+		this.posts = [];
+		this.feedService.getFeedByPage( this._page ).then((posts) => {
+		 	this.posts = posts;
+		 	console.log(this.posts);
+		 	if( this.posts.length == 0 ) {
+				this.userService.getUserRecommendations().then((recommendations) => {
+					this.recommendations = recommendations;
+				});
+			}
+		});
 		this.groups = [];
-		this.$scope.$digest();
 	}
 
 	async selectFilter( id ) {
@@ -65,6 +76,7 @@ class FeedController {
 			this._activeFilter = Object.assign( {}, filter );
 			this._activeFilter.tags = filter.tags.slice(0);
 		}
+		// get posts by filter
 	}
 
 	async saveCurrentFilter() {
@@ -194,7 +206,7 @@ class FeedController {
 		} else {
 			await this.friendService.addFriend( username );
 		}
-		this.friends = await this.friendService.getCurrentUserFriends();
+		this.friends = await this.friendService.getCurrentUserFriends( true );
 	}
 
 

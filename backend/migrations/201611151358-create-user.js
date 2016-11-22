@@ -40,9 +40,11 @@ module.exports = {
 				type: TYPES.STRING( 10 )
 			},
 			is_business: {
-				field: 'is_business',
 				type: TYPES.BOOLEAN,
 				defaultValue: false
+			},
+			profile_color: {
+				type: TYPES.STRING(7)
 			},
 			about: {
 				type: TYPES.TEXT

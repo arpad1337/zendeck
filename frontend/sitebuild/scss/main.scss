@@ -61,7 +61,7 @@ textarea {
 @import "variables";
 @import "helpers";
 
-* {
+*, pre {
 	font-family: 'Lato', sans-serif;
     -webkit-font-smoothing: antialiased;
     outline: none;

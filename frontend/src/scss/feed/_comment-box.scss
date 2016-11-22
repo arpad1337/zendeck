@@ -1,8 +1,9 @@
 .comment-area {
 	font-weight: normal;
 	background: $FOOTER-LIGHT;
-	padding: 8px 8px 1px;
+	padding: 8px 8px 8px;
 	font-size: 12px;
+	@extend .clear;
 	.pagination {
 		text-align: center;
 		margin-bottom: 4px;
@@ -14,12 +15,17 @@
 			}
 		}
 	}
+	profile-pic {
+		float: left;
+		margin-right: 10px;
+		margin-top: -2px;
+	}
 	.comments {
 		.comment {
-			margin: 0 0 7px;
+			margin: 0 0 10px;
 			.message {
-				width: 462px;
 				margin-left: 42px;
+				word-wrap: break-word;
 			}
 		}
 	}
@@ -50,8 +56,26 @@
 		font-size: 10px;
 		font-weight: normal;
 	}
+
+	pre {
+		margin: 0;
+		font-family: 'Lato';
+		font-size: 12px;
+		display: inline;
+	}
+
+	button {
+		width: 60px;
+		color: $WHITE;
+		border: none;
+		background: $SECONDARY-LIGHT;
+		&:hover {
+			background: $SECONDARY-DARK;
+		}
+	}
 	textarea {
-		width: 442px;
+		float: left;
+		width: calc(100% - 118px);
 		padding: 4px;
 		background: $FOOTER-LIGHT;
 		border: 1px solid $WHITE;

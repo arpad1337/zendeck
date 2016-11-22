@@ -4,7 +4,13 @@
 <hr>
 <section role="feed" ng-if="ctrl.posts && ctrl.posts.length > 0">
     <h4>{{ 'FEED.POSTS_TITLE' | translate }}</h4>
-    <post-entry ng-repeat="post in cltr.posts" post="post" delegate="ctrl"></post-entry>
+    <post-entry 
+    	ng-repeat="post in ctrl.posts track by $index" 
+    	entry="post" 
+    	delegate="ctrl"
+    	current-user="APP.currentUser"
+    >
+	</post-entry>
 </section>
 <section 
 	role="recommendation"

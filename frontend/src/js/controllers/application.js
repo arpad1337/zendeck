@@ -31,6 +31,9 @@ class ApplicationController {
 	_initializeApplication() {
 		this.messageBusService.on( this.messageBusService.MESSAGES.USER.LOGOUT, this._onUserLoggedOut.bind(this) );
 		this.messageBusService.on( this.messageBusService.MESSAGES.USER.LOGIN, this._onUserLoggedIn.bind(this) );
+		this.$rootScope.$on('$stateChangeStart', () => {
+			$(window).scrollTop(0);
+		});
 		this.$rootScope.$on('$stateChangeSuccess', (e, newState) => {
 			if( newState.name === STATES.LANDING && this.isUserLoggedIn ) {
 				e.preventDefault();
@@ -61,7 +64,9 @@ class ApplicationController {
 
 	_onUserLoggedIn() {
 		if( this.$state.current.name == STATES.LANDING ) {
-			this.$state.go( STATES.APPLICATION.FEED.POSTS );
+			setTimeout(()  => {
+				this.$state.go( STATES.APPLICATION.FEED.POSTS );
+			}, 1);
 		}
 	}
 

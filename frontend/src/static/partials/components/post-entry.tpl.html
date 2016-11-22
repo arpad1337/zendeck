@@ -1,66 +1,98 @@
-                        <div class="post left">
-                            <div class="head">
-                                <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                <div class="author">John Doe</div>
-                                <div class="from">from <a href="components.html">Frontend Meetup Group</a></div>
-                                <div class="date">23 hour ago</div>
-                                <a class="hearth">20</a>
-                                <div class="labels">
-                                    <ul>
-                                        <li>
-                                            <a href="#">
-                                                article
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                marketing
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                customer development
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                inbound
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                discussion
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <aside>
-                                <div class="content">
-                                    <div class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Maecenas lacinia odio nec dignissim elementum. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.</div>
-                                </div>
-                                <div class="comment-area">
-                                    <div class="pagination">
-                                        <a href="#">previous comments (16)</a>
-                                    </div>
-                                    <div class="comments">
-                                        <div class="comment">
-                                            <div class="author-pic has-tooltip" alt="2m" style="background-image:url('img/avatar.jpg')"></div>
-                                            <div class="message">
-                                                <a class="author" href="#author">John Doe></a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis.<span class="date">2 minutes ago</span>
-                                            </div>
-                                        </div>
-                                        <div class="comment">
-                                            <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                            <div class="message">
-                                                <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.<span class="date">2 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="add-comment">
-                                         <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                         <textarea placeholder="write comment here..."></textarea>
-                                    </div>
-                                </div>
-                            <aside>
-                        </div>
+<div class="post left">
+    <div class="head">
+        <profile-pic
+                size="xmedium"
+                user="vm.entry.author"
+                ui-sref="profile.posts({username:vm.entry.author.username})"
+        ></profile-pic>
+        <div class="author" ui-sref="profile.posts({username:vm.entry.author.username})">
+            {{vm.entry.author.fullname}}
+        </div>
+        <div 
+            ng-if="vm.entry.inGroup"
+            class="from"
+            data-ng-bind-html=" 'FEED.POST_ENTRY.IN_GROUP' | translate : { groupName: vm.entry.group.name, groupUrl: '#/groups/' + vm.entry.group.id } | htmlSafe "
+        >
+            
+        </div>
+        <div class="date">23 hour ago</div>
+        <div class="actions">
+            <a 
+                class="hearth"
+                ng-class=" vm.entry.liked ? 'liked' : '' "
+                ng-click="vm.like()"
+                tooltips
+                tooltip-template="{{ !vm.entry.liked ? ('FEED.POST_ENTRY.LIKEING' | translate) : ('FEED.POST_ENTRY.DISLIKEING' | translate) }}"
+            >
+                {{ vm.entry.likes | pretifyNumber }}
+            </a>
+            <a class="star" 
+                ng-click="vm.bookmark()"
+                ng-class=" vm.entry.starred ? 'starred' : '' "
+                tooltips
+                tooltip-template="{{'FEED.POST_ENTRY.BOOKMARKING' | translate }}"
+            >
+            </a>
+        </div>
+        <div class="labels">
+            <ul>
+                <li ng-repeat="tag in vm.entry.tags track by $index">
+                    <a ng-click="vm.createTemporaryFilterWithTag( tag )">
+                        {{tag}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <aside>
+        <div class="content">
+            <div class="message">
+                {{vm.entry.content}}
+            </div>
+        </div>
+        <div class="comment-area">
+            <div class="pagination" ng-if="vm.entry.comments.count > 3 && vm.entry.comments.data.length - vm.entry.comments.count > 0">
+                <a href="#">{{ 'FEED.POST_ENTRY.PREVIOUS_COMMENTS' | translate : { difference: vm.entry.comments.data.length - vm.entry.comments.count } }}</a>
+            </div>
+            <div class="comments">
+                <div class="comment" ng-repeat="comment in vm.entry.comments.data">
+                    <profile-pic
+                        size="xxsmall"
+                        user="comment.author"
+                        ui-sref="profile.posts({username:comment.author.username})"
+                    ></profile-pic>
+                    <div class="message">
+                        <a 
+                            class="author" 
+                            ui-sref="profile.posts({username:comment.author.username})"
+                        >
+                            {{comment.author.fullname}}
+                        </a>
+                        <pre>{{ comment.content | shrinkContent }}</pre>
+                        <span class="date">
+                            {{ comment.createdAt | timeAgo }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="add-comment">
+                <profile-pic
+                        size="xxsmall"
+                        user="vm.currentUser"
+                ></profile-pic>
+                <textarea
+                    class="msd-elastic"
+                    ng-model="vm.comment"
+                    placeholder="{{'FEED.POST_ENTRY.COMMENT_PLACEHOLDER' | translate}}"
+                ></textarea>
+                <button
+                    ng-click="vm.comment()" 
+                    class="post-comment"
+                    ng-disabled="vm.buttonEnabled"
+                >
+                    {{'FEED.POST_ENTRY.COMMENT_CTA' | translate}}
+                </button>        
+            </div>
+        </div>
+        <aside>
+</div>
