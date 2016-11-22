@@ -88,6 +88,15 @@ class FriendService {
 						friendId: friend.id,
 					}
 				}).then(() => {
+					return FriendModel.update({
+						updatedAt: Date.now()
+					}, {
+						where: {
+							userId: userId,
+							friendId: friend.id,
+						}
+					})
+				}).then(() => {
 					return true;
 				});
 			});
