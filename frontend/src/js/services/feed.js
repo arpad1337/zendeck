@@ -38,7 +38,7 @@ class FeedService {
 			tags: ['article', 'pepsi'],
 			content: 'Lorem ipsum dolor sit amet loooooooooooooooong wooooords',
 			attachment: {
-				preview: 'img/avatar.jpg',
+				preview: '/img/avatar.jpg',
 				title: 'Metamind has been acquired by Salesforce',
 				description: 'MetaMind, a Palo Alto-based AI startup founded in July 2014, is being acquired by Salesforce. According to a new post published at the company\'s website by CEO Richard Socher -- a Stanford PhD who stu',
 				source: 'TechCrunch',
@@ -65,7 +65,7 @@ class FeedService {
 							fullname: 'Ar Pi',
 							photos: {
 								small: {
-									src: 'img/avatar.jpg',
+									src: '/img/avatar.jpg',
 									width: 42,
 									height: 42
 								}
@@ -83,7 +83,7 @@ class FeedService {
 							fullname: 'Lol',
 							photos: {
 								small: {
-									src: 'img/avatar.jpg',
+									src: '/img/avatar.jpg',
 									width: 42,
 									height: 42
 								}
@@ -102,7 +102,7 @@ class FeedService {
 							profileColor: '#5aaa2f',
 							photos: {
 								small: {
-									src: 'img/avatar.jpg',
+									src: '/img/avatar.jpg',
 									width: 42,
 									height: 42
 								}

@@ -1,6 +1,7 @@
 <div class="modal">
     <div class="container">
-        <h4>{{ 'MODALS.CREATE_FILTER.TITLE' |translate }}</h4>
+        <h4 ng-if="!saveButton">{{ 'MODALS.CREATE_FILTER.TITLE' |translate }}</h4>
+        <h4 ng-if="saveButton">{{ 'MODALS.CREATE_FILTER.TITLE2' |translate }}</h4>
         <a class="close" ng-click="cancel()"></a>
         <div class="content">
             <form>

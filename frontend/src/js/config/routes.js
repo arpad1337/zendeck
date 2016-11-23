@@ -55,7 +55,7 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.FEED.LIKED,
 		opts: {
-			path: '/collections/liked',
+			path: '/liked',
 			view: 'views/feed/liked.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
@@ -64,7 +64,7 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.FEED.COLLECTION,
 		opts: {
-			path: '/collections/:collectionId',
+			path: '/collection/:collectionId',
 			view: 'views/feed/starred.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
@@ -73,7 +73,7 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.FEED.FILTERED,
 		opts: {
-			path: '/filtered/:filterId',
+			path: '/filter/:filterId',
 			view: 'views/feed/filtered.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
@@ -134,7 +134,7 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.PROFILE.POSTS,
 		opts: {
-			path: '/profile',
+			path: '',
 			view: 'views/profile/list.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
@@ -152,7 +152,7 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.PROFILE.LIKED,
 		opts: {
-			path: '/collections/liked',
+			path: '/likes',
 			view: 'views/profile/liked.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
@@ -161,7 +161,7 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.PROFILE.COLLECTION,
 		opts: {
-			path: '/collections/:collectionId',
+			path: '/collection/:collectionId',
 			view: 'views/profile/starred.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}

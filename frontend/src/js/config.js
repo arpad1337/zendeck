@@ -43,7 +43,7 @@ module.config(['tooltipsConfProvider', function configConf(tooltipsConfProvider)
   });
 }])
 
-module.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+module.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
 
 	ROUTES.forEach((state) => {
 		let route = state.opts;
@@ -100,6 +100,7 @@ module.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 	});
 
 	$urlRouterProvider.otherwise('/');
+	$locationProvider.html5Mode(true);
 
 }]);
 

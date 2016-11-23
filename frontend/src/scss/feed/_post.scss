@@ -20,6 +20,7 @@ h4 + .post {
 	font-weight: normal;
 	line-height: 18px;
 	cursor: pointer;
+	padding: 2px;
 	&:hover {
 		background-color: $SECONDARY-DARK;
 	}
@@ -31,13 +32,23 @@ h4 + .post {
 		height: 16px;
 		margin-top: 2px;
 		margin-left: 4px;
-		background-image: url(../img/plus.png);
+		background-image: url(../img/edit.png);
 		background-repeat: no-repeat;
 		background-size: 15px 15px;
 	}
 }
 
 .post {
+	._right {
+		.tooltip-patch {
+			left: 16px;
+		}
+	}
+	._bottom {
+		.tooltip-patch {
+			top: 16px;
+		}
+	}
 	.tooltip-patch {
 		width: 140px;
 		select {

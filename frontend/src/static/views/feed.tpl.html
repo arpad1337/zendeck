@@ -64,9 +64,29 @@
                     </li>
                 </ul>
                 <div class="actions">
-                    <a ng-click="ctrl.openCreateFilterDialog()" class="create">
-                        <span>{{ 'HEADER.SUB_MENU.CREATE_FILTER' | translate }}</span>
-                    </a>
+                    <div
+                        ng-init="hover20=false"
+                        ng-mouseenter="hover20 = true"
+                        ng-mouseleave="hover20 = false"
+                    >
+                        <a 
+                            class="create"
+                            ng-class="{hover: hover20}";
+                        >    
+                        </a>
+                        <ul>
+                            <li>
+                                <a ng-click="ctrl.openCreateFilterDialog()" class="filter">
+                                    {{ 'HEADER.SUB_MENU.CREATE_FILTER' | translate }}
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-click="ctrl.openCreateCollectionDialog()" class="star">
+                                    {{ 'HEADER.SUB_MENU.CREATE_COLLECTION' | translate }}
+                                </a>
+                            </li>
+                        </ul> 
+                    </div>  
                 </div>
             </nav>
             <div class="wrap prt-30">

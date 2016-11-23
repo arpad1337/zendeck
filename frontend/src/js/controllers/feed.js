@@ -21,7 +21,7 @@ class FeedController extends CollectionController {
 	}
 
 	constructor( $scope, $state, feedService, filterService, friendService, userService, modalService, collectionService ) {
-		super( $state, collectionService );
+		super( $state, collectionService, modalService, 'FEED' );
 		this.$scope = $scope;
 		this.$state = $state;
 		this._activeFilter = null;

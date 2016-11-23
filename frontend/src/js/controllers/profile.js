@@ -15,12 +15,13 @@ class ProfileController extends CollectionController {
 			'UserService',
 			'FeedService',
 			'FileUploadService',
-			'CollectionService'
+			'CollectionService',
+			'ModalService'
 		];
 	}
 
-	constructor( $scope, $state, userService, feedService, fileUploadService, collectionService ) {
-		super( $state, collectionService );
+	constructor( $scope, $state, userService, feedService, fileUploadService, collectionService, modalService ) {
+		super( $state, collectionService, modalService, 'PROFILE' );
 		this.$state = $state;
 		this.$scope = $scope;
 		this.userService = userService;

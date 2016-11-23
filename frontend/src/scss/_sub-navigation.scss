@@ -28,12 +28,40 @@ main > nav {
 		a {
 			color: $WHITE;
 			display: inline-block;
-			padding: 1px 6px;
-			text-align: center;
-			height: 18px;
-			line-height: 18px;
+			text-align: left;
+			font-size: 14px;
 			text-decoration: none;
-			margin-top: 3px;
+			line-height: 18px;
+			padding: 3px 10px 5px 6px;
+			& + ul {
+				display: none;
+				position: absolute;
+				z-index: 103;
+				top: 26px;
+				left: -124px;
+				width: 160px;
+				padding: 0 !important;
+				li {
+					background: $SECONDARY-LIGHT;
+					width: 100%;
+					a {
+						width: calc(100% - 20px);
+						&.active {
+							background: $SECONDARY-DARK;
+						}
+					}
+					&:first-child {
+						border-top: none;
+					}
+					&:hover {
+						background: $SECONDARY-DARK;
+					}
+				}
+			}
+			&.hover + ul,
+			&:hover + ul {
+				display: block;
+			}
 		}
 	}
   	ul, li {
@@ -65,7 +93,6 @@ main > nav {
 				padding: 0 !important;
 				li {
 					background: $SECONDARY-LIGHT;
-					border-top: 1px solid $SECONDARY-DARK;
 					width: 100%;
 					a {
 						width: calc(100% - 20px);

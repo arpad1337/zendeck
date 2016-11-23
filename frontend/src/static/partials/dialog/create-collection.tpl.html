@@ -1,12 +1,24 @@
 <div class="modal">
     <div class="container">
-        <h4>{{ 'MODALS.CREATE_COLLECTION.TITLE' |translate }}</h4>
+        <h4 ng-if="!saveButton">{{ 'MODALS.CREATE_COLLECTION.TITLE' |translate }}</h4>
+        <h4 ng-if="saveButton">{{ 'MODALS.CREATE_COLLECTION.TITLE2' |translate }}</h4>
         <a class="close" ng-click="cancel()"></a>
         <div class="content">
             <form>
                 <p>
-                    <label for="name">{{ 'MODALS.CREATE_COLLECTION.FILTER_NAME' |translate }}*</label>
-                    <input type="text" placeholder="{{ name || 'MODALS.CREATE_COLLECTION.FILTER_NAME_PLACEHOLDER' | translate }}" id="name" ng-model="name">
+                    <label for="name">{{ 'MODALS.CREATE_COLLECTION.COLLECTION_NAME' |translate }}*</label>
+                    <input type="text" placeholder="{{ name || 'MODALS.CREATE_COLLECTION.COLLECTION_NAME_PLACEHOLDER' | translate }}" id="name" ng-model="name">
+                </p>
+                <p>
+                    <label for="isPublic">{{ 'MODALS.CREATE_COLLECTION.IS_PUBLIC' | translate }}</label>
+                    <label class="radio">
+                        <input type="radio" id="isPublic" 
+                        ng-model="isPublic" value="true" ng-checked="isPublic == 'true'"> {{ 'MODALS.CREATE_COLLECTION.YES' | translate }}
+                    </label>
+                    <label class="radio">
+                        <input type="radio" id="isPublic" 
+                        ng-model="isPublic" value="false" ng-checked="isPublic == 'false'"> {{ 'MODALS.CREATE_COLLECTION.NO' | translate }} 
+                    </label>
                 </p>
                 <p ng-if="error.backend" class="hint negative">{{error.backend}}</p>
             </form>
@@ -16,10 +28,10 @@
                     class-name="'confirm'"
                     callback="ok()"
                 >
-                    <span ng-if="saveButton">
+                    <span ng-if="!saveButton">
                         {{ 'MODALS.CREATE_COLLECTION.OK' |translate }}
                     </span>
-                    <span ng-if="!saveButton">
+                    <span ng-if="saveButton">
                         {{ 'MODALS.CREATE_COLLECTION.SAVE' |translate }}
                     </span>
                 </modal-button>

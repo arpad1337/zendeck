@@ -1,7 +1,7 @@
 <section role="feed">
     <h4>{{ ctrl.currentCollection.name }}</h4>
     <a 
-    class="save-to-collection" ng-click="ctrl.saveCurrentCollection()" title="{{'FEED.SAVE_FILTER' | translate}}">
+    class="save-to-collection" ng-click="ctrl.saveCurrentCollection()" >
     	<span  ng-if="APP.currentUser.username != ctrl.profile.username">
 		{{ 'PROFILE.COPY_COLLECTION' | translate }}
 		</span>
