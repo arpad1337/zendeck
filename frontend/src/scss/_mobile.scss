@@ -129,9 +129,13 @@ section[role="about"] .edit {
 	overflow: auto;
 }
 
+main > header.profile-header {
+	height: 300px !important;
+}
+
 main > nav a {
 	font-size: 12px !important;
-	padding: 3px 10px 3px !important;
+	padding: 3px 3px 4px !important;
 	line-height: 20px !important;
 }
 

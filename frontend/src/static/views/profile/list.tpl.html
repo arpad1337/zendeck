@@ -9,7 +9,6 @@
 	</post-entry>
     <more-posts 
     	callback="ctrl.getMorePosts()"
-    	ng-if="ctrl.posts && ctrl.posts.length > 0"
     ></more-posts>
     <div ng-if="!ctrl.posts || ctrl.posts.length == 0">
     	<p class="message">{{'PROFILE.NO_POSTS' | translate}}</p>
