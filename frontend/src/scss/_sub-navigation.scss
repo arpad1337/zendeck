@@ -53,7 +53,8 @@ main > nav {
 		line-height: 18px;
 		display: inline-block;
 		cursor: pointer;
-		&.filter {
+		//&.filter, &.star, &.camera,
+		&.list {
 			& + ul {
 				display: none;
 				position: absolute;

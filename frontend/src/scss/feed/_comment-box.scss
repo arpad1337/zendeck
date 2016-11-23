@@ -27,8 +27,35 @@
 				margin-left: 42px;
 				word-wrap: break-word;
 			}
+			&:hover {
+				.delete {
+					display: block;
+				}
+			}
 		}
 	}
+
+	.delete {
+		display: none;
+		width: 16px;
+		height: 16px;
+		position: absolute;
+		right: 8px;
+		&:after {
+			background: url("../img/close.png");
+			background-size: 10px 10px;
+			background-position: 3px 2px;
+			background-repeat: no-repeat;
+			display: block;
+			content: " ";
+			float: right;
+			width: 16px;
+			height: 16px;
+			color: white;
+			margin: -1px -6px 0 0;
+		}
+	}
+
 	.author-pic {
 		width: 30px;
 		height: 30px;

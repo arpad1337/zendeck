@@ -33,10 +33,19 @@ body > header nav {
 	}
 }
 
-.post {
-	width: auto !important;
+section[role="about"] .edit {
+	display: none;
 }
 
+.post {
+	width: auto !important;
+	padding-left: 0 !important;
+}
+
+.post .head .meta-head {
+	float: left;
+	width: calc(100% - 90px);
+}
 .post .head .labels {
 	clear: both;
 }
@@ -62,8 +71,23 @@ body > header nav {
 	}
 }
 
-.post .comment-area profile-pic {
-	display: none;
+.post .head profile-pic {
+	position: relative !important;
+	float: left !important;
+	left: 0 !important;
+	margin-right: 4px !important;
+}
+
+.post .head .actions {
+	position: relative !important;
+	top: 0 !important;
+	left: -6px !important;
+	width: 100% !important;
+	text-align: left !important;
+}
+
+.post .head .delete {
+	display: block !important;
 }
 
 .comment-area .comments .comment .message {
@@ -71,7 +95,27 @@ body > header nav {
 }
 
 .comment-area textarea {
-	width: calc(100% - 10px) !important;
+
+}
+
+.post aside .content .embed {
+	&:after{
+		content: " ";
+		width: 1px;
+		height: 1px;
+		display: block;
+		clear: both;
+	}
+	.resource {
+		position: relative !important;
+		float: left;
+		left: 0 !important;
+		margin-top: 20px;
+		clear: both;
+		display: block;
+		margin-bottom: -10px;
+
+	}
 }
 
 .modal .container {
@@ -87,6 +131,8 @@ body > header nav {
 
 main > nav a {
 	font-size: 12px !important;
+	padding: 3px 10px 3px !important;
+	line-height: 20px !important;
 }
 
 .wrap > aside {

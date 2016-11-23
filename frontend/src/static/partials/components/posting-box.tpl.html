@@ -42,11 +42,11 @@
                                 <h4>{{'FEED.LINK_PREVIEW_TITLE' | translate}}</h4>
                                 <div class="embed">
                                     <div class="cover">
-                                        <img ng-src="{{vm.linkPreview.picture.large}}" width="160" height="160" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+                                        <img ng-src="{{vm.linkPreview.meta.preview}}" width="160" height="160" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
                                     </div>
-                                    <h3>{{vm.linkPreview.title}}</h3>
-                                    <p>{{vm.linkPreview.shortContent}}</p>
-                                    <div class="resource" ng-bind-html=" 'FEED.LINK_PREVIEW' | translate : { author: vm.linkPreview.author, medium: vm.linkPreview.medium } | htmlSafe ">
+                                    <h3>{{vm.linkPreview.meta.title}}</h3>
+                                    <p>{{vm.linkPreview.meta.description}}</p>
+                                    <div class="resource" ng-bind-html=" 'FEED.LINK_PREVIEW' | translate : { medium: vm.linkPreview.meta.source, url: vm.linkPreview.meta.url } | htmlSafe ">
                                         
                                     </div>
                                     <div class="delete" ng-click="vm.removePreview()"></div>

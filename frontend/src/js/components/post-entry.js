@@ -28,6 +28,12 @@ class PostEntryComponent {
 	constructor() {
 		this.buttonEnabled = true;
 		this._comment = '';
+		this.targetCollection = -1;
+		this.hideTooltip = true;
+	}
+
+	openBookmarkTooltip() {
+		this.hideTooltip = !this.hideTooltip;
 	}
 
 	set comment( value ) {
@@ -40,19 +46,6 @@ class PostEntryComponent {
 	get comment() {
 		return this._comment;
 	}
-
-	// async commit() {
-	// 	this.buttonEnabled = false;
-	// 	try {
-	// 		if( this._delegateRespondsToSelector( 'commit' ) ) {
-	// 			await this.delegate.commit();
-	// 		}
-	// 	} catch( e ) {
-	// 		console.error( e );
-	// 	} finally {
-	// 		this.buttonEnabled = true;
-	// 	}
-	// }
 
 	async comment() {
 		this.buttonEnabled = false;
@@ -68,16 +61,37 @@ class PostEntryComponent {
 		}
 	}
 
+	async deleteComment( commentId ) {
+		if( this._delegateRespondsToSelector( 'deleteComment' ) ) {
+			await this.delegate.deleteComment( commentId );
+			let index = -1;
+			this.entry.comments.data.forEach((c, i) => {
+				if( c.id == commentId ) {
+					index = i;
+				}
+			});
+			this.entry.comments.data.splice( index, 1 );
+		}
+	}
+
+	async deletePost() {
+		if( this._delegateRespondsToSelector( 'deletePost' ) ) {
+			await this.delegate.deletePost( this.entry.id );
+		}
+	}
+
 	async like() {
 		console.log('LIKEING', this.entry);
+		this.entry.liked = !this.entry.liked;
 	}
 
 	async bookmark() {
 		console.log('BOOKMARKING', this.entry);
 	}
 
-	async createTemporaryFilterWithTag( tag ) {
-
+	async saveToCollection() {
+		console.log('selected collection:', this.targetCollection);
+		this.entry.starred = !this.entry.starred;
 	}
 
 	_delegateRespondsToSelector( selector ) {

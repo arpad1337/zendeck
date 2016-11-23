@@ -28,6 +28,7 @@ import FilterService from './services/filter';
 import FeedService from './services/feed';
 import FriendService from './services/friend';
 import FileUploadService from './services/file-upload';
+import CollectionService from './services/collection';
 
 // C O M P O N E N T S
 
@@ -36,6 +37,7 @@ import PostEntryComponent from './components/post-entry';
 import PostingBoxTagComponent from './components/posting-box-tag';
 import ModalButtonComponent from './components/modal-button';
 import UserPreviewCardComponent from './components/user-preview-card';
+import MorePostsButtonComponent from './components/more-posts-button';
 import {
 	ProfilePicComponent
 } from './components/profile-pic';
@@ -61,6 +63,7 @@ module.service( 'FilterService', FilterService );
 module.service( 'FeedService', FeedService );
 module.service( 'FriendService', FriendService );
 module.service( 'FileUploadService', FileUploadService );
+module.service( 'CollectionService', CollectionService );
 
 module.directive( 'postingBox', createComponent( PostingBoxComponent ) );
 module.directive( 'postEntry', createComponent( PostEntryComponent ) );
@@ -68,5 +71,6 @@ module.directive( 'postingBoxTag', createComponent( PostingBoxTagComponent ) );
 module.directive( 'modalButton', createComponent( ModalButtonComponent ) );
 module.directive( 'userPreviewCard', createComponent( UserPreviewCardComponent ) );
 module.directive( 'profilePic', createComponent( ProfilePicComponent ) );
+module.directive( 'morePosts', createComponent( MorePostsButtonComponent ) );
 
 module.factory('sessionInterceptor', [...SessionInterceptor.$inject, (...params) => new SessionInterceptor(...params) ]);

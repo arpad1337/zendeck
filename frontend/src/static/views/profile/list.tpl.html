@@ -1,6 +1,16 @@
 <section role="feed">
     <h4>{{ 'FEED.POSTS_TITLE' | translate }}</h4>
-    <post-entry ng-repeat="post in ctlr.posts track by $index" entry="post" delegate="ctrl"></post-entry>
+    <post-entry 
+    	ng-repeat="post in ctrl.posts track by $index" 
+    	entry="post" 
+    	delegate="ctrl"
+    	current-user="APP.currentUser"
+    >
+	</post-entry>
+    <more-posts 
+    	callback="ctrl.getMorePosts()"
+    	ng-if="ctrl.posts && ctrl.posts.length > 0"
+    ></more-posts>
     <div ng-if="!ctrl.posts || ctrl.posts.length == 0">
     	<p class="message">{{'PROFILE.NO_POSTS' | translate}}</p>
     </div>

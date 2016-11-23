@@ -4,7 +4,8 @@
 		"ADD_FRIEND": "Add friend",
 		"FOLLOW": "Follow",
 		"UNFRIEND": "Unfriend",
-		"UNFOLLOW": "Unfollow"
+		"UNFOLLOW": "Unfollow",
+		"MORE_POSTS": "More posts"
 	},
 	"HEADER": {
 		"MENU": {
@@ -17,13 +18,19 @@
 		"SUB_MENU": {
 			"FEED": "Feed",
 			"MEMBERS": "Members",
-			"LIKED": "Liked",
+			"LIKED": "Liked posts",
+			"COLLECTIONS": "Collections",
+			"FILTERS": "Filters",
 			"JOIN_GROUP": "Join group",
 			"INVITE_FRIENDS": "Invite friends",
 			"CREATE_FILTER": "Create filter",
-			"ADD_FRIEND": "Add friend",
-			"SEND_NEW_MESSAGE": "Send a message"
+			"ADD_FRIEND": "Follow",
+			"SEND_NEW_MESSAGE": "Send a message",
+			"FRIENDS": "Friends",
+			"FOLLOWERS": "Followers",
+			"CONTENTS": "Contents"
 		},
+
 		"PROFILE": {
 			"SETTINGS": "Settings",
 			"LOGOUT": "Logout"
@@ -50,7 +57,8 @@
 	},
 	"RIGHT_COLUMN": {
 		"FRIENDS": {
-			"TITLE": "Friends"
+			"TITLE": "Recent friends",
+			"NO_FRIENDS": "You have no friends yet. Why not searching?"
 		},
 		"GROUPS": {
 			"TITLE": "Groups",
@@ -65,7 +73,8 @@
 			"ARTICLE": "{{articleCount}} article posted",
 			"PHOTO": "{{photoCount}} photo shared",
 			"VIDEOS": "{{videoCount}} video linked",
-			"EVENTS": "{{eventScheduled}} event scheduled"
+			"EVENTS": "{{eventScheduled}} event scheduled",
+			"EDIT_CTA": "Edit profile"
 		},
 		"STATS": {
 			"TITLE": "Stats",
@@ -79,7 +88,9 @@
 			"TITLE": "Recent tags"
 		},
 		"GROUPS": {
-			"TITLE": "Groups"
+			"TITLE": "Groups",
+			"NO_GROUPS": "You have no groups yet. Why not searching?",
+			"CREATE_GROUP": "Create group"
 		}
 	},
 	"NOTIFICATIONS": {
@@ -99,7 +110,9 @@
 		"FILTERED_TITLE": "Posts by",
 		"LINK_PREVIEW_TITLE": "Link preview",
 		"SAVE_FILTER": "Save",
-		"LINK_PREVIEW": "<span>{{author}}</span> from <span>{{medium}}</span>",
+		"LINK_PREVIEW": "<a href=\"{{url}}\" target=\"_blank\">From <span>{{medium}}</span></a>",
+		"SAVE_COLLECTION": "Save",
+		"EDIT_COLLECTION": "Edit",
 		"POST_ENTRY": {
 			"IN_GROUP": "from <a href=\"{{groupUrl}}\">{{groupName}}</a>",
 			"TIME_AGO_SUFFIX": "{{value}} ago",
@@ -115,7 +128,8 @@
 			"DISLIKEING": "Dislike this post",
 			"PREVIOUS_COMMENTS": "previous comments ({{difference}})",
 			"COMMENT_PLACEHOLDER": "Type your comment here",
-			"COMMENT_CTA": "Post"
+			"COMMENT_CTA": "Post",
+			"ATTACHMENT_SOURCE": "From <span>{{source}}</span>"
 		},
 		"POST_BOX": {
 			"TITLE": "Post to feed",
@@ -148,7 +162,9 @@
 		"CHANGE_NAME": "Change name",
 		"NO_POSTS": "Seems like the user did not post anything yet.",
 		"MEMBER_SINCE_PREFIX": "Joined at",
-		"NO_ABOUT": "N/A"
+		"NO_ABOUT": "N/A",
+		"COPY_COLLECTION": "Copy",
+		"EDIT_COLLECTION": "Edit"
 	},
 	"MEMBERS": {
 		"TITLE": "Members"
@@ -216,7 +232,16 @@
 		},
 		"CREATE_FILTER": {
 			"TITLE": "Create filter",
-			"FILTER_NAME": "Name of the filter",
+			"FILTER_NAME": "Name",
+			"FILTER_NAME_PLACEHOLDER": "Type here",
+			"PLACEHOLDER": "Type a title",
+			"OK": "Create",
+			"SAVE": "Save",
+			"CANCEL": "Cancel"
+		},
+		"CREATE_COLLECTION": {
+			"TITLE": "Create collection",
+			"FILTER_NAME": "Name",
 			"FILTER_NAME_PLACEHOLDER": "Type here",
 			"PLACEHOLDER": "Type a title",
 			"OK": "Create",

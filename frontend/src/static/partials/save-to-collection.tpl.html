@@ -1,0 +1,15 @@
+<div ng-if="!vm.entry.starred">
+	Save to collection:
+	<select ng-model="vm.targetCollection">
+		<option
+			ng-repeat="collection in vm.delegate.collections track by $index"
+			ng-selected="$index == 0"
+			value="{{collection.id}}">
+			{{collection.name}}
+		</option>
+	</select>
+	<button ng-click="vm.saveToCollection();">Ok</button>
+</div>
+<div ng-if="vm.entry.starred">
+	Already saved.
+</div>

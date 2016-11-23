@@ -1,8 +1,8 @@
 <section role="friends-sidebar">
-    <h4>Friends</h4>
+    <h4>{{'RIGHT_COLUMN.FRIENDS.TITLE' | translate}}</h4>
     <div class="friends">
         <div ng-if="ctrl.friends.length === 0" class="empty">
-            You have no friends yet. Why not searching?
+            {{'RIGHT_COLUMN.FRIENDS.NO_FRIENDS' | translate}}
         </div>
         <div
             ng-repeat="friend in ctrl.friends track by $index"

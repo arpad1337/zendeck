@@ -58,9 +58,59 @@
 
 <nav>
     <ul>
-        <li><a href="feed.html" class="feed active">Feed</a></li>
-        <li><a href="members.html" class="members">Friends</a></li>
-        <li><a href="photos.html" class="camera">Photos</a></li>
+        <li><a 
+            class="feed active"
+            ui-sref="profile.posts({username:ctrl.profile.username})"
+            ng-click="ctrl.selectFeed()"
+            >
+                {{'HEADER.SUB_MENU.FEED' | translate}}
+            </a>
+        </li>
+        <li>
+            <a 
+                ui-sref="profile.followers({username: ctrl.profile.username})"
+                class="members">
+                <span ng-if="!ctrl.profile.isBusiness">
+                    {{'HEADER.SUB_MENU.FRIENDS' | translate}}
+                </span>
+                <span ng-if="ctrl.profile.isBusiness">
+                    {{'HEADER.SUB_MENU.FOLLOWERS' | translate}}
+                </span>
+            </a>
+        </li>
+        <li
+            ng-init="hover4=false"
+            ng-mouseenter="hover4 = true"
+            ng-mouseleave="hover4 = false"
+        >
+            <a 
+                class="star list"
+                ng-class="{hover: hover4, active: (ctrl.activeCollection != null || ctrl.activeState == ctrl.PROFILE_STATES.LIKED )}"
+            >
+               {{ 'HEADER.SUB_MENU.COLLECTIONS' | translate }}
+            </a>
+            <ul>
+                <li>
+                    <a
+                        ui-sref="profile.liked" class="hearth"
+                        ng-click="ctrl.selectLiked()"
+                        ng-class="ctrl.activeState == ctrl.PROFILE_STATES.LIKED ? 'active' : ''"
+                        >
+                        {{ 'HEADER.SUB_MENU.LIKED' | translate }}
+                     </a>
+                </li>
+                <li ng-repeat="collection in ctrl.collections">
+                    <a 
+                        ui-sref="profile.collection({collectionId: collection.id})" 
+                        ng-click="ctrl.selectCollection( collection.id )"
+                        class=" "
+                        ng-class="ctrl.activeCollection == collection.id ? 'active' : ''"
+                    >
+                        {{ collection.name }}
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
     <div class="actions" ng-if="APP.currentUser.username != ctrl.profile.username">
         <a href="#" class="create">

@@ -1,0 +1,18 @@
+/*
+ * @rpi1337
+ */
+
+@import "../variables";
+
+more-posts {
+	button {
+		margin: auto;
+		display: block;
+		border: none;
+		color: $WHITE;
+		background: $SECONDARY-LIGHT;
+		&:hover {
+			background: $SECONDARY-DARK;
+		}
+	}
+}

@@ -1,0 +1,34 @@
+<div class="modal">
+    <div class="container">
+        <h4>{{ 'MODALS.CREATE_COLLECTION.TITLE' |translate }}</h4>
+        <a class="close" ng-click="cancel()"></a>
+        <div class="content">
+            <form>
+                <p>
+                    <label for="name">{{ 'MODALS.CREATE_COLLECTION.FILTER_NAME' |translate }}*</label>
+                    <input type="text" placeholder="{{ name || 'MODALS.CREATE_COLLECTION.FILTER_NAME_PLACEHOLDER' | translate }}" id="name" ng-model="name">
+                </p>
+                <p ng-if="error.backend" class="hint negative">{{error.backend}}</p>
+            </form>
+        </div>
+        <div class="actions">
+               <modal-button
+                    class-name="'confirm'"
+                    callback="ok()"
+                >
+                    <span ng-if="saveButton">
+                        {{ 'MODALS.CREATE_COLLECTION.OK' |translate }}
+                    </span>
+                    <span ng-if="!saveButton">
+                        {{ 'MODALS.CREATE_COLLECTION.SAVE' |translate }}
+                    </span>
+                </modal-button>
+                <modal-button
+                    class-name="'cancel'"
+                    callback="cancel()"
+                >
+                    {{ 'MODALS.CREATE_COLLECTION.CANCEL' |translate }}
+                </modal-button>
+        </div>
+    </div>
+</div>

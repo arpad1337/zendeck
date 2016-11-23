@@ -38,8 +38,32 @@ h4 + .post {
 }
 
 .post {
+	.tooltip-patch {
+		width: 140px;
+		select {
+			background: $WHITE;
+			color: black;
+			@include border-radius(0px);
+			padding: 3px 4px;
+			width: 100px;
+			font-size: 12px;
+			border: 1px solid white;
+		}
+		button {
+			border: none;
+			background: $WHITE;
+			color: $MAIN-DARK;
+			margin: 5px auto 0;
+			display: inline-block;
+			font-size: 14px;
+			height: 23px;
+			font-size: 13px;
+		}
+		@extend .clear;
+    }
 	display: block;
-	width: 600px;
+	width: calc(100% - 80px);
+	max-width: 540px;
 	margin: 10px auto;
 	border-top: 1px solid $FOOTER-LIGHT;
 	padding-top: 20px;
@@ -60,6 +84,44 @@ h4 + .post {
 			left: -80px;
 			top: 0;
 		}
+
+		&:hover {
+			.delete {
+				display: block;
+			}
+		}
+
+		.meta-head {
+			padding-top: 8px;
+		}
+
+		.delete {
+			display: none;
+			width: 16px;
+			height: 16px;
+			position: absolute;
+			right: 0;
+			top: 12px;
+			border: none;
+			background: $SECONDARY-LIGHT;
+			&:hover {
+				background: $SECONDARY-DARK;
+			}
+			&:after {
+				background: url("../img/close.png");
+				background-size: 10px 10px;
+				background-position: 3px 2px;
+				background-repeat: no-repeat;
+				display: block;
+				content: " ";
+				float: right;
+				width: 16px;
+				height: 16px;
+				color: white;
+				margin: -1px -6px 0 0;
+			}
+		}
+
 		.labels {
 			margin-top: 8px;
 		}
@@ -72,7 +134,7 @@ h4 + .post {
 		// 	}
 		// }
 		.actions {
-			margin: 6px;
+			margin: 6px auto;
 			float: left;
 			clear: both;
 			width: 60px;
@@ -91,7 +153,7 @@ h4 + .post {
 			background-size: cover;
 			display: block;
 			float: right;
-			margin-bottom: 1px;
+			margin-bottom: 4px !important;
 			&:hover {
 				background-image: url('../img/star_big-hover.png');
 			}
@@ -154,14 +216,12 @@ h4 + .post {
 		color: $MAIN-DARK;
 		padding-top: 14px;
 		font-weight: normal;
-		display: inline-block;
 		cursor: pointer;
 		&:hover {
 			color: $MAIN-LIGHT;
 		}
 	}
 	.from {
-		display: inline-block;
 		word-wrap: break-word;
 		a {
 			color: $SECONDARY-LIGHT;
@@ -174,7 +234,8 @@ h4 + .post {
 	.date {
 		color: $FOOTER-DARK;
 		font-size: 12px;
-		font-weight: normal
+		font-weight: normal;
+		display: block;
 	}
 	aside {
 		margin-top: 6px;

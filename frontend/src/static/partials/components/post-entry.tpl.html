@@ -1,38 +1,57 @@
-<div class="post left">
+<div class="post left" ng-if="vm.entry">
     <div class="head">
+        <button 
+            ng-click="vm.deletePost()" 
+            class="delete"
+            ng-if="vm.entry.author.id == vm.currentUser.id"
+        ></button>
         <profile-pic
                 size="xmedium"
                 user="vm.entry.author"
                 ui-sref="profile.posts({username:vm.entry.author.username})"
         ></profile-pic>
-        <div class="author" ui-sref="profile.posts({username:vm.entry.author.username})">
-            {{vm.entry.author.fullname}}
-        </div>
-        <div 
-            ng-if="vm.entry.inGroup"
-            class="from"
-            data-ng-bind-html=" 'FEED.POST_ENTRY.IN_GROUP' | translate : { groupName: vm.entry.group.name, groupUrl: '#/groups/' + vm.entry.group.id } | htmlSafe "
-        >
-            
-        </div>
-        <div class="date">23 hour ago</div>
-        <div class="actions">
-            <a 
-                class="hearth"
-                ng-class=" vm.entry.liked ? 'liked' : '' "
-                ng-click="vm.like()"
-                tooltips
-                tooltip-template="{{ !vm.entry.liked ? ('FEED.POST_ENTRY.LIKEING' | translate) : ('FEED.POST_ENTRY.DISLIKEING' | translate) }}"
+        <div class="meta-head">
+            <span class="author" ui-sref="profile.posts({username:vm.entry.author.username})">
+                {{vm.entry.author.fullname}}
+            </span>
+            <span 
+                ng-if="vm.entry.inGroup"
+                class="from"
+                data-ng-bind-html=" 'FEED.POST_ENTRY.IN_GROUP' | translate : { groupName: vm.entry.group.name, groupUrl: '#/groups/' + vm.entry.group.id } | htmlSafe "
             >
-                {{ vm.entry.likes | pretifyNumber }}
-            </a>
-            <a class="star" 
-                ng-click="vm.bookmark()"
-                ng-class=" vm.entry.starred ? 'starred' : '' "
-                tooltips
-                tooltip-template="{{'FEED.POST_ENTRY.BOOKMARKING' | translate }}"
-            >
-            </a>
+                
+            </span>
+            <span class="date"
+                title="{{vm.entry.createdAt}}"
+                >{{ vm.entry.createdAt | timeAgo }}
+            </span>
+            <div class="actions">
+                <a 
+                    class="hearth"
+                    ng-class=" vm.entry.liked ? 'liked' : '' "
+                    ng-click="vm.like()"
+                    tooltips
+                    tooltip-template="{{ !vm.entry.liked ? ('FEED.POST_ENTRY.LIKEING' | translate) : ('FEED.POST_ENTRY.DISLIKEING' | translate) }}"
+                >
+                    {{ vm.entry.likes | pretifyNumber }}
+                </a>
+                <a class="star" 
+                    ng-class=" vm.entry.starred ? 'starred' : '' "
+                    ng-init="vm = vm"
+                    tooltips
+                    tooltip-template-url="partials/save-to-collection.tpl.html"
+                    tooltip-class="tooltip-patch"
+                    tooltip-show-trigger="click"
+                    tooltip-hide-trigger="mouseleave"
+                    tooltip-close-button="true"
+                >
+
+
+                </a>
+
+<!--                                    tooltip-template="{{'FEED.POST_ENTRY.BOOKMARKING' | translate }}"-->
+
+            </div>
         </div>
         <div class="labels">
             <ul>
@@ -49,6 +68,18 @@
             <div class="message">
                 {{vm.entry.content}}
             </div>
+            <a class="embed" href="{{vm.entry.attachment.url}}" ng-if="vm.entry.attachment">
+                <div class="cover">
+                    <img ng-src="{{vm.entry.attachment.preview}}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="160" height="160">
+                </div>
+                <h3>{{vm.entry.attachment.title}}</h3>
+                <p>{{vm.entry.attachment.description}}</p>
+                <div 
+                    class="resource"
+                    data-ng-bind-html=" 'FEED.POST_ENTRY.ATTACHMENT_SOURCE' | translate : { source: vm.entry.attachment.source } | htmlSafe "
+                >
+                </div>
+            </a>
         </div>
         <div class="comment-area">
             <div class="pagination" ng-if="vm.entry.comments.count > 3 && vm.entry.comments.data.length - vm.entry.comments.count > 0">
@@ -56,6 +87,11 @@
             </div>
             <div class="comments">
                 <div class="comment" ng-repeat="comment in vm.entry.comments.data">
+                    <button 
+                        ng-click="vm.deleteComment(comment.id)" 
+                        class="delete"
+                        ng-if="comment.author.id == vm.currentUser.id"
+                    ></button>
                     <profile-pic
                         size="xxsmall"
                         user="comment.author"
@@ -88,7 +124,7 @@
                 <button
                     ng-click="vm.comment()" 
                     class="post-comment"
-                    ng-disabled="vm.buttonEnabled"
+                    ng-disabled="!vm.buttonEnabled"
                 >
                     {{'FEED.POST_ENTRY.COMMENT_CTA' | translate}}
                 </button>        

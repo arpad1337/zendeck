@@ -55,8 +55,17 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.FEED.LIKED,
 		opts: {
-			path: '/liked',
+			path: '/collections/liked',
 			view: 'views/feed/liked.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+
+	{
+		state: STATES.APPLICATION.FEED.COLLECTION,
+		opts: {
+			path: '/collections/:collectionId',
+			view: 'views/feed/starred.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},
@@ -100,7 +109,7 @@ const ROUTES = [
 		}
 	},
 	{
-		state: STATES.APPLICATION.MESSAGES,
+		state: STATES.APPLICATION.MESSAGES.SELF,
 		opts: {
 			path: '/messages',
 			controller: 'MessagesController',
@@ -117,16 +126,51 @@ const ROUTES = [
 			abstract: true,
 			path: '/:username',
 			controller: 'ProfileController',
-			view: 'views/profile.tpl.html'
+			view: 'views/profile.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},
+
 	{
 		state: STATES.APPLICATION.PROFILE.POSTS,
 		opts: {
 			path: '/profile',
-			view: 'views/profile/list.tpl.html'
+			view: 'views/profile/list.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+
+	{
+		state: STATES.APPLICATION.PROFILE.FOLLOWERS,
+		opts: {
+			path: '/connections',
+			view: 'views/profile/friends.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+
+	{
+		state: STATES.APPLICATION.PROFILE.LIKED,
+		opts: {
+			path: '/collections/liked',
+			view: 'views/profile/liked.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+
+	{
+		state: STATES.APPLICATION.PROFILE.COLLECTION,
+		opts: {
+			path: '/collections/:collectionId',
+			view: 'views/profile/starred.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
 		}
 	}
 ];
 
 export default ROUTES;
+
+
+
+
+

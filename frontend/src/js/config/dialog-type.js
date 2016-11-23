@@ -18,7 +18,8 @@ const DIALOG_TYPE = new Enum([
 	'PASSWORD_RESET_SENT',
 	'PASSWORD_RESET',
 	'LOGIN_DISABLED',
-	'CREATE_FILTER'
+	'CREATE_FILTER',
+	'CREATE_COLLECTION'
 ], 'DIALOG_TYPE');
 
 const DIALOG_DESCIPTORS = {};
@@ -61,6 +62,10 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.LOGIN_DISABLED.toString() ] = {
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.CREATE_FILTER.toString() ] = {
 	templateUrl: 'partials/dialog/create-filter.tpl.html'
+}
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.CREATE_COLLECTION.toString() ] = {
+	templateUrl: 'partials/dialog/create-collection.tpl.html'
 }
 
 export {

@@ -5,11 +5,13 @@
 const STATES = {
 	LANDING: 'landing',
 	PASSWORD_RESET: 'password-reset',
+	INVITATION: 'invitation',
 	APPLICATION: {
 		FEED: {
 			SELF: 'feed',
 			POSTS: 'feed.posts',
 			LIKED: 'feed.liked',
+			COLLECTION: 'feed.collection',
 			FILTERED: 'feed.filtered'
 		},
 		GROUPS: {
@@ -20,14 +22,30 @@ const STATES = {
 			GROUP_BY_NAME_STARRED: 'groups.groupByName.starred'
 		},
 		NOTIFICATIONS: 'notifications',
-		MESSAGES: 'messages',
+		MESSAGES: {
+			SELF: 'messages',
+			LIST: 'messages.list',
+			THREAD: 'messages.thread'
+		},
 		PROFILE: {
 			SELF: 'profile',
-			POSTS: 'profile.posts'
+			POSTS: 'profile.posts',
+			LIKED: 'profile.liked',
+			FOLLOWERS: 'profile.followers',
+			COLLECTION: 'profile.collection'
 		},
-		SETTINGS: 'settings'
+		SETTINGS: {
+			SELF: 'settings',
+			PROFILE: 'settings.profile',
+			BILLING: 'settings.billing'
+		}
 	},
-	ABOUT: 'about'
+	ABOUT: 'about',
+	FAQ: 'faq',
+	CONTACT: 'contact',
+	TNC: 'tnc',
+	PRIVACY_POLICY: 'privacyPolicy',
+	COOKIE_POLICY: 'cookiePolicy'
 };
 
 export default STATES;

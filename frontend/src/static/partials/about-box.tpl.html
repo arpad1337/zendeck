@@ -2,9 +2,9 @@
     <button 
         class="edit"
         ng-if="APP.currentUser.username == ctrl.profile.username"
-        ng-click="ctrl.toggleEditing()">Edit profile
+        ng-click="ctrl.toggleEditing()">{{'RIGHT_COLUMN.ABOUT.EDIT_CTA' | translate}}
     </button>
-    <h4>About</h4>
+    <h4>{{'RIGHT_COLUMN.ABOUT.TITLE' | translate}}</h4>
     <div class="about" ng-if="!ctrl.isEditing">
     	{{ ctrl.profile.about || 'PROFILE.NO_ABOUT' | translate }}
     </div>

@@ -54,7 +54,7 @@ class FilterService {
 		payload.id = 'test_' + (Math.floor( Math.random() * 999999999 ));
 		let promise = this.$q.defer();
 		setTimeout(() => {
-			promise.resolve( Object.assing({}, filter ));
+			promise.resolve( Object.assing({}, payload ));
 		}, Math.random() * 1000);
 		return promise.promise;
 	}

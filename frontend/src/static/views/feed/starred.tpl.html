@@ -1,0 +1,18 @@
+<section role="feed">
+    <h4>{{ ctrl.currentCollection.name }}</h4>
+    <a class="save-to-collection" ng-click="ctrl.saveCurrentCollection()" title="{{'FEED.SAVE_FILTER' | translate}}">
+    	<span ng-if="ctrl.currentCollection.shared">
+		{{ 'FEED.SAVE_COLLECTION' | translate }}
+		</span>
+		<span ng-if="!ctrl.currentCollection.shared">
+		{{ 'FEED.EDIT_COLLECTION' | translate }}
+		</span>
+	</a>
+    <post-entry 
+    	ng-repeat="post in ctrl.posts track by $index" 
+    	entry="post" 
+    	delegate="ctrl"
+    	current-user="APP.currentUser"
+    >
+	</post-entry>
+</section>

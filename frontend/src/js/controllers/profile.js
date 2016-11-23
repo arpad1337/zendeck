@@ -3,8 +3,10 @@
  */
 
 import Validator from '../helpers/validator';
+import CollectionController from './collection';
+import STATES from '../config/states';
 
-class ProfileController {
+class ProfileController extends CollectionController {
 
 	static get $inject() {
 		return [
@@ -12,11 +14,13 @@ class ProfileController {
 			'$state',
 			'UserService',
 			'FeedService',
-			'FileUploadService'
+			'FileUploadService',
+			'CollectionService'
 		];
 	}
 
-	constructor( $scope, $state, userService, feedService, fileUploadService ) {
+	constructor( $scope, $state, userService, feedService, fileUploadService, collectionService ) {
+		super( $state, collectionService );
 		this.$state = $state;
 		this.$scope = $scope;
 		this.userService = userService;
@@ -29,8 +33,16 @@ class ProfileController {
 		this._initState();
 	}
 
+	get PROFILE_STATES() {
+		return STATES.APPLICATION.PROFILE;
+	}
+
 	_initState() {
+		this.username = this.$state.params.username;
+
 		this._isEditing = false;
+		this._page = 1;
+		this.posts = [];
 		this.userService.getProfileByUsername( this.$state.params.username ).then((profile) => {
 			this.profile = profile;
 			this.lastProfileFields = {
@@ -39,9 +51,32 @@ class ProfileController {
 				birthDate: this.profile.birthDate
 			};
 		});
-		this.feedService.getUserPosts( this.$state.params.username ).then(( posts ) => {
-			this.posts = posts;
+		this.feedService.getUserPostsByUsernameAndPage( this.$state.params.username, this._page ).then(( posts ) => {
+			posts.forEach((post) => {
+				this.posts.push( post );
+			});
 		});
+		
+		this.loadCollections();
+	}
+
+	async selectFeed() {
+		this.resetPaginator();
+		let posts = await this.feedService.getFeedByPage( this._page );
+		posts.forEach((post) => {
+			this.posts.push( post );
+		});
+		this.$scope.$digest();
+	}
+
+	async getMorePosts() {
+		this._page++;
+		let newPosts = await this.feedService.getUserPostsByUsernameAndPage( this.$state.params.username, this._page );
+		newPosts.forEach((post) => {
+			this.posts.push( post );
+		});
+		this.$scope.$digest();
+		return (newPosts.length > 0);
 	}
 
 	async toggleEditing() {

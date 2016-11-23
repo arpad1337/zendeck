@@ -1,0 +1,7 @@
+<button
+	ng-style="{display: !this.hidden ? 'block' : 'none'}"
+	ng-disabled="!vm.buttonEnabled"
+	ng-click="vm.commit()"
+>
+	{{'COMMON.MORE_POSTS' | translate}}
+</button>

@@ -2,25 +2,52 @@
                 <ul>
                     <li>
                         <a ui-sref="feed.posts" class="feed" 
+                            ng-click="ctrl.selectFeed()"
                         ng-class="ctrl.activeState == ctrl.FEED_STATES.POSTS ? 'active' : ''">
                             {{ 'HEADER.SUB_MENU.FEED' | translate }}
                     </a>
                     </li>
-                    <li>
-                        <a ui-sref="feed.liked" class="hearth"
-                        ng-class="ctrl.activeState == ctrl.FEED_STATES.STARRED ? 'active' : ''"
+                    <li
+                        ng-init="hover1=false"
+                        ng-mouseenter="hover1 = true"
+                        ng-mouseleave="hover1 = false"
+                    >
+                        <a 
+                            class="star list"
+                            ng-class="{hover: hover1, active: (ctrl.activeCollection != null || ctrl.activeState == ctrl.FEED_STATES.LIKED )}"
                         >
-                            {{ 'HEADER.SUB_MENU.LIKED' | translate }}
+                           {{ 'HEADER.SUB_MENU.COLLECTIONS' | translate }}
                         </a>
+                        <ul>
+                            <li>
+                                <a
+                                    ui-sref="feed.liked" class="hearth"
+                                    ng-click="ctrl.selectLiked()"
+                                    ng-class="ctrl.activeState == ctrl.FEED_STATES.LIKED ? 'active' : ''"
+                                    >
+                                    {{ 'HEADER.SUB_MENU.LIKED' | translate }}
+                                 </a>
+                            </li>
+                            <li ng-repeat="collection in ctrl.collections">
+                                <a 
+                                    ui-sref="feed.collection({collectionId: collection.id})" 
+                                    ng-click="ctrl.selectCollection( collection.id )"
+                                    class=" "
+                                    ng-class="ctrl.activeCollection == collection.id ? 'active' : ''"
+                                >
+                                    {{ collection.name }}
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li
-                        ng-init="hover=false"
-                        ng-mouseenter="hover = true"
-                        ng-mouseleave="hover = false"
+                        ng-init="hover2=false"
+                        ng-mouseenter="hover2 = true"
+                        ng-mouseleave="hover2 = false"
                     >
-                        <a class="filter" 
-                            ng-class="{hover: hover, active: (ctrl.activeFilter != null )}">
-                            Filters
+                        <a class="filter list" 
+                            ng-class="{hover: hover2, active: (ctrl.activeFilter != null )}">
+                            {{ 'HEADER.SUB_MENU.FILTERS' | translate }}
                         </a>
                         <ul>
                             <li ng-repeat="filter in ctrl.filters">

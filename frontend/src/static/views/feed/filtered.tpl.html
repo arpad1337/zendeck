@@ -1,6 +1,6 @@
 <section role="feed">
 	<h4>{{ ctrl.currentFilter.name }} - {{ 'FEED.FILTERED_TITLE' | translate }}</h4>
-	<div class="create-post">
+	<div class="create-post w-auto">
     	<ul class="labels pl0">
 	    	<posting-box-tag
 	            ng-repeat="tag in ctrl.currentFilter.tags track by $index"
@@ -16,5 +16,11 @@
 	<a class="save-to-collection" ng-click="ctrl.saveCurrentFilter()" title="{{'FEED.SAVE_FILTER' | translate}}">
 		{{ 'FEED.SAVE_FILTER' | translate }}
 	</a>
-    <post-entry ng-repeat="post in cltr.starred track by $index" entry="post" delegate="ctrl"></post-entry>
+    <post-entry 
+    	ng-repeat="post in ctrl.posts track by $index" 
+    	entry="post" 
+    	delegate="ctrl"
+    	current-user="APP.currentUser"
+    >
+	</post-entry>
 </section>
