@@ -130,7 +130,11 @@
 			"PREVIOUS_COMMENTS": "previous comments ({{difference}})",
 			"COMMENT_PLACEHOLDER": "Type your comment here",
 			"COMMENT_CTA": "Post",
-			"ATTACHMENT_SOURCE": "From <span>{{source}}</span>"
+			"ATTACHMENT_SOURCE": "From <span>{{source}}</span>",
+			"SAVE_TO_COLLECTION": "Save to collection",
+			"OK": "Ok",
+			"ALREADY_SAVED": "Already saved",
+			"NO_COLLECTIONS": "You have no collections yet"
 		},
 		"POST_BOX": {
 			"TITLE": "Post to feed",

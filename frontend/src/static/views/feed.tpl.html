@@ -28,7 +28,7 @@
                                     {{ 'HEADER.SUB_MENU.LIKED' | translate }}
                                  </a>
                             </li>
-                            <li ng-repeat="collection in ctrl.collections">
+                            <li ng-repeat="collection in ctrl.collections track by $index">
                                 <a 
                                     ui-sref="feed.collection({collectionId: collection.id})" 
                                     ng-click="ctrl.selectCollection( collection.id )"
@@ -50,7 +50,7 @@
                             {{ 'HEADER.SUB_MENU.FILTERS' | translate }}
                         </a>
                         <ul>
-                            <li ng-repeat="filter in ctrl.filters">
+                            <li ng-repeat="filter in ctrl.filters track by $index">
                                 <a 
                                     ui-sref="feed.filtered({filterId: filter.id})" 
                                     ng-click="ctrl.selectFilter( filter.id )"

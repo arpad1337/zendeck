@@ -25,6 +25,7 @@ main > nav {
 		top: 60px;
 		right: 3px;
 		z-index: 102;
+		padding-right: 6px;
 		a {
 			color: $WHITE;
 			display: inline-block;
@@ -35,10 +36,11 @@ main > nav {
 			padding: 3px 10px 5px 6px;
 			& + ul {
 				display: none;
+				overflow: auto;
 				position: absolute;
 				z-index: 103;
 				top: 26px;
-				left: -124px;
+				left: -136px;
 				width: 160px;
 				padding: 0 !important;
 				li {
@@ -81,6 +83,7 @@ main > nav {
 		line-height: 18px;
 		display: inline-block;
 		cursor: pointer;
+
 		//&.filter, &.star, &.camera,
 		&.list {
 			& + ul {
@@ -91,6 +94,8 @@ main > nav {
 				left: 0;
 				width: 120px;
 				padding: 0 !important;
+				max-height: 850% !important;
+				overflow: scroll;
 				li {
 					background: $SECONDARY-LIGHT;
 					width: 100%;
@@ -113,6 +118,9 @@ main > nav {
 				display: block;
 			}
 		}
+		span {
+			margin-right: 2px;
+		}
 		&:after {
 			display: block;
 			content: " ";
@@ -120,7 +128,7 @@ main > nav {
 			width: 16px;
 			height: 16px;
 			margin-top: 2px;
-			margin-left: 4px;
+			margin-left: 2px;
 		}
 		&:hover, &.active {
 			background: $SECONDARY-DARK;

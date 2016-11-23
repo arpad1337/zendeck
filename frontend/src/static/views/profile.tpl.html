@@ -99,7 +99,7 @@
                         {{ 'HEADER.SUB_MENU.LIKED' | translate }}
                      </a>
                 </li>
-                <li ng-repeat="collection in ctrl.collections">
+                <li ng-repeat="collection in ctrl.collections track by $index">
                     <a 
                         ui-sref="profile.collection({collectionId: collection.id})" 
                         ng-click="ctrl.selectCollection( collection.id )"

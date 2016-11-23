@@ -165,7 +165,6 @@ class CollectionController {
 	async createNewCollectionModelWithName( name, isPublic ) {
 		let model = await this.collectionService.createNewCollectionModelWithName( name, isPublic );
 		this._activeCollection = model;
-		this.$state.go( this.FEED_STATES.COLLECTION, { collectionId: model.id });
 		return model;
 	}
 

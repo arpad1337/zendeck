@@ -1,15 +1,23 @@
 <div ng-if="!vm.entry.starred">
-	Save to collection:
-	<select ng-model="vm.targetCollection">
-		<option
-			ng-repeat="collection in vm.delegate.collections track by $index"
-			ng-selected="$index == 0"
-			value="{{collection.id}}">
-			{{collection.name}}
-		</option>
-	</select>
-	<button ng-click="vm.saveToCollection();">Ok</button>
+	<div ng-if="!vm.delegate.collections || vm.delegate.collections.length == 0">
+		{{ 'FEED.POST_ENTRY.NO_COLLECTIONS' | translate }}
+		<button ng-click="vm.delegate.openCreateCollectionDialog()">
+			{{ 'HEADER.SUB_MENU.CREATE_COLLECTION' | translate }}
+		</button>
+	</div>
+	<div ng-if="vm.delegate.collections && vm.delegate.collections.length > 0">
+		{{ 'FEED.POST_ENTRY.SAVE_TO_COLLECTION' | translate }}:
+		<select ng-model="vm.targetCollection">
+			<option
+				ng-repeat="collection in vm.delegate.collections track by $index"
+				ng-selected="$index == 0"
+				value="{{collection.id}}">
+				{{collection.name}}
+			</option>
+		</select>
+		<button ng-click="vm.saveToCollection();">{{ 'FEED.POST_ENTRY.OK' | translate }}</button>
+	</div>
 </div>
 <div ng-if="vm.entry.starred">
-	Already saved.
+	{{ 'FEED.POST_ENTRY.ALREADY_SAVED' | translate }}
 </div>
