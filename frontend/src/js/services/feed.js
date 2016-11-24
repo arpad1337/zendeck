@@ -116,10 +116,18 @@ class FeedService {
 		};
 	}
 
+	getPostById( postId ) {
+		let promise = this.$q.defer();
+		setTimeout(() => {
+			promise.resolve( this.dummyPost );
+		}, Math.random() * 1000);
+		return promise.promise;
+	}
+
 	getFeedByPage( page ) {
 		let promise = this.$q.defer();
 		setTimeout(() => {
-			promise.resolve([ this.dummyPost ])
+			promise.resolve([ this.dummyPost ]);
 		}, Math.random() * 1000);
 		return promise.promise;
 	}
@@ -147,6 +155,30 @@ class FeedService {
 
 	getLikedPostsByPage( page ) {
 		return this.getFeedByPage( page );
+	}
+
+	likePost( postId ) {
+		return this.$http.post( CONFIG.API_PATH + '/post/' + postId + '/like' ).then((r) => {
+			return r.data;
+		});
+	}
+
+	commentPost( postId, comment ) {
+		return this.$http.post( CONFIG.API_PATH + '/post/' + postId + '/comment', { content: comment } ).then((r) => {
+			return r.data;
+		});
+	}
+
+	deleteComment( postId, commentId ) {
+		return this.$http.delete( CONFIG.API_PATH + '/post/' + postId + '/comment/' + commentId ).then((_) => {
+			return true;
+		});
+	}
+
+	deletePost( postId ) {
+		return this.$http.delete( CONFIG.API_PATH + '/post/' + postId ).then((_) => {
+			return true;
+		});
 	}
 
 	scrapeUrl( url ) {

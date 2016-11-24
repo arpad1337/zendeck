@@ -1,0 +1,16 @@
+<div class="modal">
+    <div class="container post-view">
+        <h4>{{ 'MODALS.VIEW_POST.TITLE' | translate }}</h4>
+        <a class="close" ng-click="cancel()"></a>
+        <div class="white-bg prt-10" ng-controller="CollectionController as ctrl">
+            <post-entry 
+                entry="ctrl.posts[0]" 
+                delegate="ctrl"
+            >
+            </post-entry>
+        </div>
+        <div class="actions">
+            <button class="cancel" ng-click="cancel()">{{ 'MODALS.VIEW_POST.CANCEL' | translate }}</button>
+        </div>
+    </div>
+</div>

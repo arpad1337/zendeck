@@ -24,6 +24,7 @@ body > header {
 		text-indent: 20px;
 		cursor: pointer;
 		margin-top: -2px;
+		@include text-shadow(1px 1px 0px rgba(50, 50, 50, 0.15));
 	}
 	nav {
 		position: absolute;

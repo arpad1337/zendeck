@@ -4,14 +4,26 @@
 
 import STATES from '../config/states';
 import Validator from '../helpers/validator';
+import PostController from './post';
 
-class CollectionController {
+class CollectionController extends PostController {
 
-	constructor( $state, collectionService, modalService, STATE_KEY ) {
+	static get $inject() {
+		return [
+			'$state',
+			'FeedService',
+			'CollectionService',
+			'ModalService'
+		];
+	}
+
+	constructor( $state, feedService, collectionService, modalService, STATE_KEY ) {
+		super( feedService, modalService, $state );
+		this.feedService = feedService;
 		this.collectionService = collectionService;
 		this.modalService = modalService;
 		this.$state = $state;
-		this.STATE_KEY = STATE_KEY;
+		this.STATE_KEY = STATE_KEY || 'FEED';
 
 		this.checkActiveCollectionName = this.checkActiveCollectionName.bind(this);
 	}
@@ -37,11 +49,18 @@ class CollectionController {
 
 	loadCollections() {
 		this.collectionService.getUserCollections( this.username ).then((collections) => {
-			this.collections = collections;
+			this._collections = collections;
 			if( this.$state.params.collectionId ) {
 				this.selectCollection( this.$state.params.collectionId );
 			}
 		});
+	}
+
+	get collections() {
+		if( !this._collections ) {
+			this.loadCollections();
+		}
+		return this._collections;
 	}
 
 	async selectLiked() {
@@ -166,6 +185,10 @@ class CollectionController {
 		let model = await this.collectionService.createNewCollectionModelWithName( name, isPublic );
 		this._activeCollection = model;
 		return model;
+	}
+
+	async savePostToCollection( collectionId, postId ) {
+		
 	}
 
 }

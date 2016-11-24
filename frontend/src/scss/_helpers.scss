@@ -30,6 +30,18 @@
 	border-radius: $radius;
 }
 
+@mixin box-shadow($radius) {
+	-webkit-box-shadow: $radius;
+	-moz-box-shadow: $radius;
+	box-shadow: $radius;
+}
+
+@mixin text-shadow($radius) {
+	-webkit-text-shadow: $radius;
+	-moz-text-shadow: $radius;
+	text-shadow: $radius;
+}
+
 @mixin placeholder($color) {
 	input[placeholder],
 		    [placeholder],
@@ -99,7 +111,7 @@ section {
 	padding: 2px 4px;
 	background: $MAIN-LIGHT;
 	font-size: 10px;
-	color: $WHITE;
+	color: $WHITE !important;
 	text-transform: uppercase;
 	text-decoration: none;
 	margin: 0 2px 0 0;
@@ -109,6 +121,34 @@ section {
 		background-color: $MAIN-DARK;
 	}
 }
+
+.white-bg {
+	background: $WHITE;
+}
+
+.prt-10 {
+	padding: 0 10px;
+}
+
+.labels {
+	border: 0;
+	display: block;
+	ul, li {
+		padding: 0;
+		margin: 0;
+	}
+	ul {
+		margin-top: -2px;
+	}
+	li {
+		line-height: 20px;
+		display: inline-block;
+		a {
+			@extend .label;
+		}
+	}
+}
+
 .mrt-30 {
 	margin-top: 30px;
 }

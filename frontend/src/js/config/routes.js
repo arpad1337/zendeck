@@ -29,6 +29,12 @@ const ROUTES = [
 			path: '/password-reset/:token'
 		}
 	},
+	{
+		state: STATES.POST_VIEW,
+		opts: {
+			path: '/post/:postId'
+		}
+	},
 
 	// FEED
 

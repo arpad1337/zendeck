@@ -38,6 +38,9 @@ main > header {
 		margin: auto;
 		bottom: -40px;
 		width: 228px;
+		.photo {
+			@include box-shadow(0px 0px 15px 0px rgba(50, 50, 50, 0.75));
+		}
 	}
 	.delete-cover-pic,
 	.change-cover-pic,

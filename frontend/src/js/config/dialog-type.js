@@ -20,6 +20,7 @@ const DIALOG_TYPE = new Enum([
 	'LOGIN_DISABLED',
 	'CREATE_FILTER',
 	'CREATE_COLLECTION',
+	'VIEW_POST',
 	'DELETE_POST_CONFIRMATION',
 	'DELETE_COMMENT_CONFIRMATION'
 ], 'DIALOG_TYPE');
@@ -68,6 +69,20 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.CREATE_FILTER.toString() ] = {
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.CREATE_COLLECTION.toString() ] = {
 	templateUrl: '/partials/dialog/create-collection.tpl.html'
+}
+
+// POST
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.VIEW_POST.toString() ] = {
+	templateUrl: '/partials/dialog/view-post.tpl.html'
+}
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.DELETE_POST_CONFIRMATION.toString() ] = {
+	templateUrl: '/partials/dialog/delete-post-confirmation.tpl.html'
+}
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.DELETE_COMMENT_CONFIRMATION.toString() ] = {
+	templateUrl: '/partials/dialog/delete-comment-confirmation.tpl.html'
 }
 
 export {

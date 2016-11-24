@@ -13,6 +13,7 @@ class ProfileController extends CollectionController {
 			'$scope',
 			'$state',
 			'UserService',
+			'FriendService',
 			'FeedService',
 			'FileUploadService',
 			'CollectionService',
@@ -20,13 +21,14 @@ class ProfileController extends CollectionController {
 		];
 	}
 
-	constructor( $scope, $state, userService, feedService, fileUploadService, collectionService, modalService ) {
-		super( $state, collectionService, modalService, 'PROFILE' );
+	constructor( $scope, $state, userService, friendService, feedService, fileUploadService, collectionService, modalService ) {
+		super( $state, feedService, collectionService, modalService, 'PROFILE' );
 		this.$state = $state;
 		this.$scope = $scope;
 		this.userService = userService;
 		this.feedService = feedService;
 		this.fileUploadService = fileUploadService;
+		this.friendService = friendService;
 
 		this.onProfilePicFileSelected = this.onProfilePicFileSelected.bind( this );
 		this.onCoverPicFileSelected = this.onCoverPicFileSelected.bind( this );
@@ -44,6 +46,8 @@ class ProfileController extends CollectionController {
 		this._isEditing = false;
 		this._page = 1;
 		this.posts = [];
+		this.friends = [];
+
 		this.userService.getProfileByUsername( this.$state.params.username ).then((profile) => {
 			this.profile = profile;
 			this.lastProfileFields = {
@@ -52,11 +56,14 @@ class ProfileController extends CollectionController {
 				birthDate: this.profile.birthDate
 			};
 		});
+
 		this.feedService.getUserPostsByUsernameAndPage( this.$state.params.username, this._page ).then(( posts ) => {
 			posts.forEach((post) => {
 				this.posts.push( post );
 			});
 		});
+
+
 		
 		this.loadCollections();
 	}
@@ -129,6 +136,18 @@ class ProfileController extends CollectionController {
 		if( file ) {
 			await this.userService.uploadCoverPic( file );
 		}
+	}
+
+	async addFriend( username ) {
+		let friend = this.friends.find((f) => {
+			return f.username == username
+		});
+		if( friend ) {
+			await this.friendService.removeFriend( username );
+		} else {
+			await this.friendService.addFriend( username );
+		}
+		this.friends = await this.friendService.getCurrentUserFriends( true );
 	}
 
 }

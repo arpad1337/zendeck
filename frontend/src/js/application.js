@@ -10,6 +10,7 @@ import module from './config';
 // H E L P E R S
 
 import createComponent from './helpers/create-component';
+import createInterceptor from './helpers/create-interceptor';
 
 // C O N T R O L L E R S
 
@@ -18,6 +19,8 @@ import LandingController from './controllers/landing';
 import SearchController from './controllers/search'; 
 import FeedController from './controllers/feed'; 
 import ProfileController from './controllers/profile'; 
+import CollectionController from './controllers/collection'; 
+import PostController from './controllers/post'; 
 
 // S E R V I C E S
 
@@ -55,6 +58,8 @@ module.controller( 'LandingController', LandingController );
 module.controller( 'SearchController', SearchController );
 module.controller( 'FeedController', FeedController );
 module.controller( 'ProfileController', ProfileController );
+module.controller( 'CollectionController', CollectionController );
+module.controller( 'PostController', PostController );
 
 module.service( 'MessageBusService', MessageBusService );
 module.service( 'UserService', UserService );
@@ -73,4 +78,4 @@ module.directive( 'userPreviewCard', createComponent( UserPreviewCardComponent )
 module.directive( 'profilePic', createComponent( ProfilePicComponent ) );
 module.directive( 'morePosts', createComponent( MorePostsButtonComponent ) );
 
-module.factory('sessionInterceptor', [...SessionInterceptor.$inject, (...params) => new SessionInterceptor(...params) ]);
+module.factory('sessionInterceptor', createInterceptor( SessionInterceptor ));

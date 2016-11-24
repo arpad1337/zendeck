@@ -21,7 +21,7 @@ class FeedController extends CollectionController {
 	}
 
 	constructor( $scope, $state, feedService, filterService, friendService, userService, modalService, collectionService ) {
-		super( $state, collectionService, modalService, 'FEED' );
+		super( $state, feedService, collectionService, modalService, 'FEED' );
 		this.$scope = $scope;
 		this.$state = $state;
 		this._activeFilter = null;
@@ -89,24 +89,6 @@ class FeedController extends CollectionController {
 		});
 		this.$scope.$digest();
 		return (newPosts.length > 0);
-	}
-
-	commentOnPost( entryId, comment ) {
-		console.log('Comment', entryId, comment);
-	}
-
-	deleteComment( commentId ) {
-		console.log('Delete comment', commentId);
-	}
-
-	deletePost( postId ) {
-		let index = -1;
-		this.posts.forEach((c, i) => {
-			if( c.id == postId ) {
-				index = i;
-			}
-		});
-		this.posts.splice( index, 1 );
 	}
 
 	get activeState() {
@@ -281,121 +263,6 @@ class FeedController extends CollectionController {
 		}
 		this.friends = await this.friendService.getCurrentUserFriends( true );
 	}
-
-	// COLLECTIONS
-
-	// async selectLiked() {
-	// 	this.resetPaginator();
-	// 	let posts = await this.feedService.getLikedPostsByPage( this._page );
-	// 	posts.forEach((post) => {
-	// 		this.posts.push( post );
-	// 	});
-	// 	this.$scope.$digest();
-	// }
-
-	// async selectCollection( id ) {
-	// 	this.resetPaginator();
-	// 	let collection = this.collections.find((f) => {
-	// 		return f.id == id;
-	// 	});
-	// 	if( !collection ) {
-	// 		try {
-	// 			this._activeCollection = await this.collectionService.getCollectionById( id );
-	// 			this._activeCollection.shared = true;
-	// 			this.$scope.$digest();
-	// 		} catch( e ) {
-	// 			this.$state.go(this.FEED_STATES.POSTS);
-	// 		}
-	// 	} else {
-	// 		this._activeCollection = Object.assign( {}, collection );
-	// 	}
-	// 	let posts = await this.feedService.getPostsByCollectionIdAndPage( this._activeCollection.id, this._page );
-	// 	posts.forEach((post) => {
-	// 		this.posts.push( post );
-	// 	});
-	// 	this.$scope.$digest();
-	// }
-
-	// async saveCurrentCollection() {
-	// 	try {
-	// 		if( this._activeCollection.shared ) {
-	// 			let model = await this.openCreateCollectionDialog( this._activeCollection.name );
-	// 			this._activeCollection.name = model.name;
-	// 			let persistedModel = await this.collectionService.copySharedCollectionToCollections( this._activeCollection.id );
-	// 			delete this._activeCollection.shared;
-	// 			this._activeCollection.id = persistedModel.id;
-	// 			this.collections.push( this._activeCollection );
-	// 		} else {
-	// 			let model = await this.openCreateCollectionDialog( this._activeCollection.name );
-	// 			this._activeCollection.name = model.name;
-	// 			let persistedModel = await this.collectionService.updateCollection( this._activeCollection.id, this._activeCollection );
-	// 			let collection = this.collections.find((f) => {
-	// 				return f.id == this._activeCollection.id;
-	// 			});
-	// 			collection.name = persistedModel.name;
-	// 			this._activeCollection = persistedModel;
-	// 		}
-	// 		this.$scope.$digest(); 
-	// 	} catch( e ) {
-
-	// 	}
-	// 	// this.resetPaginator();
-	// 	// this.posts = await this.feedService.getPostsByCollectionIdAndPage( this._activeCollection.id, this._page );
-	// }
-
-	// async deleteCurrentCollection() {
-	// 	await this.collectionService.deleteCollection( this._activeCollection.id );
-	// 	this.collections = await this.collectionService.getUserCollections();
-	// 	this.resetPaginator();
-	// 	this.posts = this.feedService.getFeedByPage( this._page );
-	// 	this.$state.go( this.FEED_STATES.POSTS );
-	// }
-
-	// get activeCollection() {
-	// 	if( 
-	// 		this.activeState == this.FEED_STATES.COLLECTION 
-	// 		&& this._activeCollection 
-	// 		&& !this._activeCollection.shared
-	// 	) {
-	// 		return this._activeCollection.id;
-	// 	}
-	// 	return null;
-	// }
-
-	// get currentCollection() {
-	// 	return this._activeCollection;
-	// }
-
-	// openCreateCollectionDialog( name, isNew ) {
-	// 	if( !isNew ) {
-	// 		return this.modalService.openDialog( this.modalService.DIALOG_TYPE.CREATE_COLLECTION, {
-	// 			name: name || '',
-	// 			saveButton: !!isNew
-	// 		}, this.setActiveCollectionName.bind(this) );
-	// 	}
-	// 	return this.modalService.openDialog( this.modalService.DIALOG_TYPE.CREATE_COLLECTION, {
-	// 		name: name || '',
-	// 		saveButton: !!isNew
-	// 	}, this.setActiveCollectionName.bind(this) ).then((model) => {
-	// 		return this.createNewCollectionModelWithName( model.name );
-	// 	}).then((model) => {
-	// 		return model;
-	// 	});
-	// }
-
-	// setActiveCollectionName( model ) {
-	// 	if( model.name.trim().length > 3 ) {
-	// 		model.dismiss();
-	// 	}
-	// }
-
-	// async createNewCollectionModelWithName( name ) {
-	// 	let model = await this.collectionService.createNewCollectionModelWithName( name );
-	// 	this._activeCollection = model;
-	// 	this.$state.go( this.FEED_STATES.COLLECTION, { collectionId: model.id });
-	// }
-
-
 
 }
 

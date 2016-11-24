@@ -31,6 +31,7 @@
                     ng-class=" vm.entry.liked ? 'liked' : '' "
                     ng-click="vm.like()"
                     tooltips
+                    tooltip-class="tooltip-patch"
                     tooltip-template="{{ !vm.entry.liked ? ('FEED.POST_ENTRY.LIKEING' | translate) : ('FEED.POST_ENTRY.DISLIKEING' | translate) }}"
                 >
                     {{ vm.entry.likes | pretifyNumber }}
@@ -40,12 +41,21 @@
                     ng-init="vm = vm"
                     tooltips
                     tooltip-template-url="partials/save-to-collection.tpl.html"
-                    tooltip-class="tooltip-patch"
+                    tooltip-class="tooltip-patch stretch"
                     tooltip-show-trigger="click"
                     tooltip-hide-trigger="mouseleave"
                 >
 
 
+                </a>
+                <a 
+                    class="share"
+                    ng-init="vm = vm"
+                    tooltips
+                    tooltip-class="tooltip-patch stretch2"
+                    tooltip-template-url="partials/shareable-url.tpl.html"
+                >
+                    
                 </a>
 
 <!--                                    tooltip-template="{{'FEED.POST_ENTRY.BOOKMARKING' | translate }}"-->
@@ -110,7 +120,7 @@
                     </div>
                 </div>
             </div>
-            <div class="add-comment">
+            <div class="add-comment" ng-if="vm.currentUser">
                 <profile-pic
                         size="xxsmall"
                         user="vm.currentUser"
@@ -121,7 +131,7 @@
                     placeholder="{{'FEED.POST_ENTRY.COMMENT_PLACEHOLDER' | translate}}"
                 ></textarea>
                 <button
-                    ng-click="vm.comment()" 
+                    ng-click="vm.sendComment()" 
                     class="post-comment"
                     ng-disabled="!vm.buttonEnabled"
                 >

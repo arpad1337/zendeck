@@ -6,6 +6,7 @@ const STATES = {
 	LANDING: 'landing',
 	PASSWORD_RESET: 'password-reset',
 	INVITATION: 'invitation',
+	POST_VIEW: 'post',
 	APPLICATION: {
 		FEED: {
 			SELF: 'feed',

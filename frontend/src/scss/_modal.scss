@@ -21,31 +21,18 @@ $TRANSITION-DURATION: 0.3s;
 		background: $FOOTER-LIGHT;
 		@include transform( scale(0.8,0.8) );
 		@include transition( all, $TRANSITION-DURATION, ease-in-out );
+		&.post-view {
+			max-height: calc(100% - 110px);
+			top: 50px;
+			overflow: auto;
+			width: 700px;
+		}
 		h4 {
 			margin: 0;
 			text-transform: uppercase;
 			font-size: 16px;
 			font-weight: bold;
 			color: $SECONDARY-LIGHT;
-		}
-
-		label {
-			width: 140px;
-			display: block;
-			float: left;
-			line-height: 40px;
-			position: relative;
-		}
-		p {
-			margin: 10px 0;
-			@extend .clear;
-			&.stretch {
-				width: auto;
-				label {
-					width: auto;
-					text-indent: 10px;
-				}
-			}
 		}
 
 		a {
@@ -55,86 +42,56 @@ $TRANSITION-DURATION: 0.3s;
 			}
 		}
 
-		.hint {
-			color: #666;
-  			font-size: 12px;
-  			display: inline-block;
-  			&.positive,
-  			.positive {
-  				color: $GREEN;
-  			}
-  			&.negative,
-  			.negative {
-  				color: $RED;
-  			}
-  			&:before {
-  				content: " ";
-  				display: inline-block;
-  			}
-		}
+		.content {
 
-		.message {
-			font-size: 16px;
-			text-align: center;
-			padding: 10px;
-		}
-
-		* > input[type="checkbox"] {
-			width: 20px;
-			height: 20px;
-			display: block;
-			float: left;
-			&:after {
-				z-index: 202;
-				top: 9px;
-				width: 12px;
-				height: 12px;
-				margin: 5px;
-				content: ' ';
-				display: none;
-				position: absolute;
-				background: $SECONDARY-LIGHT;
-				left: 0;
-				@include border-radius( 16px );
-			}
-			&:checked {
-				&:after{
-					display: block;
-				} 
-			}
-			&:before {
-				position: absolute;
-				z-index: 201;
-				top: 9px;
-				left: 0;
-				width: 20px;
-				height: 20px;
-				border: 1px solid $SECONDARY-LIGHT;
-				content: ' ';
+			label {
+				width: 140px;
 				display: block;
 				float: left;
-				@include border-radius( 20px );
-			}
-		}
-
-		* > input[type="text"],
-		* > input[type="email"],
-		* > input[type="password"] {
-			border: 1px solid #fff;
-			padding: 10px;
-			min-width: 260px;
-			background: $WHITE;
-			&:hover, &:focus {
-				background: $FOOTER-LIGHT;
-			}
-		}
-
-		label.radio {
-			text-indent: 30px;
-			width: auto;
-			margin-right: 10px;
-			& > input[type="radio"] {
+				line-height: 40px;
 				position: relative;
+			}
+
+			p {
+				margin: 10px 0;
+				@extend .clear;
+				&.stretch {
+					width: auto;
+					label {
+						width: auto;
+						text-indent: 10px;
+					}
+				}
+			}
+
+			.hint {
+				color: #666;
+	  			font-size: 12px;
+	  			display: inline-block;
+	  			&.positive,
+	  			.positive {
+	  				color: $GREEN;
+	  			}
+	  			&.negative,
+	  			.negative {
+	  				color: $RED;
+	  			}
+	  			&:before {
+	  				content: " ";
+	  				display: inline-block;
+	  			}
+			}
+
+			.message {
+				font-size: 16px;
+				text-align: center;
+				padding: 10px;
+			}
+
+			* > input[type="checkbox"] {
+				width: 20px;
+				height: 20px;
+				display: block;
 				float: left;
 				&:after {
 					z-index: 202;
@@ -150,9 +107,9 @@ $TRANSITION-DURATION: 0.3s;
 					@include border-radius( 16px );
 				}
 				&:checked {
-					&:after {
+					&:after{
 						display: block;
-					}
+					} 
 				}
 				&:before {
 					position: absolute;
@@ -168,15 +125,68 @@ $TRANSITION-DURATION: 0.3s;
 					@include border-radius( 20px );
 				}
 			}
-		}
 
-		textarea {
-			border: 1px solid $WHITE;
-			width: 418px;
-			padding: 8px;
-			background: $WHITE;
-			&:hover, &:focus {
-				background: $FOOTER-LIGHT;
+			* > input[type="text"],
+			* > input[type="email"],
+			* > input[type="password"] {
+				border: 1px solid #fff;
+				padding: 10px;
+				min-width: 260px;
+				background: $WHITE;
+				&:hover, &:focus {
+					background: $FOOTER-LIGHT;
+				}
+			}
+
+			label.radio {
+				text-indent: 30px;
+				width: auto;
+				margin-right: 10px;
+				& > input[type="radio"] {
+					position: relative;
+					float: left;
+					&:after {
+						z-index: 202;
+						top: 9px;
+						width: 12px;
+						height: 12px;
+						margin: 5px;
+						content: ' ';
+						display: none;
+						position: absolute;
+						background: $SECONDARY-LIGHT;
+						left: 0;
+						@include border-radius( 16px );
+					}
+					&:checked {
+						&:after {
+							display: block;
+						}
+					}
+					&:before {
+						position: absolute;
+						z-index: 201;
+						top: 9px;
+						left: 0;
+						width: 20px;
+						height: 20px;
+						border: 1px solid $SECONDARY-LIGHT;
+						content: ' ';
+						display: block;
+						float: left;
+						@include border-radius( 20px );
+					}
+				}
+			}
+
+			textarea {
+				border: 1px solid $WHITE;
+				width: 418px;
+				padding: 8px;
+				background: $WHITE;
+				&:hover, &:focus {
+					background: $FOOTER-LIGHT;
+				}
 			}
 		}
 

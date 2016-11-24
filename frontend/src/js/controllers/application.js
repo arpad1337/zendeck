@@ -46,6 +46,11 @@ class ApplicationController {
 				this.openPasswordResetModal( otpSignature );
 				return;
 			}
+			if( newState.name == STATES.POST_VIEW ) {
+				e.preventDefault();
+				this.openPostViewModal();
+				return;
+			}
 		});
 		this.userService.getCurrentUser();
 	}
@@ -76,6 +81,12 @@ class ApplicationController {
 			return;
 		}
 		this.$state.go(STATES.LANDING);
+	}
+
+	openPostViewModal() {
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.VIEW_POST, {}).finally(() => {
+			this.$state.go( STATES.APPLICATION.FEED.POSTS );
+		});
 	}
 
 	openPasswordResetModal( signature ) {

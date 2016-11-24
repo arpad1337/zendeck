@@ -7,13 +7,9 @@
 	</div>
 	<div ng-if="vm.delegate.collections && vm.delegate.collections.length > 0">
 		{{ 'FEED.POST_ENTRY.SAVE_TO_COLLECTION' | translate }}:
-		<select ng-model="vm.targetCollection">
-			<option
-				ng-repeat="collection in vm.delegate.collections track by $index"
-				ng-selected="$index == 0"
-				value="{{collection.id}}">
-				{{collection.name}}
-			</option>
+		<select 
+			ng-model="vm.targetCollection"
+			ng-options="value.id as value.name for (key, value) in vm.delegate.collections">
 		</select>
 		<button ng-click="vm.saveToCollection();">{{ 'FEED.POST_ENTRY.OK' | translate }}</button>
 	</div>

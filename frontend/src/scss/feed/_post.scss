@@ -39,9 +39,18 @@ h4 + .post {
 }
 
 .post {
+
+	display: block;
+	width: calc(100% - 80px);
+	max-width: 540px;
+	margin: 10px auto;
+	border-top: 1px solid $FOOTER-LIGHT;
+	padding-top: 10px;
+	padding-left: 80px;
+
 	._right {
 		.tooltip-patch {
-			left: 16px;
+			left: 36px;
 		}
 	}
 	._bottom {
@@ -50,7 +59,12 @@ h4 + .post {
 		}
 	}
 	.tooltip-patch {
-		width: 140px;
+		&.stretch2 {
+			width: 200px;
+		}
+		&.stretch {
+			width: 140px;
+		}
 		select {
 			background: $WHITE;
 			color: black;
@@ -60,31 +74,35 @@ h4 + .post {
 			font-size: 12px;
 			border: 1px solid white;
 		}
-		button {
+		input {
+			color: black;
 			border: none;
+			width: 200px;
+			padding: 3px;
+			margin-top: 4px;
+			font-size: 12px;
+
+		}
+		button {
+			border: none !important;
 			background: $WHITE;
 			color: $MAIN-DARK;
-			margin: 5px auto 0;
+			margin: 5px auto 0 !important;
 			display: inline-block;
-			font-size: 14px;
-			height: 23px;
-			font-size: 13px;
+			font-size: 14px !important;
+			height: 23px !important;
+			font-size: 13px !important;
 		}
 		@extend .clear;
     }
-	display: block;
-	width: calc(100% - 80px);
-	max-width: 540px;
-	margin: 10px auto;
-	border-top: 1px solid $FOOTER-LIGHT;
-	padding-top: 20px;
-	padding-left: 80px;
+
 	&:first-child {
 		border-top: none;
 	}
 	.message {
 		text-align: left !important;
 		word-wrap: break-word;
+		padding: 0 !important;
 	}
 	.head {
 		position: relative;
@@ -112,7 +130,7 @@ h4 + .post {
 			height: 16px;
 			position: absolute;
 			right: 0;
-			top: 12px;
+			top: 7px;
 			border: none;
 			background: $SECONDARY-LIGHT;
 			&:hover {
@@ -154,7 +172,11 @@ h4 + .post {
 			top: 64px;
 			left: -80px;
 			a {
-				margin: 2px auto;
+				margin: 4px auto;
+			}
+			tooltip {
+				width: 100%;
+				margin: 14px auto;
 			}
 		}
 		.star {
@@ -163,7 +185,6 @@ h4 + .post {
 			background: url('../img/star_big.png');
 			background-size: cover;
 			display: block;
-			float: right;
 			margin-bottom: 4px !important;
 			&:hover {
 				background-image: url('../img/star_big-hover.png');
@@ -176,6 +197,17 @@ h4 + .post {
 				}
 			}
 		}
+		.share {
+			width: 20px;
+			height: 20px;
+			background: url('../img/share.png');
+			background-size: cover;
+			display: block;
+			margin-bottom: 4px !important;
+			&:hover {
+				background-image: url('../img/share-hover.png');
+			}
+		}
 		.hearth {
 			text-align: right;
 			background-repeat: no-repeat;
@@ -184,7 +216,6 @@ h4 + .post {
 			line-height: 20px;
 			color: $MAIN-LIGHT;
 			display: block;
-			float: right;
 			&:after {
 				width: 20px;
 				height: 20px;

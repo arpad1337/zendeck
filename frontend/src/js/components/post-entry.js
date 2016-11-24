@@ -7,7 +7,9 @@ import Validator from '../helpers/validator';
 class PostEntryComponent {
 
 	static get $inject() {
-		return [];
+		return [
+			'UserService'
+		];
 	}
 
 	static get $descriptor() {
@@ -15,8 +17,7 @@ class PostEntryComponent {
 			restrict: 'E',
 			scope: {
 				delegate: '=?',
-				entry: '=',
-				currentUser: '='
+				entry: '='
 			},
 			templateUrl: 'partials/components/post-entry.tpl.html',
 			bindToController: true,
@@ -25,11 +26,29 @@ class PostEntryComponent {
 		};
 	}
 
-	constructor() {
+	constructor( userService ) {
 		this.buttonEnabled = true;
 		this._comment = '';
 		this.targetCollection = -1;
 		this.hideTooltip = true;
+		this.userService = userService;
+	}
+
+	get shareableUrl() {
+		let base = '';
+		if( window ) {
+			base = window.location.origin;
+		}
+		return base + '/post/' + this.entry.id;
+	}
+
+	set shareableUrl( _ ) {
+
+	}
+
+	get currentUser() {
+		let user = ( this.userService ) ? this.userService.currentUser : null;
+		return user;
 	}
 
 	openBookmarkTooltip() {
@@ -47,12 +66,16 @@ class PostEntryComponent {
 		return this._comment;
 	}
 
-	async comment() {
+	async sendComment() {
 		this.buttonEnabled = false;
 		try {
-			if( this._delegateRespondsToSelector( 'commentOnPost' ) && !Validator.isFieldEmpty(this._comment) ) {
-				await this.delegate.commentOnPost( this.entry.id, this._comment );
+			if( 
+				this._delegateRespondsToSelector( 'commentPost' ) && 
+				!Validator.isFieldEmpty(this._comment) 
+			) {
+				let record = await this.delegate.commentPost( this.entry.id, this._comment );
 				this._comment = '';
+				this.entry.comments.data.push( record );
 			}
 		} catch( e ) {
 			console.error( e );
@@ -63,7 +86,7 @@ class PostEntryComponent {
 
 	async deleteComment( commentId ) {
 		if( this._delegateRespondsToSelector( 'deleteComment' ) ) {
-			await this.delegate.deleteComment( commentId );
+			await this.delegate.deleteComment( this.entry.id, commentId );
 			let index = -1;
 			this.entry.comments.data.forEach((c, i) => {
 				if( c.id == commentId ) {
@@ -81,16 +104,17 @@ class PostEntryComponent {
 	}
 
 	async like() {
-		console.log('LIKEING', this.entry);
+		if( this._delegateRespondsToSelector( 'likePost' ) ) {
+			await this.delegate.likePost( this.entry.id );
+		}
 		this.entry.liked = !this.entry.liked;
-	}
-
-	async bookmark() {
-		console.log('BOOKMARKING', this.entry);
 	}
 
 	async saveToCollection() {
 		console.log('selected collection:', this.targetCollection);
+		if( this.targetCollection === -1 ) {
+			return;
+		}
 		this.entry.starred = !this.entry.starred;
 	}
 
