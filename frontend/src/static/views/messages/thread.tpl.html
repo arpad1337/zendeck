@@ -1,0 +1,38 @@
+<section role="messages">
+    <h4>{{ 'MESSAGES.MESSAGES_WITH' | translate }} {{ctrl.currentRecipient.fullname}}</h4>
+    <div class="messages">
+        <button 
+            class="previous-messages"
+            ng-click="ctrl.getMoreMessages()"
+        >
+            {{ 'MESSAGES.PREVIOUS_MESSAGES' | translate }}
+        </button>
+        <div 
+            class="message in-thread" 
+            ng-class=" message.author.id == ctrl.currentUser.id ? 'right' : 'left' "
+            ng-repeat=" message in ctrl.messages track by $index "
+        >
+            <div class="head">
+                <div class="author-pic" title="{{message.author.fullname}} @{{message.author.username}}">
+                    <profile-pic
+                        user="message.author"
+                        size="small"
+                    >
+                    </profile-pic>
+                </div>
+                <span class="date">
+                    {{message.updatedAt | timeAgo}}
+                </span>
+            </div>
+            <pre class="content">{{message.message}}</pre>
+        </div>
+    </div>
+    <div class="compose">
+        <textarea ng-model="ctrl.message" class="msd-elastic"></textarea>
+        <button
+            ng-click="ctrl.sendMessage()"
+        >
+            {{'MESSAGES.SEND_MESSAGE' | translate}}
+        </button>
+    </div>
+</section>

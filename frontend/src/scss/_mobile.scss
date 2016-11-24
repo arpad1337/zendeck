@@ -168,6 +168,10 @@ main > nav a {
 	border-top: 1px solid $FOOTER-LIGHT;
 }
 
+section[role="members"] .members .member {
+	width: 33.333333% !important;
+}
+
 section[role="posting-box"] {
 	width: 100%;
 	.create-post {

@@ -4,8 +4,10 @@ section[role="messages"] {
 			resize: none;
 			padding: 8px;
 			border: 1px solid $FOOTER-LIGHT;
-			width: 582px;
+			width: calc(100% - 110px);
 			font-weight: normal;
+			display: block;
+			margin: auto;
 			&:hover, &:focus {
 				background-color: $FOOTER-LIGHT;
 			}
@@ -15,11 +17,9 @@ section[role="messages"] {
 	  		background-color: $SECONDARY-LIGHT;
 	  		color: $WHITE;
 	  		border: none;
-	  		margin: auto;
 	  		display: block;
 	  		font-weight: normal;
-	  		float: right;
-	  		margin: 4px 0 10px;
+	  		margin: 4px auto 10px;
 	  		&:hover {
 	  			background-color: $SECONDARY-DARK;
 	  		}
@@ -39,39 +39,67 @@ section[role="messages"] {
 		}
 	}
 	.messages {
+
+		button {
+			background: $SECONDARY-LIGHT;
+			color: $WHITE;
+			border: none;
+			margin: auto;
+			display: block;
+			margin: 10px auto;
+			&:hover {
+				background: $SECONDARY-DARK;
+			}
+		}
+
 		.message {
 			&:first-child {
 				border-top: none;
 			}
 			display: block;
-			width: 600px;
+			width: 100%;
 			margin: 10px auto;
 			border-top: 1px solid $FOOTER-LIGHT;
 			padding-top: 20px;
+			text-align: left;
 			.head {
 				position: relative;
+				display: block;
+				@extend .clear;
 				.author-pic {
-					width: 60px;
-					height: 60px;
-					background-size: 60px 60px;
-					border: 2px solid $MAIN-LIGHT;
-					@include border-radius(50px);
+					width: 44px;
+					height: 44px;
+					float: left;
+					margin-right: 10px;
 				}
 				.author {
+					float: left;
 					font-weight: 700;
 					color: $MAIN-DARK;
-					padding-top: 14px;
+					margin-top: 4px;
 					font-weight: normal;
 				}
 				.date {
+					float: left;
 					color: $FOOTER-DARK;
 					font-size: 12px;
 					font-weight: normal
 				}
 			}
+			&.in-thread {
+				.content {
+					margin-top: -26px;
+				}
+			}
 			.content {
 				font-weight: normal;
 				margin-bottom: 16px;
+				font-family: 'Lato';
+				display: block;
+				width: calc(100% - 98px);
+				margin-left: 54px;
+				overflow: initial !important;
+				white-space: pre-wrap;
 			}
 			> a {
 				background: $SECONDARY-LIGHT;
@@ -101,36 +129,57 @@ section[role="messages"] {
 					float: right;
 				}
 			}
-			&.left {
-				.content {
-					margin-left: 80px;
-				}
-				.author-pic {
-					float: left;
-					margin-right: 16px;
-				}
-				.author {
-					text-align: left;
-				}
-				.date {
-					text-align: left;
-				}
-			}
+
 			&.right {
-				.content {
-					margin-right: 80px;
-				}
-				.author-pic {
-					float: right;
-					margin-left: 16px;
-				}
-				.author {
-					text-align: right;
-				}
-				.date {
-					text-align: right;
+				.head {
+					.author-pic {
+						float: right;
+					}
+					.date {
+						float: right;
+					}
+					.author {
+						float: right;
+					}
 				}
 			}
+
+			// &.left {
+			// 	.head {
+			// 		float: left;
+			// 	}
+			// 	.content {
+			// 		margin-left: 80px;
+			// 	}
+			// 	.author-pic {
+			// 		float: left;
+			// 		margin-right: 16px;
+			// 	}
+			// 	.author {
+			// 		text-align: left;
+			// 	}
+			// 	.date {
+			// 		text-align: left;
+			// 	}
+			// }
+			// &.right {
+			// 	.head {
+			// 		float: right;
+			// 	}
+			// 	.content {
+			// 		margin-right: 80px;
+			// 	}
+			// 	.author-pic {
+			// 		float: right;
+			// 		margin-left: 16px;
+			// 	}
+			// 	.author {
+			// 		text-align: right;
+			// 	}
+			// 	.date {
+			// 		text-align: right;
+			// 	}
+			// }
 			&:after {
 				content: " ";
 				width: 1px;

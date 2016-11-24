@@ -39,7 +39,12 @@ class PostingBoxComponent {
 			content: "",
 			urls: [],
 			tags: [],
-			suggestedTags: [],
+			suggestedTags: [
+				'article',
+				'photo',
+				'video',
+				'event'
+			],
 			preview: false
 		};
 		this.linkPreview = null;

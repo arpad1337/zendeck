@@ -11,25 +11,28 @@ section[role="members"] {
 					color: $MAIN-LIGHT;
 				}
 			}
-			width: 25%;
-			height: 190px;
+			width: 120px;
+			height: 160px;
 			float: left;
 			.pic {
-				width: 130px;
-				height: 130px;
+				width: 80px;
+				height: 80px;
 				@include border-radius(80px);
 				border: 5px solid $FOOTER-LIGHT;
 				margin: auto;
 				background-size: cover;
 				color: $WHITE;
+				.photo {
+					border: none !important;
+				}
 			}
 			.name {
 				text-align: center;
 				color: $SECONDARY-DARK;
-				width: 130px;
 				margin: auto;
 			}
 			&:hover {
+				cursor: pointer;
 				.name {
 					color: $SECONDARY-LIGHT;
 				}
@@ -44,6 +47,16 @@ section[role="members"] {
 			clear: both;
 			display: block;
 			content: " ";
+		}
+	}
+	button {
+		background: $SECONDARY-LIGHT;
+		color: $WHITE;
+		border: none;
+		display: block;
+		margin: auto;
+		&:hover {
+			background: $SECONDARY-DARK;
 		}
 	}
 }

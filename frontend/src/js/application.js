@@ -21,6 +21,7 @@ import FeedController from './controllers/feed';
 import ProfileController from './controllers/profile'; 
 import CollectionController from './controllers/collection'; 
 import PostController from './controllers/post'; 
+import MessagesController from './controllers/messages';
 
 // S E R V I C E S
 
@@ -32,6 +33,7 @@ import FeedService from './services/feed';
 import FriendService from './services/friend';
 import FileUploadService from './services/file-upload';
 import CollectionService from './services/collection';
+import MessageService from './services/message';
 
 // C O M P O N E N T S
 
@@ -60,6 +62,7 @@ module.controller( 'FeedController', FeedController );
 module.controller( 'ProfileController', ProfileController );
 module.controller( 'CollectionController', CollectionController );
 module.controller( 'PostController', PostController );
+module.controller( 'MessagesController', MessagesController );
 
 module.service( 'MessageBusService', MessageBusService );
 module.service( 'UserService', UserService );
@@ -69,6 +72,7 @@ module.service( 'FeedService', FeedService );
 module.service( 'FriendService', FriendService );
 module.service( 'FileUploadService', FileUploadService );
 module.service( 'CollectionService', CollectionService );
+module.service( 'MessageService', MessageService );
 
 module.directive( 'postingBox', createComponent( PostingBoxComponent ) );
 module.directive( 'postEntry', createComponent( PostEntryComponent ) );

@@ -19,16 +19,23 @@ class FriendService {
 		this._friendCache = {};
 	}
 
-	getCurrentUserFriends( force ) {
-		force = force || false;
-		return this.getFriendsByUsername( 'me', force );
+	getCurrentUserRecentFriends( force ) {
+		return this.getCurrentUserFriendsByPage( 1, force );
 	}
 
-	getFriendsByUsername( username, force ) {
+	getCurrentUserFriendsByPage( page, force ) {
+		page == isNaN( page ) ? 1 : page;
+		force = force || false;
+		return this.getFriendsByUsernameAndPage( 'me', page, force );
+	}
+
+	getFriendsByUsernameAndPage( username, page, force ) {
+		page == isNaN( page ) ? 1 : page;
+		force = force || false;
 		if( this._friendCache[ username ] && !force ) {
 			return this.$q.resolve( this._friendCache[ username ] );
 		}
-		return this.$http.get( CONFIG.API_PATH + '/user/' + username + '/friend' ).then((r) => {
+		return this.$http.get( CONFIG.API_PATH + '/user/' + username + '/friend?page=' + page ).then((r) => {
 			this._friendCache[ username ] = r.data;
 			return r.data;
 		});

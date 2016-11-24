@@ -48,6 +48,20 @@ class UserService {
 		return this._loadingPromise;
 	}
 
+	getUserStats( username ) {
+		let promise = this.$q.defer();
+		setTimeout(() => {
+			promise.resolve({
+				friends: 12,
+				articles: 10,
+				photos: 2,
+				videos: 4,
+				events: 0
+			})
+		}, Math.random() * 1000);
+		return promise.promise;
+	}
+
 	uploadProfilePic( photo ) {
 		let data = new FormData();
 		data.append( 'file', photo );

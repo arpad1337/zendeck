@@ -28,6 +28,11 @@ const DIMENSIONS = {
 		height: 80,
 		fontSize: 48
 	},
+	xlarge: {
+		width: 130,
+		height: 130,
+		fontSize: 68
+	},
 	large: {
 		width: 220,
 		height: 220,

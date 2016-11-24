@@ -3,7 +3,7 @@
 ></posting-box>
 <hr>
 <section role="feed" ng-if="ctrl.posts && ctrl.posts.length > 0">
-    <h4>{{ 'FEED.POSTS_TITLE' | translate }}</h4>
+    <h4>{{ 'FEED.POSTS.TITLE' | translate }}</h4>
     <post-entry 
     	ng-repeat="post in ctrl.posts track by $index" 
     	entry="post" 

@@ -1,0 +1,41 @@
+<section role="messages">
+    <h4>{{ 'MESSAGES.TITLE' | translate }}</h4>
+    <div class="messages">
+        <div 
+            class="message"
+            ng-repeat=" thread in ctrl.threads track by $index "
+        >
+            <div class="head">
+                <div class="author-pic">
+                    <profile-pic
+                        user="thread.recipient"
+                        size="small"
+                    >
+                    </profile-pic>
+                </div>
+                <div class="author" ui-sref="profile.posts({username:thread.username})">
+                    <strong>{{ thread.recipient.fullname }}</strong> @{{ thread.recipient.username }}
+                    <br>
+                    <span class="date">
+                        {{thread.updatedAt | timeAgo}}
+                    </span>
+                </div>
+            </div>
+            <pre class="content">{{thread.messages[thread.messages.length - 1].message}}</pre>
+            <button 
+                class="view-thread"
+                ui-sref="messages.thread({username:thread.recipient.username})"
+                ng-click="ctrl.selectThread( thread.recipient.username )"
+            >
+                {{ 'MESSAGES.OPEN_THREAD' | translate }}
+            </button>
+        </div>
+        <hr>
+        <button 
+            class="get-more-threads"
+            ng-click="ctrl.getMoreThreads()"
+        >
+            {{ 'MESSAGES.GET_MORE_THREAD' | translate }}
+        </button>
+    </div>
+</section>

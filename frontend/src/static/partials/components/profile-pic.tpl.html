@@ -6,10 +6,10 @@
         ng-if="vm.user.photos[vm.size]"
         class="photo" 
         ng-style="{
-        	backgroundImage:url('{{vm.user.photos[vm.size].src}}'),
+        	'background-image':'url(' + vm.user.photos[vm.size].src + ')',
         	width:vm.width + 'px',
         	height:vm.height + 'px',
-        	backgroundSize: vm.width + 'px ' + vm.height + 'px' 
+        	'background-size': vm.width + 'px ' + vm.height + 'px' 
         }"
     >
     </div>

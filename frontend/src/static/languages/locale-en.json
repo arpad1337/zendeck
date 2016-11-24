@@ -92,6 +92,14 @@
 			"TITLE": "Groups",
 			"NO_GROUPS": "You have no groups yet. Why not searching?",
 			"CREATE_GROUP": "Create group"
+		},
+		"STATS": {
+			"TITLE": "Stats",
+			"MEMBERS": "connection",
+			"ARTICLES": "article posted",
+			"PHOTOS": "photo shared",
+			"VIDEOS": "video linked",
+			"EVENTS": "event linked"
 		}
 	},
 	"NOTIFICATIONS": {
@@ -106,9 +114,15 @@
 		"GROUP_INVITATION": "{{invitee}} invited your to the <a href=\"{{groupUrl}}\">{{groupName}} Group</a>"
 	},
 	"FEED": {
-		"POSTS_TITLE": "Posts",
-		"LIKED_TITLE": "Liked posts",
-		"FILTERED_TITLE": "Posts by",
+		"POSTS": {
+			"TITLE": "Posts"
+		},
+		"LIKED": {
+			"TITLE": "Liked posts"
+		},
+		"FILTERED": {
+			"TITLE": "Posts by"
+		},
 		"LINK_PREVIEW_TITLE": "Link preview",
 		"SAVE_FILTER": "Save",
 		"LINK_PREVIEW": "<a href=\"{{url}}\" target=\"_blank\">From <span>{{medium}}</span></a>",
@@ -155,10 +169,19 @@
 	"MESSAGES": {
 		"TITLE": "Messages",
 		"OPEN_THREAD": "Open thread",
-		"RECENT_FRIENDS": "Recent friends"
+		"RECENT_FRIENDS": "Recent friends",
+		"MESSAGES_WITH": "Messages with",
+		"SEND_MESSAGE": "Send message",
+		"PREVIOUS_MESSAGES": "Previous messages",
+		"GET_MORE_THREAD": "More threads"
 	},
 	"PROFILE": {
-		"TITLE": "Posts",
+		"POSTS": {
+			"TITLE": "Posts"
+		},
+		"LIKED": {
+			"TITLE": "Liked posts"
+		},
 		"ABOUT": "About",
 		"CHANGE_COVER_PIC": "Change cover photo",
 		"DELETE_COVER_PIC": "Delete cover photo",
@@ -170,7 +193,11 @@
 		"MEMBER_SINCE_PREFIX": "Joined at",
 		"NO_ABOUT": "N/A",
 		"COPY_COLLECTION": "Copy",
-		"EDIT_COLLECTION": "Edit"
+		"EDIT_COLLECTION": "Edit",
+		"FRIENDS": {
+			"TITLE": "Friends",
+			"MORE_BUTTON": "More"
+		}
 	},
 	"MEMBERS": {
 		"TITLE": "Members"

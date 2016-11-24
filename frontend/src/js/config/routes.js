@@ -117,9 +117,26 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.MESSAGES.SELF,
 		opts: {
+			abstract: true,
 			path: '/messages',
 			controller: 'MessagesController',
 			view: 'views/messages.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+	{
+		state: STATES.APPLICATION.MESSAGES.LIST,
+		opts: {
+			path: '',
+			view: 'views/messages/list.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+	{
+		state: STATES.APPLICATION.MESSAGES.THREAD,
+		opts: {
+			path: '/:username',
+			view: 'views/messages/thread.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},
@@ -150,7 +167,7 @@ const ROUTES = [
 		state: STATES.APPLICATION.PROFILE.FOLLOWERS,
 		opts: {
 			path: '/connections',
-			view: 'views/profile/friends.tpl.html',
+			view: 'views/profile/connections.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},

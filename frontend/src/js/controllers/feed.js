@@ -48,18 +48,22 @@ class FeedController extends CollectionController {
 
 		this.loadCollections();
 
-		this.friendService.getCurrentUserFriends(  ).then((friends) => {
+		this.friendService.getCurrentUserRecentFriends(  ).then((friends) => {
 			this.friends = friends;
 		});
+
 		this.filterService.getTrendingTags().then((trendingTags) => {
 			this.trendingTags = trendingTags;
 		});
+		
 		if( this.$state.current.name === this.FEED_STATES.LIKED ) {
 			this.selectLiked();
 		}
+		
 		if( this.$state.current.name === this.FEED_STATES.POSTS ) {
 			this.selectFeed();
 		}
+		
 		this.groups = [];
 	}
 

@@ -40,13 +40,20 @@ class ProfileController extends CollectionController {
 		return STATES.APPLICATION.PROFILE;
 	}
 
+	resetPaginator() {
+		super.resetPaginator();
+		this._friendsPage = 1;
+	}
+
 	_initState() {
 		this.username = this.$state.params.username;
 
 		this._isEditing = false;
 		this._page = 1;
+		this._friendsPage = 1;
 		this.posts = [];
 		this.friends = [];
+		this.stats = null;
 
 		this.userService.getProfileByUsername( this.$state.params.username ).then((profile) => {
 			this.profile = profile;
@@ -63,9 +70,26 @@ class ProfileController extends CollectionController {
 			});
 		});
 
+		this.friendService.getFriendsByUsernameAndPage( this.$state.params.username, this._friendsPage ).then((friends) => {
+			friends.forEach((friend) => {
+				this.friends.push( friend );
+			});
+		});
 
+		this.userService.getUserStats( this.$state.params.username ).then((stats) => {
+			this.stats = stats;
+		});
 		
 		this.loadCollections();
+	}
+
+	async getMoreFriends() {
+		this._friendsPage++;
+		let friends = await this.friendService.getFriendsByUsernameAndPage( this.$state.params.username, this._friendsPage );
+		friends.forEach((friend) => {
+			this.friends.push( friend );
+		});
+		this.$scope.$digest();
 	}
 
 	async selectFeed() {
