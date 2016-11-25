@@ -1,0 +1,19 @@
+<div 
+	class="placeholder"
+	ng-click="vm.isOpened = !vm.isOpened"
+	ng-class=" vm.isOpened ? 'active' : '' ">
+	{{ vm.model ? vm.model[ vm.value ] : 'Select item...' }}
+</div>
+<ul
+	ng-style="{ display: (vm.isOpened ? 'block' : 'none') }"
+>
+	<li>
+		<input type="text" class="predicate" ng-model="vm.predicate">
+	</li>
+	<li 
+		ng-repeat="item in vm.filteredCollection track by $index"
+		ng-click="vm.selectItem( item )"
+	>
+		<strong>{{ item[ vm.value ] }}</strong>
+	</li>
+</ul>

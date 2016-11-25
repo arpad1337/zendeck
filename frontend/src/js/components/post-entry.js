@@ -86,14 +86,15 @@ class PostEntryComponent {
 
 	async deleteComment( commentId ) {
 		if( this._delegateRespondsToSelector( 'deleteComment' ) ) {
-			await this.delegate.deleteComment( this.entry.id, commentId );
-			let index = -1;
-			this.entry.comments.data.forEach((c, i) => {
-				if( c.id == commentId ) {
-					index = i;
-				}
-			});
-			this.entry.comments.data.splice( index, 1 );
+			try {
+				await this.delegate.deleteComment( this.entry.id, commentId );
+				let index = this.entry.comments.data.findIndex((c) => {
+					return (c.id == commentId);
+				});
+				this.entry.comments.data.splice( index, 1 );
+			} catch( e ) {
+				console.error(e);
+			}
 		}
 	}
 
@@ -112,10 +113,14 @@ class PostEntryComponent {
 
 	async saveToCollection() {
 		console.log('selected collection:', this.targetCollection);
-		if( this.targetCollection === -1 ) {
+		if( this.targetCollection === -1 || this.targetCollection == '' ) {
 			return;
 		}
 		this.entry.starred = !this.entry.starred;
+	}
+
+	itemSelected() {
+		console.log('item selected', arguments);
 	}
 
 	_delegateRespondsToSelector( selector ) {

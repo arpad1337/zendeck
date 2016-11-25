@@ -41,9 +41,10 @@
                     ng-init="vm = vm"
                     tooltips
                     tooltip-template-url="partials/save-to-collection.tpl.html"
-                    tooltip-class="tooltip-patch stretch"
+                    tooltip-class="tooltip-patch stretch2"
                     tooltip-show-trigger="click"
                     tooltip-hide-trigger="mouseleave"
+                    tooltip-hidden="false"
                 >
 
 
@@ -74,6 +75,17 @@
     </div>
     <aside>
         <div class="content">
+            <div class="message">
+                TEST
+                <br>
+                <custom-select
+                    delegate="vm",
+                    collection="vm.delegate.collections"
+                    key="id",
+                    value="name"
+                >
+                </custom-select>
+            </div>
             <div class="message">
                 {{vm.entry.content}}
             </div>

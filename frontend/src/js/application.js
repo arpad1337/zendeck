@@ -43,6 +43,7 @@ import PostingBoxTagComponent from './components/posting-box-tag';
 import ModalButtonComponent from './components/modal-button';
 import UserPreviewCardComponent from './components/user-preview-card';
 import MorePostsButtonComponent from './components/more-posts-button';
+import CustomSelectComponent from './components/custom-select';
 import {
 	ProfilePicComponent
 } from './components/profile-pic';
@@ -81,5 +82,6 @@ module.directive( 'modalButton', createComponent( ModalButtonComponent ) );
 module.directive( 'userPreviewCard', createComponent( UserPreviewCardComponent ) );
 module.directive( 'profilePic', createComponent( ProfilePicComponent ) );
 module.directive( 'morePosts', createComponent( MorePostsButtonComponent ) );
+module.directive( 'customSelect', createComponent( CustomSelectComponent ) );
 
 module.factory('sessionInterceptor', createInterceptor( SessionInterceptor ));

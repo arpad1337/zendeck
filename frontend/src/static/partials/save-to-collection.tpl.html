@@ -8,9 +8,12 @@
 	<div ng-if="vm.delegate.collections && vm.delegate.collections.length > 0">
 		{{ 'FEED.POST_ENTRY.SAVE_TO_COLLECTION' | translate }}:
 		<select 
+			placeholder="Select collection..."
 			ng-model="vm.targetCollection"
 			ng-options="value.id as value.name for (key, value) in vm.delegate.collections">
+			<option value="">Select collection...</option>
 		</select>
+
 		<button ng-click="vm.saveToCollection();">{{ 'FEED.POST_ENTRY.OK' | translate }}</button>
 	</div>
 </div>
