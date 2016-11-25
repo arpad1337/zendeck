@@ -1,0 +1,86 @@
+@import "variables";
+
+custom-select {
+	width: 226px;
+	display: block;
+	background: $FOOTER-LIGHT;
+	height: 35px;
+	position: relative;
+	color: black;
+	font-size: 14px;
+	.placeholder {
+		width: 100%;
+		span {
+			text-align: left;
+			display: block;
+			width: 174px;
+			padding: 8px 0px 8px 15px;
+			font-size: 14px;
+		}
+		input {
+			position: absolute;
+			top:0;
+			left: 0;
+			z-index: 1001;
+			display: none;
+			border: 1px solid $FOOTER-LIGHT;
+			background: $FOOTER-LIGHT;
+			padding: 8px 14px;
+			width: calc(100% - 64px);
+			font-size: 14px;
+			&:hover, &:focus {
+				background: $WHITE;
+			}
+		}
+		button {
+			position: absolute;
+			z-index: 1001;
+			right: 0;
+			top: 0;
+			width: 34px;
+			height: 35px;
+			border: none;
+			background: $FOOTER-LIGHT;
+			&:after {
+				content: " ";
+				background: url('../img/selection@2x.png');
+				background-size: 17px 10px;
+				background-position: center center;
+				width: 22px;
+				height: 19px;
+				display: block;
+				background-repeat: no-repeat;
+				float: right;
+			}
+		}
+		&.active {
+			input {
+				display: block;
+			}
+			button:after {
+				@include transform( rotateX(180deg) );
+			}	
+		}
+		& + ul {
+			overflow: auto;
+			position: absolute;
+			z-index: 1000;
+			top: 35px;
+			left: 0;
+			list-style-type: none;
+			padding: 0;
+			width: 100%;
+			margin: 0;
+			li {
+				text-align: left;
+				font-size: 14px;
+				padding: 8px 16px;
+				background: $FOOTER-LIGHT;
+				border-top: 1px solid $WHITE;
+				&:hover {
+					background: $WHITE;
+				}
+			}
+		}
+	}
+}

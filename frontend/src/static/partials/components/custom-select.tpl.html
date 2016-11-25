@@ -1,19 +1,30 @@
 <div 
 	class="placeholder"
-	ng-click="vm.isOpened = !vm.isOpened"
 	ng-class=" vm.isOpened ? 'active' : '' ">
-	{{ vm.model ? vm.model[ vm.value ] : 'Select item...' }}
+	<span
+		ng-click="vm.isOpened = !vm.isOpened"
+	>
+		{{ vm.model ? vm.model[ vm.value ] : ( vm.placeholder ) ? vm.placeholder : 'Select item...' }}
+	</span>
+	<input 
+		type="text" 
+		class="predicate" 
+		ng-model="vm.predicate"
+		placeholder="{{ ( vm.placeholder ) ? vm.placeholder : 'Type here' }}"
+	>
+	<button
+		ng-click="vm.isOpened = !vm.isOpened"
+	></button>
 </div>
 <ul
-	ng-style="{ display: (vm.isOpened ? 'block' : 'none') }"
+	ng-style="{ display: (vm.isOpened ? 'block' : 'none'), height: vm.maxHeight + 'px' }"
 >
-	<li>
-		<input type="text" class="predicate" ng-model="vm.predicate">
-	</li>
 	<li 
 		ng-repeat="item in vm.filteredCollection track by $index"
-		ng-click="vm.selectItem( item )"
+		ng-click="vm.selectItem( item[ vm.key ] )"
+		ng-transclude
+		ng-transclude-locals="{item: item}"
 	>
-		<strong>{{ item[ vm.value ] }}</strong>
+		
 	</li>
 </ul>

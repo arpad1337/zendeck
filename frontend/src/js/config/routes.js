@@ -52,7 +52,7 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.FEED.POSTS,
 		opts: {
-			path: '/posts',
+			path: '',
 			view: 'views/feed/list.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}

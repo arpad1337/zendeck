@@ -149,7 +149,8 @@
 			"OK": "Ok",
 			"ALREADY_SAVED": "Already saved",
 			"NO_COLLECTIONS": "You have no collections yet",
-			"SHAREABLE_URL": "Post URL"
+			"SHAREABLE_URL": "Post URL",
+			"SELECT_COLLECTION": "Select collection"
 		},
 		"POST_BOX": {
 			"TITLE": "Post to feed",

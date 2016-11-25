@@ -119,8 +119,9 @@ class PostEntryComponent {
 		this.entry.starred = !this.entry.starred;
 	}
 
-	itemSelected() {
-		console.log('item selected', arguments);
+	// customSelect delegate
+	itemSelected( model ) {
+		this.targetCollection = model;
 	}
 
 	_delegateRespondsToSelector( selector ) {
