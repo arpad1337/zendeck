@@ -1,8 +1,8 @@
-<div class="modal">
+<div class="modal" ng-controller="SendNewMessageController as ctrl">
     <div class="container">
         <h4>{{ 'MODALS.SEND_NEW_MESSAGE.TITLE' |translate }}</h4>
         <a class="close" ng-click="cancel()"></a>
-        <div class="content" ng-controller="SendNewMessageController as ctrl">
+        <div class="content">
             <form>
                 <p>
                     <label 
@@ -49,7 +49,7 @@
         <div class="actions">
                <modal-button
                     class-name="'confirm'"
-                    callback="ok()"
+                    callback="ctrl.sendMessage(recipient, message, error, ok)"
                 >
                     {{ 'MODALS.SEND_NEW_MESSAGE.OK' |translate }}
                 </modal-button>

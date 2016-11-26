@@ -83,6 +83,17 @@ class ProfileController extends CollectionController {
 		this.loadCollections();
 	}
 
+	openSendNewMessageModal() {
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.SEND_NEW_MESSAGE, {
+			recipient: this.profile,
+			error: {
+				message: null,
+				recipient: null,
+				backend: null
+			}
+		});
+	}
+
 	async getMoreFriends() {
 		this._friendsPage++;
 		let friends = await this.friendService.getFriendsByUsernameAndPage( this.$state.params.username, this._friendsPage );

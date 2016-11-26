@@ -9,7 +9,7 @@
 		ng-init="$select = vm"
 	>
 		<span>
-			{{ vm.model ? vm.model[ vm.value ] : ( vm.placeholder ) ? vm.placeholder : 'Select item...' }}
+			{{ vm.model && vm.model[ vm.value ] ? vm.model[ vm.value ] : ( vm.placeholder ) ? vm.placeholder : 'Select item...' }}
 		</span>
 	</div>
 	<div 

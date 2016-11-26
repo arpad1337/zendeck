@@ -1,6 +1,8 @@
 <nav>
-    <div class="actions">
-        <a href="send-message.html" class="message">Send new message</a>
+    <div class="actions" nf-if=" ctrl.currentState != ctrl.MESSAGES_STATES.THREAD ">
+        <a class="message" ng-click="ctrl.openSendNewMessageModal()">
+            <span>{{ 'HEADER.SUB_MENU.SEND_NEW_MESSAGE' | translate }}</span>
+        </a>
     </div>
 </nav>
 <div class="wrap prt-30">

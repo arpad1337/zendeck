@@ -26,7 +26,7 @@
 			"CREATE_FILTER": "Create filter",
 			"CREATE_COLLECTION": "Create collection",
 			"ADD_FRIEND": "Follow",
-			"SEND_NEW_MESSAGE": "Send a message",
+			"SEND_NEW_MESSAGE": "Send new message",
 			"FRIENDS": "Friends",
 			"FOLLOWERS": "Followers",
 			"CONTENTS": "Contents"
@@ -126,7 +126,7 @@
 		"LINK_PREVIEW_TITLE": "Link preview",
 		"SAVE_FILTER": "Save",
 		"LINK_PREVIEW": "<a href=\"{{url}}\" target=\"_blank\">From <span>{{medium}}</span></a>",
-		"SAVE_COLLECTION": "Follow",
+		"SAVE_COLLECTION": "Subscribe",
 		"EDIT_COLLECTION": "Edit",
 		"POST_ENTRY": {
 			"IN_GROUP": "from <a href=\"{{groupUrl}}\">{{groupName}}</a>",

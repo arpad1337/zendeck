@@ -53,7 +53,7 @@ class CustomSelectComponent {
 	constructor() {
 		this.rowHeight = this.rowHeight || this.defaultRowHeight;
 		this.maxHeight = this.rowHeight;
-		this.model = null;
+		this.model = this.model || null;
 		this._isOpened = false;
 		this._predicate = '';
 		this.localCollection = [];

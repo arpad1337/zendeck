@@ -12,16 +12,18 @@ class MessagesController {
 			'$state',
 			'UserService',
 			'MessageService',
-			'FriendService'
+			'FriendService',
+			'ModalService'
 		];
 	}
 
-	constructor( $scope, $state, userService, messageService, friendService ) {
+	constructor( $scope, $state, userService, messageService, friendService, modalService ) {
 		this.$scope = $scope;
 		this.$state = $state;
 		this.userService = userService;
 		this.messageService = messageService;
 		this.friendService = friendService;
+		this.modalService = modalService;
 
 		this._initState();
 	}
@@ -53,6 +55,32 @@ class MessagesController {
 				});
 			});
 		}
+	}
+
+	openSendNewMessageModal() {
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.SEND_NEW_MESSAGE, {
+			error: {
+				message: null,
+				recipient: null,
+				backend: null
+			}
+		}).then(() => {
+			this._page = 1;
+			this.messageService.getThreadsByPage( this._page ).then((threads) => {
+				this.threads.length = 0;
+				threads.forEach((thread) => {
+					this.threads.push( thread );
+				});
+			});
+		});
+	}
+
+	get MESSAGES_STATES() {
+		return STATES.APPLICATION.MESSAGES.THREAD;
+	}
+
+	get currentState() {
+		return this.$state.current.name;
 	}
 
 	set message( value ) {
@@ -112,7 +140,9 @@ class MessagesController {
 	}
 
 	sendMessage() {
-		let message = this._message;
+		let message = this._message.trim()
+			.replace(/\n\s*\n\s*\n/g, '\n\n')
+			.replace(/  +/g, ' ');
 		return this.messageService.sendMessageToUser( this._recipient.username, message ).then((message) => {
 			this._message = '';
 			this.messages.push( message );
