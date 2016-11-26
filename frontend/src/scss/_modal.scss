@@ -126,9 +126,28 @@ $TRANSITION-DURATION: 0.3s;
 				}
 			}
 
-			* > input[type="text"],
-			* > input[type="email"],
-			* > input[type="password"] {
+			& p > custom-select {
+				background: $WHITE;
+				border: 1px solid $WHITE;
+				float:left;
+				ul {
+					border: 1px solid $WHITE;
+					margin: -1px;
+				}
+				.profile-entry {
+					line-height: 42px;
+					display: inline-block;
+					profile-pic {
+						margin-left: -10px;
+						margin-right: 4px;
+						float: left;
+					}
+				}
+			}
+
+			& p > input[type="text"],
+			& p > input[type="email"],
+			& p > input[type="password"] {
 				border: 1px solid #fff;
 				padding: 10px;
 				min-width: 260px;
@@ -179,9 +198,10 @@ $TRANSITION-DURATION: 0.3s;
 				}
 			}
 
-			textarea {
+			& p > textarea {
 				border: 1px solid $WHITE;
 				width: 418px;
+				min-height: 57px;
 				padding: 8px;
 				background: $WHITE;
 				&:hover, &:focus {

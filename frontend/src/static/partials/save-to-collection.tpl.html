@@ -8,13 +8,13 @@
 	<div ng-if="vm.delegate.collections && vm.delegate.collections.length > 0">
 		{{ 'FEED.POST_ENTRY.SAVE_TO_COLLECTION' | translate }}:
 		<custom-select
-	        delegate="vm",
+	        model="vm.targetCollection"
 	        collection="vm.delegate.collections"
-	        key="id",
-	        value="name",
+	        key="id"
+	        value="name"
 	        placeholder="{{'FEED.POST_ENTRY.SELECT_COLLECTION' | translate}}"
 	    >
-	        {{$parent.item.name}}
+	        <custom-select-item>{{$parent.item.name}}</custom-select-item>
 	    </custom-select>
 
 		<button class="save" ng-click="vm.saveToCollection();">

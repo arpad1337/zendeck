@@ -137,6 +137,10 @@ class ApplicationController {
 		this.modalService.openDialog( this.modalService.DIALOG_TYPE.REGISTER, extension, this.register.bind( this ) ).then(console.log.bind(console));
 	}
 
+	openSendNewMessageModal() {
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.SEND_NEW_MESSAGE );
+	}
+
 	async checkUsernameAvailability( model ) {
 		model.username = model.username.replace(/[^A-Za-z0-9]/g,'');
 		if( model.username.trim().length > 2 ) {

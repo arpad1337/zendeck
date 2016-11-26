@@ -1,11 +1,25 @@
 <div 
 	class="placeholder"
-	ng-class=" vm.isOpened ? 'active' : '' ">
-	<span
+	ng-class=" vm.isOpened ? 'active' : '' "
+	>
+	<div
+		ng-click="vm.isOpened = !vm.isOpened"
+		ng-transclude="selected"
+		ng-if="vm.model"
+		ng-init="$select = vm"
+	>
+		<span>
+			{{ vm.model ? vm.model[ vm.value ] : ( vm.placeholder ) ? vm.placeholder : 'Select item...' }}
+		</span>
+	</div>
+	<div 
+		ng-if="!vm.model"
 		ng-click="vm.isOpened = !vm.isOpened"
 	>
-		{{ vm.model ? vm.model[ vm.value ] : ( vm.placeholder ) ? vm.placeholder : 'Select item...' }}
-	</span>
+		<span>
+			{{ ( vm.placeholder ) ? vm.placeholder : 'Select item...' }}
+		</span>
+	</div>
 	<input 
 		type="text" 
 		class="predicate" 
@@ -17,13 +31,12 @@
 	></button>
 </div>
 <ul
-	ng-style="{ display: (vm.isOpened ? 'block' : 'none'), height: vm.maxHeight + 'px' }"
+	ng-style="{ display: (vm.isOpened ? 'block' : 'none'), 'max-height': vm.maxHeight + 'px' }"
 >
 	<li 
 		ng-repeat="item in vm.filteredCollection track by $index"
 		ng-click="vm.selectItem( item[ vm.key ] )"
-		ng-transclude
-		ng-transclude-locals="{item: item}"
+		ng-transclude="item"
 	>
 		
 	</li>

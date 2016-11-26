@@ -1,0 +1,64 @@
+<div class="modal">
+    <div class="container">
+        <h4>{{ 'MODALS.SEND_NEW_MESSAGE.TITLE' |translate }}</h4>
+        <a class="close" ng-click="cancel()"></a>
+        <div class="content" ng-controller="SendNewMessageController as ctrl">
+            <form>
+                <p>
+                    <label 
+                        for="recipient"
+                    >
+                        {{ 'MODALS.SEND_NEW_MESSAGE.SELECT_RECIPIENT' |translate }}*
+                    </label> 
+                    <custom-select
+                        model="recipient"
+                        delegate="ctrl"
+                        collection="ctrl.userAllFriends"
+                        key="id"
+                        value="fullname"
+                    >
+                        <custom-select-selected>
+                            <strong>{{$parent.$select.model.fullname}}</strong> @{{$parent.$select.model.username}}
+                        </custom-select-selected>
+                        <custom-select-item class="profile-entry">
+                            <profile-pic
+                                size="small"
+                                user="$parent.item"
+                            >
+                            </profile-pic>
+                            <strong>{{$parent.item.fullname}}</strong> @{{$parent.item.username}}
+                        </custom-select-item>
+                    </custom-select>
+                </p>
+                <p>
+                    <label for="message">
+                        {{ 'MODALS.SEND_NEW_MESSAGE.MESSAGE' |translate }}*
+                    </label>
+                    <textarea 
+                        rows="3"
+                        class="msd-elastic" 
+                        name="message" 
+                        ng-model="message"
+                        placeholder="{{ 'MODALS.SEND_NEW_MESSAGE.PLACEHOLDER' |translate }}"
+                    >
+                    </textarea>
+                </p>
+                <p ng-if="error.backend" class="hint negative">{{error.backend}}</p>
+            </form>
+        </div>
+        <div class="actions">
+               <modal-button
+                    class-name="'confirm'"
+                    callback="ok()"
+                >
+                    {{ 'MODALS.SEND_NEW_MESSAGE.OK' |translate }}
+                </modal-button>
+                <modal-button
+                    class-name="'cancel'"
+                    callback="cancel()"
+                >
+                    {{ 'MODALS.SEND_NEW_MESSAGE.CANCEL' |translate }}
+                </modal-button>
+        </div>
+    </div>
+</div>

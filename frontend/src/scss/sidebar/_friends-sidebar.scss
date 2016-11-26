@@ -1,27 +1,16 @@
 section[role="friends-sidebar"] {
 	.friends {
-		margin: -2px;
-		tooltip {
-			float: left;
-		}
+		margin: -4px;
 		.friend {
-			margin: 2px;
+			margin: 4px;
+			padding: 0;
 			width: 42px;
 			height: 42px;
-			border: 2px solid $FOOTER-LIGHT;;
-			@include border-radius(55px);
-			background-size: cover;
 			float: left;
-			cursor: pointer;
-			&.no-photo {
-				text-align: center;
-				line-height: 40px;
-				text-decoration: none;
-				color: #fff;
-				font-size: 24px;
-			}
-			&:hover {
-				border-color: $SECONDARY-LIGHT;
+			.photo {
+				&:hover {
+					border-color: $SECONDARY-LIGHT !important;
+				}
 			}
 		}
 		@extend .clear;

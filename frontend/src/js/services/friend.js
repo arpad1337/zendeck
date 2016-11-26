@@ -26,14 +26,17 @@ class FriendService {
 	getCurrentUserFriendsByPage( page, force ) {
 		page == isNaN( page ) ? 1 : page;
 		force = force || false;
-		return this.getFriendsByUsernameAndPage( 'me', page, force );
+		return this.getFriendsByUsernameAndPage( 'me', page, force ).then((friends) => {
+			for(var i = 0; i<50;i++){friends.push(friends[0]);}
+				return friends;
+		});
 	}
 
 	getFriendsByUsernameAndPage( username, page, force ) {
 		page == isNaN( page ) ? 1 : page;
 		force = force || false;
 		if( this._friendCache[ username ] && !force ) {
-			return this.$q.resolve( this._friendCache[ username ] );
+			return this.$q.resolve( JSON.parse(JSON.stringify(this._friendCache[ username ])) );
 		}
 		return this.$http.get( CONFIG.API_PATH + '/user/' + username + '/friend?page=' + page ).then((r) => {
 			this._friendCache[ username ] = r.data;

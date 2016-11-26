@@ -31,16 +31,21 @@ class CustomSelectComponent {
 				collection: '=',
 				rowHeight: '@?',
 				placeholder: '@?',
+				model: '=?',
 				key: '@',
 				value: '@'
 			},
-			transclude: true,
+			transclude: {
+				item: 'customSelectItem',
+				selected: '?customSelectSelected'
+			},
 			templateUrl: 'partials/components/custom-select.tpl.html',
 			bindToController: true,
 			controllerAs: 'vm',
 			controller: this,
-			link: (scope, element) => {
+			link: (scope, element, attrs) => {
 				scope.vm.$element = element;
+				scope.vm._bindEvents();
 			}
 		};
 	}
@@ -52,7 +57,34 @@ class CustomSelectComponent {
 		this._isOpened = false;
 		this._predicate = '';
 		this.localCollection = [];
+		this._bottomReachedEventSent = false;
 		this.filteredCollection = Array.prototype.slice.call( this.collection );
+	}
+
+	_bindEvents() {
+		let target = $(this.$element.find('ul'));
+		let timer = false;;
+		let handler = this.onScroll.bind( this, target );
+		$(target).bind( 'scroll', () => {
+			clearTimeout( timer );
+			timer = setTimeout( handler, 200 );
+		});
+	}
+
+	async onScroll( target ) {
+		let offset = target[0].scrollHeight - 
+					 target[0].scrollTop -
+					 target.innerHeight();
+
+		if( offset < 70 && !this._bottomReachedEventSent ) {
+			console.log('BOTTOM reached!!!');
+			this._bottomReachedEventSent = true;
+			if( this._delegateRespondsToSelector( 'onBottomReached' )) {
+				await this.delegate.onBottomReached();
+				this._runFilter();
+			}
+			this._bottomReachedEventSent = false;
+		}
 	}
 
 	get defaultRowHeight() {
@@ -72,6 +104,7 @@ class CustomSelectComponent {
 			}, 0);
 			let currentTop = this.getCumulativeOffset( this.$element[0] ).y;
 			this.maxHeight = window.scrollY + window.innerHeight - currentTop - this.rowHeight - 20;
+			this._runFilter();
 		}
 	}
 
@@ -92,6 +125,13 @@ class CustomSelectComponent {
 
 	set predicate( newValue ) {
 		this._predicate = newValue.trim();
+		if( this._delegateRespondsToSelector('onPredicateChange') ) {
+			this.delegate.onPredicateChange( this._predicate );
+		}
+		this._runFilter();
+	}
+
+	_runFilter() {
 		let keyword = this._predicate.toLowerCase();
 		this.filteredCollection.length = 0;
 		this.collection.forEach((item) => {
@@ -112,8 +152,8 @@ class CustomSelectComponent {
 		this.model = this.collection[ index ];
 		this._isOpened = false;
 		this.placeholder = this.model[ this.value ];
-		if( this._delegateRespondsToSelector('itemSelected') ) {
-			this.delegate.itemSelected( this.model );
+		if( this._delegateRespondsToSelector('onItemSelected') ) {
+			this.delegate.onItemSelected( this.model );
 		}
 	}
 

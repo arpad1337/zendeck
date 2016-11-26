@@ -126,7 +126,7 @@
 		"LINK_PREVIEW_TITLE": "Link preview",
 		"SAVE_FILTER": "Save",
 		"LINK_PREVIEW": "<a href=\"{{url}}\" target=\"_blank\">From <span>{{medium}}</span></a>",
-		"SAVE_COLLECTION": "Copy",
+		"SAVE_COLLECTION": "Follow",
 		"EDIT_COLLECTION": "Edit",
 		"POST_ENTRY": {
 			"IN_GROUP": "from <a href=\"{{groupUrl}}\">{{groupName}}</a>",

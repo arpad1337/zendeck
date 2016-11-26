@@ -120,7 +120,7 @@ class PostEntryComponent {
 	}
 
 	// customSelect delegate
-	itemSelected( model ) {
+	onItemSelected( model ) {
 		this.targetCollection = model;
 	}
 

@@ -22,6 +22,7 @@ import ProfileController from './controllers/profile';
 import CollectionController from './controllers/collection'; 
 import PostController from './controllers/post'; 
 import MessagesController from './controllers/messages';
+import SendNewMessageController from './controllers/send-new-message';
 
 // S E R V I C E S
 
@@ -64,6 +65,7 @@ module.controller( 'ProfileController', ProfileController );
 module.controller( 'CollectionController', CollectionController );
 module.controller( 'PostController', PostController );
 module.controller( 'MessagesController', MessagesController );
+module.controller( 'SendNewMessageController', SendNewMessageController );
 
 module.service( 'MessageBusService', MessageBusService );
 module.service( 'UserService', UserService );

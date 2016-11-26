@@ -10,7 +10,7 @@ custom-select {
 	font-size: 14px;
 	.placeholder {
 		width: 100%;
-		span {
+		span, custom-select-selected {
 			text-align: left;
 			display: block;
 			width: 174px;

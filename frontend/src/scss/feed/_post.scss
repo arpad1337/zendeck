@@ -69,12 +69,17 @@ h4 + .post {
 			width: 140px;
 		}
 		input.share {
+			background: $FOOTER-LIGHT;
 			color: black;
 			border: none;
 			width: 200px;
-			padding: 3px;
-			margin-top: 4px;
-			font-size: 12px;
+			padding: 4px 10px;
+			margin-top: 8px;
+			font-size: 14px;
+			border: 1px solid $FOOTER-LIGHT;
+			&:hover, &:focus {
+				background: $WHITE;
+			}
 
 		}
 		button.save {

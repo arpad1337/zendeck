@@ -64,72 +64,72 @@
   				background-color:SECONDARY-DARK;
   			}
 		}
-		.selection {
-			border: 1px solid $WHITE;
-			background: $WHITE;
-			&:hover {
-				background: $FOOTER-LIGHT;
-			}
-			float: left;
-			color: $SECONDARY-LIGHT;
-			padding: 2px 4px;
-			position: relative;
-			.current-label {
-				display: inline-block;
-				float: left;
-				padding-right: 20px;
-			}
-			button {
-				background: url('../img/selection@2x.png');
-				background-size: 17px 10px;
-				background-position: center center;
-				width: 24px;
-				height: 20px;
-				border: none;
-				display: inline-block;
-				background-repeat: no-repeat;
-				position: absolute;
-				top: 0;
-				bottom: 0;
-				margin: auto;
-				right: 0;
+		// .selection {
+		// 	border: 1px solid $WHITE;
+		// 	background: $WHITE;
+		// 	&:hover {
+		// 		background: $FOOTER-LIGHT;
+		// 	}
+		// 	float: left;
+		// 	color: $SECONDARY-LIGHT;
+		// 	padding: 2px 4px;
+		// 	position: relative;
+		// 	.current-label {
+		// 		display: inline-block;
+		// 		float: left;
+		// 		padding-right: 20px;
+		// 	}
+		// 	button {
+		// 		background: url('../img/selection@2x.png');
+		// 		background-size: 17px 10px;
+		// 		background-position: center center;
+		// 		width: 24px;
+		// 		height: 20px;
+		// 		border: none;
+		// 		display: inline-block;
+		// 		background-repeat: no-repeat;
+		// 		position: absolute;
+		// 		top: 0;
+		// 		bottom: 0;
+		// 		margin: auto;
+		// 		right: 0;
 
-			} 
-			ul {
-				display: none;
-				position: absolute;
-				background: #fff;
-				padding: 4px;
-				left: 0;
-				width: 180px;
-				top: 40px;
-			}
-			ul, li {
-				padding: 0;
-				margin: 0;
-				list-style-type: none;
-			}
-			img {
-				width: 30px;
-				height: 30px;
-				float: left;
-				border: 2px solid $FOOTER-LIGHT;
-				margin-right: 4px;
-				@include border-radius(30px);
-				+ span {
-					line-height: 34px;
-				}
-			}
-			li {
-				@extend .clear;
-				padding: 4px;
-			}
-			&.show {
-				ul {
-					display: block;
-				}
-			}
-		}
+		// 	} 
+		// 	ul {
+		// 		display: none;
+		// 		position: absolute;
+		// 		background: #fff;
+		// 		padding: 4px;
+		// 		left: 0;
+		// 		width: 180px;
+		// 		top: 40px;
+		// 	}
+		// 	ul, li {
+		// 		padding: 0;
+		// 		margin: 0;
+		// 		list-style-type: none;
+		// 	}
+		// 	img {
+		// 		width: 30px;
+		// 		height: 30px;
+		// 		float: left;
+		// 		border: 2px solid $FOOTER-LIGHT;
+		// 		margin-right: 4px;
+		// 		@include border-radius(30px);
+		// 		+ span {
+		// 			line-height: 34px;
+		// 		}
+		// 	}
+		// 	li {
+		// 		@extend .clear;
+		// 		padding: 4px;
+		// 	}
+		// 	&.show {
+		// 		ul {
+		// 			display: block;
+		// 		}
+		// 	}
+		// }
 		label {
 			width: 140px;
 			display: block;

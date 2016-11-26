@@ -22,7 +22,8 @@ const DIALOG_TYPE = new Enum([
 	'CREATE_COLLECTION',
 	'VIEW_POST',
 	'DELETE_POST_CONFIRMATION',
-	'DELETE_COMMENT_CONFIRMATION'
+	'DELETE_COMMENT_CONFIRMATION',
+	'SEND_NEW_MESSAGE'
 ], 'DIALOG_TYPE');
 
 const DIALOG_DESCIPTORS = {};
@@ -83,6 +84,10 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.DELETE_POST_CONFIRMATION.toString() ] = {
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.DELETE_COMMENT_CONFIRMATION.toString() ] = {
 	templateUrl: '/partials/dialog/delete-comment-confirmation.tpl.html'
+}
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.SEND_NEW_MESSAGE.toString() ] = {
+	templateUrl: '/partials/dialog/send-new-message.tpl.html'
 }
 
 export {
