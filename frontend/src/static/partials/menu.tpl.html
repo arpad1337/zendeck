@@ -1,6 +1,6 @@
-<nav>
+<nav ng-controller="MenuController as ctrl">
     <div class="fleft">
-        <div class="search">
+        <div class="search" ng-controller="SearchController as ctrl">
             <div style="position: relative">
             <input type="text" name="search" placeholder="{{ctrl.currentSearchTerm}}" ng-model="ctrl.currentSearchTerm">
             <button class="icon"></button>
@@ -15,10 +15,14 @@
             <a ui-sref="groups"></a>
         </li>
         <li class="notifications has-tooltip" alt="Notifications">
-            <a ui-sref="notifications"><span>128</span></a>
+            <a ui-sref="notifications">
+                <span ng-if="ctrl.unreadNotificationCount">{{ctrl.unreadNotificationCount}}</span>
+            </a>
         </li>
         <li class="messages has-tooltip" alt="Messages">
-            <a ui-sref="messages.list"><span>2</span></a>
+            <a ui-sref="messages.list">
+                <span ng-if="ctrl.unreadMessageCount">{{ctrl.unreadMessageCount}}</span>
+            </a>
         </li>
         <li class="profile" alt="Profile"
             ng-init="hover=false"

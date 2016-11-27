@@ -102,6 +102,14 @@ class MessageService {
 		]
 	}
 
+	getUnreadMessageCount() {
+		let promise = this.$q.defer();
+		setTimeout(() => {
+			promise.resolve(26);
+		}, Math.random() * 1000);
+		return promise.promise;
+	}
+
 	getThreadsByPage( page ) {
 		page = isNaN( page ) ? 1 : page;
 		let promise = this.$q.defer();

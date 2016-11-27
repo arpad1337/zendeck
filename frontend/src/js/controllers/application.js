@@ -24,7 +24,9 @@ class ApplicationController {
 		this.messageBusService = messageBusService;
 		this.$state = $state;
 		this.modalService = modalService;
+
 		window.APP = this;
+
 		this._initializeApplication();
 	}
 

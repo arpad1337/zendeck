@@ -23,6 +23,7 @@ import CollectionController from './controllers/collection';
 import PostController from './controllers/post'; 
 import MessagesController from './controllers/messages';
 import SendNewMessageController from './controllers/send-new-message';
+import MenuController from './controllers/menu';
 
 // S E R V I C E S
 
@@ -35,6 +36,7 @@ import FriendService from './services/friend';
 import FileUploadService from './services/file-upload';
 import CollectionService from './services/collection';
 import MessageService from './services/message';
+import NotificationService from './services/notification';
 
 // C O M P O N E N T S
 
@@ -66,6 +68,7 @@ module.controller( 'CollectionController', CollectionController );
 module.controller( 'PostController', PostController );
 module.controller( 'MessagesController', MessagesController );
 module.controller( 'SendNewMessageController', SendNewMessageController );
+module.controller( 'MenuController', MenuController );
 
 module.service( 'MessageBusService', MessageBusService );
 module.service( 'UserService', UserService );
@@ -76,6 +79,7 @@ module.service( 'FriendService', FriendService );
 module.service( 'FileUploadService', FileUploadService );
 module.service( 'CollectionService', CollectionService );
 module.service( 'MessageService', MessageService );
+module.service( 'NotificationService', NotificationService );
 
 module.directive( 'postingBox', createComponent( PostingBoxComponent ) );
 module.directive( 'postEntry', createComponent( PostEntryComponent ) );
