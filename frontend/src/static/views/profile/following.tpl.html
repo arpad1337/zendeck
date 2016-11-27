@@ -1,0 +1,26 @@
+<section role="members">
+    <h4>{{'PROFILE.FOLLOWING.TITLE' | translate}}</h4>
+    <div class="members">
+        <div 
+            class="member"
+            ng-repeat="friend in ctrl.following track by $index"
+        >
+            <div 
+                class="pic"
+                ui-sref="profile.posts({username:friend.username})"
+            >
+                <profile-pic
+                    size="medium"
+                    user="friend"
+                ></profile-pic>
+            </div>
+            <div class="name">
+                <strong>{{ friend.fullname }}</strong><br>
+                @{{ friend.username }}
+            </div>            
+        </div>
+    </div>
+    <button ng-click="ctrl.getMoreFollowing()">
+        {{ 'PROFILE.FOLLOWING.MORE_BUTTON' | translate }}
+    </button> 
+</section>

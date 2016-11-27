@@ -17,7 +17,8 @@ const module = angular.module('ZenDeck', [
     'monospaced.elastic',
     'angular-loading-bar',
     '720kb.tooltips',
-    'yaru22.angular-timeago'
+    'yaru22.angular-timeago',
+    'color.picker'
 ]);
 
 module.config(["$httpProvider", function($httpProvider){
@@ -41,6 +42,16 @@ module.config(['tooltipsConfProvider', function configConf(tooltipsConfProvider)
     'tooltipTemplateUrlCache': true,
     'side': 'bottom'
   });
+}]);
+
+module.config(['$provide', function($provide) {
+    $provide.decorator('ColorPickerOptions', function($delegate) {
+        var options = angular.copy($delegate);
+        //options.round = true;
+        options.alpha = false;
+        options.format = 'hex';
+        return options;
+    });
 }]);
 
 module.filter('propsFilter', function() {

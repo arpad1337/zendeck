@@ -109,7 +109,7 @@ const ROUTES = [
 		state: STATES.APPLICATION.NOTIFICATIONS,
 		opts: {
 			path: '/notifications',
-			controller: 'FeedController',
+			controller: 'NotificationsController',
 			view: 'views/notifications.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
@@ -164,10 +164,19 @@ const ROUTES = [
 	},
 
 	{
-		state: STATES.APPLICATION.PROFILE.FOLLOWERS,
+		state: STATES.APPLICATION.PROFILE.CONNECTIONS,
 		opts: {
 			path: '/connections',
 			view: 'views/profile/connections.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+
+	{
+		state: STATES.APPLICATION.PROFILE.FOLLOWING,
+		opts: {
+			path: '/following',
+			view: 'views/profile/following.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},

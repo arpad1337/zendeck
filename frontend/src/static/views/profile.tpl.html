@@ -59,23 +59,35 @@
 <nav>
     <ul>
         <li><a 
-            class="feed active"
+            class="feed"
             ui-sref="profile.posts({username:ctrl.profile.username})"
             ng-click="ctrl.selectFeed()"
+            ng-class="ctrl.activeState == ctrl.PROFILE_STATES.POSTS ? 'active' : ''"
             >
                 {{'HEADER.SUB_MENU.FEED' | translate}}
             </a>
         </li>
         <li>
             <a 
-                ui-sref="profile.followers({username: ctrl.profile.username})"
-                class="members">
+                ui-sref="profile.connections({username: ctrl.profile.username})"
+                class="members"
+                ng-class="ctrl.activeState == ctrl.PROFILE_STATES.CONNECTIONS ? 'active' : ''"
+            >
                 <span ng-if="!ctrl.profile.isBusiness">
                     {{'HEADER.SUB_MENU.FRIENDS' | translate}}
                 </span>
                 <span ng-if="ctrl.profile.isBusiness">
                     {{'HEADER.SUB_MENU.FOLLOWERS' | translate}}
                 </span>
+            </a>
+        </li>
+        <li ng-if="ctrl.profile.username == APP.currentUser.username">
+            <a 
+                ui-sref="profile.following({username: ctrl.profile.username})"
+                class="members"
+                ng-class="ctrl.activeState == ctrl.PROFILE_STATES.FOLLOWING ? 'active' : ''"
+            >
+                {{'HEADER.SUB_MENU.FOLLOWING' | translate}}
             </a>
         </li>
         <li
@@ -113,8 +125,11 @@
         </li>
     </ul>
     <div class="actions" ng-if="APP.currentUser.username != ctrl.profile.username">
-        <a href="#" class="create">
-            <span>Add friend</span>
+        <a 
+            ng-click="ctrl.addFriend( ctrl.profile.username )" 
+            ng-class="ctrl.profile.isFriend ? 'minus' : 'create'">
+            <span ng-if="!ctrl.profile.isFriend">Add friend</span>
+            <span ng-if="ctrl.profile.isFriend">Unfriend</span>
         </a>
         <a class="message" ng-click="ctrl.openSendNewMessageModal()">
             <span>{{ 'HEADER.SUB_MENU.SEND_NEW_MESSAGE' | translate }}</span>

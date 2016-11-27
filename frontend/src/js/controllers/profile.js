@@ -54,13 +54,16 @@ class ProfileController extends CollectionController {
 		this.posts = [];
 		this.friends = [];
 		this.stats = null;
+		this._followingPage = 1;
+		this.following = [];
 
 		this.userService.getProfileByUsername( this.$state.params.username ).then((profile) => {
 			this.profile = profile;
 			this.lastProfileFields = {
 				about: this.profile.about,
 				fullname: this.profile.fullname,
-				birthDate: this.profile.birthDate
+				birthDate: this.profile.birthDate,
+				profileColor: this.profile.profileColor
 			};
 		});
 
@@ -73,6 +76,12 @@ class ProfileController extends CollectionController {
 		this.friendService.getFriendsByUsernameAndPage( this.$state.params.username, this._friendsPage ).then((friends) => {
 			friends.forEach((friend) => {
 				this.friends.push( friend );
+			});
+		});
+
+		this.friendService.getFollowingByUsernameAndPage( this.$state.params.username, this._followingPage ).then((following) => {
+			following.forEach((friend) => {
+				this.following.push( friend );
 			});
 		});
 
@@ -91,6 +100,15 @@ class ProfileController extends CollectionController {
 				recipient: null,
 				backend: null
 			}
+		});
+	}
+
+	async getMoreFollowing() {
+		this._followingPage++;
+		this.friendService.getFollowingByUsernameAndPage( this.$state.params.username, this._followingPage ).then((following) => {
+			following.forEach((friend) => {
+				this.following.push( friend );
+			});
 		});
 	}
 
@@ -126,6 +144,12 @@ class ProfileController extends CollectionController {
 		this._isEditing = !this._isEditing;
 		if( !this.isEditing ) {
 			// closed
+			let color = this.profile.profileColor;
+			if( color != this.lastProfileFields.profileColor ) {
+				this.profile.profileColor = this.lastProfileFields.profileColor;
+				this.lastProfileFields.profileColor = color;
+			}
+
 			let payload = {};
 			let fields = ['about', 'fullname', 'birthDate', 'profileColor'];
 			fields.forEach((field) => {
@@ -133,15 +157,28 @@ class ProfileController extends CollectionController {
 					this.lastProfileFields[ field ] != this.profile[field] &&
 					!Validator.isFieldEmpty( this.lastProfileFields[ field ] )
 				) {
-					payload[field] = this.lastProfileFields[ field ]
-						.trim()
-						.replace(/\n\s*\n\s*\n/g, '\n\n')
-						.replace(/  +/g, ' ');
+					if( this.lastProfileFields[ field ] instanceof Date ) {
+						payload[field] = this.lastProfileFields[ field ].toISOString();
+					} else {
+						payload[field] = this.lastProfileFields[ field ]
+							.trim()
+							.replace(/\n\s*\n\s*\n/g, '\n\n')
+							.replace(/  +/g, ' ');
+					}
 				}
 			});
 			if( Object.keys( payload ).length > 0 ) {
-				await this.userService.updateCurrentUserProfile( payload );
+				let editedProfile = await this.userService.updateCurrentUserProfile( payload );
+				this.profile = editedProfile;
+				this.$scope.$digest();
 			}
+		} else {
+			this.lastProfileFields = {
+				about: this.profile.about,
+				fullname: this.profile.fullname,
+				birthDate: this.profile.birthDate,
+				profileColor: this.profile.profileColor
+			};
 		}
 	}
 
@@ -174,15 +211,13 @@ class ProfileController extends CollectionController {
 	}
 
 	async addFriend( username ) {
-		let friend = this.friends.find((f) => {
-			return f.username == username
-		});
-		if( friend ) {
+		if( this.profile.isFriend ) {
 			await this.friendService.removeFriend( username );
+			this.profile.isFriend = false;
 		} else {
 			await this.friendService.addFriend( username );
+			this.profile.isFriend = true;
 		}
-		this.friends = await this.friendService.getCurrentUserFriends( true );
 	}
 
 }

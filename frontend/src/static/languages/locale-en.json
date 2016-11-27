@@ -29,6 +29,7 @@
 			"SEND_NEW_MESSAGE": "Send new message",
 			"FRIENDS": "Friends",
 			"FOLLOWERS": "Followers",
+			"FOLLOWING": "Following",
 			"CONTENTS": "Contents"
 		},
 
@@ -59,7 +60,7 @@
 	"RIGHT_COLUMN": {
 		"FRIENDS": {
 			"TITLE": "Recent friends",
-			"NO_FRIENDS": "You have no friends yet. Why not searching?"
+			"NO_FRIENDS": "You have no connections yet. Why not searching?"
 		},
 		"GROUPS": {
 			"TITLE": "Groups",
@@ -70,12 +71,8 @@
 		},
 		"ABOUT": {
 			"TITLE": "About",
-			"MEMBERS": "{{memberCount}} member joined",
-			"ARTICLE": "{{articleCount}} article posted",
-			"PHOTO": "{{photoCount}} photo shared",
-			"VIDEOS": "{{videoCount}} video linked",
-			"EVENTS": "{{eventScheduled}} event scheduled",
-			"EDIT_CTA": "Edit profile"
+			"EDIT_CTA": "Edit profile",
+			"COMMIT_CHANGES": "Commit changes"
 		},
 		"STATS": {
 			"TITLE": "Stats",
@@ -103,15 +100,22 @@
 		}
 	},
 	"NOTIFICATIONS": {
+		"BUTTON": {
+			"ACCEPT": "Accept",
+			"ACCEPTED": "Accepted"
+		},
 		"GROUP_INVITATION": "{{invitee}} has invited you to {{group}}",
 		"GROUP_INVITATION_ACCEPTED": "{{invited}} has accepted your invitation to {{group}}",
 		"PLATFORM_INVITATION": "{{invited}} has joined to ZenDeck",
-		"STARRED_POST": "{{starringUser}} starred your <a href=\"{{postUrl}}\">post</a>",
-		"STARRED_POST_MULTI": "{{su1}}, {{su2}} and {{moreCount}} starred your <a href=\"{{postUrl}}\">post</a>",
-		"FRIEND_REQUEST": "{{invitee}} sent you a friend request",
-		"LIKED_POST": "{{likedPost}} liked your <a href=\"{{postUrl}}\">post</a>",
-		"LIKED_POST_MULTI": "{{su1}}, {{su2}} and {{moreCount}} starred your <a href=\"{{postUrl}}\">post</a>",
-		"GROUP_INVITATION": "{{invitee}} invited your to the <a href=\"{{groupUrl}}\">{{groupName}} Group</a>"
+		"POST_COMMENT": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> has commented on your <a href=\"/post/{{post.id}}\">post</a>",
+		"POST_COMMENT_MULTI": "<a href=\"/{{users[1].username}}\">{{users[0].fullname}}</a>, <a href=\"/{{users[1].username}}\">{{users[1].fullname}}</a> and {{people}} more person commented on your <a href=\"/post/{{post.id}}\">post</a>",
+		"FRIEND_REQUEST": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> sent you a friend request",
+		"STARTED_FOLLOWING": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> started following you",
+		"STARTED_FOLLOWING_MULTI": "<a href=\"/{{users[1].username}}\">{{users[0].fullname}}</a>, <a href=\"/{{users[1].username}}\">{{users[1].fullname}}</a> and {{people}} more person started following you",
+		"POST_LIKE": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> likes your <a href=\"/post/{{post.id}}\">post</a>",
+		"POST_LIKE_MULTI": "<a href=\"/{{users[1].username}}\">{{users[0].fullname}}</a>, <a href=\"/{{users[1].username}}\">{{users[1].fullname}}</a> and {{people}} more person likes your <a href=\"/post/{{post.id}}\">post</a>",
+		"GROUP_INVITATION": "{{invitee}} invited your to the <a href=\"/groups/{{groupId}}\">{{groupName}} Group</a>",
+		"NEW_MESSAGE": "{{sender}} sent you a new <a href=\"/messages/{{username}}\">message</a>"
 	},
 	"FEED": {
 		"POSTS": {
@@ -195,8 +199,14 @@
 		"NO_ABOUT": "N/A",
 		"COPY_COLLECTION": "Copy",
 		"EDIT_COLLECTION": "Edit",
+		"PROFILE_COLOR": "Set profile color",
+		"BIRTHDATE": "Set your birth date",
 		"FRIENDS": {
-			"TITLE": "Friends",
+			"TITLE": "Connections",
+			"MORE_BUTTON": "More"
+		},
+		"FOLLOWING": {
+			"TITLE": "Following",
 			"MORE_BUTTON": "More"
 		}
 	},

@@ -24,6 +24,7 @@ import PostController from './controllers/post';
 import MessagesController from './controllers/messages';
 import SendNewMessageController from './controllers/send-new-message';
 import MenuController from './controllers/menu';
+import NotificationsController from './controllers/notifications';
 
 // S E R V I C E S
 
@@ -37,6 +38,7 @@ import FileUploadService from './services/file-upload';
 import CollectionService from './services/collection';
 import MessageService from './services/message';
 import NotificationService from './services/notification';
+import GroupService from './services/group';
 
 // C O M P O N E N T S
 
@@ -46,6 +48,7 @@ import PostingBoxTagComponent from './components/posting-box-tag';
 import ModalButtonComponent from './components/modal-button';
 import UserPreviewCardComponent from './components/user-preview-card';
 import MorePostsButtonComponent from './components/more-posts-button';
+import NotificationViewComponent from './components/notification-view';
 import CustomSelectComponent from './components/custom-select';
 import {
 	ProfilePicComponent
@@ -69,6 +72,7 @@ module.controller( 'PostController', PostController );
 module.controller( 'MessagesController', MessagesController );
 module.controller( 'SendNewMessageController', SendNewMessageController );
 module.controller( 'MenuController', MenuController );
+module.controller( 'NotificationsController', NotificationsController );
 
 module.service( 'MessageBusService', MessageBusService );
 module.service( 'UserService', UserService );
@@ -80,6 +84,7 @@ module.service( 'FileUploadService', FileUploadService );
 module.service( 'CollectionService', CollectionService );
 module.service( 'MessageService', MessageService );
 module.service( 'NotificationService', NotificationService );
+module.service( 'GroupService', GroupService );
 
 module.directive( 'postingBox', createComponent( PostingBoxComponent ) );
 module.directive( 'postEntry', createComponent( PostEntryComponent ) );
@@ -89,5 +94,6 @@ module.directive( 'userPreviewCard', createComponent( UserPreviewCardComponent )
 module.directive( 'profilePic', createComponent( ProfilePicComponent ) );
 module.directive( 'morePosts', createComponent( MorePostsButtonComponent ) );
 module.directive( 'customSelect', createComponent( CustomSelectComponent ) );
+module.directive( 'notificationView', createComponent( NotificationViewComponent ) );
 
 module.factory('sessionInterceptor', createInterceptor( SessionInterceptor ));

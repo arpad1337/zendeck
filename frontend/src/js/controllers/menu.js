@@ -6,24 +6,28 @@ class MenuController {
 
 	static get $inject() {
 		return [
+			'$scope',
 			'MessageBusService',
 			'MessageService',
 			'NotificationService'
 		];
 	}
 
-	constructor( messageBusService, messageService, notificationService ) {
+	constructor( $scope, messageBusService, messageService, notificationService ) {
+		this.$scope = $scope;
 		this.messageBusService = messageBusService;
 		this.messageService = messageService;
 		this.notificationService = notificationService;
+
+		this._onNewNotification = this._onNewNotification.bind( this );
+		this._onNewMessage = this._onNewMessage.bind( this );
 
 		this._initState();
 	}
 
 	_initState() {
-		this.messageBusService.on( this.messageBusService.MESSAGES.NOTIFICATIONS.NOTIFICATION, this._onNewNotification.bind(this) );
-		this.messageBusService.on( this.messageBusService.MESSAGES.NOTIFICATIONS.NEW_MESSAGE, this._onNewMessage.bind(this) );
-
+		this.messageBusService.on( this.messageBusService.MESSAGES.NOTIFICATIONS.NOTIFICATION, this._onNewNotification );
+		this.messageBusService.on( this.messageBusService.MESSAGES.NOTIFICATIONS.NEW_MESSAGE, this._onNewMessage );
 
 		this.unreadMessageCount = 0;
 		this.unreadNotificationCount = 0;
@@ -43,7 +47,14 @@ class MenuController {
 			});
 		});
 
-		this.notificationService.startPolling();	
+		this.notificationService.startPolling();
+
+		this.$scope.$on('$destroy', this.destructor.bind(this));
+	}
+
+	destructor() {
+		this.messageBusService.removeListener( this.messageBusService.MESSAGES.NOTIFICATIONS.NOTIFICATION, this._onNewNotification );
+		this.messageBusService.removeListener( this.messageBusService.MESSAGES.NOTIFICATIONS.NEW_MESSAGE, this._onNewMessage );
 	}
 
 	_onNewNotification( notification ) {

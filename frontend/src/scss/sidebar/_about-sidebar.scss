@@ -9,13 +9,14 @@ section[role="about"] {
 		width: calc(100% - 20px);
 	}
 	textarea {
-		padding: 6px;
+		padding: 8px;
 		background: $WHITE;
 		border: 2px dashed $FOOTER-LIGHT;
 	}
 	.joined {
 		margin-top: 10px;
 		color:$MAIN-LIGHT;
+		margin-bottom: 10px;
 		&:before {
 			background-image: url("../img/clock_big@2x.png");
 			background-size: 22px 22px;
@@ -29,6 +30,36 @@ section[role="about"] {
 			float: left;
 			margin-top: -3px;
 			margin-right: 4px;
+		}
+	}
+
+	label {
+		line-height: 26px;
+		margin: 10px 0;
+		width: 190px;
+		display: block;
+	}
+
+	input[type="date"] {
+		display: block;
+		border: 1px solid $FOOTER-LIGHT;
+		background: $FOOTER-LIGHT;
+		width: 190px;
+		padding: 4px 8px;
+		&:hover, &:focus {
+			background: $WHITE;
+		}
+	}
+
+	color-picker {
+		input {
+			border: 1px solid $FOOTER-LIGHT;
+			background: $FOOTER-LIGHT;
+			width: 161px;
+			padding: 6px 8px;
+			&:hover, &:focus {
+				background: $WHITE;
+			}
 		}
 	}
 	.edit {

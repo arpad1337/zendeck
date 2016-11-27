@@ -1,0 +1,21 @@
+<div class="wrap">
+    <div class="content">
+        <section role="notifications">
+            <h4>Notifications</h4>
+            <div class="nofitications">
+                <div 
+                    class="notification"
+                    ng-repeat="notification in ctrl.notifications track by $index"
+                >
+                    <notification-view
+                        model="notification"
+                    >
+                    </notification-view>
+                </div>
+            </div>
+        </section>
+    </div>
+    <aside>
+        <div ng-include="'partials/groups-box.tpl.html'"></div>
+    </aside>
+</div>

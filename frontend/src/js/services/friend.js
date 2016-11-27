@@ -17,6 +17,7 @@ class FriendService {
 		this.$http = $http;
 		this.userService = userService;
 		this._friendCache = {};
+		this._followingCache = [];
 	}
 
 	getCurrentUserRecentFriends( force ) {
@@ -24,6 +25,7 @@ class FriendService {
 	}
 
 	getCurrentUserFriendsByPage( page, force ) {
+		// TODODOODODO
 		page == isNaN( page ) ? 1 : page;
 		force = force || false;
 		return this.getFriendsByUsernameAndPage( 'me', page, force ).then((friends) => {
@@ -35,6 +37,9 @@ class FriendService {
 	getFriendsByUsernameAndPage( username, page, force ) {
 		page == isNaN( page ) ? 1 : page;
 		force = force || false;
+		if( username == this.userService.currentUser.username ) {
+			username = 'me';
+		}
 		if( this._friendCache[ username ] && !force ) {
 			return this.$q.resolve( JSON.parse(JSON.stringify(this._friendCache[ username ])) );
 		}
@@ -44,16 +49,31 @@ class FriendService {
 		});
 	}
 
+	getFollowingByUsernameAndPage( username, page, force ) {
+		page == isNaN( page ) ? 1 : page;
+		force = force || false;
+		if( username == this.userService.currentUser.username ) {
+			username = 'me';
+		}
+		if( this._friendCache[ username ] && !force ) {
+			return this.$q.resolve( JSON.parse(JSON.stringify(this._friendCache[ username ])) );
+		}
+		return this.$http.get( CONFIG.API_PATH + '/user/' + username + '/following?page=' + page ).then((r) => {
+			this._friendCache[ username ] = r.data;
+			return r.data;
+		});
+	}
+
 	addFriend( username ) {
 		return this.$http.post( CONFIG.API_PATH + '/user/me/friend', { username: username } ).then((r) => {
-			this.getFriendsByUsername( this.userService.currentUser.username );
+			this.getCurrentUserFriendsByPage( 1, true );
 			return r.data;
 		});
 	}
 
 	removeFriend( username ) {
 		return this.$http.delete( CONFIG.API_PATH + '/user/me/friend/' + username ).then((r) => {
-			this.getFriendsByUsername( this.userService.currentUser.username );
+			this.getCurrentUserFriendsByPage( 1, true );
 			return r.data;
 		});
 	}

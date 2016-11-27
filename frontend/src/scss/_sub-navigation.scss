@@ -139,6 +139,12 @@ main > nav {
 			background-size: 15px 15px;
 			background-size: 15px 15px;
 		}
+		&.minus:after {
+			background-image: url(../img/minus.png);
+			background-repeat: no-repeat;
+			background-size: 15px 15px;
+			background-size: 15px 15px;
+		}
 		&.hearth:after {
 			background-image: url(../img/hearth-white.png);
 			background-repeat: no-repeat;

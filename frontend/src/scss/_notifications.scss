@@ -1,22 +1,39 @@
 section[role="notifications"] {
 	.notification {
+		line-height: 40px;
 		display: block;
-		line-height: 34px;
 		margin-bottom: 10px;
 		border-top: 1px solid $FOOTER-LIGHT;
 		padding-top: 10px;
 		&:first-child {
 			border-top: 0;
 		}
-		.author-pic {
-			width: 30px;
-			height: 30px;
-			background-size: 30px 30px;
-			margin-right: 8px;
-			border: 2px solid $MAIN-LIGHT;
-			@include border-radius(50px);
+
+		profile-pic {
 			float: left;
+			margin-right: 8px;
+			cursor: pointer;
 		}
+
+		button {
+			background: $SECONDARY-LIGHT;
+			color: $WHITE;
+			display: inline-block;
+			padding: 2px 8px;
+			text-align: center;
+			height: 24px;
+			line-height: 20px;
+			text-decoration: none;
+			border: none;
+			&:hover {
+				background: $SECONDARY-DARK;
+			}
+			&:disabled {
+				background: $FOOTER-LIGHT;
+				color: $FOOTER-DARK;
+			}
+		}
+
 		a {
 			text-decoration: none;
 			color: $SECONDARY-LIGHT;

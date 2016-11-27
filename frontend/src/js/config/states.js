@@ -32,7 +32,8 @@ const STATES = {
 			SELF: 'profile',
 			POSTS: 'profile.posts',
 			LIKED: 'profile.liked',
-			FOLLOWERS: 'profile.followers',
+			CONNECTIONS: 'profile.connections',
+			FOLLOWING: 'profile.following',
 			COLLECTION: 'profile.collection'
 		},
 		SETTINGS: {

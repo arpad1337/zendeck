@@ -1,0 +1,112 @@
+<span ng-if="vm.model.type == vm.TYPES.STARTED_FOLLOWING">
+	<profile-pic
+		user="vm.model.payload.user"
+		size="xsmall"
+		ui-sref="profile.posts({username:vm.model.payload.user.username})"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.STARTED_FOLLOWING' | 
+						translate : { user: vm.model.payload.user }  | 
+						htmlSafe 
+					 "
+	></span>
+</span>
+<span ng-if="vm.model.type == vm.TYPES.STARTED_FOLLOWING_MULTI">
+	<profile-pic
+		user="vm.model.payload.users[0]"
+		size="xsmall"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.STARTED_FOLLOWING_MULTI' | 
+						translate : { users: vm.model.payload.users, people: vm.model.payload.people }  | 
+						htmlSafe 
+					 "
+	></span>
+</span>
+<span ng-if="vm.model.type == vm.TYPES.FRIEND_REQUEST">
+	<profile-pic
+		user="vm.model.payload.user"
+		size="xsmall"
+		ui-sref="profile.posts({username:vm.model.payload.user.username})"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.FRIEND_REQUEST' | 
+						translate : { user: vm.model.payload.user }  | 
+						htmlSafe 
+					 "
+	></span>
+	<button
+		ng-click="vm.commit()"
+		ng-disabled="!vm.buttonEnabled"
+	>
+		<span ng-if="!vm.actionSuccessful"> {{ 'NOTIFICATIONS.BUTTON.ACCEPT' | translate }}</span>
+		<span ng-if="vm.actionSuccessful"> {{ 'NOTIFICATIONS.BUTTON.ACCEPTED' | translate }}</span>
+	</button>
+</span>
+<span ng-if="vm.model.type == vm.TYPES.POST_COMMENT">
+	<profile-pic
+		user="vm.model.payload.user"
+		size="xsmall"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.POST_COMMENT' | 
+						translate : { user: vm.model.payload.user, post: vm.model.payload.post }  | 
+						htmlSafe 
+					 "
+	></span>
+</span>
+<span ng-if="vm.model.type == vm.TYPES.POST_COMMENT_MULTI">
+	<profile-pic
+		user="vm.model.payload.users[0]"
+		size="xsmall"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.POST_COMMENT_MULTI' | 
+						translate : { users: vm.model.payload.users, post: vm.model.payload.post, people: vm.model.payload.people }  | 
+						htmlSafe 
+					 "
+	></span>
+</span>
+<span ng-if="vm.model.type == vm.TYPES.POST_LIKE">
+	<profile-pic
+		user="vm.model.payload.user"
+		size="xsmall"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.POST_LIKE' | 
+						translate : { user: vm.model.payload.user, post: vm.model.payload.post }  | 
+						htmlSafe 
+					 "
+	></span>
+</span>
+<span ng-if="vm.model.type == vm.TYPES.POST_LIKE_MULTI">
+	<profile-pic
+		user="vm.model.payload.users[0]"
+		size="xsmall"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.POST_LIKE_MULTI' | 
+						translate : { users: vm.model.payload.users, post: vm.model.payload.post, people: vm.model.payload.people }  | 
+						htmlSafe 
+					 "
+	></span>
+</span>
+<span ng-if="vm.model.type == vm.TYPES.GROUP_INVITATION">
+	
+</span>
+<span ng-if="vm.model.type == vm.TYPES.GROUP_INVITATION_ACCEPTED">
+	
+</span>
+<span ng-if="vm.model.type == vm.TYPES.NEW_MESSAGE">
+	
+</span>
+<span ng-if="vm.model.type == vm.TYPES.PLATFORM_INVITATION_ACCEPTED">
+	
+</span>

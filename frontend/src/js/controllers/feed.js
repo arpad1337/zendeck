@@ -16,11 +16,12 @@ class FeedController extends CollectionController {
 			'FriendService',
 			'UserService',
 			'ModalService',
-			'CollectionService'
+			'CollectionService',
+			'GroupService'
 		];
 	}
 
-	constructor( $scope, $state, feedService, filterService, friendService, userService, modalService, collectionService ) {
+	constructor( $scope, $state, feedService, filterService, friendService, userService, modalService, collectionService, groupService ) {
 		super( $state, feedService, collectionService, modalService, 'FEED' );
 		this.$scope = $scope;
 		this.$state = $state;
@@ -31,6 +32,7 @@ class FeedController extends CollectionController {
 		this.modalService = modalService;
 		this.userService = userService;
 		this.collectionService = collectionService;
+		this.groupService = groupService;
 
 		this._initState();
 
@@ -39,6 +41,7 @@ class FeedController extends CollectionController {
 
 	_initState() {		
 		this.resetPaginator();
+
 		this.filterService.getUserFilters().then((filters) => {
 			this.filters = filters;
 			if( this.$state.params.filterId ) {
@@ -55,6 +58,13 @@ class FeedController extends CollectionController {
 		this.filterService.getTrendingTags().then((trendingTags) => {
 			this.trendingTags = trendingTags;
 		});
+
+		this.groups = [];
+		this.groupService.getRecentGroups().then((groups) => {
+			groups.forEach((group) => {
+				this.groups.push( group );
+			});
+		});
 		
 		if( this.$state.current.name === this.FEED_STATES.LIKED ) {
 			this.selectLiked();
@@ -64,7 +74,6 @@ class FeedController extends CollectionController {
 			this.selectFeed();
 		}
 		
-		this.groups = [];
 	}
 
 	async getMorePosts() {

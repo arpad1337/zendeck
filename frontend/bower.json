@@ -25,6 +25,7 @@
     "angular-elastic": "~2.5.1",
     "angular-loading-bar": "~0.9.0",
     "angular-tooltips": "~1.1.8",
-    "angular-timeago": "~0.4.4"
+    "angular-timeago": "~0.4.4",
+    "angularjs-color-picker": "~2.7.1"
   }
 }
