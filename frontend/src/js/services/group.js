@@ -46,11 +46,11 @@ class GroupService {
 
 	}
 
-	assignAdminToGroup( userId ) {
+	assignAdminToGroup( slug, userId ) {
 
 	}
 
-	removeAdminFromGroup( userId ) {
+	removeAdminFromGroup( slug, userId ) {
 
 	}
 

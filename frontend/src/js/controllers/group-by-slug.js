@@ -239,6 +239,14 @@ class GroupBySlugController extends CollectionController {
 		this.friends = await this.friendService.getCurrentUserFriends( true );
 	}
 
+	async toogleAdminForUserId( id ) {
+		if( this.isAdmin(id) ) {
+			await this.groupService.assignAdminToGroup( this.currentSlug, id );
+		} else {
+			await this.groupService.removeAdminFromGroup( this.currentSlug, id );
+		}
+	}
+
 	// settings
 
 	openCoverPicUploadDialog() {

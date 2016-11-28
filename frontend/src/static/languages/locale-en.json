@@ -170,7 +170,10 @@
 		"MEMBER_COUNT": "{{memberCount}} member",
 		"CHANGE_COVER_PIC": "Change cover picture",
 		"DELETE_COVER_PIC": "Delete cover picture",
-		"CREATED_AT": "Created at"
+		"CREATED_AT": "Created at",
+		"MEMBERS": {
+			"TITLE": "Members"
+		}
 	},
 	"MESSAGES": {
 		"TITLE": "Messages",
@@ -210,9 +213,6 @@
 			"TITLE": "Following",
 			"MORE_BUTTON": "More"
 		}
-	},
-	"MEMBERS": {
-		"TITLE": "Members"
 	},
 	"MODALS": {
 		"SUBSCRIPTION_SUCCESFUL": {

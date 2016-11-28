@@ -19,7 +19,7 @@
                 <strong>{{ friend.fullname }}</strong><br>
                 @{{ friend.username }}
             </div>
-            <div ng-if="ctrl.isUserAdmin">
+            <div ng-if="ctrl.isUserAdmin" ng-click="ctrl.toggleAdminForUserId( friend.id )">
                 <div ng-if="ctrl.isAdmin(friend.id)">
                     <button class="create">Promote</button>
                 </div>

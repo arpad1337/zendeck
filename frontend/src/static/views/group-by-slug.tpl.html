@@ -56,7 +56,10 @@
                      </a>
                 </li>
 
-                <li ng-repeat="collection in ctrl.collections track by $index">
+                <li 
+                    ng-repeat="collection in ctrl.collections track by $index"
+                    ng-if="ctrl.profile.userIsMember || collection.isPublic"
+                >
                     <a 
                         ui-sref="groupBySlug.collection({groupSlug:ctrl.currentSlug, collectionId: collection.id})" 
                         ng-click="ctrl.selectCollection( collection.id )"
