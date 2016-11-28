@@ -117,6 +117,14 @@ class FeedService {
 		};
 	}
 
+	postToFeed( post ) {
+		return this.dummyPost;
+	}
+
+	postToGroup( slug, post ) {
+		return this.dummyPost;
+	}
+
 	getPostById( postId ) {
 		let promise = this.$q.defer();
 		setTimeout(() => {

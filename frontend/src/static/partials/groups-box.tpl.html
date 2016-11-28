@@ -4,7 +4,7 @@
         <li
         	ng-repeat="group in ctrl.groups track by $index"
         >
-        	<a ui-sref="groupBySlug.posts({groupId:group.id})">{{group.name}} <span>{{group.newPosts}}</span></a>
+        	<a ui-sref="groupBySlug.posts({groupSlug:group.slug})">{{group.name}} <span>{{group.newPosts}}</span></a>
         </li>
     </ul>
     <div ng-if="ctrl.groups.length === 0" class="empty">

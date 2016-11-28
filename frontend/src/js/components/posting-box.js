@@ -34,8 +34,16 @@ class PostingBoxComponent {
 	}
 
 	constructor() {
+		this.newPost = this.reset();	
+		this.textareaFocusout = this.textareaFocusout.bind( this );
+	}
+
+	reset() {
 		this.buttonEnabled = false;
-		this.newPost = {
+		this.linkPreview = null;
+		this._urlIndex = 0;
+		this._timer = false;
+		return {
 			content: "",
 			urls: [],
 			tags: [],
@@ -47,10 +55,6 @@ class PostingBoxComponent {
 			],
 			preview: false
 		};
-		this.linkPreview = null;
-		this._timer = false;	
-		this.textareaFocusout = this.textareaFocusout.bind( this );
-		this._urlIndex = 0;
 	}
 
 	get content() {
@@ -155,6 +159,8 @@ class PostingBoxComponent {
 				}
 				this.newPost.preview = this._urlIndex < (this.newPost.urls.length  ) ? this._urlIndex : false;
 				await this.delegate.commitNewPost( this.newPost );
+				this.newPost = this.reset();
+				this.scope.$digest();
 			}
 		} catch( e ) {
 			console.error( e );

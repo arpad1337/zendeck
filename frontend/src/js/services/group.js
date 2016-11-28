@@ -54,6 +54,14 @@ class GroupService {
 
 	}
 
+	joinToGroup() {
+
+	}
+
+	leaveGroup() {
+		
+	}
+
 	updateGroupProfileBySlug( groupSlug, payload ) {
 		return this.dummyGroup;
 	}

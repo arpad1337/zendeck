@@ -216,13 +216,21 @@ class GroupBySlugController extends CollectionController {
 	}
 
 	async commitNewPost( newPost ) {
-		console.log('Post model', newPost);
+		let model = await this.feedService.postToGroup( this.currentSlug, newPost );
+		this.posts.unshift( model );
+		this.$scope.$digest();
 	}
 
 	// group actions
 
-	joinGroup() {
+	async joinGroup() {
+		if( !this.profile.userIsMember ) {
+			await this.groupService.joinToGroup( this.currentSlug );
+		} else {
+			await this.groupService.leaveGroup( this.currentSlug );
+		}
 		this.profile.userIsMember = !this.profile.userIsMember;
+		this.$scope.$digest();
 	}
 
 	// add friend
@@ -239,7 +247,7 @@ class GroupBySlugController extends CollectionController {
 		this.friends = await this.friendService.getCurrentUserFriends( true );
 	}
 
-	async toogleAdminForUserId( id ) {
+	async toggleAdminForUserId( id ) {
 		if( this.isAdmin(id) ) {
 			await this.groupService.assignAdminToGroup( this.currentSlug, id );
 		} else {
