@@ -140,29 +140,12 @@ class GroupBySlugController extends CollectionController {
 		}
 	}
 
-	openCreateCollectionDialog( name, isPublic ) {
-		if( isPublic == null ) {
-			isPublic = true;
-		}
-		let isNew = Validator.isFieldEmpty( name );
-		if( !isNew ) {
-			return this.modalService.openDialog( this.modalService.DIALOG_TYPE.CREATE_COLLECTION, {
-				name: name,
-				isPublic: String(isPublic),
-				saveButton: true
-			}, this.checkActiveCollectionName );
-		}
-		return this.modalService.openDialog( this.modalService.DIALOG_TYPE.CREATE_COLLECTION, {
-			name: '',
-			isPublic: 'true',
-			saveButton: false
-		}, this.checkActiveCollectionName ).then((model) => {
-			return this.createNewGroupCollectionModelWithSlugAndName( this.currentSlug, model.name, model.isPublic );
-		}).then((model) => {
-			this.collections.push( model );
-			return model;
-		});
+	async createNewCollectionModelWithName( name, isPublic ) {
+		let model = await this.collectionService.createNewGroupCollectionModelWithSlugAndName( this.currentSlug, name, isPublic );
+		this._activeCollection = model;
+		return model;
 	}
+
 
 	async getMoreMembers() {
 		let members = await this.groupService.getGroupMemebersBySlugAndPage( this.currentSlug, this._membersPage );
