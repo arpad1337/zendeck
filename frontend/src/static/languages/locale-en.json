@@ -5,7 +5,7 @@
 		"FOLLOW": "Follow",
 		"UNFRIEND": "Unfriend",
 		"UNFOLLOW": "Unfollow",
-		"MORE_POSTS": "More posts"
+		"MORE_ENTRIES": "More"
 	},
 	"HEADER": {
 		"MENU": {
@@ -22,6 +22,7 @@
 			"COLLECTIONS": "Collections",
 			"FILTERS": "Filters",
 			"JOIN_GROUP": "Join group",
+			"LEAVE_GROUP": "Leave group",
 			"INVITE_FRIENDS": "Invite friends",
 			"CREATE_FILTER": "Create filter",
 			"CREATE_COLLECTION": "Create collection",
@@ -30,7 +31,8 @@
 			"FRIENDS": "Friends",
 			"FOLLOWERS": "Followers",
 			"FOLLOWING": "Following",
-			"CONTENTS": "Contents"
+			"CONTENTS": "Contents",
+			"MORE_NOTIFS": "More notifications"
 		},
 
 		"PROFILE": {
@@ -74,14 +76,6 @@
 			"EDIT_CTA": "Edit profile",
 			"COMMIT_CHANGES": "Commit changes"
 		},
-		"STATS": {
-			"TITLE": "Stats",
-			"FRIENDS": "{{friendCount}} friends",
-			"ARTICLES": "{{articleCount}} article posted",
-			"PHOTOS": "{{photoCount}} photos shared",
-			"VIDEOS": "{{videoCount}} videos linked",
-			"EVENTS": "{{eventCount}} linked"
-		},
 		"RECENT_TAGS": {
 			"TITLE": "Recent tags"
 		},
@@ -92,7 +86,8 @@
 		},
 		"STATS": {
 			"TITLE": "Stats",
-			"MEMBERS": "connection",
+			"FRIENDS": "friends",
+			"MEMBERS": "members",
 			"ARTICLES": "article posted",
 			"PHOTOS": "photo shared",
 			"VIDEOS": "video linked",
@@ -102,7 +97,8 @@
 	"NOTIFICATIONS": {
 		"BUTTON": {
 			"ACCEPT": "Accept",
-			"ACCEPTED": "Accepted"
+			"ACCEPTED": "Accepted",
+			"GET_MORE": "More"
 		},
 		"GROUP_INVITATION": "{{invitee}} has invited you to {{group}}",
 		"GROUP_INVITATION_ACCEPTED": "{{invited}} has accepted your invitation to {{group}}",
@@ -114,8 +110,10 @@
 		"STARTED_FOLLOWING_MULTI": "<a href=\"/{{users[1].username}}\">{{users[0].fullname}}</a>, <a href=\"/{{users[1].username}}\">{{users[1].fullname}}</a> and {{people}} more person started following you",
 		"POST_LIKE": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> likes your <a href=\"/post/{{post.id}}\">post</a>",
 		"POST_LIKE_MULTI": "<a href=\"/{{users[1].username}}\">{{users[0].fullname}}</a>, <a href=\"/{{users[1].username}}\">{{users[1].fullname}}</a> and {{people}} more person likes your <a href=\"/post/{{post.id}}\">post</a>",
-		"GROUP_INVITATION": "{{invitee}} invited your to the <a href=\"/groups/{{groupId}}\">{{groupName}} Group</a>",
-		"NEW_MESSAGE": "{{sender}} sent you a new <a href=\"/messages/{{username}}\">message</a>"
+		"GROUP_INVITATION": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> invited your to the <a href=\"/groups/{{group.id}}\">{{group.name}} Group</a>",
+		"GROUP_INVITATION_ACCEPTED": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> accepted your invitation to the <a href=\"/groups/{{group.id}}\">{{group.name}} Group</a>",
+		"PLATFORM_INVITATION_ACCEPTED": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> joined to ZenDeck behalf your invitation",
+		"NEW_MESSAGE": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> sent you a new <a href=\"/messages/{{user.username}}\">message</a>"
 	},
 	"FEED": {
 		"POSTS": {
@@ -169,7 +167,10 @@
 	"GROUPS": {
 		"TITLE": "Groups",
 		"CTA": "Create group",
-		"MEMBER_COUNT": "{{memberCount}} member"
+		"MEMBER_COUNT": "{{memberCount}} member",
+		"CHANGE_COVER_PIC": "Change cover picture",
+		"DELETE_COVER_PIC": "Delete cover picture",
+		"CREATED_AT": "Created at"
 	},
 	"MESSAGES": {
 		"TITLE": "Messages",
@@ -329,7 +330,6 @@
 		}
 	},
 	"ABOUT": {
-		"TITLE": "About this page",
-		"CONTENT": "This website has been created by @rpi1337."
+		"TITLE": "About this page"
 	}
 }

@@ -16,6 +16,7 @@ class UserController {
 		let id = context.session.user.id;
 		try {
 			let user = yield this.userService.getUserById( id );
+			context.session.lastCheck = (new Date()).toISOString();
 			context.body = user;
 		} catch( e ) {
 			context.session = null;

@@ -1,0 +1,24 @@
+<nav>
+    <div class="actions">
+        <a href="create-group.html" class="create">Create group</a>
+    </div>
+</nav>
+<div class="wrap prt-30">
+    <section role="groups">
+        <h4>Groups</h4>
+        <div class="groups">
+            <group-card
+                ng-repeat="group in ctrl.groups track by $index"
+                model="group"
+                ui-sref="groupBySlug.posts({groupSlug: group.slug})"
+            >
+            </group-card>
+        </div>
+        <div ng-if="ctrl.groups.length == 0" class="message">
+            {{'RIGHT_COLUMN.GROUPS.NO_GROUPS' | translate}}
+        </div>
+        <div ng-if="ctrl.groups.length > 0">
+            <more-button callback="ctrl.getMoreGroups()"></more-button>
+        </div>
+    </section>
+</div>

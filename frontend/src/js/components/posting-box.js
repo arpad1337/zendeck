@@ -34,7 +34,7 @@ class PostingBoxComponent {
 	}
 
 	constructor() {
-		this.buttonEnabled = true;
+		this.buttonEnabled = false;
 		this.newPost = {
 			content: "",
 			urls: [],
@@ -88,6 +88,7 @@ class PostingBoxComponent {
 			.trim()
 			.replace(/\n\s*\n\s*\n/g, '\n\n')
 			.replace(/  +/g, ' ');
+		this.buttonEnabled = this.newPost.content.length > 0;
 	}
 
 	addTag( tag ) {
@@ -115,6 +116,7 @@ class PostingBoxComponent {
 
 	removePreview() {
 		this.linkPreview = null;
+		this.newPost.preview = false;
 		this._urlIndex++;
 	}
 
@@ -134,6 +136,7 @@ class PostingBoxComponent {
 				}
 			});
 			this.linkPreview = pageMeta;
+			this.newPost.preview = url;
 			this.scope.$digest();
 		}
 	}
@@ -141,14 +144,17 @@ class PostingBoxComponent {
 	async commit() {
 		this.buttonEnabled = false;
 		try {
-			if( this._delegateRespondsToSelector( 'commit' ) ) {
+			if( this._delegateRespondsToSelector( 'commitNewPost' ) ) {
 				this.newPost.content = this.newPost.content
 					.trim()
 					.replace(/\n\s*\n\s*\n/g, '\n\n')
 					.replace(/  +/g, ' ');
-				this.newPost.urls = this.newPost.content.match( PostingBoxComponent.URL_PATERN );
-				this.newPost.preview = this._urlIndex < this.newPost.urls.length ? this._urlIndex : false;
-				await this.delegate.commit( this.newPost );
+				let urls = this.newPost.content.match( PostingBoxComponent.URL_PATERN );
+				if( urls ) {
+					this.newPost.urls = urls;
+				}
+				this.newPost.preview = this._urlIndex < (this.newPost.urls.length  ) ? this._urlIndex : false;
+				await this.delegate.commitNewPost( this.newPost );
 			}
 		} catch( e ) {
 			console.error( e );

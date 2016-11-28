@@ -9,15 +9,17 @@ class MenuController {
 			'$scope',
 			'MessageBusService',
 			'MessageService',
-			'NotificationService'
+			'NotificationService',
+			'FriendService'
 		];
 	}
 
-	constructor( $scope, messageBusService, messageService, notificationService ) {
+	constructor( $scope, messageBusService, messageService, notificationService, friendService ) {
 		this.$scope = $scope;
 		this.messageBusService = messageBusService;
 		this.messageService = messageService;
 		this.notificationService = notificationService;
+		this.friendService = friendService;
 
 		this._onNewNotification = this._onNewNotification.bind( this );
 		this._onNewMessage = this._onNewMessage.bind( this );
@@ -55,6 +57,13 @@ class MenuController {
 	destructor() {
 		this.messageBusService.removeListener( this.messageBusService.MESSAGES.NOTIFICATIONS.NOTIFICATION, this._onNewNotification );
 		this.messageBusService.removeListener( this.messageBusService.MESSAGES.NOTIFICATIONS.NEW_MESSAGE, this._onNewMessage );
+	}
+
+	async onNotificationAction( model ) {
+		if( model.type = NOTIFICATION_TYPE.FRIEND_REQUEST ) {
+			await this.friendService.addFriend( model.payload.user.username );
+		}
+		await this.notificationService.acceptNotification( model.id );
 	}
 
 	_onNewNotification( notification ) {

@@ -15,12 +15,14 @@ const STATES = {
 			COLLECTION: 'feed.collection',
 			FILTERED: 'feed.filtered'
 		},
-		GROUPS: {
-			SELF: 'groups',
-			GROUP_LIST_VIEW: 'groups.list',
-			GROUP_BY_NAME: 'groups.groupByName',
-			GROUP_BY_NAME_MEMBERS: 'groups.groupByName.members',
-			GROUP_BY_NAME_STARRED: 'groups.groupByName.starred'
+		GROUPS: 'groups',
+		GROUP_BY_SLUG: {
+			SELF: 'groupBySlug',
+			POSTS: 'groupBySlug.posts',
+			LIKED: 'groupBySlug.liked',
+			MEMBERS: 'groupBySlug.members',
+			JOIN_REQUESTS: 'groupBySlug.joinRequests',
+			COLLECTION: 'groupBySlug.collection'
 		},
 		NOTIFICATIONS: 'notifications',
 		MESSAGES: {

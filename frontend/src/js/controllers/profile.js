@@ -191,10 +191,14 @@ class ProfileController extends CollectionController {
 	}
 
 	openCoverPicUploadDialog() {
-
+		this.fileUploadService.createUploadTargetWithCallback( this.onCoverPicFileSelected );
 	}
 
 	deleteProfilePic() {
+
+	}
+
+	deleteCoverPic() {
 
 	}
 

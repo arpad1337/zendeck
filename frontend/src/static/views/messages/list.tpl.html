@@ -31,11 +31,11 @@
             </button>
         </div>
         <hr>
-        <button 
-            class="get-more-threads"
-            ng-click="ctrl.getMoreThreads()"
+        <more-button 
+            callback="ctrl.getMoreThreads()"
+            className="get-more-threads"
         >
             {{ 'MESSAGES.GET_MORE_THREAD' | translate }}
-        </button>
+        </more-button>
     </div>
 </section>

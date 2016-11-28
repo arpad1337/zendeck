@@ -11,12 +11,16 @@ main {
 	}
 }
 
-header {
-	h1 {
+body > header {
+	& > h1 {
 		width: 43px;
 		float: left;
 		overflow: hidden;
 	}
+}
+
+main > header h1 {
+	font-size: 40px !important;
 }
 
 body > header nav ul li.login, body > header nav ul li.sign-up > a {

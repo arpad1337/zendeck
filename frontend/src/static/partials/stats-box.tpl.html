@@ -1,6 +1,7 @@
 <section role="stats">
     <h4>{{ 'RIGHT_COLUMN.STATS.TITLE' | translate }}</h4>
-    <a class="members">{{ ctrl.stats.friends }} {{ 'RIGHT_COLUMN.STATS.MEMBERS' | translate }}</a>
+    <a class="members" ng-if="ctrl.stats.friends">{{ ctrl.stats.friends }} {{ 'RIGHT_COLUMN.STATS.FRIENDS' | translate }}</a>
+    <a class="members" ng-if="ctrl.stats.members">{{ ctrl.stats.members }} {{ 'RIGHT_COLUMN.STATS.MEMBERS' | translate }}</a>
     <a class="article">{{ ctrl.stats.articles }} {{ 'RIGHT_COLUMN.STATS.ARTICLES' | translate }}</a>
     <a class="camera">{{ ctrl.stats.photos }} {{ 'RIGHT_COLUMN.STATS.PHOTOS' | translate }}</a>
     <a class="videos">{{ ctrl.stats.videos }} {{ 'RIGHT_COLUMN.STATS.VIDEOS' | translate }}</a>

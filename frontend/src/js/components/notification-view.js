@@ -17,13 +17,15 @@ class NotificationViewComponent {
 			bindToController: true,
 			controllerAs: 'vm',
 			transclude: true,
-			controller: this
+			controller: this,
+			link: ( scope ) => {
+				scope.vm.scope = scope;
+			}
 		};
 	}
 
 	constructor() {
-		this.buttonEnabled = true;
-		this.actionSuccessful = false;
+		this.buttonEnabled =  'accepted' in this.model.payload ? !this.model.payload.accepted : true;
 	}
 
 	async commit() {
@@ -32,10 +34,12 @@ class NotificationViewComponent {
 			if( this._delegateRespondsToSelector( 'onNotificationAction' ) ) {
 				await this.delegate.onNotificationAction( this.model );
 			}
-			this.actionSuccessful = true;
+			this.model.payload.accepted = true;
 		} catch( e ) {
 			console.error( e );
 			this.buttonEnabled = true;
+		} finally {
+			this.scope.$digest();
 		}
 	}
 

@@ -1,7 +1,11 @@
 <section role="about">
     <button 
         class="edit"
-        ng-if="APP.currentUser.username == ctrl.profile.username"
+        ng-if="
+          APP.currentUser.username == ctrl.profile.username || 
+          ctrl.profile.admins.indexOf( APP.currentUser.id ) != -1 ||
+          ctrl.profile.createdBy == APP.currentUser.id
+        "
         ng-click="ctrl.toggleEditing()">
         <span ng-if="!ctrl.isEditing">
           {{'RIGHT_COLUMN.ABOUT.EDIT_CTA' | translate}}
@@ -20,12 +24,13 @@
    		class="msd-elastic"
    	></textarea>
     <div class="joined">
-    	{{ 'PROFILE.MEMBER_SINCE_PREFIX' | translate }}: {{ctrl.profile.createdAt | date : 'MMM d, y'}}
+      <span ng-if="!ctrl.profile.createdBy">{{ 'PROFILE.MEMBER_SINCE_PREFIX' | translate }}: {{ctrl.profile.createdAt | date : 'MMM d, y'}}</span>
+       <span ng-if="ctrl.profile.createdBy">{{ 'GROUPS.CREATED_AT' | translate }}: {{ctrl.profile.createdAt | date : 'MMM d, y'}}</span>
     </div>
     <label ng-if="ctrl.isEditing">
         {{ 'PROFILE.PROFILE_COLOR' | translate }}: <color-picker ng-model="ctrl.profile.profileColor"></color-picker>
     </label>
-    <label ng-if="ctrl.isEditing">
+    <label ng-if="ctrl.isEditing && !ctrl.profile.createdBy">
       {{ 'PROFILE.BIRTHDATE' | translate }}: <input type="date" ng-model="ctrl.lastProfileFields.birthDate">
     </label>
 </section>

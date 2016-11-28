@@ -8,10 +8,9 @@ main > header {
 	h1 {
 		text-align: center;
 		margin: 0;
-		padding-top: 110px;
-		font-size: 42px;
+		font-size: 50px;
 		color: $WHITE;
-		text-shadow: 1px 1px 0 #000;
+		text-shadow: 0px 0px 10px #000;
 	}
 	h2 {
 		text-align: center;
@@ -31,6 +30,21 @@ main > header {
 		}
 	}
 
+	.group-name {
+		position: absolute;
+		top: 160px;
+		right: 0;
+		left: 0;
+		width: calc(100% - 20px);
+		background: transparent;
+		text-align: center;
+		margin: 0 auto;
+		font-size: 50px;
+		color: $WHITE;
+		text-shadow: 0px 0px 10px #000;
+		font-weight: bold;
+	}
+
 	profile-pic {
 		position: absolute;
 		left: 0;
@@ -42,6 +56,8 @@ main > header {
 			@include box-shadow(0px 0px 15px 0px rgba(50, 50, 50, 0.75));
 		}
 	}
+	.delete-group-cover-pic,
+	.change-group-cover-pic,
 	.delete-cover-pic,
 	.change-cover-pic,
 	.delete-profile-pic,
@@ -64,6 +80,15 @@ main > header {
 	.delete-profile-pic {
 		background: $RED;
 		top: 387px;
+	}
+
+	.change-group-cover-pic {
+		top: 297px;
+	}
+
+	.delete-group-cover-pic {
+		background: $RED;
+		top: 347px;
 	}
 
 	.change-cover-pic {

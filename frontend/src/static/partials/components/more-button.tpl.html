@@ -1,7 +1,9 @@
 <button
 	ng-style="{display: !this.hidden ? 'block' : 'none'}"
+	class="{{vm.className}}"
 	ng-disabled="!vm.buttonEnabled"
 	ng-click="vm.commit()"
+	ng-transclude
 >
-	{{'COMMON.MORE_POSTS' | translate}}
+	{{'COMMON.MORE_ENTRIES' | translate}}
 </button>

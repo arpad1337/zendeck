@@ -7,9 +7,7 @@
     	current-user="APP.currentUser"
     >
 	</post-entry>
-    <more-posts 
-    	callback="ctrl.getMorePosts()"
-    ></more-posts>
+    <more-button callback="ctrl.getMorePosts()"></more-button>
     <div ng-if="!ctrl.posts || ctrl.posts.length == 0">
     	<p class="message">{{'PROFILE.NO_POSTS' | translate}}</p>
     </div>

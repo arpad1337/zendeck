@@ -1,12 +1,12 @@
 <section role="messages">
     <h4>{{ 'MESSAGES.MESSAGES_WITH' | translate }} {{ctrl.currentRecipient.fullname}}</h4>
     <div class="messages">
-        <button 
-            class="previous-messages"
-            ng-click="ctrl.getMoreMessages()"
+        <more-button 
+            callback="ctrl.getMoreMessages()"
+            className="previous-messages"
         >
             {{ 'MESSAGES.PREVIOUS_MESSAGES' | translate }}
-        </button>
+        </more-button>
         <div 
             class="message in-thread" 
             ng-class=" message.author.id == ctrl.currentUser.id ? 'right' : 'left' "

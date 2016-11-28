@@ -20,7 +20,5 @@
             </div>            
         </div>
     </div>
-    <button ng-click="ctrl.getMoreFriends()">
-        {{ 'PROFILE.FRIENDS.MORE_BUTTON' | translate }}
-    </button> 
+    <more-button callback="ctrl.getMoreFriends()"></more-button>
 </section>

@@ -23,6 +23,7 @@ class CollectionService {
 		this._collections = {
 			'0353arT45Q0r8L1CmKeT3oq10w665fZym655c6MGEqM7bxQ45872P2Z746ss7zyf':
 			{
+				parent: false,
 				name: 'Videos',
 				isPublic: true,
 				shared: true,
@@ -31,11 +32,31 @@ class CollectionService {
 		};
 	}
 
-	getUserCollections() {
+	getGroupCollections() {
+
+	}
+
+	getUserCollections( username ) {
 		let promise = this.$q.defer();
 		setTimeout(() => {
 			promise.resolve([
 				{
+					parent: false,
+					name: 'Tech stuff',
+					isPublic: true,
+					id: 'wAU2Fn2kib6bJKK75aoHXcFl01AEWYyl2SB1GdS9qUjcqWlfZucrVqDYbtf9pket'
+				}
+			]);
+		}, Math.random() * 1000);
+		return promise.promise;
+	}
+
+	getGroupCollections( slug ) {
+		let promise = this.$q.defer();
+		setTimeout(() => {
+			promise.resolve([
+				{
+					parent: false,
 					name: 'Tech stuff',
 					isPublic: true,
 					id: 'wAU2Fn2kib6bJKK75aoHXcFl01AEWYyl2SB1GdS9qUjcqWlfZucrVqDYbtf9pket'
@@ -78,6 +99,19 @@ class CollectionService {
 	}
 
 	createNewCollectionModelWithName( name, isPublic ) {
+		let model = {
+			name: name.substr(0,1).toUpperCase() + name.substring(1),
+			isPublic: isPublic,
+			id: 'new_' + ( Math.floor( Math.random() * 99999 ) )
+		};
+		let promise = this.$q.defer();
+		setTimeout(() => {
+			promise.resolve( model );
+		}, Math.random() * 1000);
+		return promise.promise;
+	}
+
+	createNewGroupCollectionModelWithSlugAndName( slug, name, isPublic ) {
 		let model = {
 			name: name.substr(0,1).toUpperCase() + name.substring(1),
 			isPublic: isPublic,

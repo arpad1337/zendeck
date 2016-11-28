@@ -1,0 +1,176 @@
+<header 
+    ng-style="{
+        'background-color': ctrl.profile.profileColor,
+        'background-image': ( ctrl.profile.photos.cover ?  ctrl.profile.photos.cover : 'none' )
+    }"    
+>
+    <div ng-if="ctrl.isEditing">
+        <div
+            class="change-group-cover-pic cta"
+            ng-if="ctrl.isUserAdmin"
+            ng-click="ctrl.openCoverPicUploadDialog()"
+        >   
+            {{ 'GROUPS.CHANGE_COVER_PIC' | translate }}
+        </div>
+        <div
+            class="delete-group-cover-pic cta"
+            ng-if="ctrl.isUserAdmin"
+            ng-click="ctrl.deleteCoverPic()"
+        >   
+            {{ 'GROUPS.DELETE_COVER_PIC' | translate }}
+        </div>
+    </div>
+    <h1 class="group-name" ng-if="!ctrl.isEditing">{{ ctrl.profile.name }}</h1>
+    <input type="text" ng-model="ctrl.lastProfileFields.name" class="group-name" ng-if="ctrl.isEditing">
+</header>
+
+<nav>
+    <ul>
+        <li>
+            <a ui-sref="groupBySlug.posts({groupSlug:ctrl.currentSlug})" class="feed" 
+                ng-click="ctrl.selectFeed()"
+            ng-class="ctrl.activeState == ctrl.GROUP_BY_SLUG_STATES.POSTS ? 'active' : ''">
+                {{ 'HEADER.SUB_MENU.FEED' | translate }}
+        </a>
+        </li>
+        <li><a ui-sref="groupBySlug.members({groupBySlug:ctrl.currentSlug})" class="members">Members</a></li>
+        <li
+            ng-init="hover1=false"
+            ng-mouseenter="hover1 = true"
+            ng-mouseleave="hover1 = false"
+        >
+            <a 
+                class="star list"
+                ng-class="{hover: hover1, active: (ctrl.activeCollection != null || ctrl.activeState == ctrl.GROUP_BY_SLUG_STATES.LIKED )}"
+            >
+               {{ 'HEADER.SUB_MENU.COLLECTIONS' | translate }}
+            </a>
+            <ul>
+                <li>
+                    <a
+                        ui-sref="groupBySlug.liked({groupSlug:ctrl.currentSlug})" class="hearth"
+                        ng-click="ctrl.selectLiked()"
+                        ng-class="ctrl.activeState == ctrl.GROUP_BY_SLUG_STATES.LIKED ? 'active' : ''"
+                        >
+                        {{ 'HEADER.SUB_MENU.LIKED' | translate }}
+                     </a>
+                </li>
+
+                <li ng-repeat="collection in ctrl.collections track by $index">
+                    <a 
+                        ui-sref="groupBySlug.collection({groupSlug:ctrl.currentSlug, collectionId: collection.id})" 
+                        ng-click="ctrl.selectCollection( collection.id )"
+                        class=" "
+                        ng-class="ctrl.activeCollection == collection.id ? 'active' : ''"
+                    >
+                        {{ collection.name }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div class="actions">
+        <a
+            ng-class="ctrl.profile.userIsMember ? 'minus' : 'create'"
+            ng-click="ctrl.joinGroup()"
+        >
+            <span ng-if="!ctrl.profile.userIsMember">
+                {{ 'HEADER.SUB_MENU.JOIN_GROUP' | translate }}
+            </span>
+            <span ng-if="ctrl.profile.userIsMember">
+                {{ 'HEADER.SUB_MENU.LEAVE_GROUP' | translate }}
+            </span>
+        </a>
+        <a href="create-filter.html" class="members">Invite friends</a>
+        <span
+            ng-if="ctrl.profile.userIsMember"
+            ng-init="hover20=false"
+            ng-mouseenter="hover20 = true"
+            ng-mouseleave="hover20 = false"
+        >
+            <a 
+                class="create"
+                ng-class="{hover: hover20}";
+            >    
+            </a>
+            <ul>
+                <li>
+                    <a ng-click="ctrl.openCreateFilterDialog()" class="filter">
+                        {{ 'HEADER.SUB_MENU.CREATE_FILTER' | translate }}
+                    </a>
+                </li>
+                <li>
+                    <a ng-click="ctrl.openCreateCollectionDialog()" class="star">
+                        {{ 'HEADER.SUB_MENU.CREATE_COLLECTION' | translate }}
+                    </a>
+                </li>
+            </ul> 
+        </span>  
+    </div>
+</nav>
+
+<div class="wrap">
+    <div class="content" ui-view>
+   	</div>
+   	<aside> 
+        <div ng-include="'partials/about-box.tpl.html'"></div>
+        <div ng-include="'partials/stats-box.tpl.html'"></div>
+        <!-- <section role="recent-tags">
+            <h4>Recent tags</h4>
+            <div class="labels">
+                <ul>
+                    <li>
+                        <a href="#">
+                                        article (12)
+                                    </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                                        marketing (14)
+                                    </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                                        customer development (33)
+                                    </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                                        inbound (2)
+                                    </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                                        discussion
+                                    </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                                        discussion
+                                    </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                                        discussion
+                                    </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                                        discussion
+                                    </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                                        discussion
+                                    </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                                        discussion
+                                    </a>
+                    </li>
+                </ul>
+            </div>
+        </section> -->
+    </aside>
+</div>

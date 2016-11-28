@@ -42,8 +42,8 @@
 		ng-click="vm.commit()"
 		ng-disabled="!vm.buttonEnabled"
 	>
-		<span ng-if="!vm.actionSuccessful"> {{ 'NOTIFICATIONS.BUTTON.ACCEPT' | translate }}</span>
-		<span ng-if="vm.actionSuccessful"> {{ 'NOTIFICATIONS.BUTTON.ACCEPTED' | translate }}</span>
+		<span ng-if="!vm.model.payload.accepted"> {{ 'NOTIFICATIONS.BUTTON.ACCEPT' | translate }}</span>
+		<span ng-if="vm.model.payload.accepted"> {{ 'NOTIFICATIONS.BUTTON.ACCEPTED' | translate }}</span>
 	</button>
 </span>
 <span ng-if="vm.model.type == vm.TYPES.POST_COMMENT">
@@ -99,14 +99,58 @@
 	></span>
 </span>
 <span ng-if="vm.model.type == vm.TYPES.GROUP_INVITATION">
-	
+	<profile-pic
+		user="vm.model.payload.user"
+		size="xsmall"
+		ui-sref="profile.posts({username:vm.model.payload.user.username})"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.GROUP_INVITATION' | 
+						translate : { user: vm.model.payload.user, group: vm.model.payload.group }  | 
+						htmlSafe 
+					 "
+	></span>
 </span>
 <span ng-if="vm.model.type == vm.TYPES.GROUP_INVITATION_ACCEPTED">
-	
+	<profile-pic
+		user="vm.model.payload.user"
+		size="xsmall"
+		ui-sref="profile.posts({username:vm.model.payload.user.username})"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.GROUP_INVITATION_ACCEPTED' | 
+						translate : { user: vm.model.payload.user, group: vm.model.payload.group }  | 
+						htmlSafe 
+					 "
+	></span>
 </span>
 <span ng-if="vm.model.type == vm.TYPES.NEW_MESSAGE">
-	
+	<profile-pic
+		user="vm.model.payload.user"
+		size="xsmall"
+		ui-sref="profile.posts({username:vm.model.payload.user.username})"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.NEW_MESSAGE' | 
+						translate : { user: vm.model.payload.user }  | 
+						htmlSafe 
+					 "
+	></span>
 </span>
 <span ng-if="vm.model.type == vm.TYPES.PLATFORM_INVITATION_ACCEPTED">
-	
+	<profile-pic
+		user="vm.model.payload.user"
+		size="xsmall"
+		ui-sref="profile.posts({username:vm.model.payload.user.username})"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.PLATFORM_INVITATION_ACCEPTED' | 
+						translate : { user: vm.model.payload.user }  | 
+						htmlSafe 
+					 "
+	></span>
 </span>

@@ -1,0 +1,15 @@
+<div class="group">
+    <a 
+    	ui-sref="groups.groupByName({id:vm.model.id})" 
+    	class="entry" 
+    	ng-style="{
+    		'background-color': vm.model.profileColor,
+    		'background-image': ( vm.model.photos.cover ?  vm.model.photos.cover : 'none' )
+		}"
+	>
+        <header>
+            <h5>{{vm.model.name}}</h5>
+            <span class="members">{{vm.model.memberCount}} member</span>
+        </header>
+    </a>
+</div>

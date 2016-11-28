@@ -21,7 +21,17 @@ class FeedController extends CollectionController {
 		];
 	}
 
-	constructor( $scope, $state, feedService, filterService, friendService, userService, modalService, collectionService, groupService ) {
+	constructor( 
+		$scope, 
+		$state, 
+		feedService, 
+		filterService, 
+		friendService, 
+		userService, 
+		modalService, 
+		collectionService, 
+		groupService
+	) {
 		super( $state, feedService, collectionService, modalService, 'FEED' );
 		this.$scope = $scope;
 		this.$state = $state;
@@ -35,8 +45,6 @@ class FeedController extends CollectionController {
 		this.groupService = groupService;
 
 		this._initState();
-
-		window.feeeed = this;
 	}
 
 	_initState() {		
@@ -89,7 +97,7 @@ class FeedController extends CollectionController {
 				break;
 			}
 			case this.FEED_STATES.LIKED: {
-				newPosts = await this.feedService.getLikedPostsByPage( this._activeFilter.id, this._page );
+				newPosts = await this.feedService.getLikedPostsByPage( this._page );
 				break;
 			}
 			case this.FEED_STATES.COLLECTION: {
@@ -260,6 +268,10 @@ class FeedController extends CollectionController {
 
 	async scrapeUrl( url ) {
 		return this.feedService.scrapeUrl( url );
+	}
+
+	async commitNewPost( newPost ) {
+		console.log('Post model', newPost);
 	}
 
 

@@ -26,9 +26,14 @@ main > nav {
 		right: 3px;
 		z-index: 102;
 		padding-right: 6px;
+		& > span {
+			display: inline;
+			position: relative;
+		}
 		a {
 			color: $WHITE;
-			display: inline-block;
+			display: block;
+			float: right;
 			text-align: left;
 			font-size: 14px;
 			text-decoration: none;
@@ -40,12 +45,13 @@ main > nav {
 				position: absolute;
 				z-index: 103;
 				top: 26px;
-				left: -136px;
+				left: -126px;
 				width: 160px;
 				padding: 0 !important;
 				li {
 					background: $SECONDARY-LIGHT;
 					width: 100%;
+					display: block;
 					a {
 						width: calc(100% - 20px);
 						&.active {

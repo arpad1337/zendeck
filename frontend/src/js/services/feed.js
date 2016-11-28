@@ -16,6 +16,7 @@ class FeedService {
 		this.$http = $http;
 
 		this._postsCache = {};
+		this._groupPostsCache = {};
 	}
 
 	get dummyPost() {
@@ -134,14 +135,28 @@ class FeedService {
 
 	getUserPostsByUsernameAndPage( username, page, force ) {
 		page == isNaN( page ) ? 1 : page;
+		// DUMMY
 		return this.getFeedByPage( page );
 
-		//
 		if( !force && this._postsCache[ username ] ) {
 			return this.$q.resolve( this._postsCache[ username ] );
 		}
 		return this.$http.get( CONFIG.API_PATH + '/user/' + username + '/post?page=' + page ).then((r) => {
 			this._postsCache[ username ] = r.data;
+			return r.data;
+		});
+	}
+
+	getGroupPostsByGroupSlugAndPage( groupId, page, force ) {
+		page == isNaN( page ) ? 1 : page;
+		// DUMMY
+		return this.getFeedByPage( page );
+
+		if( !force && this._groupPostsCache[ groupId ] ) {
+			return this.$q.resolve( this._groupPostsCache[ groupId ] );
+		}
+		return this.$http.get( CONFIG.API_PATH + '/group/' + groupId + '/post?page=' + page ).then((r) => {
+			this._groupPostsCache[ groupId ] = r.data;
 			return r.data;
 		});
 	}
@@ -155,6 +170,10 @@ class FeedService {
 	}
 
 	getLikedPostsByPage( page ) {
+		return this.getFeedByPage( page );
+	}
+
+	getGroupLikedPostsByPage( groupSlug, page ) {
 		return this.getFeedByPage( page );
 	}
 

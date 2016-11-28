@@ -2,18 +2,24 @@
  * @rpi1337
  */
 
+import NOTIFICATION_TYPE from '../config/notification-type';
+
 class NotificationsController {
 
 	static get $inject() {
 		return [
+			'$scope',
 			'NotificationService',
-			'GroupService'
+			'GroupService',
+			'FriendService'
 		];
 	}
 
-	constructor( notificationService, groupService ) {
+	constructor( $scope, notificationService, groupService, friendService ) {
+		this.$scope = $scope;
 		this.notificationService = notificationService;
 		this.groupService = groupService;
+		this.friendService = friendService;
 
 		this._initState();
 	}
@@ -34,13 +40,21 @@ class NotificationsController {
 		});
 	}
 
-	getMoreNotifications() {
+	async getMoreNotifications() {
 		this._page++;
-		this.notificationService.getNotificationsByPage( this._page ).then((notifications) => {
-			notifications.forEach((notif) => {
-				this.notifications.push( notif );
-			})
+		let notifications = await this.notificationService.getNotificationsByPage( this._page );
+		notifications.forEach((notif) => {
+			this.notifications.push( notif );
 		});
+		this.$scope.$digest();
+		return notifications.length > 0;
+	}
+
+	async onNotificationAction( model ) {
+		if( model.type = NOTIFICATION_TYPE.FRIEND_REQUEST ) {
+			await this.friendService.addFriend( model.payload.user.username );
+		}
+		await this.notificationService.acceptNotification( model.id );
 	}
 
 }

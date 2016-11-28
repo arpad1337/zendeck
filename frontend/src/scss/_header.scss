@@ -16,7 +16,7 @@ body > header {
 		position: absolute;
 		top: -500px;
 	}
-	h1 {
+	& > h1 {
 		font-weight: 300;
 		margin:auto;
 		font-size: 36px;
@@ -89,18 +89,23 @@ body > header {
 				// 	height: 36px;
 				// }
 
-				&.profile {
-					profile-pic .profile-pic div{
-						border: 2px solid $WHITE !important;
-					}
+				&.list {
+					position: relative;
 					ul {
 						display: none;
 						position: absolute;
-						right: 8px;
+						right: 0px;
 						top: 40px;
 						width: 180px;
 						z-index: 10000;
 						border: 2px solid $WHITE;
+						&.stretch {
+							width: 240px;
+							right: -90px;
+							li {
+								width: 224px;
+							}
+						}
 						li {
 							background: $MAIN-DARK;
 							display: block;
@@ -111,6 +116,45 @@ body > header {
 							font-weight: bold;
 							cursor: pointer;
 							margin: 0 !important;
+							notification-view {
+								profile-pic {
+									float: left;
+								}
+								& > span {
+									text-align: left;
+									& > span {
+										text-align: left;
+										display: inline-block;
+										width: 164px;
+									}
+									& > button {
+										display: inline-block;
+										margin: 4px 0 0;
+										border: 1px solid $MAIN-LIGHT;
+										background: $WHITE;
+										color: $MAIN-LIGHT;
+										padding: 2px 8px;
+										text-align: center;
+										height: 24px;
+										line-height: 20px;
+										text-decoration: none;
+										border: none;
+										&:hover {
+											background: $MAIN-DARK;
+											border-color: $MAIN-DARK;
+										}
+										&:disabled {
+											background: $FOOTER-LIGHT;
+											color: $FOOTER-DARK;
+											border-color: $FOOTER-LIGHT;
+										}
+									}
+								}
+							}
+							a {
+								text-decoration: none;
+								color: $WHITE;
+							}
 							&:first-child {
 								border-top: none;
 							}
@@ -119,10 +163,16 @@ body > header {
 							}
 						}
 					}
-					&:hover, &.hover {
-						ul {
+					& > a:hover, & > a.hover {
+						& + ul {
 							display: block;
 						}
+					}
+				}
+
+				&.profile {
+					profile-pic .profile-pic div{
+						border: 2px solid $WHITE !important;
 					}
 				}
 

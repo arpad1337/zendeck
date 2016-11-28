@@ -9,10 +9,14 @@
                 >
                     <notification-view
                         model="notification"
+                        delegate="ctrl"
                     >
                     </notification-view>
                 </div>
             </div>
+            <more-button 
+                callback="ctrl.getMoreNotifications()"
+            ></more-button>
         </section>
     </div>
     <aside>

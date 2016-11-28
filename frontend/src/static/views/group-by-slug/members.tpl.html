@@ -1,0 +1,33 @@
+<section role="members">
+    <h4>{{'GROUPS.MEMBERS.TITLE' | translate}}</h4>
+    <div class="members">
+        <div 
+            class="member"
+            ng-repeat="friend in ctrl.members track by $index"
+            ng-class="ctrl.isAdmin(friend.id) ? 'admin' : ''"
+        >
+            <div 
+                class="pic"
+                ui-sref="profile.posts({username:friend.username})"
+            >
+                <profile-pic
+                    size="medium"
+                    user="friend"
+                ></profile-pic>
+            </div>
+            <div class="name">
+                <strong>{{ friend.fullname }}</strong><br>
+                @{{ friend.username }}
+            </div>
+            <div ng-if="ctrl.isUserAdmin">
+                <div ng-if="ctrl.isAdmin(friend.id)">
+                    <button class="create">Promote</button>
+                </div>
+                <div ng-if="!ctrl.isAdmin(friend.id)">
+                    <button class="minus">Resign</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <more-button callback="ctrl.getMoreMembers()"></more-button>
+</section>

@@ -22,8 +22,11 @@
                                 </ul>
                             </div>
                             <button class="post-content"
-                                ng-disabled="vm.buttonEnabled"
-                            >{{ 'FEED.POST_BOX.SEND' | translate }}</button>
+                                ng-disabled="!vm.buttonEnabled"
+                                ng-click="vm.commit()"
+                            >
+                                {{ 'FEED.POST_BOX.SEND' | translate }}
+                            </button>
                             <div class="suggested-tags">
                                 <div class="labels">
                                     <ul>

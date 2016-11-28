@@ -91,6 +91,26 @@ class NotificationService {
 				createdAt: (new Date()).toISOString()
 			},
 			{
+				type: NOTIFICATION_TYPE.FRIEND_REQUEST,
+				payload: {
+					accepted: true,
+					user: {
+						id: 3,
+						username: 'oiu',
+						fullname: 'No Way',
+						photos: {
+							small: {
+								src: '/img/avatar.jpg',
+								width: 42,
+								height: 42
+							}
+						},
+						profileColor: '#9CC9B5'
+					}
+				},
+				createdAt: (new Date()).toISOString()
+			},
+			{
 				type: NOTIFICATION_TYPE.POST_COMMENT,
 				payload: {
 					post: {
@@ -215,11 +235,71 @@ class NotificationService {
 			{
 				type: NOTIFICATION_TYPE.GROUP_INVITATION,
 				payload: {
-					likes: 5,
 					group: {
 						id: 123,
 						name: 'Frontend Meetup Group'
 					},
+					user: {
+						id: 2,
+						username: 'upiasdasdasd',
+						fullname: 'Steve Blanketter',
+						photos: {
+							small: {
+								src: '/img/avatar.jpg',
+								width: 42,
+								height: 42
+							}
+						},
+						profileColor: '#9CC9B5'
+					}
+				},
+				createdAt: (new Date()).toISOString()
+			},
+			{
+				type: NOTIFICATION_TYPE.GROUP_INVITATION_ACCEPTED,
+				payload: {
+					group: {
+						id: 123,
+						name: 'Frontend Meetup Group'
+					},
+					user: {
+						id: 2,
+						username: 'upiasdasdasd',
+						fullname: 'Steve Blanketter',
+						photos: {
+							small: {
+								src: '/img/avatar.jpg',
+								width: 42,
+								height: 42
+							}
+						},
+						profileColor: '#9CC9B5'
+					}
+				},
+				createdAt: (new Date()).toISOString()
+			},
+			{
+				type: NOTIFICATION_TYPE.PLATFORM_INVITATION_ACCEPTED,
+				payload: {
+					user: {
+						id: 2,
+						username: 'upiasdasdasd',
+						fullname: 'Steve Blanketter',
+						photos: {
+							small: {
+								src: '/img/avatar.jpg',
+								width: 42,
+								height: 42
+							}
+						},
+						profileColor: '#9CC9B5'
+					}
+				},
+				createdAt: (new Date()).toISOString()
+			},
+			{
+				type: NOTIFICATION_TYPE.NEW_MESSAGE,
+				payload: {
 					user: {
 						id: 2,
 						username: 'upiasdasdasd',
@@ -248,7 +328,7 @@ class NotificationService {
 	getLastNotifications() {
 		let promise = this.$q.defer();
 		setTimeout(() => {
-			promise.resolve([]);
+			promise.resolve(this.dummyNotifications.slice(0, 5));
 		}, Math.random() * 1000);
 		return promise.promise;
 	}
@@ -274,6 +354,10 @@ class NotificationService {
 			promise.resolve(12);
 		}, Math.random() * 1000);
 		return promise.promise;
+	}
+
+	acceptNotification( id ) {
+		
 	}
 
 }

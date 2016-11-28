@@ -2,7 +2,7 @@
  * @rpi1337
  */
 
-class MorePostsButtonComponent {
+class MoreButtonComponent {
 
 	static get $inject() {
 		return [];
@@ -12,12 +12,17 @@ class MorePostsButtonComponent {
 		return {
 			restrict: 'E',
 			scope: {
-				callback: '&'
+				callback: '&',
+				className: '@?'
 			},
-			templateUrl: 'partials/components/more-posts-button.tpl.html',
+			templateUrl: 'partials/components/more-button.tpl.html',
 			bindToController: true,
+			transclude: true,
 			controllerAs: 'vm',
-			controller: this
+			controller: this,
+			link: (scope) => {
+				scope.vm.scope = scope;
+			}
 		};
 	}
 
@@ -35,11 +40,11 @@ class MorePostsButtonComponent {
 			}
 		} catch( e ) {
 			console.error( e );
-		} finally {
-			this.buttonEnabled = true;
 		}
+		this.buttonEnabled = true;
+		this.scope.$digest();
 	}
 
 };
 
-export default MorePostsButtonComponent;
+export default MoreButtonComponent;

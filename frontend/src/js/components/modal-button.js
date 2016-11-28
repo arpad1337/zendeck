@@ -19,7 +19,10 @@ class ModalButtonComponent {
 			bindToController: true,
 			controllerAs: 'vm',
 			transclude: true,
-			controller: this
+			controller: this,
+			link: (scope) => {
+				scope.vm.scope = scope;
+			}
 		};
 	}
 
@@ -33,9 +36,9 @@ class ModalButtonComponent {
 			await this.callback();
 		} catch( e ) {
 			console.error( e );
-		} finally {
-			this.buttonEnabled = true;
 		}
+		this.buttonEnabled = true;
+		this.scope.$digest();
 	}
 
 };

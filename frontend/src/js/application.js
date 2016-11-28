@@ -25,6 +25,8 @@ import MessagesController from './controllers/messages';
 import SendNewMessageController from './controllers/send-new-message';
 import MenuController from './controllers/menu';
 import NotificationsController from './controllers/notifications';
+import GroupsController from './controllers/groups';
+import GroupBySlugController from './controllers/group-by-slug';
 
 // S E R V I C E S
 
@@ -47,9 +49,10 @@ import PostEntryComponent from './components/post-entry';
 import PostingBoxTagComponent from './components/posting-box-tag';
 import ModalButtonComponent from './components/modal-button';
 import UserPreviewCardComponent from './components/user-preview-card';
-import MorePostsButtonComponent from './components/more-posts-button';
+import MoreButtonComponent from './components/more-button';
 import NotificationViewComponent from './components/notification-view';
 import CustomSelectComponent from './components/custom-select';
+import GroupCardComponent from './components/group-card';
 import {
 	ProfilePicComponent
 } from './components/profile-pic';
@@ -73,6 +76,8 @@ module.controller( 'MessagesController', MessagesController );
 module.controller( 'SendNewMessageController', SendNewMessageController );
 module.controller( 'MenuController', MenuController );
 module.controller( 'NotificationsController', NotificationsController );
+module.controller( 'GroupsController', GroupsController );
+module.controller( 'GroupBySlugController', GroupBySlugController );
 
 module.service( 'MessageBusService', MessageBusService );
 module.service( 'UserService', UserService );
@@ -92,8 +97,9 @@ module.directive( 'postingBoxTag', createComponent( PostingBoxTagComponent ) );
 module.directive( 'modalButton', createComponent( ModalButtonComponent ) );
 module.directive( 'userPreviewCard', createComponent( UserPreviewCardComponent ) );
 module.directive( 'profilePic', createComponent( ProfilePicComponent ) );
-module.directive( 'morePosts', createComponent( MorePostsButtonComponent ) );
+module.directive( 'moreButton', createComponent( MoreButtonComponent ) );
 module.directive( 'customSelect', createComponent( CustomSelectComponent ) );
 module.directive( 'notificationView', createComponent( NotificationViewComponent ) );
+module.directive( 'groupCard', createComponent( GroupCardComponent ) );
 
 module.factory('sessionInterceptor', createInterceptor( SessionInterceptor ));

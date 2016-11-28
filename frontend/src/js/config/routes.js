@@ -87,24 +87,60 @@ const ROUTES = [
 
 	// GROUPS
 
-	// {
-	// 	state: STATES.APPLICATION.GROUPS,
-	// 	opts: {
-	// 		path: '/groups',
-	// 		controller: 'GroupsController',
-	// 		view: 'views/groups.tpl.html',
-	// 		requiredStatus: USER_STATUS.SUBMITED
-	// 	}
-	// },
-	// {
-	// 	state: STATES.APPLICATION.GROUP_BY_NAME,
-	// 	opts: {
-	// 		path: '/groups/:groupName',
-	// 		controller: 'GroupByNameController',
-	// 		view: 'views/group-by-name.tpl.html',
-	// 		requiredStatus: USER_STATUS.SUBMITED
-	// 	}
-	// },
+	{
+		state: STATES.APPLICATION.GROUPS,
+		opts: {
+			path: '/groups',
+			controller: 'GroupsController',
+			view: 'views/groups.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+	{
+		state: STATES.APPLICATION.GROUP_BY_SLUG.SELF,
+		opts: {
+			abstract: true,
+			path: '/groups/:groupSlug',
+			controller: 'GroupBySlugController',
+			view: 'views/group-by-slug.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+	{
+		state: STATES.APPLICATION.GROUP_BY_SLUG.POSTS,
+		opts: {
+			path: '',
+			view: 'views/group-by-slug/list.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+	{
+		state: STATES.APPLICATION.GROUP_BY_SLUG.LIKED,
+		opts: {
+			path: '/liked',
+			view: 'views/group-by-slug/liked.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+	{
+		state: STATES.APPLICATION.GROUP_BY_SLUG.COLLECTION,
+		opts: {
+			path: '/collection/:collectionId',
+			view: 'views/group-by-slug/starred.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+	{
+		state: STATES.APPLICATION.GROUP_BY_SLUG.MEMBERS,
+		opts: {
+			path: '/members',
+			view: 'views/group-by-slug/members.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+
+	// NOTIFS
+
 	{
 		state: STATES.APPLICATION.NOTIFICATIONS,
 		opts: {
@@ -114,6 +150,9 @@ const ROUTES = [
 			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},
+
+	// MESSAGES
+
 	{
 		state: STATES.APPLICATION.MESSAGES.SELF,
 		opts: {

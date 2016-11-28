@@ -47,8 +47,16 @@ class CollectionController extends PostController {
 		throw new Error('CollectionController->getMorePosts Must override!');
 	}
 
-	loadCollections() {
-		this.collectionService.getUserCollections( this.username ).then((collections) => {
+	loadCollections( opts ) {
+		if( opts && opts.groupSlug ) {
+			return this.collectionService.getGroupCollections( opts.groupSlug ).then((collections) => {
+				this._collections = collections;
+				if( this.$state.params.collectionId ) {
+					this.selectCollection( this.$state.params.collectionId );
+				}
+			});
+		};
+		return this.collectionService.getUserCollections( this.username ).then((collections) => {
 			this._collections = collections;
 			if( this.$state.params.collectionId ) {
 				this.selectCollection( this.$state.params.collectionId );
@@ -119,10 +127,8 @@ class CollectionController extends PostController {
 			}
 			this.$scope.$digest(); 
 		} catch( e ) {
-			console.error(e, e.stack);
+			console.error(e);
 		}
-		// this.resetPaginator();
-		// this.posts = await this.feedService.getPostsByCollectionIdAndPage( this._activeCollection.id, this._page );
 	}
 
 	async deleteCurrentCollection() {

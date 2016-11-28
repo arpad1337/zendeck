@@ -102,22 +102,24 @@ class MessagesController {
 		return this.userService.currentUser;
 	}
 
-	getMoreMessages() {
+	async getMoreMessages() {
 		this._messagesPage++;
-		this.messageService.getThreadByUsernameAndPage( this._recipient.username, this._messagesPage ).then((messages) => {
-			messages.forEach((message) => {
-				this.messages.unshift( message );
-			});
+		let messages = await this.messageService.getThreadByUsernameAndPage( this._recipient.username, this._messagesPage );
+		messages.forEach((message) => {
+			this.messages.unshift( message );
 		});
+		this.$scope.$digest();
+		return messages.length > 0;
 	}
 
-	getMoreThreads() {
+	async getMoreThreads() {
 		this._page++;
-		this.messageService.getThreadsByPage( this._page ).then((threads) => {
-			threads.forEach((thread) => {
-				this.threads.push( thread );
-			});
+		let threads = await this.messageService.getThreadsByPage( this._page );
+		threads.forEach((thread) => {
+			this.threads.push( thread );
 		});
+		this.$scope.$digest();
+		return threads.length > 0;
 	}
 
 	selectRecipient( username ) {
