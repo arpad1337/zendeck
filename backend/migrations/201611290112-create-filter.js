@@ -15,7 +15,7 @@ module.exports = {
 			},
 			slug: {
 				type: TYPES.STRING(64)
-			}
+			},
 			user_id: {
 				types: TYPES.INTEGER
 			},
@@ -23,15 +23,21 @@ module.exports = {
 				types: TYPES.STRING(60)
 			},
 			tags: {
-				TYPES.TEXT
+				TYPES.JSON
 			}
 		})
 		.then(() => {
 			return queryInterface.addIndex( TABLE_NAME, ['user_id'] )
+		})
+		.then(() => {
+			return queryInterface.addIndex( TABLE_NAME, ['slug'] )
 		});
 	},
 	down: ( queryInterface, TYPES ) => {
 		return queryInterface.removeIndex( TABLE_NAME, ['user_id'])
+		.then(() => {
+			return queryInterface.removeIndex( TABLE_NAME, ['slug'])
+		})
 		.then(() => {
 			return queryInterface.dropTable( TABLE_NAME );
 		});

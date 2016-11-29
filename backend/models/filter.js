@@ -17,12 +17,15 @@ const model = sequelizeModelHelper.buildModel(
 		userId: {
 			field: 'user_id',
 			type: TYPES.INTEGER
-		}
+		},
+		slug: {
+			type: TYPES.STRING(64)
+		},
 		name: {
 			type: TYPES.STRING(60)
 		},
 		tags: {
-			type: TYPES.TEXT
+			type: TYPES.JSON
 		}
 	},
 	// Traits

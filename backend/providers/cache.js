@@ -111,6 +111,7 @@ class CacheProvider extends StoreProviderAbstract {
 		this.srem = promisify(c.srem.bind(c));
 		this.smembers = promisify(c.smembers.bind(c));
 		this.expire = promisify(c.expire.bind(c));
+		this.exists = promisify(c.exists.bind(c));
 	}
 
 	disconnect() {
