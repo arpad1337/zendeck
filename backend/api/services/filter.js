@@ -77,7 +77,7 @@ class FilterService {
 	}
 
 	createFilterWithTags( tags ) {
-		let tagsKey = tags.sort().join('_');
+		let tagsKey = this._createCacheKeyFromTags( tags );
 		let filterKey = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':');
 		return this.cacheProvider.exists( filterKey ).then(( isExists ) => {
 			if( isExists ) {
@@ -188,11 +188,15 @@ class FilterService {
 	}
 
 	getFilterPostIdsByTagsAndPage( tags, page ) {
-		let tagsKey = tags.sort().join('_');
+		let tagsKey = this._createCacheKeyFromTags( tags );
 		page = isNaN( page ) ? 1 : 0;
 		let key = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':');
 		this.cacheProvider.expire( key, 100 ); // extend expiration
 		return this.cacheProvider.lrange( key, ( page - 1 ) * FilterService.LIMIT, FilterService.LIMIT - 1 );
+	}
+
+	_createCacheKeyFromTags( tags ) {
+		return tags.sort().join('_').replace(/\s/g, '-');
 	}
 
 	static get instance() {
