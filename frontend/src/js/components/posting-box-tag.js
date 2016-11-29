@@ -2,6 +2,8 @@
  * @rpi1337
  */
 
+import STOPWORDS from '../config/stopwords';
+
 class PostingBoxTagComponent {
 
 	static get $inject() {
@@ -26,13 +28,24 @@ class PostingBoxTagComponent {
 	constructor() {
 		if( !this.tag ) {
 			this.editable = true;
-			this.tag = '';
+			this._tag = '';
 		} else {
 			this.editable = false;
 		}
 	}
 
+	set tag( newValue ) {
+		this._tag = newValue.trim();
+	}
+
+	get tag() {
+		return this._tag;
+	}
+
 	add() {
+		if( STOPWORDS.EN.indexOf( this.tag ) > -1 ) {
+			return;
+		}
 		if( this._delegateRespondsToSelector( 'addTag' ) ) {
 			this.delegate.addTag( this.tag );
 			this.tag = '';

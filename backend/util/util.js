@@ -34,6 +34,24 @@ const Util = {
 	    return r;
 	},
 
+	buildLaunchParamsFromObject: ( workerId, object ) => {
+        let params = [];
+        Object.keys( object ).forEach((key) => {
+            params.push( key + '=' + object[ key ] );
+        });
+        params.push( 'workerId=' + workerId );
+        return params;
+    },
+
+    collectRuntimeParams: () => {
+        let params = {};
+        for (let i = 2; i < process.argv.length; i++) {
+            let key = process.argv[i].split('=')[0];
+            params[key] = process.argv[i].split('=')[1];
+        }
+        return params;
+    },
+
 	findCommonElements: (arrs) => {
 	    var resArr = [];
 	    for (var i = arrs[0].length - 1; i > 0; i--) {
