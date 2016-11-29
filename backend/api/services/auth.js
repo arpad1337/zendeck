@@ -22,7 +22,7 @@ class AuthService {
 	login( usernameOrEmail, password ) {
 		return this.userService.searchUserByKeyword( usernameOrEmail ).then((user) => {
 			if( user &&
-				user.password == Util.createSHA256Hash( password ) &&
+				user.password == Util.createSHA256HashForPassword( password ) &&
 				user.enabled
 			) {				
 				return this.userService.getUserById( user.id );
@@ -37,7 +37,7 @@ class AuthService {
 		}
 		return this.userService.createUser({
 			email: email,
-			password: Util.createSHA256Hash( password ),
+			password: Util.createSHA256HashForPassword( password ),
 			username: username,
 			fullname: fullname,
 			isBusiness: isBusiness,
@@ -65,7 +65,7 @@ class AuthService {
 					type: 'PASSWORD_RESET'
 				}).then(() => {
 					const email = HTMLEMailFactory.createPasswordResetEmail({
-						ACTION_URL: ENV.BASE_URL + '/#/password-reset/' + signature,
+						ACTION_URL: ENV.BASE_URL + '/password-reset/' + signature,
 						USERNAME: user.username.toUpperCase(),
 						DATE: now
 					});

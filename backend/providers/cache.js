@@ -106,6 +106,7 @@ class CacheProvider extends StoreProviderAbstract {
 		this.lset = promisify(c.lset.bind(c));
 		this.lrange = promisify(c.lrange.bind(c));
 		this.ltrim = promisify(c.ltrim.bind(c));
+		this.llen = promisify(c.llen.bind(c));
 		this.sadd = promisify(c.sadd.bind(c));
 		this.srem = promisify(c.srem.bind(c));
 		this.smembers = promisify(c.smembers.bind(c));

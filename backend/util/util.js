@@ -8,6 +8,10 @@ const PASSWORD_SALT = require('../config/secrets').PASSWORD_SALT;
 const Util = {
 
 	createSHA256Hash: ( key ) => {
+		return crypto.createHmac( 'sha256', 'YOLO1389' ).update( key ).digest( 'hex' );
+	},
+
+	createSHA256HashForPassword: ( key ) => {
 		return crypto.createHmac( 'sha256', PASSWORD_SALT ).update( key ).digest( 'hex' );
 	},
 
@@ -16,6 +20,38 @@ const Util = {
 			throw new Error( 'Util::createSignatureForKey secret is undefined' );
 		}
 		return crypto.createHash( 'sha256' ).update( key + secret ).digest( 'hex' );
+	},
+
+	flattenArrayOfArrays: (a, r) => {
+	    if(!r){ r = []}
+	    for(var i=0; i<a.length; i++){
+	        if(a[i].constructor == Array){
+	            Util.flattenArrayOfArrays(a[i], r);
+	        }else{
+	            r.push(a[i]);
+	        }
+	    }
+	    return r;
+	},
+
+	findCommonElements: (arrs) => {
+	    var resArr = [];
+	    for (var i = arrs[0].length - 1; i > 0; i--) {
+
+
+	        for (var j = arrs.length - 1; j > 0; j--) {
+	            if (arrs[j].indexOf(arrs[0][i]) == -1) {
+	                break;
+	            }
+	        }
+
+	        if (j === 0) {
+	            resArr.push(arrs[0][i]);
+	        }
+
+
+	    }
+	    return resArr;
 	},
 
 	generateRandomColor: () => {
