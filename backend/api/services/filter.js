@@ -128,11 +128,15 @@ class FilterService {
 
 					//console.log('scores:', posts);
 
-					transaction.length = 0;;
-					posts.forEach((post) => {
-						transaction.push(this.cacheProvider.rpush( [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':'), post.id ));
-						transaction.push(this.cacheProvider.expire( [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':'), 100 ));
+					transaction.length = 0;
+					let insert;
+					posts.forEach((post, index) => {
+						insert = this.cacheProvider.rpush( [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':'), post.id );
+						if( index < FilterService.LIMIT ) {
+							transaction.push(insert);
+						}
 					});
+					transaction.push(this.cacheProvider.expire( [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':'), 100 ));
 					return Promise.all(transaction);
 				});
 
