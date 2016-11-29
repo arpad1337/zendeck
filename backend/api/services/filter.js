@@ -43,10 +43,10 @@ class FilterService {
 
 	createFilterWithTags( tags, page ) {
 		let tagsKey = tags.sort().join('_');
-		console.log('tagsKey', tagsKey);
 		let uniqueTagsMap = {};
 		let uniqueTags = [];
-		let transaction = []
+		let transaction = [];
+		let key;
 		tags.forEach((tag) => {
 			tag = tag.trim().toLowerCase();
 			if( !tag || uniqueTagsMap[ tag ] ) {
@@ -54,7 +54,7 @@ class FilterService {
 			}
 			uniqueTagsMap[ tag ] = true;
 			uniqueTags.push( tag );
-			let key = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TAGS, tag ].join(':');
+			key = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TAGS, tag ].join(':');
 			transaction.push(
 				this.cacheProvider.llen( key ),
 				this.cacheProvider.lrange( key, 0, FilterService.CACHE_SIZE_LIMIT - 1 )
@@ -99,9 +99,6 @@ class FilterService {
 					let postScores = {};
 					let idf, tf, score;
 
-					console.log('uniqueTags', uniqueTags);
-					console.log('flattenedPosts', flattenedPosts);
-
 					uniqueTags.forEach((tag) => {
 						idf = 1 / Math.log(postsCount / tag.length);
 						flattenedPosts.forEach((post) => {
@@ -129,7 +126,7 @@ class FilterService {
 						return a.score <= b.score;
 					});
 
-					console.log('scores:', posts);
+					//console.log('scores:', posts);
 
 					transaction.length = 0;;
 					posts.forEach((post) => {
