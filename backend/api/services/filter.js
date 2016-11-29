@@ -76,11 +76,11 @@ class FilterService {
 		return transaction.exec();
 	}
 
-	createFilterWithTags( tags ) {
+	createFilterWithTags( tags, force ) {
 		let tagsKey = this._createCacheKeyFromTags( tags );
 		let filterKey = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':');
 		return this.cacheProvider.exists( filterKey ).then(( isExists ) => {
-			if( isExists ) {
+			if( isExists && !force ) {
 				return this.getFilterPostIdsByTagsAndPage( tags, 1 );
 			}
 			let uniqueTagsMap = {};
