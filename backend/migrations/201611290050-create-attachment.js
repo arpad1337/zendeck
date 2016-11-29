@@ -14,10 +14,10 @@ module.exports = {
 				primaryKey: true
 			},
 			preview: {
-				types: TYPES.STRING(256)
+				type: TYPES.STRING(256)
 			},
 			title: {
-				types: TYPES.STRING(60)
+				type: TYPES.STRING(60)
 			},
 			description: {
 				type: TYPES.TEXT
@@ -26,10 +26,10 @@ module.exports = {
 				type: TYPES.STRING(40)
 			},
 			url: {
-				types: TYPES.STRING(256)
+				type: TYPES.STRING(256)
 			},
 			tags: {
-				TYPES.TEXT
+				type: TYPES.JSON
 			}
 		})
 		.then(() => {

@@ -18,7 +18,7 @@ module.exports = {
 				allowNull: false
 			},
 			tags: {
-				type: TYPES.TEXT
+				type: TYPES.JSON
 			},
 			content: {
 				type: TYPES.TEXT
@@ -30,7 +30,7 @@ module.exports = {
 				type: TYPES.INTEGER
 			},
 			likes: {
-				type: TYPES.INTEGER
+				type: TYPES.INTEGER,
 				defaultValue: 0
 			},
 			comments: {
@@ -57,7 +57,7 @@ module.exports = {
 		});
 	},
 	down: ( queryInterface, TYPES ) => {
-		return queryInterface.removeIndex( TABLE_NAME, ['user_id'] );
+		return queryInterface.removeIndex( TABLE_NAME, ['user_id'] )
 		.then(() => {
 			return queryInterface.removeIndex( TABLE_NAME, ['attachment_id'] );
 		})

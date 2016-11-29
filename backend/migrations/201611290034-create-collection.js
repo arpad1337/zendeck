@@ -49,7 +49,7 @@ module.exports = {
 		})
 		.then(() => {
 			return queryInterface.addIndex( TABLE_NAME,  ['slug']);
-		});
+		})
 		.then(() => {
 			return queryInterface.addIndex( TABLE_NAME,  ['user_id', 'post_id']);
 		});
@@ -60,7 +60,7 @@ module.exports = {
 			return queryInterface.removeIndex( TABLE_NAME,  ['post_id'])
 		})
 		.then(() => {
-			return queryInterface.removeIndex( TABLE_NAME,  ['parent']);
+			return queryInterface.removeIndex( TABLE_NAME,  ['parent'])
 		})
 		.then(() => {
 			return queryInterface.removeIndex( TABLE_NAME,  ['group_id'])

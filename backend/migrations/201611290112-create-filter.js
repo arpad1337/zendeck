@@ -17,13 +17,13 @@ module.exports = {
 				type: TYPES.STRING(64)
 			},
 			user_id: {
-				types: TYPES.INTEGER
+				type: TYPES.INTEGER
 			},
 			name: {
-				types: TYPES.STRING(60)
+				type: TYPES.STRING(60)
 			},
 			tags: {
-				TYPES.JSON
+				type: TYPES.JSON
 			}
 		})
 		.then(() => {

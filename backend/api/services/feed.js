@@ -22,7 +22,6 @@ class FeedService {
 		page = isNaN( page ) ? 1 : 0;
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
 		return FeedModel.find({
-			attributes: ['postId']
 			where: {
 				userId: userId
 			},
@@ -30,11 +29,6 @@ class FeedService {
 			offset: (( page - 1 ) * FeedModel.LIMIT),
 			order: [ 'created_at', 'DESC' ]
 			group: 'post_id'
-		}).then((postIds) => {
-			if( !postIds ) {
-				return [];
-			}
-			return postIds.map( post => post.get('postId') );
 		});
 	}
 
@@ -42,7 +36,6 @@ class FeedService {
 		page = isNaN( page ) ? 1 : 0;
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
 		return FeedModel.find({
-			attributes: ['postId']
 			where: {
 				userId: userId,
 				liked: true
@@ -51,11 +44,6 @@ class FeedService {
 			offset: (( page - 1 ) * FeedModel.LIMIT),
 			order: [ 'created_at', 'DESC' ]
 			group: 'post_id'
-		}).then((postIds) => {
-			if( !postIds ) {
-				return [];
-			}
-			return postIds.map( post => post.get('postId') );
 		});
 	}
 
@@ -64,7 +52,6 @@ class FeedService {
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
 		return this.collectionService.getCollectionIdsRecursivellyByCollectionId( collectionId ).then(( collectionIds ) => {
 			return FeedModel.find({
-				attributes: ['postId']
 				where: {
 					userId: userId,
 					collectionId: collectionIds
@@ -73,11 +60,6 @@ class FeedService {
 				offset: (( page - 1 ) * FeedModel.LIMIT),
 				order: [ 'created_at', 'DESC' ]
 				group: 'post_id'
-			}).then((postIds) => {
-				if( !postIds ) {
-					return [];
-				}
-				return postIds.map( post => post.get('postId') );
 			});
 		});
 	}
