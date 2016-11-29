@@ -196,7 +196,7 @@ class FilterService {
 	}
 
 	_createCacheKeyFromTags( tags ) {
-		return tags.sort().join('_').replace(/\s/g, '-');
+		return tags.sort().join('_').replace(/\s+/g, '-');
 	}
 
 	static get instance() {
