@@ -190,7 +190,7 @@ class FilterService {
 	getFilterPostIdsByTagsAndPage( tags, page ) {
 		let tagsKey = tags.sort().join('_');
 		page = isNaN( page ) ? 1 : 0;
-		let key = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ];
+		let key = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':');
 		this.cacheProvider.expire( key, 100 ); // extend expiration
 		return this.cacheProvider.lrange( key, ( page - 1 ) * FilterService.LIMIT, FilterService.LIMIT - 1 );
 	}
