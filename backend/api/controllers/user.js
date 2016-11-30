@@ -41,12 +41,26 @@ class UserController {
 		}
 	}
 
-	*uploadProfilePic( context ) {
+	*updateProfilePic( context ) {
 		const userId = context.session.user.id;
 		const imageBuffer = Util.decodeBase64Image( context.request.fields.image );
 		const file = yield Util.createTempFileFromImageBuffer( context.request.fields.filename, imageBuffer );
 		try {
-			let result = yield this.userService.uploadProfilePic( userId, file );
+			let result = yield this.userService.updateProfilePic( userId, file );
+			context.body = {
+				success: result
+			};
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400, e );
+		}
+	}
+
+	*updateCoverPic( context ) {
+		const userId = context.session.user.id;
+		const file = context.request.fields.file[0];
+		try {
+			let result = yield this.userService.updateCoverPic( userId, file );
 			context.body = {
 				success: result
 			};

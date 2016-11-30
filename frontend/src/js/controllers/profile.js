@@ -218,7 +218,6 @@ class ProfileController extends CollectionController {
 
 	async onProfilePicFileSelected( file ) {
 		if( file ) {
-			//let imageSrc = await this.userService.uploadProfilePic( file );
 			this.openProfilePicCroppingDialog( file );
 		}
 	}

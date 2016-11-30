@@ -94,7 +94,10 @@ class UserService {
         ).then((r) => {
         	let resourceUrl = r.data.success;
         	this.currentUser.photos = this.currentUser.photos || {};
-        	this.currentUser.photos.cover = this.currentUser.photos.cover || {};
+        	this.currentUser.photos.cover = this.currentUser.photos.cover || {
+        		width: 1200,
+        		height: 400
+        	};
         	this.currentUser.photos.cover.src = resourceUrl;
         	return resourceUrl;
 		});

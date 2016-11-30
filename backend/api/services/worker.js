@@ -14,7 +14,7 @@ class WorkerService {
 	get WORKER_TYPES() {
 		return {
 			'PROFILE_PIC_POSTPROCESS': 'profile-pic-sampler.js',
-			'COVER_PIC_POSTPROCESS': 'cover-resize.js',
+			'COVER_PIC_POSTPROCESS': 'cover-pic-sampler.js',
 			'CREATE_FILTER': 'create-filter.js'
 		}
 	}

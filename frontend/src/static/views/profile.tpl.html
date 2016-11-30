@@ -1,5 +1,5 @@
 <header 
-    ng-style="ctrl.profile.photos.cover && ctrl.profile.photos.cover.src ? {background:url(ctrl.profile.photos.cover.src)} : {background:ctrl.profile.profileColor}"
+    ng-style="(ctrl.profile.photos.cover && ctrl.profile.photos.cover.src) ? {background:'url(' + ctrl.profile.photos.cover.src +')'} : {background:ctrl.profile.profileColor}"
     class="profile-header"
 
 >

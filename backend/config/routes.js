@@ -44,7 +44,14 @@ const ROUTES = [
 	{
 		path: '/user/me/photo',
 		controller: 'user',
-		action: 'uploadProfilePic',
+		action: 'updateProfilePic',
+		middlewares: ['session-check'],
+		method: 'post'
+	},
+	{
+		path: '/user/me/cover',
+		controller: 'user',
+		action: 'updateCoverPic',
 		middlewares: ['session-check'],
 		method: 'post'
 	},

@@ -101,11 +101,20 @@ class UserService {
 		});
 	}
 
-	uploadProfilePic( userId, file ) {
+	updateProfilePic( userId, file ) {
 		const fileExtension = file.name.split('.').pop();
 		const newFileName = Util.createSHA256Hash( [userId, file.name].join('_') ) + '_' + Date.now() + '.' + fileExtension;
 		return this.s3Provider.putObject( this.s3Provider.OBJECT_TYPES.TEMP, newFileName, file ).then((response) => {
 			this._scheduleProfilePicResizingOperation( userId, response.tempFilename, file.type );
+			return response.url;
+		});
+	}
+
+	updateCoverPic( userId, file ) {
+		const fileExtension = file.name.split('.').pop();
+		const newFileName = Util.createSHA256Hash( [userId, file.name].join('_') ) + '_' + Date.now() + '.' + fileExtension;
+		return this.s3Provider.putObject( this.s3Provider.OBJECT_TYPES.TEMP, newFileName, file ).then((response) => {
+			this._scheduleCoverPicResizingOperation( userId, response.tempFilename, file.type );
 			return response.url;
 		});
 	}
@@ -115,8 +124,31 @@ class UserService {
 			tempFilename: tempFilename,
 			contentType: contentType
 		}).then((photos) => {
-			return this.updateUser(userId, {
-				photos: photos
+			return this.getUserById( userId ).then((user) => {
+				let userPhotos = user.photos;
+				Object.keys( photos ).forEach((key) => {
+					userPhotos[key] = photos[ key ];
+				});
+				return this.updateUser(userId, {
+					photos: userPhotos
+				});
+			});
+		}).catch((e) => {
+			console.error(e, e.stack);
+		});
+	}
+
+	_scheduleCoverPicResizingOperation( userId, tempFilename, contentType ) {
+		this.workerService.launchWorkerWithTypeAndStartParams( this.workerService.WORKER_TYPES.COVER_PIC_POSTPROCESS, {
+			tempFilename: tempFilename,
+			contentType: contentType
+		}).then((photo) => {
+			return this.getUserById( userId ).then((user) => {
+				let userPhotos = user.photos;
+				userPhotos.cover = photo;
+				return this.updateUser(userId, {
+					photos: userPhotos
+				});
 			});
 		}).catch((e) => {
 			console.error(e, e.stack);
