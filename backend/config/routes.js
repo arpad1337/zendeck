@@ -42,6 +42,13 @@ const ROUTES = [
 		method: 'get'
 	},
 	{
+		path: '/user/me/photo',
+		controller: 'user',
+		action: 'uploadProfilePic',
+		middlewares: ['session-check'],
+		method: 'post'
+	},
+	{
 		path: '/user/me/friend',
 		controller: 'friend',
 		action: 'getFriendsByPage',

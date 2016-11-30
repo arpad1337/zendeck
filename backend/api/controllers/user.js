@@ -4,12 +4,14 @@
 
 const UserService = require( '../services/user' );
 const FriendService = require( '../services/friend' );
+const Util = require( '../../util/util' );
 
 class UserController {
 
-	constructor( userService, friendService ) {
+	constructor( userService, friendService, workerService, s3Provider ) {
 		this.userService = userService;
 		this.friendService = friendService;
+
 	}
 
 	*getCurrentUser( context ) {
@@ -36,6 +38,21 @@ class UserController {
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 404 );
+		}
+	}
+
+	*uploadProfilePic( context ) {
+		const userId = context.session.user.id;
+		const imageBuffer = Util.decodeBase64Image( context.request.fields.image );
+		const file = yield Util.createTempFileFromImageBuffer( context.request.fields.filename, imageBuffer );
+		try {
+			let result = yield this.userService.uploadProfilePic( userId, file );
+			context.body = {
+				success: result
+			};
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400, e );
 		}
 	}
 

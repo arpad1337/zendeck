@@ -123,6 +123,7 @@ class ApplicationController {
 		let extension = {
 			checkUsernameAvailability: this.checkUsernameAvailability.bind( this ),
 			checkEmailIfRegistered: this.checkEmailIfRegistered.bind( this ),
+			checkPassword: this.checkPassword.bind( this ),
 			isUsernameAvailable: true,
 			isEmailNotRegistered: true,
 			isBusiness: false,
@@ -180,6 +181,15 @@ class ApplicationController {
 			}
 		} else {
 			model.isEmailNotRegistered = true;
+		}
+	}
+
+	checkPassword( model ) {
+		if( !Validator.validatePasswordStrength( model.password ) ) {
+			model.error.password = true;
+			return false;
+		} else {
+			model.error.password = null;
 		}
 	}
 
@@ -268,7 +278,10 @@ class ApplicationController {
 		}
 
 		if( !Validator.validatePasswordStrength( model.password ) ) {
+			model.error.password = true;
 			return false;
+		} else {
+			model.error.password = null;
 		}
 
 		if( Validator.isFieldEmpty( model.username ) ) {
@@ -280,7 +293,10 @@ class ApplicationController {
 		}
 
 		if( !model.termsAccepted ) {
+			model.error.termsAccepted = true;
 			return false;
+		} else {
+			model.error.termsAccepted = null;
 		}
 
 		return true;

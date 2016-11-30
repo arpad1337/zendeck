@@ -1,0 +1,26 @@
+<div class="modal">
+    <div class="container">
+        <h4>{{ 'MODALS.PROFILE_PIC_CROPPING.TITLE' | translate }}</h4>
+        <a class="close" ng-click="cancel()"></a>
+        <div class="content">
+            <div class="cropArea">
+                <img-crop image="image" result-image="croppedImage"></img-crop>
+            </div>
+        </div>
+        <div class="actions">
+            <modal-button
+                    class-name="'confirm'"
+                    callback="ok()"
+            >
+                {{ 'MODALS.PROFILE_PIC_CROPPING.OK' | translate }}
+            </modal-button>
+            <modal-button
+                class-name="'cancel'"
+                callback="cancel()"
+            >
+                {{ 'MODALS.PROFILE_PIC_CROPPING.CANCEL' |translate }}
+            </modal-button>
+
+        </div>
+    </div>
+</div>

@@ -4,11 +4,15 @@
 
 const DatabaseProvider = require('../../providers/database');
 const Util = require('../../util/util');
+const WorkerService = require( '../services/worker' );
+const S3Provider = require( '../../providers/s3' );
 
 class UserService {
 
-	constructor( databaseProvider ) {
+	constructor( databaseProvider, workerService, s3Provider ) {
 		this.databaseProvider = databaseProvider;
+		this.workerService = workerService;
+		this.s3Provider = s3Provider;
 	}
 
 	getUserById( id ) {
@@ -97,6 +101,28 @@ class UserService {
 		});
 	}
 
+	uploadProfilePic( userId, file ) {
+		const fileExtension = file.name.split('.').pop();
+		const newFileName = Util.createSHA256Hash( [userId, file.name].join('_') ) + '_' + Date.now() + '.' + fileExtension;
+		return this.s3Provider.putObject( this.s3Provider.OBJECT_TYPES.TEMP, newFileName, file ).then((response) => {
+			this._scheduleProfilePicResizingOperation( userId, response.tempFilename, file.type );
+			return response.url;
+		});
+	}
+
+	_scheduleProfilePicResizingOperation( userId, tempFilename, contentType ) {
+		this.workerService.launchWorkerWithTypeAndStartParams( this.workerService.WORKER_TYPES.PROFILE_PIC_POSTPROCESS, {
+			tempFilename: tempFilename,
+			contentType: contentType
+		}).then((photos) => {
+			return this.updateUser(userId, {
+				photos: photos
+			});
+		}).catch((e) => {
+			console.error(e, e.stack);
+		});
+	}
+
 	getRandomUsersWithExcludingIds( ids ) {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		return UserModel.findAll({
@@ -118,7 +144,9 @@ class UserService {
 	static get instance() {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
-			this.singleton = new UserService( databaseProvider );
+			const workerService = WorkerService.instance;
+			const s3Provider = S3Provider.instance;
+			this.singleton = new UserService( databaseProvider, workerService, s3Provider );
 		}
 		return this.singleton;
 	}

@@ -202,9 +202,24 @@ class ProfileController extends CollectionController {
 
 	}
 
+	openProfilePicCroppingDialog( file ) {
+		let reader = new FileReader();
+		reader.onload = (evt) => {
+			let src = evt.target.result;
+			this.modalService.openDialog( this.modalService.DIALOG_TYPE.PROFILE_PIC_CROPPING, {
+				image: src,
+				croppedImage: ''
+			}).then((model) => {
+				this.userService.uploadProfilePicBase64( file.name, model.croppedImage );
+			});
+		};
+		reader.readAsDataURL(file);
+	}
+
 	async onProfilePicFileSelected( file ) {
 		if( file ) {
-			await this.userService.uploadProfilePic( file );
+			//let imageSrc = await this.userService.uploadProfilePic( file );
+			this.openProfilePicCroppingDialog( file );
 		}
 	}
 

@@ -65,6 +65,10 @@ module.exports = {
 			settings: {
 				type: TYPES.JSON
 			},
+			terms_accepted: {
+				type: TYPES.BOOLEAN,
+				defaultValue: false
+			},
 			created_at: {
 				type: TYPES.DATE
 			},

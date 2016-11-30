@@ -15,7 +15,10 @@
                 </p>
                 <p>
                     <label for="password">{{ 'MODALS.REGISTER.PASSWORD' | translate }}*</label>
-                    <input type="password" placeholder="{{ 'MODALS.REGISTER.PLACEHOLDER' | translate }}" id="password" ng-model="password">
+                    <input type="password" placeholder="{{ 'MODALS.REGISTER.PLACEHOLDER' | translate }}" id="password" ng-model="password" ng-change="checkPassword()">
+                    <span ng-if="error.password" class="hint">
+                        <span class="negative">Password seems to be weak</span>
+                    </span>
                 </p>
                 <p>
                     <label for="username">{{ 'MODALS.REGISTER.USERNAME' | translate }}*</label>
@@ -50,6 +53,9 @@
                     <label for="tac">I accept the <a ui-sref="tac">terms &amp; conditions</a>
                         <input type="checkbox" id="tac" ng-model="termsAccepted">
                     </label>
+                    <span ng-if="error.termsAccepted" class="hint">
+                        <span class="negative">Must accept!</span>
+                    </span>
                 </p>
             </form>
         </div>
@@ -60,15 +66,15 @@
             <modal-button
                     class-name="'confirm'"
                     callback="ok()"
-                >
-                    {{ 'MODALS.REGISTER.OK' | translate }}
-                </modal-button>
-                <modal-button
-                    class-name="'cancel'"
-                    callback="cancel()"
-                >
-                    {{ 'MODALS.REGISTER.CANCEL' |translate }}
-                </modal-button>
+            >
+                {{ 'MODALS.REGISTER.OK' | translate }}
+            </modal-button>
+            <modal-button
+                class-name="'cancel'"
+                callback="cancel()"
+            >
+                {{ 'MODALS.REGISTER.CANCEL' |translate }}
+            </modal-button>
         </div>
     </div>
 </div>

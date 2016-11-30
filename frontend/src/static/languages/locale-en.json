@@ -327,6 +327,11 @@
 		"VIEW_POST": {
 			"TITLE": "View post",
 			"CANCEL": "Close"
+		},
+		"PROFILE_PIC_CROPPING": {
+			"TITLE": "Crop profile picture",
+			"OK": "Upload & save",
+			"CANCEL": "Cancel"
 		}
 	},
 	"ABOUT": {

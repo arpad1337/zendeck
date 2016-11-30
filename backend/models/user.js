@@ -85,6 +85,11 @@ const model = sequelizeModelHelper.buildModel(
 		},
 		settings: {
 			type: TYPES.JSON
+		},
+		termsAccepted: {
+			field: 'terms_accepted',
+			type: TYPES.BOOLEAN,
+			defaultValue: false
 		}
 	},
 	// Traits

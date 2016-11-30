@@ -18,7 +18,8 @@ const module = angular.module('ZenDeck', [
     'angular-loading-bar',
     '720kb.tooltips',
     'yaru22.angular-timeago',
-    'color.picker'
+    'color.picker',
+    'ngImgCrop'
 ]);
 
 module.config(["$httpProvider", function($httpProvider){

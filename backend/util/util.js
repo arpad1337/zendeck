@@ -4,6 +4,7 @@
 
 const crypto = require('crypto');
 const PASSWORD_SALT = require('../config/secrets').PASSWORD_SALT;
+const fs = require('fs');
 
 const Util = {
 
@@ -42,6 +43,37 @@ const Util = {
         params.push( 'workerId=' + workerId );
         return params;
     },
+
+    decodeBase64Image: (dataString) => {
+		var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+		response = {};
+
+		if (matches.length !== 3) {
+		return new Error('Invalid input string');
+		}
+
+		response.type = matches[1];
+		response.data = new Buffer(matches[2], 'base64');
+
+		return response;
+	},
+
+	createTempFileFromImageBuffer: ( name, imageBuffer ) => {
+		return new Promise((resolve, reject) => {
+			let tmpFilename = Util.createSHA256Hash([ Date.now(), name ].join('')) + '_' + Util.createSHA256Hash( String(Math.random() * 9999999) );
+			fs.writeFile('/tmp/' + tmpFilename, imageBuffer.data, function(err) {
+				if( err ) {
+					reject(err);
+					return;
+				}
+				resolve({
+					name: name,
+					path: '/tmp/' + tmpFilename,
+					type: imageBuffer.type
+				});
+			});
+		});
+	},
 
     collectRuntimeParams: () => {
         let params = {};

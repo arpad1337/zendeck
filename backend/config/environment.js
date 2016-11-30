@@ -21,7 +21,16 @@ const ENVIRONMENT = {
 	        database: '0'
 		},
 		BUCKET: {
-			url: 'http://localhost:1339'
+			KEY: 'zendeck-production',
+			BASE_URL: 'https://s3-eu-west-1.amazonaws.com/zendeck-production',
+			TYPES: {
+				TEMP: 'temp',
+				COVER: 'cover',
+				PROFILE: 'profile',
+				GROUP: 'group',
+				FILE: 'file'
+			}
+
 		},
 		BASE_URL: 'http://dev.zendeck.co'
 	},
@@ -43,9 +52,17 @@ const ENVIRONMENT = {
 	        database: '0'
 		},
 		BUCKET: {
-			url: 'http://localhost:1339'
+			KEY: 'zendeck-production',
+			BASE_URL: 'https://s3-eu-west-1.amazonaws.com/zendeck-production',
+			TYPES: {
+				TEMP: 'temp',
+				COVER: 'cover',
+				PROFILE: 'profile',
+				GROUP: 'group',
+				FILE: 'file'
+			}
 		},
-		BASE_URL: 'http://dev.zendeck.co'
+		BASE_URL: 'http://staging.zendeck.co'
 	},
 	PRODUCTION: {
 		DATABASE: {
@@ -65,9 +82,17 @@ const ENVIRONMENT = {
 	        database: '0'
 		},
 		BUCKET: {
-			url: 'http://localhost:1339'
+			KEY: 'zendeck-production',
+			BASE_URL: 'https://s3-eu-west-1.amazonaws.com/zendeck-production',
+			TYPES: {
+				TEMP: 'temp',
+				COVER: 'cover',
+				PROFILE: 'profile',
+				GROUP: 'group',
+				FILE: 'file'
+			}
 		},
-		BASE_URL: 'http://dev.zendeck.co'
+		BASE_URL: 'http://zendeck.co'
 	}
 };
 

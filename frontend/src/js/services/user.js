@@ -62,11 +62,30 @@ class UserService {
 		return promise.promise;
 	}
 
-	uploadProfilePic( photo ) {
+	uploadProfilePicBase64( filename, base64String ) {
+		return this.$http.post( CONFIG.API_PATH + '/user/me/photo', {
+			image: base64String,
+			filename: filename
+		}).then((r) => {
+        	let resourceUrl = r.data.success;
+        	this.currentUser.photos = this.currentUser.photos || {};
+        	Object.keys( DIMENSIONS ).forEach((key) => {
+        		let dim = DIMENSIONS[key];
+        		this.currentUser.photos[key] = {
+        			width: dim.width,
+        			height: dim.height,
+        			src: resourceUrl
+        		};
+        	});
+        	return resourceUrl;
+		});
+	}
+
+	uploadCoverPic( photo ) {
 		let data = new FormData();
 		data.append( 'file', photo );
 		return this.$http.post(
-			CONFIG.API_PATH + '/user/me/photo', 
+			CONFIG.API_PATH + '/user/me/cover', 
 			data, 
 			{
             	transformRequest: angular.identity,
@@ -74,13 +93,10 @@ class UserService {
         	}
         ).then((r) => {
         	let resourceUrl = r.data.success;
-        	Object.keys( DIMENSIONS ).forEach(( key ) => {
-        		this._currentUser.photos[ key ] = {};
-        		this._currentUser.photos[ key ].src = resourceUrl;
-        		this._currentUser.photos[ key ].width = DIMENSIONS[ key ].width;
-        		this._currentUser.photos[ key ].src = DIMENSIONS[ key ].height;
-        	});
-        	return r.data;
+        	this.currentUser.photos = this.currentUser.photos || {};
+        	this.currentUser.photos.cover = this.currentUser.photos.cover || {};
+        	this.currentUser.photos.cover.src = resourceUrl;
+        	return resourceUrl;
 		});
 	}
 
@@ -156,7 +172,7 @@ class UserService {
 	checkEmail( email ) {
 		let promise = this.$q.defer();
 		setTimeout(() => {
-			promise.resolve(false)
+			promise.resolve(true)
 		}, Math.random() * 1000);
 		return promise.promise;
 	}

@@ -22,7 +22,7 @@ class FileUploadService {
 		let changeHandler = function() {
 			value = $(this).val();
 			if( value && value.length > 0 ) {
-				callback( value[0] );
+				callback( this.files[0] );
 			}
 			element.remove();
 		};

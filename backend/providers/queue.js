@@ -13,12 +13,13 @@ class QueueProvider {
 
 	constructor( cacheProvider ) {
 		this.cacheProvider = cacheProvider;
-		this.onMessage = this.onMessage.bind(this);
 	}
 
-	createQueueWithIdAndStartParams( id, params ) {
-		const queue = new Queue({
-			id: [ QueueProvider.QUEUE_NAMESPACE, id ].join(':'),
+	createQueueWithId( id ) {
+		let newId = [ QueueProvider.QUEUE_NAMESPACE, id ].join(':');
+		console.log('QueueProvider->createQueueWithId creating Queue', newId);
+		const queue = new RedisQueue({
+			id: newId,
 			queueProvider: this.cacheProvider
 		});
 		return queue;

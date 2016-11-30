@@ -8,17 +8,21 @@ const EventEmitter = require('events').EventEmitter;
 class RedisQueue extends EventEmitter {
 
 	constructor( opts ) {
+		super();
 		assert( opts, 'RedisQueue::constructor opts not defined');
 		assert( opts.id, 'RedisQueue::constructor opts.id not defined');
-		assert( opts.queueInterface, 'RedisQueue::constructor opts.queueProvider not defined');
+		assert( opts.queueProvider, 'RedisQueue::constructor opts.queueProvider not defined');
 		this._queueId = opts.id;
 		this.queueProvider = opts.queueProvider;
 		this.limit = opts.limit || 10;
 		this._timer = null;
 		this._stopped = false;
+		this._onPoll = this._onPoll.bind( this );
+		this._onPop = this._onPop.bind( this );
 	}
 
 	listen() {
+		this._stopped = false;
 		this._timer = setTimeout( this._onPoll , 200);
 	}
 
@@ -28,6 +32,9 @@ class RedisQueue extends EventEmitter {
 	}
 
 	_onPoll() {
+		if( this._stopped ) {
+			return;
+		}
 		this.queueProvider
 			.multi()
 			.lrange(this.queueId, 0, this.limit - 1)
@@ -63,11 +70,8 @@ class RedisQueue extends EventEmitter {
 		} catch( e ) {
 			console.error(e, e.stack);
 		}
-		this.emit( message.type, message.payload );
-	}
-
-	emit( type, message ) {
-		super.emit( 'message', type, message );
+		console.log('RedisQueue->onMessage Got message', message);
+		this.emit( 'message', message );
 	}
 
 	sendMessage( type, payload ) {

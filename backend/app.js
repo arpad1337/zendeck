@@ -22,12 +22,15 @@ app.use(
 	session( cacheProvider.sessionStoreConfig )
 );
 
+const MB6 = 6 * 1024 * 1024;
+
 app.use( koaBody({
-	multipart: true,
-	extendTypes: {
-		json: ['application/json'],
-		multipart: ['multipart/mixed']
-	}
+    files: true,
+    multipart: true,
+    formLimit: MB6,
+    jsonLimit: MB6,
+    bufferLimit: MB6,
+    jsonStrict: false,
 }) );
 
 app.use( compress() );

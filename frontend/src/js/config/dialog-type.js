@@ -23,7 +23,8 @@ const DIALOG_TYPE = new Enum([
 	'VIEW_POST',
 	'DELETE_POST_CONFIRMATION',
 	'DELETE_COMMENT_CONFIRMATION',
-	'SEND_NEW_MESSAGE'
+	'SEND_NEW_MESSAGE',
+	'PROFILE_PIC_CROPPING'
 ], 'DIALOG_TYPE');
 
 const DIALOG_DESCIPTORS = {};
@@ -88,6 +89,10 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.DELETE_COMMENT_CONFIRMATION.toString() ] = {
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.SEND_NEW_MESSAGE.toString() ] = {
 	templateUrl: '/partials/dialog/send-new-message.tpl.html'
+}
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.PROFILE_PIC_CROPPING.toString() ] = {
+	templateUrl: '/partials/dialog/profile-pic-cropping.tpl.html'
 }
 
 export {
