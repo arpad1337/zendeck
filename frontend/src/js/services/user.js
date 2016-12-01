@@ -103,6 +103,20 @@ class UserService {
 		});
 	}
 
+	deleteProfilePic() {
+		return this.$http.delete( CONFIG.API_PATH + '/user/me/photo' ).then((r) => {
+			this._currentUser = r.data;
+			return r.data;
+		});
+	}
+
+	deleteCoverPic() {
+		return this.$http.delete( CONFIG.API_PATH + '/user/me/cover' ).then((r) => {
+			this._currentUser = r.data;
+			return r.data;
+		});
+	}
+
 	updateCurrentUserProfile( payload ) {
 		return this.$http.post( CONFIG.API_PATH + '/user/me', payload ).then((r) => {
 			this._currentUser = r.data;

@@ -19,9 +19,6 @@ const model = sequelizeModelHelper.buildModel(
 			type: TYPES.INTEGER,
 			allowNull: false
 		},
-		slug: {
-			type: TYPES.STRING(64)
-		},
 		postId: {
 			field: 'post_id',
 			type: TYPES.INTEGER,

@@ -2,7 +2,7 @@
  * @rpi1337 
  */
 
-const TABLE_NAME = 'post';
+const TABLE_NAME = 'comment';
 
 module.exports = {
 	up: ( queryInterface, TYPES ) => {
@@ -17,24 +17,15 @@ module.exports = {
 				type: TYPES.INTEGER,
 				allowNull: false
 			},
-			tags: {
-				type: TYPES.JSON
+			post_id: {
+				type: TYPES.INTEGER,
+				allowNull: false
 			},
 			content: {
 				type: TYPES.TEXT
 			},
-			urls: {
-				type: TYPES.JSON
-			},
-			attachment_id: {
+			parent: {
 				type: TYPES.INTEGER
-			},
-			group_id: {
-				type: TYPES.INTEGER
-			},
-			likes: {
-				type: TYPES.INTEGER,
-				defaultValue: 0
 			},
 			created_at: {
 				type: TYPES.DATE
@@ -47,22 +38,15 @@ module.exports = {
 			}
 		})
 		.then(() => {
-			return queryInterface.addIndex( TABLE_NAME, ['user_id'] );
+			return queryInterface.addIndex( TABLE_NAME, ['post_id'])
 		})
 		.then(() => {
-			return queryInterface.addIndex( TABLE_NAME, ['attachment_id'] );
-		})
-		.then(() => {
-			return queryInterface.addIndex( TABLE_NAME, ['group_id'] );
+			return queryInterface.addIndex( TABLE_NAME, ['user_id'])
 		});
 	},
 	down: ( queryInterface, TYPES ) => {
-		return queryInterface.removeIndex( TABLE_NAME, ['user_id'] )
-		.then(() => {
-			return queryInterface.removeIndex( TABLE_NAME, ['attachment_id'] );
-		})
-		.then(() => {
-			return queryInterface.removeIndex( TABLE_NAME, ['group_id'] );
+		return queryInterface.removeIndex( TABLE_NAME, ['user_id']).then(() => {
+			return queryInterface.removeIndex( TABLE_NAME, ['post_id'])
 		})
 		.then(() => {
 			return queryInterface.dropTable( TABLE_NAME );

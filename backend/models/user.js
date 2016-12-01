@@ -20,6 +20,21 @@ const HiddenFieldsAndComputedPropsTrait = {
             	delete json.settings;
             }
             return json;
+        },
+        getAuthorView: function( prop ) {
+            var json = sequelizeModelHelper.PATCHED_GETTER.call( this, prop );
+            if( !prop ) {
+            	delete json.password;
+            	delete json.phoneNumber;
+            	delete json.email;
+            	delete json.settings;
+            	delete json.enabled;
+            	delete json.about;
+            	delete json.status;
+            	delete json.updatedAt;
+            	delete json.createdAt;
+            }
+            return json;
         }
     }
 };

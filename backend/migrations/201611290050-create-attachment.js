@@ -30,6 +30,12 @@ module.exports = {
 			},
 			tags: {
 				type: TYPES.JSON
+			},
+			created_at: {
+				type: TYPES.DATE
+			},
+			updated_at: {
+				type: TYPES.DATE
 			}
 		})
 		.then(() => {

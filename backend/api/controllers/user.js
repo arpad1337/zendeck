@@ -70,6 +70,39 @@ class UserController {
 		}
 	}
 
+	*deleteProfilePic( context ) {
+		const userId = context.session.user.id;
+		try {
+			let profile = yield this.userService.deleteProfilePic( userId );
+			context.body = profile;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400, e );
+		}
+	}
+
+	*deleteCoverPic( context ) {
+		const userId = context.session.user.id;
+		try {
+			let profile = yield this.userService.deleteCoverPic( userId );
+			context.body = profile;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400, e );
+		}
+	}
+
+	*updateProfile( context ) {
+		const userId = context.session.user.id;
+		try {
+			let profile = yield this.userService.updateProfile( userId, context.request.fields );
+			context.body = profile;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400, e );
+		}
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const userService = UserService.instance;

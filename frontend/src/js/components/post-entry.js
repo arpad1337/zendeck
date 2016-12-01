@@ -8,7 +8,8 @@ class PostEntryComponent {
 
 	static get $inject() {
 		return [
-			'UserService'
+			'UserService',
+			'ModalService'
 		];
 	}
 
@@ -26,12 +27,19 @@ class PostEntryComponent {
 		};
 	}
 
-	constructor( userService ) {
+	constructor( userService, modalService ) {
 		this.buttonEnabled = true;
 		this._comment = '';
 		this.targetCollection = -1;
 		this.hideTooltip = true;
 		this.userService = userService;
+		this.modalService = modalService;
+	}
+
+	get processedContent() {
+		let content = this.entry.content;
+		content = content.replace(/\n+/g, "<br>");
+		return content;
 	}
 
 	get shareableUrl() {
@@ -87,6 +95,9 @@ class PostEntryComponent {
 	async deleteComment( commentId ) {
 		if( this._delegateRespondsToSelector( 'deleteComment' ) ) {
 			try {
+				await this.modalService.openDialog( this.modalService.DIALOG_TYPE.CONFIRMATION, {
+					confirmationDialogTemplateKey: 'DELETE_COMMENT'
+				});
 				await this.delegate.deleteComment( this.entry.id, commentId );
 				let index = this.entry.comments.data.findIndex((c) => {
 					return (c.id == commentId);
@@ -99,8 +110,15 @@ class PostEntryComponent {
 	}
 
 	async deletePost() {
-		if( this._delegateRespondsToSelector( 'deletePost' ) ) {
-			await this.delegate.deletePost( this.entry.id );
+		try {
+			if( this._delegateRespondsToSelector( 'deletePost' ) ) {
+				await this.modalService.openDialog( this.modalService.DIALOG_TYPE.CONFIRMATION, {
+					confirmationDialogTemplateKey: 'DELETE_POST'
+				});
+				await this.delegate.deletePost( this.entry.id );
+			}
+		} catch( e ) {
+			console.log(e, e.stack);
 		}
 	}
 

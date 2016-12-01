@@ -271,7 +271,7 @@ class FeedController extends CollectionController {
 	}
 
 	async commitNewPost( newPost ) {
-		let model = await this.feedService.postToFeed( this.currentSlug, newPost );
+		let model = await this.feedService.postToFeed( newPost );
 		this.posts.unshift( model );
 		this.$scope.$digest();
 	}

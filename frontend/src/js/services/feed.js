@@ -118,6 +118,7 @@ class FeedService {
 	}
 
 	postToFeed( post ) {
+		return this.$http.post( CONFIG.API_PATH + '/feed', post ).then( r => r.data );
 		return this.dummyPost;
 	}
 
@@ -134,11 +135,13 @@ class FeedService {
 	}
 
 	getFeedByPage( page ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve([ this.dummyPost ]);
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.get( CONFIG.API_PATH + '/feed?page=' + page ).then( r => r.data );
+
+		// let promise = this.$q.defer();
+		// setTimeout(() => {
+		// 	promise.resolve([ this.dummyPost ]);
+		// }, Math.random() * 1000);
+		// return promise.promise;
 	}
 
 	getUserPostsByUsernameAndPage( username, page, force ) {

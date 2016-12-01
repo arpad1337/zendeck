@@ -2,185 +2,44 @@
  * @rpi1337
  */
 
-const DatabaseProvider = require('../../providers/database');
-const Util = require('../../util/util');
+const FeedService = require( '../services/feed' );
 
-class FeedService {
+class FeedController {
 
-	static get LIMIT() {
-		return 20;
+	constructor( feedService ) {
+		this.feedService = feedService;
 	}
 
-	constructor( databaseProvider, collectionService, friendService, groupService ) {
-		this.databaseProvider = databaseProvider;
-		this.collectionService = collectionService;
-		this.friendService = friendService;
-		this.groupService = groupService;
-	}
-
-	getUserFeedByIdAndPage( userId, page ) {
-		page = isNaN( page ) ? 1 : 0;
-		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.find({
-			attributes: ['postId']
-			where: {
-				userId: userId
-			},
-			limit: FeedService.LIMIT,
-			offset: (( page - 1 ) * FeedModel.LIMIT),
-			order: [ 'created_at', 'DESC' ]
-			group: 'post_id'
-		}).then((postIds) => {
-			if( !postIds ) {
-				return [];
-			}
-			return postIds.map( post => post.get('postId') );
-		});
-	}
-
-	getUserLikedFeedByIdAndPage( userId, page ) {
-		page = isNaN( page ) ? 1 : 0;
-		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.find({
-			attributes: ['postId']
-			where: {
-				userId: userId,
-				liked: true
-			},
-			limit: FeedService.LIMIT,
-			offset: (( page - 1 ) * FeedModel.LIMIT),
-			order: [ 'created_at', 'DESC' ]
-			group: 'post_id'
-		}).then((postIds) => {
-			if( !postIds ) {
-				return [];
-			}
-			return postIds.map( post => post.get('postId') );
-		});
-	}
-
-	getUserCollectionFeedByIdAndCollectionIdAndPage( userId, collectionId, page ) {
-		page = isNaN( page ) ? 1 : 0;
-		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return this.collectionService.getCollectionIdsRecursivellyByCollectionId( collectionId ).then(( collectionIds ) => {
-			return FeedModel.find({
-				attributes: ['postId']
-				where: {
-					userId: userId,
-					collectionId: collectionIds
-				},
-				limit: FeedService.LIMIT,
-				offset: (( page - 1 ) * FeedModel.LIMIT),
-				order: [ 'created_at', 'DESC' ]
-				group: 'post_id'
-			}).then((postIds) => {
-				if( !postIds ) {
-					return [];
-				}
-				return postIds.map( post => post.get('postId') );
-			});
-		});
-	}
-
-	addPostToCollection( userId, postId, collectionId ) {
-		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.update({ collectionId: collectionId }, {
-			where: {
-				userId: userId,
-				postId: postId
-			}
-		});
-	}
-
-	deleteAllFromCollection( collectionId ) {
-		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.destroy({
-			where: {
-				collectionId: collectionId
-			}
-		});
-	}
-
-	removePostFromCollection( userId, postId, collectionId ) {
-		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.update({ collectionId: null }, {
-			where: {
-				userId: userId,
-				postId: postId,
-				collectionId: collectionId
-			}
-		});
-	}
-
-	addPostToFeeds( userId, postId, groupId ) {
-		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		let promises = [
-			this.friendService.getAllFriendIdsByUserId( userId ),
-		];
-		if( groupId ) {
-			promises.push(
-				this.groupService.getAllMembersById( groupId )
-			);
+	*getUserFeed( context ) {
+		let userId = context.session.user.id;
+		try {
+			let posts = yield this.feedService.getUserFeedByIdAndPage( userId, context.query.page );
+			context.body = posts;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
 		}
-		return Promise.all(promises).then((userIds) => {
-			userIds = Util.flattenArrayOfArrays( userIds );
-			let bulk = [];
-			let idMap = {};
-			userIds.forEach((id) => {
-				if( idMap[id] ) {
-					return;
-				}
-				idMap[ id ] = true;
-				let model = {
-					userId: id,
-					postId: postId,
-					liked: false
-				};
-				if( groupId ) {
-					model.groupId = groupId;
-				}
-				bulk.push(model);
-			});
-			return FeedModel.bulkCreate( bulk );
-		});
 	}
 
-	removePostFromFeedsById( postId ) {
-		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.destroy({
-			where: {
-				postId: postId
-			}
-		});
-	}
-
-	likePostByUserId( userId, postId ) {
-		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.update({liked: true}, {
-			where: {
-				userId: userId
-				postId: postId
-			}
-		});
-	}
-
-	unlikePostByUserId( userId, postId ) {
-		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.update({liked: false}, {
-			where: {
-				userId: userId
-				postId: postId
-			}
-		});
+	*createPost( context ) {
+		let userId = context.session.user.id;
+		try {
+			let post = yield this.feedService.createPost( userId, context.request.fields );
+			context.body = post;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
 	}
 
 	static get instance() {
 		if( !this.singleton ) {
-			const databaseProvider = DatabaseProvider.instance;
-			this.singleton = new FeedService( databaseProvider );
+			const feedService = FeedService.instance;
+			this.singleton = new FeedController( feedService );
 		}
 		return this.singleton;
 	}
+
 }
 
-module.exports = FeedService;
+module.exports = FeedController;

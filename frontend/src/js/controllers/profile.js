@@ -60,7 +60,7 @@ class ProfileController extends CollectionController {
 		this.userService.getProfileByUsername( this.$state.params.username ).then((profile) => {
 			this.profile = profile;
 			this.lastProfileFields = {
-				about: this.profile.about,
+				about: this.profile.about ? this.profile.about.replace(/<br>/g, "\n") : null,
 				fullname: this.profile.fullname,
 				birthDate: this.profile.birthDate,
 				profileColor: this.profile.profileColor
@@ -174,7 +174,7 @@ class ProfileController extends CollectionController {
 			}
 		} else {
 			this.lastProfileFields = {
-				about: this.profile.about,
+				about: this.profile.about ? this.profile.about.replace(/<br>/g, "\n") : null,
 				fullname: this.profile.fullname,
 				birthDate: this.profile.birthDate,
 				profileColor: this.profile.profileColor
@@ -195,11 +195,19 @@ class ProfileController extends CollectionController {
 	}
 
 	deleteProfilePic() {
-
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.CONFIRMATION, {
+			confirmationDialogTemplateKey: 'DELETE_PROFILE_PIC'
+		}).then(() => {
+			this.userService.deleteProfilePic();
+		});
 	}
 
 	deleteCoverPic() {
-
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.CONFIRMATION, {
+			confirmationDialogTemplateKey: 'DELETE_COVER_PIC'
+		}).then(() => {
+			this.userService.deleteCoverPic();
+		});
 	}
 
 	openProfilePicCroppingDialog( file ) {

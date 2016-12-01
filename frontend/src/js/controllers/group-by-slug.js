@@ -66,7 +66,7 @@ class GroupBySlugController extends CollectionController {
 		this.groupService.getGroupProfileBySlug( this.currentSlug ).then((profile) => {
 			this.profile = profile;
 			this.lastProfileFields = {
-				about: this.profile.about,
+				about: this.profile.about ? this.profile.about.replace(/<br>/g, "\n") : null,
 				name: this.profile.name,
 				profileColor: this.profile.profileColor
 			};
@@ -133,7 +133,7 @@ class GroupBySlugController extends CollectionController {
 			}
 		} else {
 			this.lastProfileFields = {
-				about: this.profile.about,
+				about: this.profile.about ? this.profile.about.replace(/<br>/g, "\n") : null,
 				name: this.profile.name,
 				profileColor: this.profile.profileColor
 			};

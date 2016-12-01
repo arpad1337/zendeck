@@ -72,8 +72,7 @@
     </div>
     <aside>
         <div class="content">
-            <div class="message">
-                {{vm.entry.content}}
+            <div class="message" data-ng-bind-html=" vm.processedContent | htmlSafe ">
             </div>
             <a class="embed" href="{{vm.entry.attachment.url}}" ng-if="vm.entry.attachment">
                 <div class="cover">

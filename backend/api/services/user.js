@@ -9,6 +9,16 @@ const S3Provider = require( '../../providers/s3' );
 
 class UserService {
 
+	static get allowedFields() {
+		return [
+			'password',
+			'fullname',
+			'isBusiness',
+			'profileColor',
+			'about'
+		]
+	}
+
 	constructor( databaseProvider, workerService, s3Provider ) {
 		this.databaseProvider = databaseProvider;
 		this.workerService = workerService;
@@ -62,6 +72,23 @@ class UserService {
 		}).then( model => model.getPublicView() );
 	}
 
+	getUsersAuthorViewByIds( ids ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		return UserModel.findAll({
+			where: {
+				id: ids,
+				enabled: true,
+				$or: [{
+					status: 'SUBMITED'
+				}, {
+					status: 'REGISTERED'
+				}]
+			}
+		}).then( models => {
+			return models.map( model => model.getAuthorView() );
+		});
+	}
+
 	getUsersByIds( ids ) {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		return UserModel.findAll({
@@ -92,12 +119,32 @@ class UserService {
 		});
 	}
 
+	updateProfile( id, fields ) {
+		let allowedFields = [];
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		let fieldKeys = Object.keys( fields );
+		let updateable = Util.findCommonElements( [ UserService.allowedFields, fieldKeys ] );
+		let payload = {};
+		console.log('updateable', updateable);
+		updateable.forEach((key) => {
+			if( key == 'password' ) {
+				payload[ key ] = Util.createSHA256HashForPassword( fields.password );
+			} else {
+				payload[ key ] = fields[ key ].replace(/\n/g, '<br>').trim();
+			}
+		});
+		return this.updateUser( id, payload );
+
+	}
+
 	updateUser( id, payload ) {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		return UserModel.update( payload, {
 			where: {
 				id: id
 			}
+		}).then(() => {
+			return this.getUserById( id );
 		});
 	}
 
@@ -119,13 +166,34 @@ class UserService {
 		});
 	}
 
+	deleteCoverPic( userId ) {
+		return this.getUserById( userId ).then((user) => {
+			let newPhotos = user.photos;
+			delete newPhotos.cover;
+			return this.updateUser( userId, {
+				photos: newPhotos
+			})
+		});
+	}
+
+	deleteProfilePic( userId ) {
+		return this.getUserById( userId ).then((user) => {
+			let newPhotos = {
+				cover: user.photos.cover
+			};
+			return this.updateUser( userId, {
+				photos: newPhotos
+			})
+		});
+	}
+
 	_scheduleProfilePicResizingOperation( userId, tempFilename, contentType ) {
 		this.workerService.launchWorkerWithTypeAndStartParams( this.workerService.WORKER_TYPES.PROFILE_PIC_POSTPROCESS, {
 			tempFilename: tempFilename,
 			contentType: contentType
 		}).then((photos) => {
 			return this.getUserById( userId ).then((user) => {
-				let userPhotos = user.photos;
+				let userPhotos = user.photos || {};
 				Object.keys( photos ).forEach((key) => {
 					userPhotos[key] = photos[ key ];
 				});
@@ -144,7 +212,7 @@ class UserService {
 			contentType: contentType
 		}).then((photo) => {
 			return this.getUserById( userId ).then((user) => {
-				let userPhotos = user.photos;
+				let userPhotos = user.photos || {};
 				userPhotos.cover = photo;
 				return this.updateUser(userId, {
 					photos: userPhotos

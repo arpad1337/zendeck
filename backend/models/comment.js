@@ -11,7 +11,7 @@ const sequelizeModelHelper = require('../util/sequelize-model-helper');
 
 const model = sequelizeModelHelper.buildModel(
 	// Table name
-	'post',
+	'comment',
 	// Schema
 	{
 		userId: {
@@ -19,26 +19,16 @@ const model = sequelizeModelHelper.buildModel(
 			type: TYPES.INTEGER,
 			allowNull: false
 		},
-		tags: {
-			type: TYPES.JSON
+		postId: {
+			field: 'post_id',
+			type: TYPES.INTEGER,
+			allowNull: false
 		},
 		content: {
 			type: TYPES.TEXT
 		},
-		urls: {
-			type: TYPES.JSON
-		},
-		attachmentId: {
-			field: 'attachment_id',
+		parent: {
 			type: TYPES.INTEGER
-		},
-		groupId: {
-			field: 'group_id',
-			type: TYPES.INTEGER
-		},
-		likes: {
-			type: TYPES.INTEGER,
-			defaultValue: 0
 		}
 	},
 	// Traits
@@ -48,6 +38,6 @@ const model = sequelizeModelHelper.buildModel(
 	]
 );
 
-const Post = connection.define( 'Post', model.schema, model.settings );
+const Comment = connection.define( 'Comment', model.schema, model.settings );
 
-module.exports = Post;
+module.exports = Comment;

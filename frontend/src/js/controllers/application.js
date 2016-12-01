@@ -67,6 +67,7 @@ class ApplicationController {
 
 	_onUserLoggedOut() {
 		this.$state.go( STATES.LANDING );
+		this.$rootScope.$digest();
 	}
 
 	_onUserLoggedIn() {

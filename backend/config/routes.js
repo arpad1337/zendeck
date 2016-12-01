@@ -3,6 +3,9 @@
  */
 
 const ROUTES = [
+
+	// AUTH
+
 	{
 		path: '/auth/login',
 		controller: 'auth',
@@ -34,12 +37,22 @@ const ROUTES = [
 		action: 'resetPassword',
 		method: 'post'
 	},
+
+	// USER
+
 	{
 		path: '/user/me',
 		controller: 'user',
 		action: 'getCurrentUser',
 		middlewares: ['session-check'],
 		method: 'get'
+	},
+	{
+		path: '/user/me',
+		controller: 'user',
+		action: 'updateProfile',
+		middlewares: ['session-check'],
+		method: 'post'
 	},
 	{
 		path: '/user/me/photo',
@@ -54,6 +67,20 @@ const ROUTES = [
 		action: 'updateCoverPic',
 		middlewares: ['session-check'],
 		method: 'post'
+	},
+	{
+		path: '/user/me/photo',
+		controller: 'user',
+		action: 'deleteProfilePic',
+		middlewares: ['session-check'],
+		method: 'delete'
+	},
+	{
+		path: '/user/me/cover',
+		controller: 'user',
+		action: 'deleteCoverPic',
+		middlewares: ['session-check'],
+		method: 'delete'
 	},
 	{
 		path: '/user/me/friend',
@@ -77,6 +104,16 @@ const ROUTES = [
 		method: 'delete'
 	},
 	{
+		path: '/user/me/recommendation',
+		controller: 'friend',
+		action: 'getFriendRecommendations',
+		middlewares: ['session-check'],
+		method: 'get'
+	},
+
+	// USER PUBLIC
+
+	{
 		path: '/user/:username',
 		controller: 'user',
 		action: 'getUserByUsername',
@@ -88,13 +125,24 @@ const ROUTES = [
 		action: 'getFriendsByUsernameAndPage',
 		method: 'get'
 	},
+
+	// FEED
+
 	{
-		path: '/user/me/recommendation',
-		controller: 'friend',
-		action: 'getFriendRecommendations',
-		middlewares: ['session-check'],
+		path: '/feed',
+		controller: 'feed',
+		action: 'getUserFeed',
 		method: 'get'
+	},
+	{
+		path: '/feed',
+		controller: 'feed',
+		action: 'createPost',
+		method: 'post'
 	}
+
+	// POST 
+
 ];
 
 module.exports = ROUTES;

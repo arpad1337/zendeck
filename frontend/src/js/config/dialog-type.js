@@ -21,8 +21,9 @@ const DIALOG_TYPE = new Enum([
 	'CREATE_FILTER',
 	'CREATE_COLLECTION',
 	'VIEW_POST',
-	'DELETE_POST_CONFIRMATION',
-	'DELETE_COMMENT_CONFIRMATION',
+	'CONFIRMATION',
+	// 'DELETE_POST_CONFIRMATION', // TODO
+	// 'DELETE_COMMENT_CONFIRMATION', // TODO
 	'SEND_NEW_MESSAGE',
 	'PROFILE_PIC_CROPPING'
 ], 'DIALOG_TYPE');
@@ -79,20 +80,18 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.VIEW_POST.toString() ] = {
 	templateUrl: '/partials/dialog/view-post.tpl.html'
 }
 
-DIALOG_DESCIPTORS[ DIALOG_TYPE.DELETE_POST_CONFIRMATION.toString() ] = {
-	templateUrl: '/partials/dialog/delete-post-confirmation.tpl.html'
-}
-
-DIALOG_DESCIPTORS[ DIALOG_TYPE.DELETE_COMMENT_CONFIRMATION.toString() ] = {
-	templateUrl: '/partials/dialog/delete-comment-confirmation.tpl.html'
-}
-
 DIALOG_DESCIPTORS[ DIALOG_TYPE.SEND_NEW_MESSAGE.toString() ] = {
 	templateUrl: '/partials/dialog/send-new-message.tpl.html'
 }
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.PROFILE_PIC_CROPPING.toString() ] = {
 	templateUrl: '/partials/dialog/profile-pic-cropping.tpl.html'
+}
+
+// CONFIRMATION
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.CONFIRMATION.toString() ] = {
+	templateUrl: '/partials/dialog/confirmation.tpl.html'
 }
 
 export {

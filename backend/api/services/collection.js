@@ -86,7 +86,7 @@ class CollectionService {
 			slug: Util.createSHA256Hash( userId + name ),
 			name: name,
 			isPublic: isPublic,
-			parent: parent ? parent : null
+			parent: parent ? parent : null,
 			groupId: groupId ? groupId : null
 		};
 		const CollectionModel = this.databaseProvider.getModelByName( 'collection' );
