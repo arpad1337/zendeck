@@ -15,7 +15,7 @@
         </span>
     </button>
     <h4>{{'RIGHT_COLUMN.ABOUT.TITLE' | translate}}</h4>
-    <div class="about" ng-if="!ctrl.isEditing" data-ng-bind-html=" ctrl.profile.about || 'PROFILE.NO_ABOUT' | translate | htmlSafe ">
+    <div class="about" ng-if="!ctrl.isEditing" data-ng-bind-html=" ctrl.profile.about || 'PROFILE.NO_ABOUT' | translate | formatContent | htmlSafe ">
     </div>
     <textarea 	
    		ng-if="ctrl.isEditing" 

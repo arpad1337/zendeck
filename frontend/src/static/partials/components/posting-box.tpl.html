@@ -21,6 +21,13 @@
                                     </posting-box-tag>
                                 </ul>
                             </div>
+                            <div 
+                                class="characters-left"
+                                ng-class=" vm.charactersLeft < 10 ? 'red' : '' "
+                                ng-if=" vm.charactersLeft < 100"
+                            >
+                                {{vm.charactersLeft}}
+                            </div>
                             <button class="post-content"
                                 ng-disabled="!vm.buttonEnabled"
                                 ng-click="vm.commit()"

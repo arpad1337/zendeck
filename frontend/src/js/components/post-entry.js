@@ -2,6 +2,7 @@
  * @rpi1337
  */
 
+import Util from '../helpers/util';
 import Validator from '../helpers/validator';
 
 class PostEntryComponent {
@@ -11,6 +12,10 @@ class PostEntryComponent {
 			'UserService',
 			'ModalService'
 		];
+	}
+
+	static get MAX_CONTENT_LENGTH() {
+		return 1000;
 	}
 
 	static get $descriptor() {
@@ -29,17 +34,16 @@ class PostEntryComponent {
 
 	constructor( userService, modalService ) {
 		this.buttonEnabled = true;
-		this._comment = '';
+		this.reset();
 		this.targetCollection = -1;
 		this.hideTooltip = true;
 		this.userService = userService;
 		this.modalService = modalService;
 	}
 
-	get processedContent() {
-		let content = this.entry.content;
-		content = content.replace(/\n+/g, "<br>");
-		return content;
+	reset() {
+		this.charactersLeft = PostEntryComponent.MAX_CONTENT_LENGTH;
+		this._comment = '';
 	}
 
 	get shareableUrl() {
@@ -64,10 +68,12 @@ class PostEntryComponent {
 	}
 
 	set comment( value ) {
-		this._comment = value
+		value = value
 			.trim()
 			.replace(/\n\s*\n/g, '\n')
 			.replace(/  +/g, ' ');
+		this._comment = value.substr(0, PostEntryComponent.MAX_CONTENT_LENGTH);
+		this.charactersLeft = PostEntryComponent.MAX_CONTENT_LENGTH - this._comment.length;
 	}
 
 	get comment() {
@@ -82,7 +88,7 @@ class PostEntryComponent {
 				!Validator.isFieldEmpty(this._comment) 
 			) {
 				let record = await this.delegate.commentPost( this.entry.id, this._comment );
-				this._comment = '';
+				this.reset();
 				this.entry.comments.data.push( record );
 			}
 		} catch( e ) {

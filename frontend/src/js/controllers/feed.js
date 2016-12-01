@@ -274,6 +274,7 @@ class FeedController extends CollectionController {
 		let model = await this.feedService.postToFeed( newPost );
 		this.posts.unshift( model );
 		this.$scope.$digest();
+		return true;
 	}
 
 

@@ -1,8 +1,10 @@
 .comment-area {
 	font-weight: normal;
-	background: $FOOTER-LIGHT;
+	background: $WHITE;
 	padding: 8px 8px 8px;
 	font-size: 12px;
+	//width: calc(100% - 24px);
+	//@include border-radius(10px);
 	@extend .clear;
 	.pagination {
 		text-align: center;
@@ -56,6 +58,21 @@
 		}
 	}
 
+	.characters-left {
+		position: absolute;
+		top: 0;
+		right: 67px;
+		font-size: 10px;
+		color: #999;
+		&.red {
+			color: $RED;
+		}
+	}
+
+	.add-comment {
+		position: relative;
+	}
+
 	.author-pic {
 		width: 30px;
 		height: 30px;
@@ -84,7 +101,7 @@
 		font-weight: normal;
 	}
 
-	pre {
+	.content {
 		margin: 0;
 		font-family: 'Lato';
 		font-size: 12px;

@@ -7,6 +7,13 @@ section[role="about"] {
 		padding: 10px;
 		border: none;
 		width: calc(100% - 20px);
+		a {
+			color: $SECONDARY-DARK;
+			text-decoration: none;
+			&:hover {
+				color: $SECONDARY-LIGHT;
+			}
+		}
 	}
 	textarea {
 		padding: 8px;

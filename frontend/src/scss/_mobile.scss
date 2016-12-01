@@ -41,6 +41,12 @@ section[role="about"] .edit {
 	display: none;
 }
 
+// post-entry {
+// 	margin: 0 -10px 10px !important;
+//   	padding: 0 10px !important;
+//   	@include border-radius(0px !important);
+// }
+
 .post {
 	width: auto !important;
 	padding-left: 0 !important;
@@ -104,6 +110,11 @@ section[role="about"] .edit {
 	float: left;
 	margin: 0 4px 0 0 !important;
 }
+
+// .comment-area {
+// 	margin-left: 8px;
+// 	width: calc(100% - 32px);
+// }
 
 .comment-area .comments .comment .message {
 	margin-left: 0 !important;

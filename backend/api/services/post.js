@@ -20,12 +20,16 @@ class PostService {
 		this.attachmentService = attachmentService;
 	}
 
+	commentOnPost( userId, postId, content ) {
+		return this.commentService.commentOnPost( userId, postId, content );
+	}
+
 	createPost( userId, payload ) {
 		const PostModel = this.databaseProvider.getModelByName('post');
 		return PostModel.create({
 			userId: userId,
 			tags: payload.tags,
-			content: striptags(payload.content),
+			content: striptags(payload.content).substr(0, 1000),
 			urls: payload.urls,
 			attachmentId: payload.attachmentId,
 			groupId: payload.groupId

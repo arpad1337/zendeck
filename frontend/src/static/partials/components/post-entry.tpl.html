@@ -72,7 +72,7 @@
     </div>
     <aside>
         <div class="content">
-            <div class="message" data-ng-bind-html=" vm.processedContent | htmlSafe ">
+            <div class="message" data-ng-bind-html=" vm.entry.content | formatContent | htmlSafe ">
             </div>
             <a class="embed" href="{{vm.entry.attachment.url}}" ng-if="vm.entry.attachment">
                 <div class="cover">
@@ -99,6 +99,7 @@
                         ng-if="comment.author.id == vm.currentUser.id"
                     ></button>
                     <profile-pic
+                        title="{{comment.author.fullname}} @{{comment.author.username}}"
                         size="xxsmall"
                         user="comment.author"
                         ui-sref="profile.posts({username:comment.author.username})"
@@ -110,7 +111,7 @@
                         >
                             {{comment.author.fullname}}
                         </a>
-                        <pre>{{ comment.content | shrinkContent }}</pre>
+                        <div class="content" data-ng-bind-html=" comment.content | formatContent | htmlSafe "></div>
                         <span class="date">
                             {{ comment.createdAt | timeAgo }}
                         </span>
@@ -118,6 +119,13 @@
                 </div>
             </div>
             <div class="add-comment" ng-if="vm.currentUser">
+                <div 
+                    class="characters-left"
+                    ng-class=" vm.charactersLeft < 10 ? 'red' : '' "
+                    ng-if=" vm.charactersLeft < 100"
+                >
+                    {{vm.charactersLeft}}
+                </div>
                 <profile-pic
                         size="xxsmall"
                         user="vm.currentUser"

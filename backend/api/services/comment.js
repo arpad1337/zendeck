@@ -5,6 +5,8 @@
 const DatabaseProvider = require('../../providers/database');
 const UserService = require('./user'); 
 
+const striptags = require('striptags');
+
 class CommentService {
 	
 	static get LIMIT() {
@@ -53,6 +55,7 @@ class CommentService {
 					});
 					resolve(models);
 				}).catch(reject);
+				return;
 			}
 			resolve([]);
 		});
@@ -63,7 +66,14 @@ class CommentService {
 		return CommentModel.create({
 			userId: userId,
 			postId: postId,
-			content: content
+			content: striptags(content).substr(0, 1000)
+		}).then((model) => {
+			model = model.get();
+			return this.userService.getUserById( model.userId ).then((user) => {
+				model.author = user;
+				delete model.userId;
+				return model;
+			});
 		});
 	}
 
@@ -89,9 +99,9 @@ class CommentService {
 			where: {
 				postId: postId
 			}
-		}).then(( r ) => {
-			if(r) {
-				return r.get( 'count' );
+		}).then(( count ) => {
+			if(count) {
+				return count;
 			}
 			return 0;
 		});
@@ -109,7 +119,7 @@ class CommentService {
 				['created_at', 'DESC']
 			]
 		}).then((models) => {
-			if( models ) {
+			if( models && models.length > 0 ) {
 				return this._createModelsFromArray( models ).then(( models ) => {
 					return this.getCommentCountByPostId( postId ).then(( count ) => {
 						return {

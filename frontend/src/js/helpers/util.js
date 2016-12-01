@@ -13,6 +13,22 @@ const Util = {
 			return '';
 		}
 		return String(string).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '').replace(/ +/g,' ');
+	},
+
+	prepareContentHTML: ( source ) => {
+		let content = " " + source + " ";
+		content = content.replace(/\n+/ig, "<br>")
+						 .replace(Util.URL_PATTERN(), '<a href="$1" target="_blank">$1</a>')
+						 .replace(/@(\w{1,15})\b/g, '<a href="/$1">@$1</a>')
+		return content.trim();
+	},
+
+	lineCount: ( source ) => {
+		let matches = source.match(/\n|<br>/g);
+		if( matches ) {
+			return matches.length;
+		}
+		return 0;
 	}
 
 };

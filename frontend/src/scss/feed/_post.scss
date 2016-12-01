@@ -7,13 +7,21 @@ h4 + .post {
 	border-top: none;
 }
 
+post-entry {
+ 	border-bottom: 1px solid $FOOTER-LIGHT;
+	margin-bottom: 10px;
+	display: block;
+// 	background: $FOOTER-LIGHT;
+// 	display: block;
+// 	@include border-radius(10px);
+}
+
 .post {
 
 	display: block;
 	width: calc(100% - 80px);
 	max-width: 540px;
 	margin: 10px auto;
-	border-top: 1px solid $FOOTER-LIGHT;
 	padding-top: 10px;
 	padding-left: 80px;
 
@@ -64,14 +72,11 @@ h4 + .post {
 		}
 		@extend .clear;
     }
-
-	&:first-child {
-		border-top: none;
-	}
 	.message {
 		text-align: left !important;
 		word-wrap: break-word;
 		padding: 0 !important;
+		font-size: 14px !important;
 	}
 	.head {
 		position: relative;
@@ -79,7 +84,7 @@ h4 + .post {
 			margin-right: 16px;
 			cursor: pointer;
 			position: absolute;
-			left: -80px;
+			left: -70px;
 			top: 0;
 		}
 
@@ -132,20 +137,21 @@ h4 + .post {
 		// 	}
 		// }
 		.actions {
-			margin: 6px auto;
+			margin: 6px 0 0 3px;
 			float: left;
 			clear: both;
 			width: 60px;
 			text-align: center;
 			position: absolute;
 			top: 64px;
-			left: -80px;
+			left: -70px;
 			a {
 				margin: 4px auto;
 			}
 			tooltip {
 				width: 100%;
 				margin: 14px auto;
+				display: block !important;
 			}
 		}
 		.star {
@@ -181,10 +187,8 @@ h4 + .post {
 			text-align: right;
 			background-repeat: no-repeat;
 			font-size: 12px;
-			padding-right: 4px;
 			line-height: 20px;
 			color: $MAIN-LIGHT;
-			display: block;
 			&:after {
 				width: 20px;
 				height: 20px;
@@ -193,9 +197,8 @@ h4 + .post {
 				background-position: top right;
 				display: inline-block;
 				content: " ";
-				margin-top: -1px;
-				float: right;
-				margin-left: 3px;
+				margin-top: 0px;
+				margin-bottom: -4px;
 			}
 			&:hover {
 				&:after {
@@ -259,9 +262,16 @@ h4 + .post {
 			height: 1px;
 			display: block;
 		}
-		.content {
+		& > .content {
 			font-weight: normal;
 			margin-bottom: 16px;
+			a {
+				color: $MAIN-DARK;
+				text-decoration: none;
+				&:hover {
+					color: $MAIN-LIGHT;
+				}
+			}
 			.embed {
 				color: $FOOTER-DARK;
 				text-decoration: none;

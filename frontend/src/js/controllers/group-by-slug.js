@@ -66,7 +66,7 @@ class GroupBySlugController extends CollectionController {
 		this.groupService.getGroupProfileBySlug( this.currentSlug ).then((profile) => {
 			this.profile = profile;
 			this.lastProfileFields = {
-				about: this.profile.about ? this.profile.about.replace(/<br>/g, "\n") : null,
+				about: this.profile.about ? this.profile.about : null,
 				name: this.profile.name,
 				profileColor: this.profile.profileColor
 			};
@@ -133,7 +133,7 @@ class GroupBySlugController extends CollectionController {
 			}
 		} else {
 			this.lastProfileFields = {
-				about: this.profile.about ? this.profile.about.replace(/<br>/g, "\n") : null,
+				about: this.profile.about ? this.profile.about : null,
 				name: this.profile.name,
 				profileColor: this.profile.profileColor
 			};
@@ -219,6 +219,7 @@ class GroupBySlugController extends CollectionController {
 		let model = await this.feedService.postToGroup( this.currentSlug, newPost );
 		this.posts.unshift( model );
 		this.$scope.$digest();
+		return true;
 	}
 
 	// group actions

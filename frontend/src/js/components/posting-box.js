@@ -6,6 +6,10 @@ import Util from '../helpers/util';
 
 class PostingBoxComponent {
 
+	static get MAX_CONTENT_LENGTH() {
+		return 1000;
+	}
+
 	static get $inject() {
 		return [
 			
@@ -49,6 +53,7 @@ class PostingBoxComponent {
 			'video',
 			'event'
 		];
+		this.charactersLeft = PostingBoxComponent.MAX_CONTENT_LENGTH;
 		return {
 			content: "",
 			urls: [],
@@ -90,8 +95,10 @@ class PostingBoxComponent {
 		}
 		this.newPost.content = newValue
 			.trim()
-			.replace(/\n\s*\n\s*\n/g, '\n\n')
-			.replace(/  +/g, ' ');
+			.replace(/\n\s*\n/g, '\n')
+			.replace(/  +/g, ' ')
+			.substr( 0, PostingBoxComponent.MAX_CONTENT_LENGTH );
+		this.charactersLeft = PostingBoxComponent.MAX_CONTENT_LENGTH - this.newPost.content.length;
 		this.buttonEnabled = this.newPost.content.length > 0;
 	}
 
@@ -151,7 +158,7 @@ class PostingBoxComponent {
 			if( this._delegateRespondsToSelector( 'commitNewPost' ) ) {
 				this.newPost.content = this.newPost.content
 					.trim()
-					.replace(/\n\s*\n\s*\n/g, '\n\n')
+					.replace(/\n\s*\n/g, '\n')
 					.replace(/  +/g, ' ');
 				let urls = this.newPost.content.match( PostingBoxComponent.URL_PATERN );
 				if( urls ) {

@@ -10,6 +10,8 @@ import {
 	USER_STATUS_ORDERED
 } from './config/user-status';
 
+import Util from './helpers/util';
+
 const module = angular.module('ZenDeck', [
 	'pascalprecht.translate',
 	'ui.router',
@@ -182,6 +184,12 @@ module.filter("shrinkContent", function() {
 		return val.trim()
 			.replace(/\n\s*\n/g, '\n')
 			.replace(/  +/g, ' ');
+	}
+});
+
+module.filter("formatContent", function() {
+	return function(val) {
+		return Util.prepareContentHTML( val );
 	}
 });
 

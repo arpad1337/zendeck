@@ -13,6 +13,16 @@
 			background-color: $FOOTER-LIGHT;
 		}
 	}
+	.characters-left {
+		position: absolute;
+		top: 0;
+		right: 6px;
+		font-size: 10px;
+		color: #999;
+		&.red {
+			color: $RED;
+		}
+	}
 	button {
 		width: 60px;
   		text-align: center;

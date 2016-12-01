@@ -119,7 +119,6 @@ class FeedService {
 
 	postToFeed( post ) {
 		return this.$http.post( CONFIG.API_PATH + '/feed', post ).then( r => r.data );
-		return this.dummyPost;
 	}
 
 	postToGroup( slug, post ) {

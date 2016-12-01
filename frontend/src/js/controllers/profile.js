@@ -60,7 +60,7 @@ class ProfileController extends CollectionController {
 		this.userService.getProfileByUsername( this.$state.params.username ).then((profile) => {
 			this.profile = profile;
 			this.lastProfileFields = {
-				about: this.profile.about ? this.profile.about.replace(/<br>/g, "\n") : null,
+				about: this.profile.about ? this.profile.about : null,
 				fullname: this.profile.fullname,
 				birthDate: this.profile.birthDate,
 				profileColor: this.profile.profileColor
@@ -162,7 +162,7 @@ class ProfileController extends CollectionController {
 					} else {
 						payload[field] = this.lastProfileFields[ field ]
 							.trim()
-							.replace(/\n\s*\n\s*\n/g, '\n\n')
+							.replace(/\n\s*\n/g, '\n\n')
 							.replace(/  +/g, ' ');
 					}
 				}
@@ -174,7 +174,7 @@ class ProfileController extends CollectionController {
 			}
 		} else {
 			this.lastProfileFields = {
-				about: this.profile.about ? this.profile.about.replace(/<br>/g, "\n") : null,
+				about: this.profile.about ? this.profile.about : null,
 				fullname: this.profile.fullname,
 				birthDate: this.profile.birthDate,
 				profileColor: this.profile.profileColor

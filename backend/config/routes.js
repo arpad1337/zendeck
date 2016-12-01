@@ -136,12 +136,19 @@ const ROUTES = [
 	},
 	{
 		path: '/feed',
-		controller: 'feed',
+		controller: 'post',
 		action: 'createPost',
 		method: 'post'
-	}
+	},
 
 	// POST 
+
+	{
+		path: '/post/:postId/comment',
+		method: 'post',
+		controller: 'post',
+		action: 'commentOnPost'
+	}
 
 ];
 
