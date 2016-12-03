@@ -3,12 +3,14 @@
  */
 
 const DatabaseProvider = require('../../providers/database');
+const UserService = require('./user');
 const Util = require('../../util/util');
 
 class GroupService {
 	
 	constructor( databaseProvider ) {
 		this.databaseProvider = databaseProvider;
+		this.userService = userService;
 	}
 
 	getGroupViewByUser( userId, slug ) {
@@ -100,14 +102,26 @@ class GroupService {
 	}
 
 	isUserAdminOfGroup( userId, groupId ) {
+		const GroupModel = this.databaseProvider.getModelByName( 'group' );
 		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
-		return GroupMemberModel.findOne({
+		return GroupModel.findOne({
 			where: {
 				userId: userId,
-				groupId: groupId,
-				isAdmin: true
+				groupId: groupId
+			},
+			attributes: ['id']
+		}).then((model) => {
+			if( !model ) {
+				return GroupMemberModel.findOne({
+					where: {
+						userId: userId,
+						groupId: groupId,
+						isAdmin: true
+					}
+				}).then((f) => !!f);
 			}
-		}).then((f) => !!f);
+			return true;
+		})
 	}
 
 	createGroup( userId, payload ) {
@@ -128,10 +142,7 @@ class GroupService {
 	updateGroupByUserAndSlug( userId, slug, payload ) {
 		const GroupModel = this.databaseProvider.getModelByName( 'group' );
 		return this.getGroupBySlug(slug).then((model) => {
-			if( model.userId != userId ) {
-				return this.isUserAdminOfGroup( userId, model.id );
-			}
-			return true;
+			return this.isUserAdminOfGroup( userId, model.id );
 		}).then(( isAdmin ) => {
 			if( !isAdmin ) {
 				throw new Error('Unauthorized');
@@ -143,7 +154,7 @@ class GroupService {
 			}).then(( model ) => {
 				return this.getGroupViewByUser( userId, model.slug );
 			});
-		})
+		});
 	}
 
 	joinGroup( userId, slug ) {
@@ -183,11 +194,15 @@ class GroupService {
 	approveUser( slug, adminId, userId ) {
 		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
 		return this.getGroupBySlug(slug).then((model) => {
-			return this.isUserAdminOfGroup( adminId, model.id ).then(() => {
+			return this.isUserAdminOfGroup( adminId, model.id ).then((isAdmin) => {
+				if( !isAdmin ) {
+					throw new Error('Unauthorized');
+				}
 				return GroupMemberModel.update({
 					approved: true
 				}, {
 					where: {
+						userId: userId,
 						groupId: model.id
 					}
 				}).then( _ => true);
@@ -195,10 +210,127 @@ class GroupService {
 		});
 	}
 
+	kickUserFromGroup( slug, adminId, userId ) {
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		return this.getGroupBySlug(slug).then((model) => {
+			return this.isUserAdminOfGroup( adminId, model.id ).then((isAdmin) => {
+				if( !isAdmin ) {
+					throw new Error('Unauthorized');
+				}
+				return GroupMemberModel.update({
+					approved: false
+				}, {
+					where: {
+						userId: userId,
+						groupId: model.id
+					}
+				}).then( _ => true);
+			});
+		});
+	}
+
+	promoteUserToAdmin( slug, adminId, userId ) {
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		return this.getGroupBySlug(slug).then((model) => {
+			return this.isUserAdminOfGroup( adminId, model.id ).then((isAdmin) => {
+				if( !isAdmin ) {
+					throw new Error('Unauthorized');
+				}
+				return GroupMemberModel.update({
+					isAdmin: true
+				}, {
+					where: {
+						userId: userId,
+						groupId: model.id
+					}
+				}).then( _ => true);
+			});
+		});
+	}
+
+	degradeUserFromAdmin( slug, adminId, userId ) {
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		return this.getGroupBySlug(slug).then((model) => {
+			return this.isUserAdminOfGroup( adminId, model.id ).then((isAdmin) => {
+				if( !isAdmin ) {
+					throw new Error('Unauthorized');
+				}
+				return GroupMemberModel.update({
+					isAdmin: false
+				}, {
+					where: {
+						userId: userId,
+						groupId: model.id
+					}
+				}).then( _ => true);
+			});
+		});
+	}
+
+	getGroupMembersByPage( slug, userId, page ) {
+		page = isNaN( page ) ? 1 : 0;
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		return this.getGroupBySlug(slug).then((model) => {
+			return this.isUserAdminOfGroup( adminId, model.id ).then((isAdmin) => {
+				if( !isAdmin ) {
+					if( !model.isOpen || !model.isPublic ) {
+						throw new Error('Unauthorized');
+					}
+					return GroupMemberModel.findAll({
+						where: {
+							groupId: model.id
+						},
+						limit: 20,
+						offset: (( page - 1 ) * 20)
+					});
+				}
+				return GroupMemberModel.findAll({
+					where: {
+						approved: true,
+						groupId: model.id
+					},
+					limit: 20,
+					offset: (( page - 1 ) * 20)
+				});
+			}).then((members) => {
+				let members = new Map();
+				let ids = new Set();
+				members.forEach(( m ) => {
+					ids.add( m.get('userId') );
+					members.set( m.get('userId'), m.get() );
+				});
+				return this.userService.getUsersAuthorViewByIds( ids ).then((profiles) => {
+					profiles = profiles.map(( profile ) => {
+						profile.isAdmin = members.get(profile.id).isAdmin;
+						profile.approved = members.get(profile.id).approved;
+						return profile;
+					});
+					return profiles;
+				});
+			});
+		});
+	}
+
+	getAllMembersById( groupId ) {
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		return GroupMemberModel.findAll({
+			where: {
+				id: groupId
+			},
+			attributes: ['userId']
+		}).then((ids) => {
+			if( !ids ) {
+				return [];
+			}
+			return ids.map(id => id.get('userId'));
+		})
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
-			this.singleton = new GroupService( databaseProvider );
+			const userService = UserService.instance;
+			this.singleton = new GroupService( databaseProvider, userService );
 		}
 		return this.singleton;
 	}

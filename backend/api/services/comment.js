@@ -91,11 +91,6 @@ class CommentService {
 	getCommentCountByPostId( postId ) {
 		const CommentModel = this.databaseProvider.getModelByName( 'comment' );
 		return CommentModel.count({
-			attributes: [
-				[
-					this.databaseProvider.Sequelize.fn('COUNT', this.databaseProvider.Sequelize.col('id')), 'count'
-				]
-			],
 			where: {
 				postId: postId
 			}
