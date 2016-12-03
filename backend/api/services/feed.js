@@ -12,10 +12,6 @@ const Util = require('../../util/util');
 
 class FeedService {
 
-	static get LIMIT() {
-		return 20;
-	}
-
 	constructor( databaseProvider, collectionService, friendService, groupService, postService, attachmentService ) {
 		this.databaseProvider = databaseProvider;
 		this.collectionService = collectionService;
@@ -23,6 +19,22 @@ class FeedService {
 		this.groupService = groupService;
 		this.postService = postService;
 		this.attachmentService = attachmentService;
+	}
+
+	getUserPostsFeedByIdAndPage( userId, page ) {
+		page = isNaN( page ) ? 1 : page;
+		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+		return this.postService.getPostIdsByUserIdAndPage( userId ).then((postIds) => {
+			return FeedModel.findAll({
+				attributes: ['postId','liked'],
+				where: {
+					userId: userId,
+					postId: postIds
+				},
+				order: [[ 'post_id', 'DESC' ]],
+				group: ['post_id','liked']
+			}).then(this._createPostViewsFromDBModels);
+		});
 	}
 
 	getUserFeedByIdAndPage( userId, page ) {
@@ -34,8 +46,8 @@ class FeedService {
 				userId: userId,
 				approved: true
 			},
-			limit: FeedService.LIMIT,
-			offset: (( page - 1 ) * FeedService.LIMIT),
+			limit: PostService.LIMIT,
+			offset: (( page - 1 ) * PostService.LIMIT),
 			order: [[ 'post_id', 'DESC' ]],
 			group: ['post_id','liked']
 		}).then(this._createPostViewsFromDBModels);
@@ -51,8 +63,8 @@ class FeedService {
 				liked: true,
 				approved: true
 			},
-			limit: FeedService.LIMIT,
-			offset: (( page - 1 ) * FeedService.LIMIT),
+			limit: PostService.LIMIT,
+			offset: (( page - 1 ) * PostService.LIMIT),
 			order: [[ 'post_id', 'DESC' ]],
 			group: ['post_id','liked']
 		}).then(this._createPostViewsFromDBModels);
@@ -81,8 +93,8 @@ class FeedService {
 				return FeedModel.findAll({
 					attributes: ['postId','liked'],
 					where: where,
-					limit: FeedService.LIMIT,
-					offset: (( page - 1 ) * FeedService.LIMIT),
+					limit: PostService.LIMIT,
+					offset: (( page - 1 ) * PostService.LIMIT),
 					order: [[ 'post_id', 'DESC' ]],
 					group: ['post_id','liked']
 				}).then(this._createPostViewsFromDBModels);
@@ -91,15 +103,17 @@ class FeedService {
 	}
 
 	_createPostViewsFromDBModels( posts ) {
+		let postsMap = new Map();
 		if( !posts || posts.length == 0 ) {
 			return [];
 		}
 		let postIds = posts.map((post) => {
+			postsMap.set( post.get('postId'), post );
 			return post.get('postId');
 		});
 		return this.postService.getPostsByPostIds( postIds ).then((postModels) => {
-			return postModels.map(( model, index ) => {
-				model.liked = posts[ index ].get('liked');
+			return postModels.map(( model ) => {
+				model.liked = postsMap.get( model.id ).get('liked');
 				return model;
 			});
 		});
@@ -116,8 +130,8 @@ class FeedService {
 					collectionId: collectionId,
 					approved: true
 				},
-				limit: FeedService.LIMIT,
-				offset: (( page - 1 ) * FeedService.LIMIT),
+				limit: PostService.LIMIT,
+				offset: (( page - 1 ) * PostService.LIMIT),
 				order: [[ 'post_id', 'DESC' ]],
 				group: ['post_id','liked']
 			});

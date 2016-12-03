@@ -12,6 +12,10 @@ const striptags = require('striptags');
 
 class PostService {
 	
+	static get LIMIT() {
+		return 20;
+	}
+
 	constructor( databaseProvider, userService, commentService, groupService, attachmentService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
@@ -51,6 +55,23 @@ class PostService {
 				userId: userId,
 				id: postId
 			}
+		});
+	}
+
+	getPostIdsByUserIdAndPage( userId, page ) {
+		page = isNaN( page ) ? 1 : page;
+		const PostModel = this.databaseProvider.getModelByName('post');
+		return PostModel.findAll({
+			where: {
+				userId: userId
+			},
+			limit: PostService.LIMIT,
+			offset: (( page - 1 ) * PostService.LIMIT),
+		}).then(( models ) => {
+			if( models ) {
+				return models.map(( m ) => m.get('id'));
+			}
+			return [];
 		});
 	}
 
@@ -118,7 +139,6 @@ class PostService {
 					}
 					if( post.attachmentId ) {
 						attachmentIds.add( post.attachmentId );
-						console.log('???');
 					}
 					commentPromises.push( this.commentService.getLastThreeCommentsByPostId( post.id ) );
 				});
