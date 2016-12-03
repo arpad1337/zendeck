@@ -83,6 +83,36 @@ class CollectionController {
 		}
 	}
 
+	*createCollection( context ) {
+		const userId = context.session.user.id;
+		const payload = context.fields;
+		try {
+			let collection = yield this.collectionService.createCollection( userId, payload.name, payload.isPublic, payload.parent );
+			context.body = true;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
+	*createGroupCollection( context ) {
+		const userId = context.session.user.id;
+		const payload = context.fields;
+		const slug = context.params.groupSlug;
+		try {
+			let group = yield this.groupService.getGroupBySlug( slug );
+			let isAdmin = yield this.groupService.isUserAdminOfGroup( userId, group.id );
+			if( !isAdmin ) {
+				throw new Error('Unauthorized');
+			}
+			let collection = yield this.collectionService.createCollection( userId, payload.name, payload.isPublic, payload.parent, group.id );
+			context.body = true;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const collectionService = CollectionService.instance;

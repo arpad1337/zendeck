@@ -189,6 +189,13 @@ const ROUTES = [
 	// COLLECTION
 
 	{
+		path: '/collection',
+		method: 'post',
+		controller: 'collection',
+		action: 'createCollection',
+		middlewares: ['session-check']
+	},
+	{
 		path: '/collection/:collectionSlug',
 		method: 'post',
 		controller: 'collection',
@@ -196,10 +203,24 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
-		path: '/collection/:collectionSlug/feed',
+		path: '/collection/:collectionSlug/post',
 		method: 'get',
 		controller: 'feed',
 		action: 'getCollectionFeed',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/collection/:collectionSlug/post/:postId',
+		method: 'post',
+		controller: 'feed',
+		action: 'addPostToCollection',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/collection/:collectionSlug/post/:postId',
+		method: 'post',
+		controller: 'feed',
+		action: 'removePostFromCollection',
 		middlewares: ['session-check']
 	},
 
@@ -217,6 +238,27 @@ const ROUTES = [
 		method: 'get',
 		controller: 'group',
 		action: 'getGroupsOfUser',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug',
+		method: 'delete',
+		controller: 'group',
+		action: 'deleteGroup',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug',
+		method: 'post',
+		controller: 'group',
+		action: 'delete',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/cover',
+		method: 'post',
+		controller: 'group',
+		action: 'updateGroupCover',
 		middlewares: ['session-check']
 	},
 	{
@@ -240,6 +282,31 @@ const ROUTES = [
 		action: 'getGroupCollections',
 		middlewares: ['session-check']
 	},
+	{
+		path: '/group/:groupSlug/collection',
+		method: 'post',
+		controller: 'collection',
+		action: 'createGroupCollection',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/collection/:collectionSlug/post/:postId',
+		method: 'post',
+		controller: 'feed',
+		action: 'addPostToGroupCollection',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/collection/:collectionSlug/post/:postId',
+		method: 'delete',
+		controller: 'feed',
+		action: 'removePostFromGroupCollection',
+		middlewares: ['session-check']
+	}
+
+	// NOTIFICATIONS
+
+	// MESSAGES
 
 ];
 

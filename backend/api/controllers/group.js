@@ -43,6 +43,18 @@ class GroupController {
 		}
 	}
 
+	*updateGroupCover( context ) {
+
+	}
+
+	*updateGroup( context ) {
+
+	}
+
+	*deleteGroup( context ) {
+
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const groupService = GroupService.instance;

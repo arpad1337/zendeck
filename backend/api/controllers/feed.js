@@ -116,6 +116,90 @@ class FeedController {
 		}
 	}
 
+	*addPostToCollection( context ) {
+		const userId = context.session.user.id;
+		const postId = context.params.postId;
+		const collectionSlug = context.params.collectionSlug;
+		try {
+			let userHasRightToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, slug );
+			if( !isUserHasRightsToCollection ) {
+				throw new Error('Unauthorized');
+			}
+			let collection = yield this.collectionService.getCollectionBySlug( collectionSlug );
+			let success = yield this.feedService.addPostToCollection( userId, postId, collection.id );
+			context.body = success;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
+	*addPostToGroupCollection( context ) {
+		const userId = context.session.user.id;
+		const postId = context.params.postId;
+		const groupSlug = context.params.groupSlug;
+		const collectionSlug = context.params.collectionSlug;
+		try {
+			let userHasRightToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, collectionSlug );
+			if( !isUserHasRightsToCollection ) {
+				throw new Error('Unauthorized');
+			}
+			let group = yield this.groupService.getGroupBySlug( groupSlug );
+			let isApprovedMember = yield this.groupService.isUserApprovedMemberOfGroup( userId, group.id );
+			if( !isApprovedMember ) {
+				throw new Error('Unauthorized');
+			}
+			let collection = yield this.collectionService.getCollectionBySlug( collectionSlug );
+			let success = yield this.feedService.addPostToCollection( userId, postId, collection.id, group.id );
+			context.body = success;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
+	*removePostFromCollection( context ) {
+		const userId = context.session.user.id;
+		const postId = context.params.postId;
+		const collectionSlug = context.params.collectionSlug;
+		try {
+			let userHasRightToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, slug );
+			if( !isUserHasRightsToCollection ) {
+				throw new Error('Unauthorized');
+			}
+			let collection = yield this.collectionService.getCollectionBySlug( collectionSlug );
+			let success = yield this.feedService.removePostFromCollection( userId, postId, collection.id );
+			context.body = success;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
+	*removePostFromGroupCollection( context ) {
+		const userId = context.session.user.id;
+		const postId = context.params.postId;
+		const groupSlug = context.params.groupSlug;
+		const collectionSlug = context.params.collectionSlug;
+		try {
+			let userHasRightToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, collectionSlug );
+			if( !isUserHasRightsToCollection ) {
+				throw new Error('Unauthorized');
+			}
+			let group = yield this.groupService.getGroupBySlug( groupSlug );
+			let isApprovedMember = yield this.groupService.isUserApprovedMemberOfGroup( userId, group.id );
+			if( !isApprovedMember ) {
+				throw new Error('Unauthorized');
+			}
+			let collection = yield this.collectionService.getCollectionBySlug( collectionSlug );
+			let success = yield this.feedService.removePostFromCollection( userId, postId, collection.id, group.id );
+			context.body = success;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const feedService = FeedService.instance;

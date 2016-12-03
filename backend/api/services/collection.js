@@ -20,7 +20,10 @@ class CollectionService {
 			if( collection.userId == userId ) {
 				return true;
 			}
-			return this.groupService.isUserAdminOfGroup( userId, collection.groupId );
+			if( collection.groupId ) {
+				return this.groupService.isUserAdminOfGroup( userId, collection.groupId );
+			}
+			return false;
 		});
 	}
 

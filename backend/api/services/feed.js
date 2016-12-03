@@ -238,7 +238,7 @@ class FeedService {
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
 		return FeedModel.update({ collectionId: collectionId }, {
 			where: where
-		});
+		}).then((_) => true);
 	}
 
 	deleteAllFromCollection( collectionId ) {
