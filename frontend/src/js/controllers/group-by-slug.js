@@ -39,7 +39,7 @@ class GroupBySlugController extends CollectionController {
 	}
 
 	get isUserAdmin() {
-		return ( this.profile && (this.profile.createdBy == this.userService.currentUser.id || this.profile.admins.indexOf(this.userService.currentUser.id) != -1 ));
+		return ( this.profile && (this.profile.userId == this.userService.currentUser.id || this.profile.admins.indexOf(this.userService.currentUser.id) != -1 ));
 	}
 
 	isAdmin( id ) {

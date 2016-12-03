@@ -91,6 +91,17 @@ class GroupService {
 		});
 	}
 
+	isUserApprovedMemberOfGroup( userId, groupId ) {
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		return GroupMemberModel.findOne({
+			where: {
+				userId: userId,
+				groupId: groupId,
+				approved: true
+			}
+		}).then((f) => !!f);
+	}
+
 	isUserMemberOfGroup( userId, groupId ) {
 		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
 		return GroupMemberModel.findOne({
@@ -125,6 +136,7 @@ class GroupService {
 	}
 
 	createGroup( userId, payload ) {
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
 		const GroupModel = this.databaseProvider.getModelByName( 'group' );
 		let model = {
 			userId: userId,
@@ -136,7 +148,15 @@ class GroupService {
 			about: striptags(payload.about),
 			profileColor: Util.generateRandomColor()
 		}
-		return GroupModel.create( model ).then( model => model.get() );
+		return GroupModel.create( model ).then((model) => {
+			return GroupMemberModel.create({
+				groupId: model.id,
+				userId: userId,
+				approved: true
+			}).then(() => {
+				return model.get();
+			});
+		});
 	}
 
 	updateGroupByUserAndSlug( userId, slug, payload ) {

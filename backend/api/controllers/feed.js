@@ -5,13 +5,15 @@
 const UserService = require('../services/user');
 const FeedService = require( '../services/feed' );
 const CollectionService = require( '../services/collection' );
+const GroupService = require( '../services/group' );
 
 class FeedController {
 
-	constructor( feedService, userService, collectionService ) {
+	constructor( feedService, userService, collectionService, groupService ) {
 		this.feedService = feedService;
 		this.userService = userService;
 		this.collectionService = collectionService;
+		this.groupService = groupService;
 	}
 
 	*getUserPosts( context ) {
@@ -84,6 +86,24 @@ class FeedController {
 		}
 	}
 
+	*createPostInGroup( context ) {
+		const userId = context.session.user.id;
+		const groupSlug = context.params.groupSlug;
+		try {
+			let group = yield this.groupService.getGroupBySlug( slug );
+			let isApprovedMember = yield this.groupService.isUserApprovedMemberOfGroup( userId, group.id );
+			if( !isApprovedMember ) {
+				throw new Error('Unauthorized');
+			}
+			payload.groupId = group.id;
+			let post = yield this.feedService.createPost( userId, payload );
+			context.body = post;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	*deletePost( context ) {
 		const userId = context.session.user.id;
 		const postId = context.params.postId;
@@ -101,7 +121,8 @@ class FeedController {
 			const feedService = FeedService.instance;
 			const userService = UserService.instance;
 			const collectionService = CollectionService.instance;
-			this.singleton = new FeedController( feedService, userService, collectionService );
+			const groupService = GroupService.instance;
+			this.singleton = new FeedController( feedService, userService, collectionService, groupService );
 		}
 		return this.singleton;
 	}

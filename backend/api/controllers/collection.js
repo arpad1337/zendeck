@@ -3,15 +3,17 @@
  */
 
 const CollectionService = require('../services/collection');
+const GroupService = require('../services/group');
 
 class CollectionController {
 	
-	constructor( collectionService ) {
+	constructor( collectionService, groupService ) {
 		this.collectionService = collectionService;
+		this.groupService = groupService;
 	}
 
 	*getCurrentUserCollections( context ) {
-		let userId = context.session.user.id;
+		const userId = context.session.user.id;
 		try {
 			let collections = yield this.collectionService.getUserCollections( userId );
 			context.body = collections;
@@ -22,8 +24,25 @@ class CollectionController {
 	}
 
 	*getUserCollections( context ) {
-		let username = context.params.username;
+		const username = context.params.username;
 		try {
+			let collections = yield this.collectionService.getUserCollectionsByUsername( username );
+			context.body = collections;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
+	*getGroupCollections( context ) {
+		const userId = context.session.user.id;
+		const groupSlug = context.params.groupSlug;
+		try {
+			let group = yield this.groupService.getGroupBySlug( slug );
+			let isApprovedMember = yield this.groupService.isUserApprovedMemberOfGroup( userId, group.id );
+			if( !isApprovedMember ) {
+				throw new Error('Unauthorized');
+			}
 			let collections = yield this.collectionService.getUserCollectionsByUsername( username );
 			context.body = collections;
 		} catch( e ) {
@@ -67,7 +86,8 @@ class CollectionController {
 	static get instance() {
 		if( !this.singleton ) {
 			const collectionService = CollectionService.instance;
-			this.singleton = new CollectionController( collectionService );
+			const groupService = GroupService.instance;
+			this.singleton = new CollectionController( collectionService, groupService );
 		}
 		return this.singleton;
 	}

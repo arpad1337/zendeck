@@ -59,7 +59,7 @@ class CollectionService {
 		});
 	}
 
-	getGroupCollections( userId ) {
+	getGroupCollections( groupId ) {
 		const CollectionModel = this.databaseProvider.getModelByName( 'collection' );
 		return CollectionModel.findAll({
 			where: {

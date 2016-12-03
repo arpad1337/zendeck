@@ -17,7 +17,7 @@ class GroupService {
 		return {
 			id: 1,
 			slug: 'jhadsd87785dasdasHJGgdas67dasd',
-			createdBy: 1,
+			userId: 1,
 			admins: [2,3],
 			name: 'Frontend Meetup Budapest',
 			about: 'Lorem ipsum dolor sit amet',

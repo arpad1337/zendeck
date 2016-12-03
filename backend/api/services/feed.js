@@ -227,13 +227,17 @@ class FeedService {
 	//
 
 	addPostToCollection( userId, postId, collectionId, groupId ) {
+		let where = {
+			postId: postId
+		};
+		if( !groupId ) {
+			where.userId = userId;
+		} else {
+			where.groupId = groupId;
+		}
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
 		return FeedModel.update({ collectionId: collectionId }, {
-			where: {
-				userId: userId,
-				postId: postId,
-				groupId: groupId
-			}
+			where: where
 		});
 	}
 

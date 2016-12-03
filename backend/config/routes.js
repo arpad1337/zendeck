@@ -213,12 +213,33 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
-		path: '/group/::groupSlug/feed',
+		path: '/group',
+		method: 'get',
+		controller: 'group',
+		action: 'getGroupsOfUser',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/feed',
 		method: 'get',
 		controller: 'feed',
 		action: 'getGroupFeed',
 		middlewares: ['session-check']
-	}
+	},
+	{
+		path: '/group/:groupSlug/feed',
+		method: 'post',
+		controller: 'feed',
+		action: 'createPostInGroup',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/collection',
+		method: 'get',
+		controller: 'collection',
+		action: 'getGroupCollections',
+		middlewares: ['session-check']
+	},
 
 ];
 

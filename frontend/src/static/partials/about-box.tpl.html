@@ -16,7 +16,7 @@
     </button>
     <h4>{{'RIGHT_COLUMN.ABOUT.TITLE' | translate}}</h4>
     <div class="about" ng-if="!ctrl.isEditing && ctrl.profile.about" 
-      data-ng-bind-html=":: ctrl.profile.about | formatContent | htmlSafe ">
+      data-ng-bind-html=" ctrl.profile.about | formatContent | htmlSafe ">
     </div>
     <div class="about" ng-if="!ctrl.isEditing && !ctrl.profile.about">
       {{ 'PROFILE.NO_ABOUT' | translate }}
