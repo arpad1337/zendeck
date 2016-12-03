@@ -35,6 +35,10 @@ const model = sequelizeModelHelper.buildModel(
 		groupId: {
 			field: 'group_id',
 			type: TYPES.INTEGER
+		},
+		approved: {
+			type: TYPES.BOOLEAN,
+			defaultValue: true
 		}
 	},
 	// Traits

@@ -22,6 +22,19 @@ class PostController {
 		}
 	}
 
+	*deleteComment() {
+		let userId = context.session.user.id;
+		let postId = context.params.postId;
+		let commentId = context.params.commentId;
+		try {
+			let post = yield this.postService.deleteCommentOnPost( userId, postId, commentId );
+			context.body = post;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const postService = PostService.instance;

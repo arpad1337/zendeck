@@ -2,7 +2,7 @@
  * @rpi1337 
  */
 
-const TABLE_NAME = 'feed';
+const TABLE_NAME = 'group_member';
 
 module.exports = {
 	up: ( queryInterface, TYPES ) => {
@@ -17,19 +17,13 @@ module.exports = {
 				type: TYPES.INTEGER,
 				allowNull: false
 			},
-			post_id: {
+			group_id: {
 				type: TYPES.INTEGER,
 				allowNull: false
 			},
-			liked: {
+			is_admin: {
 				type: TYPES.BOOLEAN,
 				defaultValue: false
-			},
-			collection_id: {
-				type: TYPES.INTEGER,
-			},
-			group_id: {
-				type: TYPES.INTEGER
 			},
 			approved: {
 				type: TYPES.BOOLEAN,
@@ -40,28 +34,31 @@ module.exports = {
 			},
 			updated_at: {
 				type: TYPES.DATE
+			},
+			deleted_at: {
+				type: TYPES.DATE
 			}
 		})
 		.then(() => {
-			return queryInterface.addIndex( TABLE_NAME, ['user_id'] );
+			return queryInterface.addIndex( TABLE_NAME, ['user_id'])
 		})
 		.then(() => {
-			return queryInterface.addIndex( TABLE_NAME, ['post_id'] );
+			return queryInterface.addIndex( TABLE_NAME, ['group_id'])
 		})
 		.then(() => {
-			return queryInterface.addIndex( TABLE_NAME, ['user_id', 'post_id'], {
-				indexName: 'user_id-post_id_compound-unique',
+			return queryInterface.addIndex( TABLE_NAME, [ 'user_id', 'group_id' ],{
+				indexName: 'user_id-group_id_compound-unique',
 				indicesType: 'UNIQUE'
 			});
 		});
 	},
 	down: ( queryInterface, TYPES ) => {
-		return queryInterface.removeIndex( TABLE_NAME, ['user_id'] )
+		return queryInterface.removeIndex( TABLE_NAME, ['user_id'])
 		.then(() => {
-			return queryInterface.removeIndex( TABLE_NAME, ['post_id'] );
+			return queryInterface.removeIndex( TABLE_NAME, ['group_id']);
 		})
 		.then(() => {
-			return queryInterface.removeIndex( TABLE_NAME, 'user_id-post_id_compound-unique' );
+			return queryInterface.removeIndex( TABLE_NAME, 'user_id-group_id_unique');
 		})
 		.then(() => {
 			return queryInterface.dropTable( TABLE_NAME );

@@ -11,41 +11,25 @@ const sequelizeModelHelper = require('../util/sequelize-model-helper');
 
 const model = sequelizeModelHelper.buildModel(
 	// Table name
-	'group',
+	'group_member',
 	// Schema
 	{
-		slug: {
-			type: TYPES.STRING(64),
+		userId: {
+			field: 'user_id',
+			type: TYPES.INTEGER,
 			allowNull: false
 		},
-		createdBy: {
+		groupId: {
+			field: 'group_id',
 			type: TYPES.INTEGER,
-			allowNull: false,
+			allowNull: false
 		},
-		name: {
-			type: TYPES.STRING(100)
-		},
-		about: {
-			type: TYPES.TEXT
-		},
-		profileColor: {
-			type: TYPES.STRING(7)
-		},
-		photos: {
-			type: TYPES.JSON
-		},
-		isPublic: {
-			field: 'is_public', // searchable
-			type: TYPES.BOOLEAN,
-			defaultValue: true
-		},
-		isModerated: {
-			field: 'is_moderated',
+		isAdmin: {
+			field: 'is_admin',
 			type: TYPES.BOOLEAN,
 			defaultValue: false
 		},
-		isOpen: {
-			field: 'is_open', // anyone can join
+		approved: {
 			type: TYPES.BOOLEAN,
 			defaultValue: true
 		}
@@ -53,10 +37,10 @@ const model = sequelizeModelHelper.buildModel(
 	// Traits
 	[
 		sequelizeModelHelper.PARANOID_MODEL_SETTINGS, // deletedAt attribute
-		sequelizeModelHelper.TIMESTAMPS_SETTINGS // createdAt / updatedAt,
+		sequelizeModelHelper.TIMESTAMPS_SETTINGS
 	]
 );
 
-const Group = connection.define( 'Group', model.schema, model.settings );
+const GroupMember = connection.define( 'GroupMember', model.schema, model.settings );
 
-module.exports = Group;
+module.exports = GroupMember;

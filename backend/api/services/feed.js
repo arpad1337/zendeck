@@ -90,7 +90,7 @@ class FeedService {
 				attributes: ['postId','liked'],
 				where: {
 					userId: userId,
-					collectionId: collectionIds
+					collectionId: collectionId
 				},
 				limit: FeedService.LIMIT,
 				offset: (( page - 1 ) * FeedService.LIMIT),
@@ -154,11 +154,17 @@ class FeedService {
  			if( promise ) {
  				promise.then( _ => {
  					return this.groupService.getGroupBySlug( payload.group ).then((group) => {
+ 						if( model.isModerated ) {
+ 							model.approved = false;
+ 						}
 	 					model.groupId = group.id;
 	 				});	
  				});
  			} else {
  				promise = this.groupService.getGroupBySlug( payload.group ).then((group) => {
+ 					if( model.isModerated ) {
+ 						model.approved = false;
+ 					}
  					model.groupId = group.id;
  				});
  			}
@@ -244,6 +250,12 @@ class FeedService {
 				bulk.push(model);
 			});
 			return FeedModel.bulkCreate( bulk );
+		});
+	}
+
+	deletePost( userId, postId ) {
+		return this.postService.deletePost( userId, postId ).then(() => {
+			return this.removePostFromFeedsById( postId );
 		});
 	}
 

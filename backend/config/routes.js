@@ -151,6 +151,36 @@ const ROUTES = [
 		controller: 'post',
 		middlewares: ['session-check'],
 		action: 'commentOnPost'
+	},
+	{
+		path: '/post/:postId/comment/:commentId',
+		method: 'delete',
+		controller: 'post',
+		middlewares: ['session-check'],
+		action: 'deleteComment'
+	},
+	{
+		path: '/post/:postId',
+		method: 'delete',
+		controller: 'feed',
+		middlewares: ['session-check'],
+		action: 'deletePost'
+	},
+
+	// COLLECTION
+
+	{
+		path: '/user/me/collection',
+		method: 'get',
+		controller: 'collection',
+		middlewares: ['session-check']
+		action: 'getCurrentUserCollections'
+	},
+	{
+		path: '/user/:username/collection',
+		method: 'get',
+		controller: 'collection',
+		action: 'getUserCollections'
 	}
 
 ];

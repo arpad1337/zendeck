@@ -7,6 +7,8 @@ const Util = require('../../util/util');
 const WorkerService = require( '../services/worker' );
 const S3Provider = require( '../../providers/s3' );
 
+const striptags = require('striptags');
+
 class UserService {
 
 	static get allowedFields() {
@@ -139,6 +141,9 @@ class UserService {
 
 	updateUser( id, payload ) {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		if( payload.about ) {
+			payload.about = striptags( payload.about );
+		}
 		return UserModel.update( payload, {
 			where: {
 				id: id

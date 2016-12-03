@@ -32,6 +32,18 @@ class FeedController {
 		}
 	}
 
+	*deletePost( context ) {
+		let userId = context.session.user.id;
+		let postId = context.params.postId;
+		try {
+			let post = yield this.feedService.deletePost( userId, postId );
+			context.body = post;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const feedService = FeedService.instance;

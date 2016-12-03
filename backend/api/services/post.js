@@ -24,6 +24,10 @@ class PostService {
 		return this.commentService.commentOnPost( userId, postId, content );
 	}
 
+	deleteCommentOnPost( userId, postId, commentId ) {
+		return this.commentService.deleteComment( userId, postId, commentId );
+	}
+
 	createPost( userId, payload ) {
 		const PostModel = this.databaseProvider.getModelByName('post');
 		return PostModel.create({
@@ -37,6 +41,16 @@ class PostService {
 			return this.getExtendedPostModelById( model.get('id') ).then((n) => {
 				return n;
 			});
+		});
+	}
+
+	deletePost( userId, postId ) {
+		const PostModel = this.databaseProvider.getModelByName('post');
+		return PostModel.destroy({
+			where: {
+				userId: userId,
+				id: postId
+			}
 		});
 	}
 

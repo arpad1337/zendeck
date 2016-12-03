@@ -3,12 +3,20 @@
  */
 
 const DatabaseProvider = require('../../providers/database');
+const UserService = require('./user');
 const Util = require('../../util/util');
 
 class CollectionService {
 	
-	constructor( databaseProvider ) {
+	constructor( databaseProvider, userService ) {
 		this.databaseProvider = databaseProvider;
+		this.userService = userService;
+	}
+
+	getUserCollectionsByUsername( username ) {
+		return this.userService.getUserByUsername( username ).then((user)=> {
+			return this.getUserCollections( user.id );
+		});
 	}
 
 	getUserCollections( userId ) {
@@ -151,7 +159,8 @@ class CollectionService {
 	static get instance() {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
-			this.singleton = new CollectionService( databaseProvider );
+			const userService = UserService.instance;
+			this.singleton = new CollectionService( databaseProvider, userService );
 		}
 		return this.singleton;
 	}

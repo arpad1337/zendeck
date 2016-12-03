@@ -28,7 +28,7 @@ class CommentService {
 			limit: CommentService.limit,
 			offset: ( page - 1 ) * CommentService.LIMIT + 3,
 			order: [
-				['created_at', 'DESC']
+				['created_at', 'ASC']
 			]
 		}).then((models) => {
 			return this._createModelsFromArray( models );
@@ -116,7 +116,7 @@ class CommentService {
 			limit: 3,
 			offset: 0,
 			order: [
-				['created_at', 'DESC']
+				['created_at', 'ASC']
 			]
 		}).then((models) => {
 			if( models && models.length > 0 ) {
