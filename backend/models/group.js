@@ -18,7 +18,7 @@ const model = sequelizeModelHelper.buildModel(
 			type: TYPES.STRING(64),
 			allowNull: false
 		},
-		createdBy: {
+		userId: {
 			type: TYPES.INTEGER,
 			allowNull: false,
 		},

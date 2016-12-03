@@ -8,7 +8,7 @@ const Util = require('../../util/util');
 
 class GroupService {
 	
-	constructor( databaseProvider ) {
+	constructor( databaseProvider, userService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
 	}
@@ -293,16 +293,16 @@ class GroupService {
 					offset: (( page - 1 ) * 20)
 				});
 			}).then((members) => {
-				let members = new Map();
+				let membersMap = new Map();
 				let ids = new Set();
 				members.forEach(( m ) => {
 					ids.add( m.get('userId') );
-					members.set( m.get('userId'), m.get() );
+					membersMap.set( m.get('userId'), m.get() );
 				});
 				return this.userService.getUsersAuthorViewByIds( ids ).then((profiles) => {
 					profiles = profiles.map(( profile ) => {
-						profile.isAdmin = members.get(profile.id).isAdmin;
-						profile.approved = members.get(profile.id).approved;
+						profile.isAdmin = membersMap.get(profile.id).isAdmin;
+						profile.approved = membersMap.get(profile.id).approved;
 						return profile;
 					});
 					return profiles;

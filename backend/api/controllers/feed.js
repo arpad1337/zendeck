@@ -2,16 +2,32 @@
  * @rpi1337
  */
 
+const UserService = require('../services/user');
 const FeedService = require( '../services/feed' );
+const CollectionService = require( '../services/collection' );
 
 class FeedController {
 
-	constructor( feedService ) {
+	constructor( feedService, userService, collectionService ) {
 		this.feedService = feedService;
+		this.userService = userService;
+		this.collectionService = collectionService;
+	}
+
+	*getUserPosts( context ) {
+		const username = context.params.username;
+		try {
+			let user = yield this.userService.getUserByUsername( username );
+			let posts = yield this.feedService.getUserPostsFeedByIdAndPage( userId, context.query.page );
+			context.body = post;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
 	}
 
 	*getUserFeed( context ) {
-		let userId = context.session.user.id;
+		const userId = context.session.user.id;
 		try {
 			let posts = yield this.feedService.getUserFeedByIdAndPage( userId, context.query.page );
 			context.body = posts;
@@ -21,8 +37,44 @@ class FeedController {
 		}
 	}
 
+	*getLikedFeed( context ) {
+		const userId = context.session.user.id;
+		try {
+			let posts = yield this.feedService.getUserLikedFeedByIdAndPage( userId, context.query.page );
+			context.body = posts;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
+	*getGroupFeed( context ) {
+		const userId = context.session.user.id;
+		const slug = context.params.groupSlug;
+		try {
+			let posts = yield this.feedService.getGroupFeedByIdAndPage( userId, slug, context.query.page );
+			context.body = posts;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
+	*getCollectionFeed( context ) {
+		const userId = context.session.user.id;
+		const slug = context.params.collectionSlug;
+		try {
+			let collection = yield this.collectionService.getCollectionBySlug( slug );
+			let posts = yield this.feedService.getUserCollectionFeedByIdAndCollectionIdAndPage( userId, collection.id, context.query.page );
+			context.body = posts;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	*createPost( context ) {
-		let userId = context.session.user.id;
+		const userId = context.session.user.id;
 		try {
 			let post = yield this.feedService.createPost( userId, context.request.fields );
 			context.body = post;
@@ -33,8 +85,8 @@ class FeedController {
 	}
 
 	*deletePost( context ) {
-		let userId = context.session.user.id;
-		let postId = context.params.postId;
+		const userId = context.session.user.id;
+		const postId = context.params.postId;
 		try {
 			let post = yield this.feedService.deletePost( userId, postId );
 			context.body = post;
@@ -47,7 +99,9 @@ class FeedController {
 	static get instance() {
 		if( !this.singleton ) {
 			const feedService = FeedService.instance;
-			this.singleton = new FeedController( feedService );
+			const userService = UserService.instance;
+			const collectionService = CollectionService.instance;
+			this.singleton = new FeedController( feedService, userService, collectionService );
 		}
 		return this.singleton;
 	}

@@ -102,23 +102,6 @@ class FeedService {
 		});
 	}
 
-	_createPostViewsFromDBModels( posts ) {
-		let postsMap = new Map();
-		if( !posts || posts.length == 0 ) {
-			return [];
-		}
-		let postIds = posts.map((post) => {
-			postsMap.set( post.get('postId'), post );
-			return post.get('postId');
-		});
-		return this.postService.getPostsByPostIds( postIds ).then((postModels) => {
-			return postModels.map(( model ) => {
-				model.liked = postsMap.get( model.id ).get('liked');
-				return model;
-			});
-		});
-	}
-
 	getUserCollectionFeedByIdAndCollectionIdAndPage( userId, collectionId, page ) {
 		page = isNaN( page ) ? 1 : page;
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
@@ -135,19 +118,24 @@ class FeedService {
 				order: [[ 'post_id', 'DESC' ]],
 				group: ['post_id','liked']
 			});
-		}).then((posts) => {
-			if( !posts || posts.length == 0 ) {
-				return [];
-			}
-			let postIds = posts.map((post) => {
-				return post.get('postId');
+		}).then(this._createPostViewsFromDBModels);
+	}
+
+	_createPostViewsFromDBModels( posts ) {
+		let postsMap = new Map();
+		if( !posts || posts.length == 0 ) {
+			return [];
+		}
+		let postIds = posts.map((post) => {
+			postsMap.set( post.get('postId'), post );
+			return post.get('postId');
+		});
+		return this.postService.getPostsByPostIds( postIds ).then((postModels) => {
+			return postModels.map(( model ) => {
+				model.liked = postsMap.get( model.id ).get('liked');
+				model.starred = !!postsMap.get( model.id ).get('collectionId');
+				return model;
 			});
-			return this.postService.getPostsByPostIds( postIds ).then((postModels) => {
-				return postModels.map(( model, index ) => {
-					model.liked = posts[ index ].get('liked');
-					return model;
-				});
-			})
 		});
 	}
 

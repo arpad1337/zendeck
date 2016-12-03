@@ -110,6 +110,13 @@ const ROUTES = [
 		middlewares: ['session-check'],
 		method: 'get'
 	},
+	{
+		path: '/user/me/collection',
+		method: 'get',
+		controller: 'collection',
+		middlewares: ['session-check'],
+		action: 'getCurrentUserCollections'
+	},
 
 	// USER PUBLIC
 
@@ -124,6 +131,18 @@ const ROUTES = [
 		controller: 'friend',
 		action: 'getFriendsByUsernameAndPage',
 		method: 'get'
+	},
+	{
+		path: '/user/:username/posts',
+		controller: 'feed',
+		action: 'getUserPosts',
+		method: 'get'
+	},
+	{
+		path: '/user/:username/collection',
+		method: 'get',
+		controller: 'collection',
+		action: 'getUserCollections'
 	},
 
 	// FEED
@@ -170,17 +189,35 @@ const ROUTES = [
 	// COLLECTION
 
 	{
-		path: '/user/me/collection',
-		method: 'get',
+		path: '/collection/:collectionSlug',
+		method: 'post',
 		controller: 'collection',
+		action: 'updateCollection',
 		middlewares: ['session-check']
-		action: 'getCurrentUserCollections'
 	},
 	{
-		path: '/user/:username/collection',
+		path: '/collection/:collectionSlug/feed',
 		method: 'get',
-		controller: 'collection',
-		action: 'getUserCollections'
+		controller: 'feed',
+		action: 'getCollectionFeed',
+		middlewares: ['session-check']
+	},
+
+	// GROUPS
+
+	{
+		path: '/group',
+		method: 'post',
+		controller: 'group',
+		action: 'createGroup',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/::groupSlug/feed',
+		method: 'get',
+		controller: 'feed',
+		action: 'getGroupFeed',
+		middlewares: ['session-check']
 	}
 
 ];

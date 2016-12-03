@@ -4,18 +4,29 @@
 
 const DatabaseProvider = require('../../providers/database');
 const UserService = require('./user');
+const GroupService = require('./group');
 const Util = require('../../util/util');
 
 class CollectionService {
 	
-	constructor( databaseProvider, userService ) {
+	constructor( databaseProvider, userService, groupService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
+		this.groupService = groupService;
+	}
+
+	isUserHasRightsToCollection( userId, slug ) {
+		return this.getCollectionBySlug( slug ).then((collection) => {
+			if( collection.userId == userId ) {
+				return true;
+			}
+			return this.groupService.isUserAdminOfGroup( userId, collection.groupId );
+		});
 	}
 
 	getUserCollectionsByUsername( username ) {
-		return this.userService.getUserByUsername( username ).then((user)=> {
-			return this.getUserCollections( user.id );
+		return this.userService.getUserByUsername( username ).then((user) => {
+			return this.getUserPublicCollections( user.id );
 		});
 	}
 
@@ -91,6 +102,7 @@ class CollectionService {
 
 	createCollection( userId, name, isPublic, parent, groupId ) {
 		let model = {
+			userId: userId,
 			slug: Util.createSHA256Hash( userId + name ),
 			name: name,
 			isPublic: isPublic,
@@ -119,7 +131,7 @@ class CollectionService {
 		const CollectionModel = this.databaseProvider.getModelByName( 'collection' );
 		return Promise.all([
 			this.getCollectionBySlug( slug ),
-			this.isgetChildrenCollectionsBySlug( slug )
+			this.getChildrenCollectionsBySlug( slug )
 		]).then((values) => {
 			let collection = values[0];
 			let collections = values[1];
@@ -160,7 +172,8 @@ class CollectionService {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
-			this.singleton = new CollectionService( databaseProvider, userService );
+			const groupService = GroupService.instance;
+			this.singleton = new CollectionService( databaseProvider, userService, groupService );
 		}
 		return this.singleton;
 	}
