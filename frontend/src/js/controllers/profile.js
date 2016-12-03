@@ -169,7 +169,9 @@ class ProfileController extends CollectionController {
 			});
 			if( Object.keys( payload ).length > 0 ) {
 				let editedProfile = await this.userService.updateCurrentUserProfile( payload );
-				this.profile = editedProfile;
+				Object.keys( payload ).forEach((key) => {
+					this.profile[key] = editedProfile[key];
+				});
 				this.$scope.$digest();
 			}
 		} else {

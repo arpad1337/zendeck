@@ -130,7 +130,7 @@ class UserService {
 			if( key == 'password' ) {
 				payload[ key ] = Util.createSHA256HashForPassword( fields.password );
 			} else {
-				payload[ key ] = fields[ key ].replace(/\n/g, '<br>').trim();
+				payload[ key ] = Util.trim( fields[ key ] );
 			}
 		});
 		return this.updateUser( id, payload );

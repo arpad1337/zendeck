@@ -1,7 +1,7 @@
 .comment-area {
 	font-weight: normal;
 	background: $WHITE;
-	padding: 8px 8px 8px;
+	padding: 8px 0 8px;
 	font-size: 12px;
 	//width: calc(100% - 24px);
 	//@include border-radius(10px);
@@ -28,6 +28,7 @@
 			.message {
 				margin-left: 42px;
 				word-wrap: break-word;
+				line-height: 14px;
 			}
 			&:hover {
 				.delete {
@@ -106,6 +107,13 @@
 		font-family: 'Lato';
 		font-size: 12px;
 		display: inline;
+		a {
+			color: $MAIN-DARK;
+			text-decoration: none;
+			&:hover {
+				color: $MAIN-LIGHT;
+			}
+		}
 	}
 
 	button {
@@ -119,15 +127,15 @@
 	}
 	textarea {
 		float: left;
-		width: calc(100% - 118px);
+		width: calc(100% - 114px);
 		padding: 4px;
-		background: $FOOTER-LIGHT;
-		border: 1px solid $WHITE;
+		background: $WHITE;
+		border: 1px solid $FOOTER-LIGHT;
 		resize: none;
 		outline: none;
 		-webkit-appearance: none;
 		&:hover, &:focus {
-			background: $WHITE;
+			background: $FOOTER-LIGHT;
 		}
 	}
 }

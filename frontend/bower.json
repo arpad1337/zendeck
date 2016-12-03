@@ -27,6 +27,7 @@
     "angular-tooltips": "~1.1.8",
     "angular-timeago": "~0.4.4",
     "angularjs-color-picker": "~2.7.1",
-    "ngImgCrop": "~0.3.2"
+    "ngImgCrop": "~0.3.2",
+    "angular-emoji-picker": "~0.3.0"
   }
 }

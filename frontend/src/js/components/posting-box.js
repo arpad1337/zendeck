@@ -33,7 +33,7 @@ class PostingBoxComponent {
 		};
 	}
 
-	static get URL_PATERN() {
+	static get URL_PATTERN() {
 		return Util.URL_PATTERN();
 	}
 
@@ -67,8 +67,8 @@ class PostingBoxComponent {
 	}
 
 	set content( newValue ) {
-		if( PostingBoxComponent.URL_PATERN.test( newValue ) ) {
-			let urls = newValue.match( PostingBoxComponent.URL_PATERN );
+		if( PostingBoxComponent.URL_PATTERN.test( newValue ) ) {
+			let urls = Util.findUrlsInText( newValue );
 			urls.forEach((url) => {
 				let alreadyEvaluated = this.newPost.urls.find((nurl, i) => {
 					let match = url.indexOf( nurl ) === 0;
@@ -95,7 +95,7 @@ class PostingBoxComponent {
 		}
 		this.newPost.content = newValue
 			.trim()
-			.replace(/\n\s*\n/g, '\n')
+			.replace(/\n\s*\n\s*\n/g, '\n\n')
 			.replace(/  +/g, ' ')
 			.substr( 0, PostingBoxComponent.MAX_CONTENT_LENGTH );
 		this.charactersLeft = PostingBoxComponent.MAX_CONTENT_LENGTH - this.newPost.content.length;
@@ -158,12 +158,10 @@ class PostingBoxComponent {
 			if( this._delegateRespondsToSelector( 'commitNewPost' ) ) {
 				this.newPost.content = this.newPost.content
 					.trim()
-					.replace(/\n\s*\n/g, '\n')
+					.replace(/\n\s*\n\s*\n/g, '\n\n')
 					.replace(/  +/g, ' ');
-				let urls = this.newPost.content.match( PostingBoxComponent.URL_PATERN );
-				if( urls ) {
-					this.newPost.urls = urls;
-				}
+				let urls = Util.findUrlsInText( this.newPost.content );
+				this.newPost.urls = urls;
 				this.newPost.preview = this._urlIndex < (this.newPost.urls.length  ) ? this._urlIndex : false;
 				await this.delegate.commitNewPost( this.newPost );
 				this.newPost = this.reset();

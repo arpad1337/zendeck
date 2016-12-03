@@ -21,7 +21,8 @@ const module = angular.module('ZenDeck', [
     '720kb.tooltips',
     'yaru22.angular-timeago',
     'color.picker',
-    'ngImgCrop'
+    'ngImgCrop',
+    'vkEmojiPicker'
 ]);
 
 module.config(["$httpProvider", function($httpProvider){

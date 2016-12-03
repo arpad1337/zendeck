@@ -132,12 +132,14 @@ const ROUTES = [
 		path: '/feed',
 		controller: 'feed',
 		action: 'getUserFeed',
+		middlewares: ['session-check'],
 		method: 'get'
 	},
 	{
 		path: '/feed',
-		controller: 'post',
+		controller: 'feed',
 		action: 'createPost',
+		middlewares: ['session-check'],
 		method: 'post'
 	},
 
@@ -147,6 +149,7 @@ const ROUTES = [
 		path: '/post/:postId/comment',
 		method: 'post',
 		controller: 'post',
+		middlewares: ['session-check'],
 		action: 'commentOnPost'
 	}
 

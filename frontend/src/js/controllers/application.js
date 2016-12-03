@@ -66,14 +66,17 @@ class ApplicationController {
 	}
 
 	_onUserLoggedOut() {
-		this.$state.go( STATES.LANDING );
-		this.$rootScope.$digest();
+		setTimeout(()  => {
+			this.$state.go( STATES.LANDING );
+			this.$rootScope.$digest();
+		}, 1);
 	}
 
 	_onUserLoggedIn() {
 		if( this.$state.current.name == STATES.LANDING ) {
 			setTimeout(()  => {
 				this.$state.go( STATES.APPLICATION.FEED.POSTS );
+				this.$rootScope.$digest();
 			}, 1);
 		}
 	}
@@ -142,7 +145,7 @@ class ApplicationController {
 	}
 
 	async checkUsernameAvailability( model ) {
-		model.username = model.username.replace(/[^A-Za-z0-9]/g,'');
+		model.username = model.username.replace(/[^A-Za-z0-9_-]/g,'');
 		if( model.username.trim().length > 2 ) {
 			if( !model.lock ) {
 				model.lock = true;
@@ -285,7 +288,7 @@ class ApplicationController {
 			model.error.password = null;
 		}
 
-		if( Validator.isFieldEmpty( model.username ) ) {
+		if( Validator.validateUsername( model.username ) ) {
 			return false
 		}
 

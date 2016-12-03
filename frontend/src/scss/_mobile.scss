@@ -1,285 +1,302 @@
-main {
-	min-height: calc(100% - 301px);
-	.wrap {
-		width: calc(100% - 20px) !important;
-		padding-left:10px;
-		padding-right:10px;
-		& > .content {
-			width: 100% !important;
-			margin-right: 0px !important;
-		}
-	}
-}
-
-body > header {
-	& > h1 {
-		width: 43px;
-		float: left;
-		overflow: hidden;
-	}
-}
-
-main > header h1 {
-	font-size: 40px !important;
-}
-
-body > header nav ul li.login, body > header nav ul li.sign-up > a {
-	font-size: 16px !important;
-	margin-top: 0;
-}
-
-body > header nav {
-	.search {
-		position: absolute;
-		left: calc(100% - 302px);
-		margin-right: 0 !important;
-		background: $MAIN-LIGHT;
-	}
-}
-
-section[role="about"] .edit {
-	display: none;
-}
-
-// post-entry {
-// 	margin: 0 -10px 10px !important;
-//   	padding: 0 10px !important;
-//   	@include border-radius(0px !important);
-// }
-
-.post {
-	width: auto !important;
-	padding-left: 0 !important;
-}
-
-.post .head .meta-head {
-	float: left;
-	width: calc(100% - 90px);
-}
-.post .head .labels {
-	clear: both;
-}
-.post .head .star {
-	position: relative !important;
-	float: left !important;
-	top: 0 !important;
-	right: 0 !important;
-	margin-top: -1px;
-	clear: right;
-}
-.post .head .star,
-.post .head .hearth {
-	text-align: left !important;
-	position: relative !important;
-	top: 0 !important;
-	right: 0 !important;
-	float: left;
-	margin: 10px auto;
-	&:after {
-		float: left !important;
-		margin-right: 4px;
-	}
-}
-
-.post .head profile-pic {
-	position: relative !important;
-	float: left !important;
-	left: 0 !important;
-	margin-right: 4px !important;
-}
-
-.post .head .actions {
-	position: relative !important;
-	top: 0 !important;
-	left: -6px !important;
-	width: 100% !important;
-	text-align: left !important;
-}
-
-.post .head .delete {
-	display: block !important;
-}
-
-.post .head .actions {
-
-}
-
-.post .head .actions tooltip {
-	width: auto !important;
-	display: block;
-	float: left;
-	margin: 0 4px 0 0 !important;
-}
-
-// .comment-area {
-// 	margin-left: 8px;
-// 	width: calc(100% - 32px);
-// }
-
-.comment-area .comments .comment .message {
-	margin-left: 0 !important;
-}
-
-.comment-area textarea {
-
-}
-
-// .post aside {
-// 	padding: 0px 10px !important;
-// 	.content > .message {
-// 		padding: 10px 0 !important;
+// main {
+// 	min-height: calc(100% - 301px);
+// 	.wrap {
+// 		width: calc(100% - 20px) !important;
+// 		padding-left:10px;
+// 		padding-right:10px;
+// 		& > .content {
+// 			width: 100% !important;
+// 			margin-right: 0px !important;
+// 		}
 // 	}
 // }
 
-.post aside .content .embed {
-	&:after{
-		content: " ";
-		width: 1px;
-		height: 1px;
-		display: block;
-		clear: both;
-	}
-	.resource {
-		position: relative !important;
-		float: left;
-		left: 0 !important;
-		margin-top: 20px;
-		clear: both;
-		display: block;
-		margin-bottom: -10px;
+// body > header {
+// 	& > h1 {
+// 		width: 43px;
+// 		float: left;
+// 		overflow: hidden;
+// 	}
+// }
 
-	}
-}
+// main > header h1 {
+// 	font-size: 40px !important;
+// }
 
-.modal .container {
-	width: calc(100% - 40px) !important;
-	max-width: 578px;
-	max-height: calc(100% - 40px) !important;
-	height: auto;
-	top: 10px !important;
-	left: 10px;
-	right: 10px;
-	overflow: auto;
-	&.post-view {
+// body > header nav ul li.login, body > header nav ul li.sign-up > a {
+// 	font-size: 16px !important;
+// 	margin-top: 0;
+// }
+
+// body > header nav {
+// 	.search {
+// 		position: absolute;
+// 		left: calc(100% - 302px);
+// 		margin-right: 0 !important;
+// 		background: $MAIN-LIGHT;
+// 	}
+// }
+
+// section[role="about"] .edit {
+// 	display: none;
+// }
+
+// // post-entry {
+// // 	margin: 0 -10px 10px !important;
+// //   	padding: 0 10px !important;
+// //   	@include border-radius(0px !important);
+// // }
+
+// .post {
+// 	width: auto !important;
+// 	padding-left: 0 !important;
+// }
+
+// .post .head .meta-head {
+// 	float: left;
+// 	width: calc(100% - 90px);
+// }
+// .post .head .labels {
+// 	clear: both;
+// }
+// .post .head .star {
+// 	position: relative !important;
+// 	float: left !important;
+// 	top: 0 !important;
+// 	right: 0 !important;
+// 	margin-top: -1px;
+// 	clear: right;
+// }
+// .post .head .star,
+// .post .head .hearth {
+// 	text-align: left !important;
+// 	position: relative !important;
+// 	top: 0 !important;
+// 	right: 0 !important;
+// 	float: left;
+// 	margin: 10px auto;
+// 	&:after {
+// 		float: left !important;
+// 		margin-right: 4px;
+// 	}
+// }
+
+// .post .head profile-pic {
+// 	position: relative !important;
+// 	float: left !important;
+// 	left: 0 !important;
+// 	margin-right: 4px !important;
+// }
+
+// .post .head .actions {
+// 	position: relative !important;
+// 	top: 0 !important;
+// 	left: -6px !important;
+// 	width: 100% !important;
+// 	text-align: left !important;
+// }
+
+// .post .head .delete {
+// 	display: block !important;
+// }
+
+// .post .head .actions {
+
+// }
+
+// .post .head .actions tooltip {
+// 	width: auto !important;
+// 	display: block;
+// 	float: left;
+// 	margin: 0 4px 0 0 !important;
+// }
+
+// // .comment-area {
+// // 	margin-left: 8px;
+// // 	width: calc(100% - 32px);
+// // }
+
+// .comment-area .comments .comment .message {
+// 	margin-left: 0 !important;
+// }
+
+// .comment-area textarea {
+
+// }
+
+// // .post aside {
+// // 	padding: 0px 10px !important;
+// // 	.content > .message {
+// // 		padding: 10px 0 !important;
+// // 	}
+// // }
+
+// .post aside .content .embed {
+// 	&:after{
+// 		content: " ";
+// 		width: 1px;
+// 		height: 1px;
+// 		display: block;
+// 		clear: both;
+// 	}
+// 	.resource {
+// 		position: relative !important;
+// 		float: left;
+// 		left: 0 !important;
+// 		margin-top: 20px;
+// 		clear: both;
+// 		display: block;
+// 		margin-bottom: -10px;
+
+// 	}
+// }
+
+// .modal .container {
+// 	width: calc(100% - 40px) !important;
+// 	max-width: 578px;
+// 	max-height: calc(100% - 40px) !important;
+// 	height: auto;
+// 	top: 10px !important;
+// 	left: 10px;
+// 	right: 10px;
+// 	overflow: auto;
+// 	&.post-view {
 		
-	}
-}
+// 	}
+// }
 
-main > header.profile-header {
-	height: 300px !important;
-}
+// main > header.profile-header {
+// 	height: 300px !important;
+// }
 
-main > nav a {
-	font-size: 12px !important;
-	padding: 3px 3px 4px !important;
-	line-height: 20px !important;
-}
+// main > nav > ul > li > a {
+// 	font-size: 12px !important;
+// 	padding: 3px 3px 4px !important;
+// 	width: calc(100% - 6px);
+// 	line-height: 20px !important;
+// 	& + ul {
+// 		li {
+// 			a {
+// 				padding: 3px 3px 4px !important;
+// 				width: calc(100% - 6px);
+// 				font-size: 12px !important;
+// 			}
+// 		}
+// 	}
+// }
 
-.wrap > aside {
-	display: block;
-	width: 100% !important;
-	margin-top: 30px;
-	padding-top: 30px;
-	border-top: 1px solid $FOOTER-LIGHT;
-}
+// .wrap > aside {
+// 	display: block;
+// 	width: 100% !important;
+// 	margin-top: 30px;
+// 	padding-top: 30px;
+// 	border-top: 1px solid $FOOTER-LIGHT;
+// }
 
-section[role="members"] .members .member {
-	width: 33.333333% !important;
-}
+// section[role="members"] .members .member {
+// 	width: 33.333333% !important;
+// }
 
-section[role="posting-box"] {
-	width: 100%;
-	.create-post {
-		width: 100%;
-		textarea {
-			width: calc(100% - 18px);
-		}
-		.labels {
-			ul {
-				width: calc(100% - 70px);
-			}
-		}
-	}
-}
+// section[role="posting-box"] {
+// 	width: 100%;
+// 	.create-post {
+// 		width: 100%;
+// 		textarea {
+// 			width: calc(100% - 18px);
+// 		}
+// 		.labels {
+// 			ul {
+// 				width: calc(100% - 70px);
+// 			}
+// 		}
+// 	}
+// }
 
-main > nav {
-	.actions {
-		a {
-			span {
-				display: none;
-			}
-		}
-	}
-}
+// main > nav {
+// 	.actions {
+// 		a {
+// 			font-size: 12px !important;
+// 			span {
+// 				display: none;
+// 			}
+// 		}
+// 		a + ul {
+// 			left: -136px;
+// 			a {
+// 				padding: 3px 10px 5px 6px !important;
+// 			}
+// 		}
+// 	}
+// }
 
-.create-post .embed .resource {
-	position: relative !important;
-	bottom: 0 !important;
-	left: 0 !important;
-}
+// .create-post .embed .resource {
+// 	position: relative !important;
+// 	bottom: 0 !important;
+// 	left: 0 !important;
+// }
 
-footer {
-	.social {
-		top: initial;
-		bottom: 30px;
-		left: 0;
-		right: 0;
-		margin-left: auto;
-		margin-right: auto;
-		width: 120px;
-	}
-	.column {
-		margin-bottom: 100px;
-		width: calc(50% - 50px);
-		&:first-child {
-			margin-left: 10px;
-		}
-	}
-}
+// footer {
+// 	.social {
+// 		top: initial;
+// 		bottom: 30px;
+// 		left: 0;
+// 		right: 0;
+// 		margin-left: auto;
+// 		margin-right: auto;
+// 		width: 120px;
+// 	}
+// 	.column {
+// 		margin-bottom: 100px;
+// 		width: calc(50% - 50px);
+// 		&:first-child {
+// 			margin-left: 10px;
+// 		}
+// 	}
+// }
 
-section[role="motto"] {
-	height: 480px !important;
-	h1 {
-		font-size: 32px !important;
-		span {
-			font-size: 32px !important;
-		}
-	}
-}
+// section[role="motto"] {
+// 	height: 480px !important;
+// 	h1 {
+// 		font-size: 32px !important;
+// 		span {
+// 			font-size: 32px !important;
+// 		}
+// 	}
+// }
 
-section[role="features"] {
-	width: 100%;
-}
+// section[role="features"] {
+// 	width: 100%;
+// }
 
-section[role="recommendations"] {
-	.recommendation {
-		margin-bottom: 20px;
-		.photo {
-			img {
-				width: 60px;
-				height: 60px;
-			}
-		}
+// section[role="recommendations"] {
+// 	.recommendation {
+// 		margin-bottom: 20px;
+// 		.photo {
+// 			img {
+// 				width: 60px;
+// 				height: 60px;
+// 			}
+// 		}
 
-		.quote {
-			margin-left: 70px !important;
-			font-size: 14px;
-			&:before {
-				left: 70px !important;
-			}
-		}
+// 		.quote {
+// 			margin-left: 70px !important;
+// 			font-size: 14px;
+// 			&:before {
+// 				left: 70px !important;
+// 			}
+// 		}
 
-	}
-}
+// 	}
+// }
 
-section[role="subscription"] {
-	button {
-		font-size: 18px !important;
-  		padding: 5px 10px !important;
-	}
-}
+// section[role="subscription"] {
+// 	button {
+// 		font-size: 18px !important;
+//   		padding: 5px 10px !important;
+// 	}
+// }
 
-body > header nav ul li {
-	display: inline-block;
-	margin: 0 4px !important;
-}
+// body > header nav ul li {
+// 	display: inline-block;
+// 	margin: 0 4px !important;
+// }

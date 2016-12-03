@@ -50,7 +50,7 @@ const model = sequelizeModelHelper.buildModel(
 			unique: true
 		},
 		password: {
-			type: TYPES.STRING( 100 ),
+			type: TYPES.STRING( 18 ),
 			allowNull: false
 		},
 		phoneNumber: {
@@ -58,7 +58,7 @@ const model = sequelizeModelHelper.buildModel(
 			field: 'phone_number'
 		},
 		username: {
-			type: TYPES.STRING(100),
+			type: TYPES.STRING(16),
 			allowNull: false,
 			unique: true
 		},

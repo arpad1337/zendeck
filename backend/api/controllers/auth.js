@@ -3,11 +3,13 @@
  */
 
 const AuthService = require( '../services/auth' );
+const CollectionService = require( '../services/collection' );
 
 class AuthController {
 
-	constructor( authService ) {
+	constructor( authService, collectionService ) {
 		this.authService = authService;
+		this.collectionService = collectionService;
 	}
 
 	*login( context ) {
@@ -32,6 +34,7 @@ class AuthController {
 		const termsAccepted = fields.termsAccepted;
 		try {
 			let user = yield this.authService.register( email, password, username, fullname, isBusiness, termsAccepted );
+			yield this.collectionService.createCollection( user.id, 'Favorites', true );
 			if( !user.enabled ) {
 				throw new Error('User login disabled');
 			}
@@ -86,7 +89,8 @@ class AuthController {
 	static get instance() {
 		if( !this.singleton ) {
 			const authService = AuthService.instance;
-			this.singleton = new AuthController( authService );
+			const collectionService = CollectionService.instance;
+			this.singleton = new AuthController( authService, collectionService );
 		}
 		return this.singleton;
 	}

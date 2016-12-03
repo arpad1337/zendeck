@@ -1,5 +1,5 @@
 main > nav {
-	ul {
+	& > ul {
 		position: fixed;
 		top: 60px;
 		padding: 0 10px;
@@ -48,12 +48,13 @@ main > nav {
 				left: -126px;
 				width: 160px;
 				padding: 0 !important;
+				background: $SECONDARY-LIGHT;
 				li {
 					background: $SECONDARY-LIGHT;
 					width: 100%;
 					display: block;
 					a {
-						width: calc(100% - 20px);
+						width: calc(100% - 16px) !important;
 						&.active {
 							background: $SECONDARY-DARK;
 						}

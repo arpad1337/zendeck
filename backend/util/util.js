@@ -35,6 +35,13 @@ const Util = {
 	    return r;
 	},
 
+	trim: ( string ) => {
+		if( !string ) {
+			return '';
+		}
+		return String(string).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '').replace(/ +/g,' ');
+	},
+
 	buildLaunchParamsFromObject: ( workerId, object ) => {
         let params = [];
         Object.keys( object ).forEach((key) => {

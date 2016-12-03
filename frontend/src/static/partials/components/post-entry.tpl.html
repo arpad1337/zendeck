@@ -72,7 +72,8 @@
     </div>
     <aside>
         <div class="content">
-            <div class="message" data-ng-bind-html=" vm.entry.content | formatContent | htmlSafe ">
+            <div class="message" 
+                data-ng-bind-html=":: vm.entry.content | formatContent | htmlSafe ">
             </div>
             <a class="embed" href="{{vm.entry.attachment.url}}" ng-if="vm.entry.attachment">
                 <div class="cover">
@@ -111,7 +112,7 @@
                         >
                             {{comment.author.fullname}}
                         </a>
-                        <div class="content" data-ng-bind-html=" comment.content | formatContent | htmlSafe "></div>
+                        <div class="content" data-ng-bind-html=":: comment.content | formatContent | htmlSafe "></div>
                         <span class="date">
                             {{ comment.createdAt | timeAgo }}
                         </span>

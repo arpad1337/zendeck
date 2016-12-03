@@ -19,11 +19,11 @@ post-entry {
 .post {
 
 	display: block;
-	width: calc(100% - 80px);
+	width: calc(100% - 70px);
 	max-width: 540px;
 	margin: 10px auto;
 	padding-top: 10px;
-	padding-left: 80px;
+	padding-left: 70px;
 
 	._right {
 		.tooltip-patch {
@@ -77,6 +77,10 @@ post-entry {
 		word-wrap: break-word;
 		padding: 0 !important;
 		font-size: 14px !important;
+		br {
+			display: block;
+			margin: 10px 0;
+		}
 	}
 	.head {
 		position: relative;
@@ -128,14 +132,6 @@ post-entry {
 		.labels {
 			margin-top: 8px;
 		}
-		// tooltip {
-		// 	position: absolute;
-		// 	top: 0;
-		// 	right: 0;
-		// 	tip {
-		// 		top: 42px;
-		// 	}
-		// }
 		.actions {
 			margin: 6px 0 0 3px;
 			float: left;

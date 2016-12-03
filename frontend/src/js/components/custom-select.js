@@ -33,7 +33,8 @@ class CustomSelectComponent {
 				placeholder: '@?',
 				model: '=?',
 				key: '@',
-				value: '@'
+				value: '@',
+				selectFirst: '@?'
 			},
 			transclude: {
 				item: 'customSelectItem',
@@ -59,6 +60,9 @@ class CustomSelectComponent {
 		this.localCollection = [];
 		this._bottomReachedEventSent = false;
 		this.filteredCollection = Array.prototype.slice.call( this.collection );
+		if( this.selectFirst ) {
+			this.selectItem( this.filteredCollection[0][this.key] );
+		}
 	}
 
 	_bindEvents() {

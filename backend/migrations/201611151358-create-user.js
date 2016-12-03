@@ -18,7 +18,7 @@ module.exports = {
 				allowNull: false
 			},
 			password: {
-				type: TYPES.STRING( 100 ),
+				type: TYPES.STRING( 18 ),
 				allowNull: false
 			},
 			phone_number: {
@@ -26,7 +26,7 @@ module.exports = {
 				unique: true
 			},
 			username: {
-				type: TYPES.STRING(100),
+				type: TYPES.STRING(16),
 				allowNull: false
 			},
 			fullname: {
