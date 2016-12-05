@@ -37,6 +37,16 @@ class UserService {
 		}).then( model => model.getPublicView() );
 	}
 
+	getUserAuthorViewById( id ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		id = Number( id );
+		return UserModel.findOne({
+			where: {
+				id: id
+			}
+		}).then( model => model.getAuthorView() );
+	}
+
 	searchUserByKeyword( usernameOrEmail ) {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		usernameOrEmail = String(usernameOrEmail).trim();

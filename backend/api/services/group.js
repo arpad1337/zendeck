@@ -335,7 +335,7 @@ class GroupService {
 		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
 		return GroupMemberModel.findAll({
 			where: {
-				id: groupId
+				groupId: groupId
 			},
 			attributes: ['userId']
 		}).then((ids) => {
@@ -344,6 +344,17 @@ class GroupService {
 			}
 			return ids.map(id => id.get('userId'));
 		})
+	}
+
+	checkMember( groupId, memberId ) {
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		return GroupMemberModel.findOne({
+			where: {
+				groupId: groupId,
+				userId: userId,
+				approved: true
+			}
+		}).then((r) => !!r);
 	}
 
 	static get instance() {

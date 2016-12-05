@@ -115,6 +115,31 @@ class FriendService {
 		});
 	}
 
+	checkFriend( userId, friendId ) {
+		const FriendModel = this.databaseProvider.getModelByName( 'friend' );
+		return FriendModel.findOne({
+			where: {
+				userId: userId,
+				friendId: friendId
+			},
+			attributes: ['id']
+		}).then(r => !!r);
+	}
+
+	getNewFollowersCountbyUserId( userId, from ) {
+		const since = new Date(from);
+		const anHour = since.setHours( since.getHours() + 1 );
+		const FriendModel = this.databaseProvider.getModelByName( 'friend' );
+		return FriendModel.count({
+			where: {
+				userId: userId,
+				createdAt: {
+					$lt: anHour.toISOString()
+				}
+			}
+		});
+	}
+
 	getRecommendations( userId, ip ) {
 		return this.getAllFriendIdsByUserId( userId ).then((friendIds) => {
 			if( !friendIds ) {

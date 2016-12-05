@@ -330,6 +330,27 @@ class FeedService {
 		});
 	}
 
+	getPostLikeCountByPostId( postId ) {
+		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+		return FeedModel.count({
+			where: {
+				postId: postId,
+				liked: true
+			}
+		});
+	}
+
+	checkPostInGroup( postId, groupId ) {
+		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+		return FeedModel.findOne({
+			where: {
+				groupId: groupId,
+				postId: postId,
+				approved: true
+			}
+		}).then((r) => !!r);
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;

@@ -102,6 +102,21 @@ class CommentService {
 		});
 	}
 
+	getDistinctCommentCountByPostId( postId ) {
+		const CommentModel = this.databaseProvider.getModelByName( 'comment' );
+		return CommentModel.count({
+			where: {
+				postId: postId
+			},
+			group: ['user_id']
+		}).then(( count ) => {
+			if(count) {
+				return count;
+			}
+			return 0;
+		});
+	}
+
 	getLastThreeCommentsByPostId( postId ) {
 		const CommentModel = this.databaseProvider.getModelByName( 'comment' );
 		return CommentModel.findAll({
