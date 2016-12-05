@@ -132,12 +132,10 @@ class UserService {
 	}
 
 	updateProfile( id, fields ) {
-		let allowedFields = [];
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		let fieldKeys = Object.keys( fields );
 		let updateable = Util.findCommonElements( [ UserService.allowedFields, fieldKeys ] );
 		let payload = {};
-		console.log('updateable', updateable);
 		updateable.forEach((key) => {
 			if( key == 'password' ) {
 				payload[ key ] = Util.createSHA256HashForPassword( fields.password );

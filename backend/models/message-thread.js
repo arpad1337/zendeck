@@ -11,26 +11,19 @@ const sequelizeModelHelper = require('../util/sequelize-model-helper');
 
 const model = sequelizeModelHelper.buildModel(
 	// Table name
-	'message',
+	'message_thread',
 	// Schema
 	{
-		threadId: {
-			field: 'thread_id',
-			type: TYPES.INTEGER,
-			allowNull: false
-		},
 		userId: {
 			field: 'user_id',
 			type: TYPES.INTEGER,
 			allowNull: false
 		},
-		message: {
-			type: TYPES.TEXT
+		recipientId: {
+			field: 'recipient_id',
+			type: TYPES.INTEGER,
+			allowNull: false
 		},
-		seen: {
-			type: TYPES.BOOLEAN,
-			defaultValue: false
-		}
 	},
 	// Traits
 	[
@@ -38,6 +31,6 @@ const model = sequelizeModelHelper.buildModel(
 	]
 );
 
-const Message = connection.define( 'Message', model.schema, model.settings );
+const MessageThread = connection.define( 'MessageThread', model.schema, model.settings );
 
-module.exports = Message;
+module.exports = MessageThread;

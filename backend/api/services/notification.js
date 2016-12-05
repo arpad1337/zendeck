@@ -214,7 +214,7 @@ class NotificationService {
 	createNotification( userId, type, payload ) {
 		const NotificationModel = this.databaseProvider.getModelByName( 'notification' );
 		switch( type ) {
-			case NOTIFICATION_TYPE.STARTED_FOLLOWING:
+			case NOTIFICATION_TYPE.STARTED_FOLLOWING: {
 				return this.getLastNotifWithType( userId, type ).then((notif) => {
 					if( notif ) {
 						let newPayload = {

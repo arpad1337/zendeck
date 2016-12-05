@@ -2,7 +2,7 @@
  * @rpi1337 
  */
 
-const TABLE_NAME = 'filter';
+const TABLE_NAME = 'message_thread';
 
 module.exports = {
 	up: ( queryInterface, TYPES ) => {
@@ -13,17 +13,12 @@ module.exports = {
 				autoIncrement: true,
 				primaryKey: true
 			},
-			slug: {
-				type: TYPES.STRING(64)
-			},
 			user_id: {
+				type: TYPES.INTEGER,
+				allowNull: false
+			},
+			recipient_id: {
 				type: TYPES.INTEGER
-			},
-			name: {
-				type: TYPES.STRING(60)
-			},
-			tags: {
-				type: TYPES.JSON
 			},
 			created_at: {
 				type: TYPES.DATE
@@ -33,16 +28,16 @@ module.exports = {
 			}
 		})
 		.then(() => {
-			return queryInterface.addIndex( TABLE_NAME, ['user_id'] )
+			return queryInterface.addIndex( TABLE_NAME, ['user_id']);
 		})
 		.then(() => {
-			return queryInterface.addIndex( TABLE_NAME, ['slug'] )
+			return queryInterface.addIndex( TABLE_NAME, ['recipient_id']);
 		});
 	},
 	down: ( queryInterface, TYPES ) => {
 		return queryInterface.removeIndex( TABLE_NAME, ['user_id'])
 		.then(() => {
-			return queryInterface.removeIndex( TABLE_NAME, ['slug'])
+			return queryInterface.removeIndex( TABLE_NAME, ['recipient_id']);
 		})
 		.then(() => {
 			return queryInterface.dropTable( TABLE_NAME );

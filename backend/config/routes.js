@@ -218,7 +218,7 @@ const ROUTES = [
 	},
 	{
 		path: '/collection/:collectionSlug/post/:postId',
-		method: 'post',
+		method: 'delete',
 		controller: 'feed',
 		action: 'removePostFromCollection',
 		middlewares: ['session-check']
@@ -302,11 +302,89 @@ const ROUTES = [
 		controller: 'feed',
 		action: 'removePostFromGroupCollection',
 		middlewares: ['session-check']
-	}
+	},
+
+	// GROUP MEMBERS
+
+	{
+		path: '/group/:groupSlug/members',
+		method: 'get',
+		controller: 'group',
+		action: 'getGroupMembersByPage',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/members',
+		method: 'post',
+		controller: 'group',
+		action: 'joinGroup',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/members',
+		method: 'delete',
+		controller: 'group',
+		action: 'leaveGroup',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/members/:userId',
+		method: 'post',
+		controller: 'group',
+		action: 'approveUser',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/admin/:userId',
+		method: 'post',
+		controller: 'group',
+		action: 'promoteUserToAdmin',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/admin/:userId',
+		method: 'delete',
+		controller: 'group',
+		action: 'degradeUserFromAdmin',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/members/:userId',
+		method: 'delete',
+		controller: 'group',
+		action: 'kickUserFromGroup',
+		middlewares: ['session-check']
+	},
 
 	// NOTIFICATIONS
 
+	{
+		path: '/notification/recent',
+		method: 'get',
+		controller: 'notification',
+		action: 'getLastNotifications',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/notification',
+		method: 'get',
+		controller: 'notification',
+		action: 'getNotificationByPage',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/notification/:notificationId',
+		method: 'post',
+		controller: 'notification',
+		action: 'touchNotification',
+		middlewares: ['session-check']
+	}
+
 	// MESSAGES
+
+	// SEARCH
+
+
 
 ];
 

@@ -2,7 +2,7 @@
  * @rpi1337 
  */
 
-const TABLE_NAME = 'filter';
+const TABLE_NAME = 'message';
 
 module.exports = {
 	up: ( queryInterface, TYPES ) => {
@@ -13,17 +13,20 @@ module.exports = {
 				autoIncrement: true,
 				primaryKey: true
 			},
-			slug: {
-				type: TYPES.STRING(64)
+			thread_id: {
+				type: TYPES.INTEGER,
+				allowNull: false
 			},
 			user_id: {
-				type: TYPES.INTEGER
+				type: TYPES.INTEGER,
+				allowNull: false
 			},
-			name: {
-				type: TYPES.STRING(60)
+			message: {
+				type: TYPES.TEXT
 			},
-			tags: {
-				type: TYPES.JSON
+			seen: {
+				type: TYPES.BOOLEAN,
+				defaultValue: false
 			},
 			created_at: {
 				type: TYPES.DATE
@@ -33,16 +36,16 @@ module.exports = {
 			}
 		})
 		.then(() => {
-			return queryInterface.addIndex( TABLE_NAME, ['user_id'] )
+			return queryInterface.addIndex( TABLE_NAME, ['user_id'] );
 		})
 		.then(() => {
-			return queryInterface.addIndex( TABLE_NAME, ['slug'] )
+			return queryInterface.addIndex( TABLE_NAME, ['thread_id'] );
 		});
 	},
 	down: ( queryInterface, TYPES ) => {
 		return queryInterface.removeIndex( TABLE_NAME, ['user_id'])
 		.then(() => {
-			return queryInterface.removeIndex( TABLE_NAME, ['slug'])
+			return queryInterface.removeIndex( TABLE_NAME, ['thread_id'])
 		})
 		.then(() => {
 			return queryInterface.dropTable( TABLE_NAME );

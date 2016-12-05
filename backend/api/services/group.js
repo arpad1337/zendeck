@@ -4,13 +4,30 @@
 
 const DatabaseProvider = require('../../providers/database');
 const UserService = require('./user');
+const WorkerService = require( '../services/worker' );
+const S3Provider = require( '../../providers/s3' );
+
 const Util = require('../../util/util');
+const striptags = require('striptags');
 
 class GroupService {
 	
-	constructor( databaseProvider, userService ) {
+	static get allowedFields() {
+		return [
+			'name',
+			'isOpen',
+			'isModerated',
+			'isPublic',
+			'profileColor',
+			'about'
+		]
+	}
+
+	constructor( databaseProvider, userService, workerService, s3Provider ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
+		this.workerService = workerService;
+		this.s3Provider = s3Provider;
 	}
 
 	getGroupViewByUser( userId, slug ) {
@@ -22,6 +39,40 @@ class GroupService {
 				});
 			});
 		});
+	}
+
+	getGroupViewsByUserAndPage( userId, page ) {
+		page = isNaN( page ) ? 1 : page;
+		const GroupModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		return GroupMemberModel.findAll({
+			where: {
+				userId: userId
+			},
+			attributes: ['groupId'],
+			group: ['group_id'],
+			limit: 20,
+			offset: ((page - 1) * 20)
+		}).then((groups) => {
+			if( !groups ) {
+				return [];
+			}
+			groups = groups.map( group => group.get('groupId'));
+			return this.getGroupsByIds( groups ).then((models) => {
+				return Promise.all( models.map((model) => {
+					return this._createViewFromDBModel( model );
+				}));
+			});
+		})
+
+		// return this.getGroupBySlug(slug).then((model) => {
+		// 	return this._createViewFromDBModel( model ).then((model) => {
+		// 		return this.isUserMemberOfGroup( userId, model.id ).then((yes) => {
+		// 			model.userIsMember = yes;
+		// 			return model;
+		// 		});
+		// 	});
+		// });
 	}
 
 	getGroupBySlug( slug ) {
@@ -142,8 +193,8 @@ class GroupService {
 			userId: userId,
 			slug: Util.createSHA256Hash( userId + payload.name ),
 			isPublic: payload.isPublic,
-			isModerated: payload.isModerated,
-			isOpen: payload.isOpen,
+			isModerated: payload.isModerated || false,
+			isOpen: payload.isOpen || true,
 			name: payload.name,
 			about: striptags(payload.about),
 			profileColor: Util.generateRandomColor()
@@ -154,7 +205,7 @@ class GroupService {
 				userId: userId,
 				approved: true
 			}).then(() => {
-				return model.get();
+				return this._createViewFromDBModel( model );
 			});
 		});
 	}
@@ -162,20 +213,109 @@ class GroupService {
 	updateGroupByUserAndSlug( userId, slug, payload ) {
 		const GroupModel = this.databaseProvider.getModelByName( 'group' );
 		return this.getGroupBySlug(slug).then((model) => {
-			return this.isUserAdminOfGroup( userId, model.id );
-		}).then(( isAdmin ) => {
-			if( !isAdmin ) {
-				throw new Error('Unauthorized');
-			}
-			return GroupModel.update( payload, {
-				where: {
-					id: groupId
-				}	
-			}).then(( model ) => {
-				return this.getGroupViewByUser( userId, model.slug );
+			return this.isUserAdminOfGroup( userId, model.id ).then(( isAdmin ) => {
+				if( !isAdmin ) {
+					throw new Error('Unauthorized');
+				}
+				return GroupModel.update( payload, {
+					where: {
+						id: model.id
+					}	
+				}).then(( model ) => {
+					return this.getGroupViewByUser( userId, model.slug );
+				});
 			});
 		});
 	}
+
+	updateGroupProfileBySlug( userId, slug, payload ) {
+		const GroupModel = this.databaseProvider.getModelByName( 'group' );
+		return this.getGroupBySlug(slug).then((model) => {
+			return this.isUserAdminOfGroup( userId, model.id ).then(( isAdmin ) => {
+				if( !isAdmin ) {
+					throw new Error('Unauthorized');
+				}
+				let fieldKeys = Object.keys( fields );
+				let updateable = Util.findCommonElements( [ GroupService.allowedFields, fieldKeys ] );
+				let payload = {};
+				updateable.forEach((key) => {
+					if( key == 'about' ) {
+						payload.about = striptags( payload.about );
+					} else {
+						payload[ key ] = Util.trim( fields[ key ] );
+					}
+				});
+				return GroupModel.update( payload, {
+					where: {
+						id: model.id
+					}	
+				}).then(( model ) => {
+					return this.getGroupViewByUser( userId, model.slug );
+				});
+			});
+		});
+	}
+
+	updateGroupByUserAndId( userId, id, payload ) {
+		const GroupModel = this.databaseProvider.getModelByName( 'group' );
+		return this.getGroupById(id).then((model) => {
+			return this.isUserAdminOfGroup( userId, model.id ).then(( isAdmin ) => {
+				if( !isAdmin ) {
+					throw new Error('Unauthorized');
+				}
+				return GroupModel.update( payload, {
+					where: {
+						id: model.id
+					}	
+				}).then(( model ) => {
+					return this.getGroupViewByUser( userId, model.slug );
+				});
+			});
+		});
+	}
+
+	updateCoverPic( userId, slug, file ) {
+		const GroupModel = this.databaseProvider.getModelByName( 'group' );
+		return this.getGroupBySlug(slug).then((model) => {
+			return this.isUserAdminOfGroup( userId, model.id ).then(( isAdmin ) => {
+				if( !isAdmin ) {
+					throw new Error('Unauthorized');
+				}
+				const fileExtension = file.name.split('.').pop();
+				const newFileName = Util.createSHA256Hash( [userId, file.name].join('_') ) + '_' + Date.now() + '.' + fileExtension;
+				return this.s3Provider.putObject( this.s3Provider.OBJECT_TYPES.TEMP, newFileName, file ).then((response) => {
+					this._scheduleCoverPicResizingOperation( userId, response.tempFilename, file.type );
+					return response.url;
+				});
+			});
+		});
+	}
+
+	deleteGroupBySlug( userId, slug ) {
+		const GroupModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		return this.getGroupBySlug(slug).then((model) => {
+			return this.isUserAdminOfGroup( userId, model.id ).then(( isAdmin ) => {
+				if( !isAdmin ) {
+					throw new Error('Unauthorized');
+				}
+				return Promise.all([
+					GroupModel.destroy({
+						where: {
+							id: model.id
+						}
+					}),
+					GroupMemberModel.destroy({
+						where: {
+							groupId: model.id
+						}
+					})
+				]).then( _ => true );
+			});
+		});
+	}
+
+	// MEMBER ACTIONS
 
 	joinGroup( userId, slug ) {
 		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
@@ -357,11 +497,34 @@ class GroupService {
 		}).then((r) => !!r);
 	}
 
+	// POSTPROCESSES
+
+	// TODO: file upload & encryption
+
+	_scheduleCoverPicResizingOperation( userId, groupId, tempFilename, contentType ) {
+		this.workerService.launchWorkerWithTypeAndStartParams( this.workerService.WORKER_TYPES.COVER_PIC_POSTPROCESS, {
+			tempFilename: tempFilename,
+			contentType: contentType
+		}).then((photo) => {
+			return this.getGroupById( groupId ).then((group) => {
+				let groupPhotos = group.photos || {};
+				groupPhotos.cover = photo;
+				return this.updateGroupByUserAndId(userId, groupId, {
+					photos: groupPhotos
+				});
+			});
+		}).catch((e) => {
+			console.error(e, e.stack);
+		});
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
-			this.singleton = new GroupService( databaseProvider, userService );
+			const workerService = WorkerService.instance;
+			const s3Provider = S3Provider.instance;
+			this.singleton = new GroupService( databaseProvider, userService, workerService, s3Provider);
 		}
 		return this.singleton;
 	}
