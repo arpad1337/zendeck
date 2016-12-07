@@ -27,6 +27,9 @@ module.exports = {
 			payload: {
 				type: TYPES.JSON
 			},
+			correlation_id: {
+				type: TYPES.STRING(40)
+			},
 			created_at: {
 				type: TYPES.DATE
 			},
@@ -38,11 +41,17 @@ module.exports = {
 			return queryInterface.addIndex( TABLE_NAME, ['user_id'] )
 		})
 		.then(() => {
+			return queryInterface.addIndex( TABLE_NAME, ['correlation_id'] )
+		})
+		.then(() => {
 			return queryInterface.addIndex( TABLE_NAME, ['type'] )
 		});
 	},
 	down: ( queryInterface, TYPES ) => {
 		return queryInterface.removeIndex( TABLE_NAME, ['user_id'])
+		.then(() => {
+			return queryInterface.removeIndex( TABLE_NAME, ['correlation_id'])
+		})
 		.then(() => {
 			return queryInterface.removeIndex( TABLE_NAME, ['type'])
 		})

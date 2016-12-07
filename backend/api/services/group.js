@@ -4,11 +4,18 @@
 
 const DatabaseProvider = require('../../providers/database');
 const UserService = require('./user');
+const NotificationService = require('./notification');
+const InvitationService = require('./invitation');
+
 const WorkerService = require( '../services/worker' );
 const S3Provider = require( '../../providers/s3' );
 
 const Util = require('../../util/util');
 const striptags = require('striptags');
+
+const HTMLEMailFactory = require('../../util/html-email-factory');
+const EmailProvider = require('../../providers/email');
+const ENV = require('../../config/environment');
 
 class GroupService {
 	
@@ -23,11 +30,14 @@ class GroupService {
 		]
 	}
 
-	constructor( databaseProvider, userService, workerService, s3Provider ) {
+	constructor( databaseProvider, userService, workerService, s3Provider, notificationService, emailProvider, invitationService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
 		this.workerService = workerService;
 		this.s3Provider = s3Provider;
+		this.notificationService = notificationService;
+		this.emailProvider = emailProvider;
+		this.invitationService = invitationService;
 	}
 
 	quickSearch( predicate ) {
@@ -70,6 +80,80 @@ class GroupService {
 			}
 			return Promise.all( models.map( (model) => this._createViewFromDBModel( model ) ) );
 		})
+	}
+
+	inviteUsersToGroup( userId, groupSlug, emails ) {
+		return this.userService.getUsersByEmails( emails ).then((users) => {
+			let userIds = users.map((user) => {
+				return user.id;
+			});
+			return this.getGroupBySlug( groupSlug ).then((group) => {
+				return this.isUserApprovedMemberOfGroup( userId, group.id ).then((isApproved) => {
+					if( !isApproved ) {
+						throw new Error('Unauthorized');
+					}
+					return this.invitationService.createInvitation( userId, 'GROUP_INVITATION', {
+						group: {
+							id: group.id
+						},
+						emails: emails
+					}).then((invitationKey) => {
+						const email = HTMLEMailFactory.createGroupInvitationEmail({
+							ACTION_URL: ENV.BASE_URL + '/groups/' + groupSlug + '/invitation/' + invitationKey,
+							USERNAME: user.username,
+							FULLNAME: user.fullname,
+							GROUPNAME: group.name
+						});
+						return this.emailProvider.sendEmail( emails, email.subject, email.body );
+					}).then(() => {
+						return true;
+					}).catch((e) => {
+						return false;
+					}).then(() => {
+						return Promise.all( userIds.map((id) => {
+							return this.notificationService.createNotification( id, this.notificationService.NOTIFICATION_TYPE.GROUP_INVITATION, {
+								user: {
+									id: userId
+								},
+								group: {
+									id: group.id
+								}
+							});
+						}));
+					});
+				});
+			});
+		});
+	}
+
+	acceptGroupInvitation( userId, invitationKey ) {
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		return this.invitationService.resolveInvitation( invitationKey ).then((invitation) => {
+			if( invitation ) {
+				return this.userService.getUserById( userId ).then((user) => {
+					if( invitation.payload.emails.indexOf( user.email ) === -1 ) {
+						throw new Error('Unauthorized');
+					}
+					return GroupMemberModel.update({
+						approved: true
+					}, {
+						where: {
+							userId: userId,
+							groupId: invitation.payload.group.id
+						}
+					}).then( _ => {
+						return this.notificationService.createNotification( invitation.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_INVITATION_ACCEPTED, {
+							user: {
+								id: userId
+							},
+							group: {
+								id: invitation.payload.group.id
+							}
+						});
+					});
+				});
+			}
+		});
 	}
 
 	getGroupViewByUser( userId, slug ) {
@@ -377,6 +461,17 @@ class GroupService {
 				}).then(() => {
 					return true;
 				});
+			}).then(() => {
+				if( !model.isOpen ) {
+					return this.notificationService.createNotification( model.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_JOIN_REQUEST, {
+						user: {
+							id: userId
+						},
+						group: {
+							id: model.id
+						}
+					});
+				}
 			})
 		});
 	}
@@ -564,9 +659,12 @@ class GroupService {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
+			const notificationService = NotificationService.instance;
 			const workerService = WorkerService.instance;
 			const s3Provider = S3Provider.instance;
-			this.singleton = new GroupService( databaseProvider, userService, workerService, s3Provider);
+			const emailProvider = EmailProvider.instance;
+			const invitationService = InvitationService.instance;
+			this.singleton = new GroupService( databaseProvider, userService, workerService, s3Provider, notificationService, emailProvider, invitationService );
 		}
 		return this.singleton;
 	}

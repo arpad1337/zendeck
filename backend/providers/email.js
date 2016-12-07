@@ -17,14 +17,17 @@ class EmailProvider {
 		this.client = new AWS.SES( config );
 	}
 
-	sendEmail( email, subject, body ) {
+	sendEmail( emails, subject, body ) {
 		console.log('SENDING FROM', AWS_CONFIG.SES_FROM);
+		if( !Array.isArray( emails ) ) {
+			emails = [ emails ];
+		}
 		return new Promise((resolve, reject) => {
 			this.client.sendEmail(
 				{ 
 					Source: AWS_CONFIG.SES_FROM,
 					Destination: {
-						ToAddresses: [ email ]
+						ToAddresses: emails
 					},
 					Message: {
 						Subject: {

@@ -3,6 +3,7 @@
  */
 
 const DatabaseProvider = require('../../providers/database');
+
 const Util = require('../../util/util');
 const WorkerService = require( '../services/worker' );
 const S3Provider = require( '../../providers/s3' );
@@ -69,26 +70,6 @@ class UserService {
 		});
 	}
 
-	getUserById( id ) {
-		const UserModel = this.databaseProvider.getModelByName( 'user' );
-		id = Number( id );
-		return UserModel.findOne({
-			where: {
-				id: id
-			}
-		}).then( model => model.getPublicView() );
-	}
-
-	getUserAuthorViewById( id ) {
-		const UserModel = this.databaseProvider.getModelByName( 'user' );
-		id = Number( id );
-		return UserModel.findOne({
-			where: {
-				id: id
-			}
-		}).then( model => model.getAuthorView() );
-	}
-
 	searchUserByKeyword( usernameOrEmail ) {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		usernameOrEmail = String(usernameOrEmail).trim();
@@ -109,6 +90,35 @@ class UserService {
 			}
 			throw new Error('User not found');
 		});
+	}
+
+	getUserByEmail( email ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		return UserModel.findOne({
+			where: {
+				email: email.trim()
+			}
+		}).then( model => model.getPublicView() );
+	}
+
+	getUserById( id ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		id = Number( id );
+		return UserModel.findOne({
+			where: {
+				id: id
+			}
+		}).then( model => model.getPublicView() );
+	}
+
+	getUserAuthorViewById( id ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		id = Number( id );
+		return UserModel.findOne({
+			where: {
+				id: id
+			}
+		}).then( model => model.getAuthorView() );
 	}
 
 	getUserByUsername( username ) {
@@ -164,6 +174,23 @@ class UserService {
 		return UserModel.findAll({
 			where: {
 				id: ids,
+				enabled: true,
+				$or: [{
+					status: 'SUBMITED'
+				}, {
+					status: 'REGISTERED'
+				}]
+			}
+		}).then( models => {
+			return models.map( model => model.getPublicView() );
+		});
+	}
+
+	getUsersByEmails( emails ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		return UserModel.findAll({
+			where: {
+				email: emails,
 				enabled: true,
 				$or: [{
 					status: 'SUBMITED'

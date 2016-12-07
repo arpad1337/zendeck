@@ -3,6 +3,7 @@
  */
 
 const DatabaseProvider = require('../../providers/database');
+const NotificationService = require('./notification');
 const UserService = require('./user'); 
 const CommentService = require('./comment'); 
 const GroupService = require('./group'); 
@@ -16,12 +17,27 @@ class PostService {
 		return 20;
 	}
 
-	constructor( databaseProvider, userService, commentService, groupService, attachmentService ) {
+	constructor( databaseProvider, userService, commentService, groupService, attachmentService, notificationService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
 		this.commentService = commentService;
 		this.groupService = groupService;
 		this.attachmentService = attachmentService;
+		this.notificationService = notificationService;
+	}
+
+	getPostById( id ) {
+		const PostModel = this.databaseProvider.getModelByName('post');
+		return PostModel.findOne({
+			where: {
+				id: id
+			}
+		}).then((model) => {
+			if( !model ) {
+				return null;
+			}
+			return model.get();
+		})
 	}
 
 	commentOnPost( userId, postId, content ) {
@@ -43,6 +59,18 @@ class PostService {
 			groupId: payload.groupId
 		}).then((model) => {
 			return this.getExtendedPostModelById( model.get('id') ).then((n) => {
+				if( n.inGroup && n.group.isModerated ) {
+					return this.notificationService.createNotification( ng.group.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_POST_REQUEST, {
+						user: {
+							id: userId
+						},
+						group: {
+							id: n.group.id
+						}
+					}).then(() => {
+						return n;
+					});
+				}
 				return n;
 			});
 		});
@@ -196,7 +224,8 @@ class PostService {
 			const commentService = CommentService.instance;
 			const groupService = GroupService.instance;
 			const attachmentService = AttachmentService.instance;
-			this.singleton = new PostService( databaseProvider, userService, commentService, groupService, attachmentService );
+			const notificationService = NotificationService.instance;
+			this.singleton = new PostService( databaseProvider, userService, commentService, groupService, attachmentService, notificationService );
 		}
 		return this.singleton;
 	}

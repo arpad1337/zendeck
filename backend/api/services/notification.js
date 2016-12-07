@@ -163,18 +163,25 @@ class NotificationService {
 		};
 	}
 
-	getLastNotifWithType( userId, type ) {
+	getLastNotifWithType( userId, type, correlationParameter ) {
 		const since = new Date();
 		const lastHour = since.setHours( since.getHours() - 1 );
 		const NotificationModel = this.databaseProvider.getModelByName( 'notification' );
-		return NotificationModel.findOne({
-			where: {
-				userId: userId,
-				type: type,
-				createdAt: {
-					$gt: lastHour.toISOString()
-				}
+		let where = {
+			userId: userId,
+			type: type,
+			createdAt: {
+				$gt: lastHour.toISOString()
 			}
+		};
+		if( type === NOTIFICATION_TYPE.POST_LIKE || type === NOTIFICATION_TYPE.POST_COMMENT ) {
+			where.correlationId = 'POST:' + correlationParameter;
+		}
+		if( type === NOTIFICATION_TYPE.STARTED_FOLLOWING ) {
+			where.correlationId = 'USER:' + correlationParameter;
+		}
+		return NotificationModel.findOne({
+			where: where
 		}).then((model) => {
 			if( model ) {
 				return model.get();
@@ -194,12 +201,19 @@ class NotificationService {
 
 	_createNotification( userId, type, payload ) {
 		const NotificationModel = this.databaseProvider.getModelByName( 'notification' );
-		return NotificationModel.create({
+		let model = {
 			userId: userId,
 			seen: false,
 			type: type,
 			payload: payload
-		});
+		};
+		if( type === NOTIFICATION_TYPE.POST_LIKE || type === NOTIFICATION_TYPE.POST_COMMENT ) {
+			model.correlationId = 'POST:' + payload.post.id;
+		}
+		if( type === NOTIFICATION_TYPE.STARTED_FOLLOWING ) {
+			model.correlationId = 'USER:' + payload.user.id;
+		}
+		return NotificationModel.create(model);
 	}
 
 	_updateNotificationById( id, payload ) {
@@ -215,7 +229,7 @@ class NotificationService {
 		const NotificationModel = this.databaseProvider.getModelByName( 'notification' );
 		switch( type ) {
 			case NOTIFICATION_TYPE.STARTED_FOLLOWING: {
-				return this.getLastNotifWithType( userId, type ).then((notif) => {
+				return this.getLastNotifWithType( userId, type, payload.user.id ).then((notif) => {
 					if( notif ) {
 						let newPayload = {
 							users: [ notif.payload.user, payload.user ]
@@ -237,7 +251,7 @@ class NotificationService {
 				break;
 			}
 			case NOTIFICATION_TYPE.POST_COMMENT: {
-				return this.getLastNotifWithType( userId, type ).then((notif) => {
+				return this.getLastNotifWithType( userId, type, payload.post.id ).then((notif) => {
 					if( notif ) {
 						let newPayload = {
 							users: [ notif.payload.user, payload.user ]
@@ -259,7 +273,7 @@ class NotificationService {
 				break;
 			}
 			case NOTIFICATION_TYPE.POST_LIKE: {
-				return this.getLastNotifWithType( userId, type ).then((notif) => {
+				return this.getLastNotifWithType( userId, type, payload.post.id ).then((notif) => {
 					if( notif ) {
 						let newPayload = {
 							users: [ notif.payload.user, payload.user ]

@@ -3,6 +3,9 @@
  */
 
 const UserService = require( './user' );
+const NotificationService = require('./notification');
+const InvitationService = require('./invitation');
+
 const Util = require('../../util/util');
 const OTP_SECRET = require('../../config/secrets').OTP_SECRET;
 const HTMLEMailFactory = require('../../util/html-email-factory');
@@ -13,10 +16,12 @@ const ENV = require('../../config/environment');
 
 class AuthService {
 
-	constructor( databaseProvider, userService, emailProvider ) {
+	constructor( databaseProvider, userService, emailProvider, invitationService, notificationService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
 		this.emailProvider = emailProvider;
+		this.invitationService = invitationService;
+		this.notificationService = notificationService;
 	}
 
 	login( usernameOrEmail, password ) {
@@ -28,6 +33,18 @@ class AuthService {
 				return this.userService.getUserById( user.id );
 			}
 			throw new Error('Password mismatch');
+		});
+	}
+
+	checkUsernameAvailability( username ) {
+		return this.userService.getUserbyUsername( username ).then((u) => {
+			return !!u;
+		});
+	}
+
+	checkEmailAvailability( email ) {
+		return this.userService.getUserByEmail( username ).then((u) => {
+			return !!u;
 		});
 	}
 
@@ -47,6 +64,37 @@ class AuthService {
 				return this.userService.getUserById( user.id );
 			}
 			throw new Error('User doesn\'t exists');
+		});
+	}
+
+	inviteUsers( userId, emails ) {
+		return this.userService.getUserById( userId ).then((user) => {
+			return this.invitationService.createInvitation( userId, 'PLATFORM_INVITATION' ).then((invitationKey) => {
+					const email = HTMLEMailFactory.createPlatformInvitationEmail({
+						ACTION_URL: ENV.BASE_URL + '/invitation/' + invitationKey,
+						USERNAME: user.username,
+						FULLNAME: user.fullname
+					});
+					return this.emailProvider.sendEmail( emails, email.subject, email.body );
+				}).then(() => {
+					return true;
+				}).catch((e) => {
+					return false;
+				});
+		});
+	}
+
+	acceptInvitation( userId, invitationKey ) {
+		return this.invitationService.resolveInvitation( invitationKey ).then((invitation) => {
+			if( invitation ) {
+				return this.notificationService.createNotification( invitation.userId, this.notificationService.NOTIFICATION_TYPE.PLATFORM_INVITATION_ACCEPTED, {
+					user: {
+						id: userId
+					}
+				}).then(() => {
+					return this.userService.updateUser( userId, {enabled: true} );
+				});
+			}
 		});
 	}
 
@@ -123,7 +171,9 @@ class AuthService {
 			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
 			const emailProvider = EmailProvider.instance;
-			this.singleton = new AuthService( databaseProvider, userService, emailProvider );
+			const invitationService = InvitationService.instance;
+			const notificationService = NotificationService.instance;
+			this.singleton = new AuthService( databaseProvider, userService, emailProvider, invitationService, notificationService );
 		}
 		return this.singleton;
 	}

@@ -4,14 +4,16 @@
 
 const DatabaseProvider = require('../../providers/database');
 const UserService = require('../services/user');
+const NotificationService = require('./notification');
 
 const striptags = require('striptags');
 
 class MessageService {
 	
-	constructor( databaseProvider, userService ) {
+	constructor( databaseProvider, userService, notificationService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
+		this.notificationService = notificationService;
 	}
 
 	getThreadsByUserAndPage( userId, recipientId, page ) {
@@ -135,7 +137,13 @@ class MessageService {
 				content: striptags( content )
 			});
 		}).then((message) => {
-			return this._createMessageModelFromDBModel( message );
+			return this.notificationService.createNotification( userId, this.notificationService.NOTIFICATION_TYPE.NEW_MESSAGE, {
+				user: {
+					id: recipientId
+				}
+			}).then(() => {
+				return this._createMessageModelFromDBModel( message );
+			});
 		});
 	}
 
@@ -143,7 +151,8 @@ class MessageService {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
-			this.singleton = new MessageService( databaseProvider, userService );
+			const notificationService = NotificationService.instance;
+			this.singleton = new MessageService( databaseProvider, userService, notificationService );
 		}
 		return this.singleton;
 	}

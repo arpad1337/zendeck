@@ -5,41 +5,41 @@
 const databaseProvider = require('../providers/database').instance;
 const TYPES = databaseProvider.Sequelize;
 const connection = databaseProvider.connection;
-const Util = require('../util/util');
 
 const sequelizeModelHelper = require('../util/sequelize-model-helper');
 
 const model = sequelizeModelHelper.buildModel(
-	// Table name
-	'notification',
-	// Schema
+	'invitation',
 	{
+		invitationKey: {
+			field: 'invitation_key',
+			type: TYPES.STRING(64)
+		},
 		userId: {
 			field: 'user_id',
 			type: TYPES.INTEGER,
 			allowNull: false
 		},
-		seen: {
-			type: TYPES.BOOLEAN,
-			defaultValue: false
-		},
-		type: {
-			type: TYPES.STRING(40)
-		},
 		payload: {
 			type: TYPES.JSON
 		},
-		correlationId: {
-			field: 'correlation_id',
-			type: TYPES.STRING(40)
+		type: {
+			type: TYPES.ENUM,
+			values: [
+				'PLATFORM_INVITATION',
+				'GROUP_INVITATION'
+			],
+			defaultValue: 'PLATFORM_INVITATION'
+		},
+		expiration: {
+			type: TYPES.DATE
 		}
 	},
-	// Traits
 	[
 		sequelizeModelHelper.TIMESTAMPS_SETTINGS
 	]
 );
 
-const Notifcation = connection.define( 'Notifcation', model.schema, model.settings );
+const Invitation = connection.define( 'Invitation', model.schema, model.settings );
 
-module.exports = Notifcation;
+module.exports = Invitation;

@@ -4,6 +4,7 @@
 
 const DatabaseProvider = require('../../providers/database');
 const UserService = require('./user'); 
+const NotificationService = require('./notification');
 
 const striptags = require('striptags');
 
@@ -13,9 +14,10 @@ class CommentService {
 		return 10;
 	}
 
-	constructor( databaseProvider, userService ) {
+	constructor( databaseProvider, userService, notificationService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
+		this.notificationService = notificationService;
 	}
 
 	getCommentsByPostIdAndPage( postId, page ) {
@@ -69,10 +71,21 @@ class CommentService {
 			content: striptags(content).substr(0, 1000)
 		}).then((model) => {
 			model = model.get();
-			return this.userService.getUserById( model.userId ).then((user) => {
-				model.author = user;
-				delete model.userId;
-				return model;
+			return this.postService.getPostById( postId ).then((post) => {
+				return this.notificationService.createNotification( post.userId, this.notificationService.NOTIFICATION_TYPE.POST_COMMENT, {
+					user: {
+						id: userId
+					},
+					post: {
+						id: postId
+					}
+				});
+			}).then(() => {			
+				return this.userService.getUserById( model.userId ).then((user) => {
+					model.author = user;
+					delete model.userId;
+					return model;
+				});
 			});
 		});
 	}
@@ -150,7 +163,8 @@ class CommentService {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
-			this.singleton = new CommentService( databaseProvider, userService );
+			const notificationService = NotificationService.instance;
+			this.singleton = new CommentService( databaseProvider, userService, notificationService );
 		}
 		return this.singleton;
 	}

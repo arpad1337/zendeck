@@ -9,11 +9,13 @@ const PostService = require('./post');
 const CollectionService = require('./collection');
 const AttachmentService = require('./attachment');
 const FilterService = require('./filter');
+const NotificationService = require('./notification');
+
 const Util = require('../../util/util');
 
 class FeedService {
 
-	constructor( databaseProvider, collectionService, friendService, groupService, postService, attachmentService, filterService ) {
+	constructor( databaseProvider, collectionService, friendService, groupService, postService, attachmentService, filterService, notificationService ) {
 		this.databaseProvider = databaseProvider;
 		this.collectionService = collectionService;
 		this.friendService = friendService;
@@ -21,6 +23,7 @@ class FeedService {
 		this.postService = postService;
 		this.attachmentService = attachmentService;
 		this.filterService = filterService;
+		this.notificationService = notificationService;
 	}
 
 	getUserPostsFeedByIdAndPage( userId, page ) {
@@ -349,6 +352,17 @@ class FeedService {
 				userId: userId,
 				postId: postId
 			}
+		}).then(() => {
+			return this.postService.getPostById( postId ).then((post) => {
+				return this.notificationService.createNotification( post.userId, this.notificationService.NOTIFICATION_TYPE.POST_LIKE, {
+					user: {
+						id: userId
+					},
+					post: {
+						id: postId
+					}
+				});
+			});
 		});
 	}
 
@@ -392,6 +406,7 @@ class FeedService {
 			const postService = PostService.instance;
 			const attachmentService = AttachmentService.instance;
 			const filterService = FilterService.instance;
+			const notificationService = NotificationService.instance;
 			this.singleton = new FeedService( 
 				databaseProvider, 
 				collectionService, 
@@ -399,7 +414,8 @@ class FeedService {
 				groupService, 
 				postService, 
 				attachmentService, 
-				filterService
+				filterService,
+				notificationService
 			);
 		}
 		return this.singleton;

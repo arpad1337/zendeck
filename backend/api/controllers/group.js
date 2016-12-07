@@ -96,6 +96,30 @@ class GroupController {
 
 	// MEMBER ACTIONS
 
+	*inviteMembersToGroup( context ) {
+		const userId = context.session.user.id;
+		const groupSlug = context.params.groupSlug;
+		const emails = context.request.fields.emails;
+		try {
+			context.body = yield this.groupService.inviteUsersToGroup( userId, groupSlug, emails );
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
+	*acceptInvitation( context ) {
+		const userId = context.session.user.id;
+		const groupSlug = context.params.groupSlug;
+		const invitationKey = context.params.invitationKey;
+		try {
+			context.body = yield this.groupService.acceptGroupInvitation( userId, groupSlug, invitationKey );
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	*joinGroup( context ) {
 		const userId = context.session.user.id;
 		const groupSlug = context.params.groupSlug;

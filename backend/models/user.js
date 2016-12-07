@@ -89,6 +89,11 @@ const model = sequelizeModelHelper.buildModel(
 			type: TYPES.BOOLEAN,
 			defaultValue: false
 		},
+		isPremium: {
+			field: 'is_premium',
+			type: TYPES.BOOLEAN,
+			defaultValue: true
+		},
 		status: {
 			type: TYPES.ENUM,
 			values: [

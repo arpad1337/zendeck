@@ -37,6 +37,25 @@ const ROUTES = [
 		action: 'resetPassword',
 		method: 'post'
 	},
+	{
+		path: '/auth/invite',
+		controller: 'auth',
+		method: 'post',
+		middlewares: ['session-check'],
+		action: 'inviteUsers'
+	},
+	{
+		path: '/auth/check/username',
+		controller: 'auth',
+		method: 'post',
+		action: 'checkUsernameAvailability'
+	},
+	{
+		path: '/auth/check/email',
+		controller: 'auth',
+		method: 'post',
+		action: 'checkEmailAvailability'
+	},
 
 	// USER
 
@@ -351,6 +370,20 @@ const ROUTES = [
 
 	// GROUP MEMBERS
 
+	{
+		path: '/group/:groupSlug/invitation',
+		method: 'post',
+		controller: 'group',
+		action: 'inviteMembersToGroup',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/invitation/:invitationKey',
+		method: 'post',
+		controller: 'group',
+		action: 'acceptInvitation',
+		middlewares: ['session-check']
+	},
 	{
 		path: '/group/:groupSlug/members',
 		method: 'get',

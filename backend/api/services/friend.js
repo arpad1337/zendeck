@@ -4,6 +4,7 @@
 
 const DatabaseProvider = require('../../providers/database');
 const UserService = require('../services/user');
+const NotificationService = require('./notification');
 
 class FriendService {
 
@@ -11,9 +12,10 @@ class FriendService {
 		return 20;
 	}
 
-	constructor( databaseProvider, userService ) {
+	constructor( databaseProvider, userService, notificationService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
+		this.notificationService = notificationService;
 	}
 
 	touchFriendByUsername( userId, friendUsername ) {
@@ -99,6 +101,19 @@ class FriendService {
 				}).then(() => {
 					return true;
 				});
+			}).then(() => {
+				if( friend.isBusiness ) {
+					return this.notificationService.createNotification( friend.id, this.notificationService.NOTIFICATION_TYPE.STARTED_FOLLOWING, {
+						user: {
+							id: userId
+						}
+					});
+				}
+				return this.notificationService.createNotification( friend.id, this.notificationService.NOTIFICATION_TYPE.FRIEND_REQUEST, {
+					user: {
+						id: userId
+					}
+				});
 			});
 		}).catch(_ =>  false);
 	}
@@ -154,7 +169,8 @@ class FriendService {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
-			this.singleton = new FriendService( databaseProvider, userService );
+			const notificationService = NotificationService.instance;
+			this.singleton = new FriendService( databaseProvider, userService, notificationService );
 		}
 		return this.singleton;
 	}

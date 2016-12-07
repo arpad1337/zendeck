@@ -69,6 +69,10 @@ module.exports = {
 				type: TYPES.BOOLEAN,
 				defaultValue: false
 			},
+			is_premium: {
+				type: TYPES.BOOLEAN,
+				defaultValue: true
+			},
 			created_at: {
 				type: TYPES.DATE
 			},
