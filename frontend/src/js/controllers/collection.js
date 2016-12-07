@@ -80,15 +80,14 @@ class CollectionController extends PostController {
 		this.$scope.$digest();
 	}
 
-	async selectCollection( id ) {
+	async selectCollection( slug ) {
 		this.resetPaginator();
 		let collection = this.collections.find((f) => {
-			return f.id == id;
+			return f.slug == slug;
 		});
 		if( !collection ) {
 			try {
-				this._activeCollection = await this.collectionService.getCollectionById( id );
-				this._activeCollection.shared = true;
+				this._activeCollection = await this.collectionService.getCollectionBySlug( slug );
 				this.$scope.$digest();
 			} catch( e ) {
 				this.$state.go(this.FEED_STATES.POSTS);
@@ -96,7 +95,7 @@ class CollectionController extends PostController {
 		} else {
 			this._activeCollection = Object.assign( {}, collection );
 		}
-		let posts = await this.feedService.getPostsByCollectionIdAndPage( this._activeCollection.id, this._page );
+		let posts = await this.feedService.getPostsByCollectionSlugAndPage( this._activeCollection.slug, this._page );
 		posts.forEach((post) => {
 			this.posts.push( post );
 		});
@@ -112,14 +111,15 @@ class CollectionController extends PostController {
 				let persistedModel = await this.collectionService.copySharedCollectionToCollections( this._activeCollection );
 				delete this._activeCollection.shared;
 				this._activeCollection.id = persistedModel.id;
+				this._activeCollection.slug = persistedModel.slug;
 				this.collections.push( this._activeCollection );
 			} else {
 				let model = await this.openCreateCollectionDialog( this._activeCollection.name, this._activeCollection.isPublic );
 				this._activeCollection.name = model.name;
 				this._activeCollection.isPublic = model.isPublic == "true";
-				let persistedModel = await this.collectionService.updateCollection( this._activeCollection.id, this._activeCollection );
+				let persistedModel = await this.collectionService.updateCollection( this._activeCollection.slug, this._activeCollection );
 				let collection = this.collections.find((f) => {
-					return f.id == this._activeCollection.id;
+					return f.slug == this._activeCollection.slug;
 				});
 				collection.name = persistedModel.name;
 				collection.isPublic = persistedModel.isPublic;

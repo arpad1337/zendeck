@@ -30,8 +30,8 @@
                             </li>
                             <li ng-repeat="collection in ctrl.collections track by $index">
                                 <a 
-                                    ui-sref="feed.collection({collectionId: collection.id})" 
-                                    ng-click="ctrl.selectCollection( collection.id )"
+                                    ui-sref="feed.collection({collectionSlug: collection.slug})" 
+                                    ng-click="ctrl.selectCollection( collection.slug )"
                                     class=" "
                                     ng-class="ctrl.activeCollection == collection.id ? 'active' : ''"
                                 >
@@ -52,8 +52,8 @@
                         <ul>
                             <li ng-repeat="filter in ctrl.filters track by $index">
                                 <a 
-                                    ui-sref="feed.filtered({filterId: filter.id})" 
-                                    ng-click="ctrl.selectFilter( filter.id )"
+                                    ui-sref="feed.filtered({filterSlug: filter.slug})" 
+                                    ng-click="ctrl.selectFilter( filter.slug )"
                                     class=" "
                                     ng-class="ctrl.activeFilter == filter.id ? 'active' : ''"
                                 >

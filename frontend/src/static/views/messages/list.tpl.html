@@ -21,7 +21,10 @@
                     </span>
                 </div>
             </div>
-            <pre class="content">{{thread.messages[thread.messages.length - 1].message}}</pre>
+            <div class="content"
+                ng-class=" thread.lastMessage.author.id == ctrl.currentUser.id ? 'reply' : '' "
+                data-ng-bind-html="thread.lastMessage.message | formatContent | htmlSafe"
+            ></div>
             <button 
                 class="view-thread"
                 ui-sref="messages.thread({username:thread.recipient.username})"

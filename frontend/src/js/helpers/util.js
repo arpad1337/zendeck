@@ -29,8 +29,11 @@ const Util = {
 	prepareContentHTML: ( source ) => {
 		let content = " " + source + " ";
 		content = content.replace(/\n/ig, "<br>")
-						 .replace(Util.findUrlsInText( source ), '<a href="$&" target="_blank">$&</a>')
-						 .replace(/@(\w{1,15})\b/g, '<a href="/$1">@$1</a>')
+		let urls = Util.findUrlsInText( source );
+		if( urls.length > 0 ) {
+			content = content.replace(urls, '<a href="$&" target="_blank">$&</a>')
+		}
+		content = content.replace(/@([a-z0-9_-]{3,16})\b/g, '<a href="/$1">@$1</a>')
 		return content.trim();
 	},
 

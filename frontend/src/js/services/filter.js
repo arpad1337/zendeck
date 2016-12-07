@@ -14,49 +14,46 @@ class FilterService {
 	constructor( $q, $http ) {
 		this.$q = $q;
 		this.$http = $http;
-		this._filters = {
-			'0353arT45Q0r8L1CmKeT3oq10w665fZym655c6MGEqM7bxQ45872P2Z746ss7zyf':
-			{
-				name: 'Movies',
-				id: '0353arT45Q0r8L1CmKeT3oq10w665fZym655c6MGEqM7bxQ45872P2Z746ss7zyf',
-				tags: ['Marvel', 'DC', 'Movie', 'Comics']
-			}
-		};
+		// this._filters = {
+		// 	'0353arT45Q0r8L1CmKeT3oq10w665fZym655c6MGEqM7bxQ45872P2Z746ss7zyf':
+		// 	{
+		// 		name: 'Movies',
+		// 		id: '0353arT45Q0r8L1CmKeT3oq10w665fZym655c6MGEqM7bxQ45872P2Z746ss7zyf',
+		// 		tags: ['Marvel', 'DC', 'Movie', 'Comics']
+		// 	}
+		// };
 	}
 
 	getUserFilters() {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve([
-				{
-					name: 'Jobs',
-					id: 'wAU2Fn2kib6bJKK75aoHXcFl01AEWYyl2SB1GdS9qUjcqWlfZucrVqDYbtf9pket',
-					tags: ['JavaScipt', 'Frontend', 'Seattle']
-				}
-			]);
-		}, Math.random() * 1000);
-		return promise.promise;
+		// let promise = this.$q.defer();
+		// setTimeout(() => {
+		// 	promise.resolve([
+		// 		{
+		// 			name: 'Jobs',
+		// 			id: 'wAU2Fn2kib6bJKK75aoHXcFl01AEWYyl2SB1GdS9qUjcqWlfZucrVqDYbtf9pket',
+		// 			tags: ['JavaScipt', 'Frontend', 'Seattle']
+		// 		}
+		// 	]);
+		// }, Math.random() * 1000);
+		// return promise.promise;
+		return this.$http.get( CONFIG.API_PATH + '/user/me/filter' ).then((r) => {
+			return r.data;
+		});
 	}
 
-	getFilterById( id ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			if( this._filters[ id ] ) {
-				promise.resolve(this._filters[ id ]);
-			} else {
-				promise.reject('Not found');
-			}
-		}, Math.random() * 1000);
-		return promise.promise;
+	getFilterBySlug( slug ) {
+		return this.$http.get( CONFIG.API_PATH + '/filter/' + slug ).then((r) => {
+			return r.data;
+		});
 	}
 
 	copySharedFilterToCollection( payload ) {
-		payload.id = 'test_' + (Math.floor( Math.random() * 999999999 ));
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve( Object.assing({}, payload ));
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.post( CONFIG.API_PATH + '/user/me/filter', {
+			name: payload.name,
+			tags: payload.tags
+		}).then((r) => {
+			return r.data;
+		});
 	}
 
 	getTrendingTags() {
@@ -78,20 +75,21 @@ class FilterService {
 	}
 
 	createNewFilter( payload ) {
-		payload.id = 'test_' + (Math.floor( Math.random() * 999999999 ));
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve( payload );
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.post( CONFIG.API_PATH + '/user/me/filter', {
+			name: payload.name,
+			tags: payload.tags
+		}).then((r) => {
+			return r.data;
+		});
 	}
 
-	updateFilter( id, payload ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve( payload );
-		}, Math.random() * 1000);
-		return promise.promise;
+	updateFilter( slug, payload ) {
+		return this.$http.post( CONFIG.API_PATH + '/user/me/filter/slug', {
+			name: payload.name,
+			tags: payload.tags
+		}).then((r) => {
+			return r.data;
+		});
 	}
 
 	createNewFilterModelWithNameAndTags( name, tags ) {
@@ -105,7 +103,6 @@ class FilterService {
 	}
 
 	createNewFilterModelWithName( name ) {
-		
 		let model = {
 			name: name.substr(0,1).toUpperCase() + name.substring(1),
 			id: 'temporary_' + ( Math.floor( Math.random() * 99999 ) ),

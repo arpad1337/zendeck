@@ -53,7 +53,7 @@ class FeedController extends CollectionController {
 		this.filterService.getUserFilters().then((filters) => {
 			this.filters = filters;
 			if( this.$state.params.filterId ) {
-				this.selectFilter( this.$state.params.filterId );
+				this.selectFilter( this.$state.params.filterSlug );
 			}
 		});
 
@@ -93,7 +93,7 @@ class FeedController extends CollectionController {
 				break;
 			}
 			case this.FEED_STATES.FILTERED: {
-				newPosts = await this.feedService.getPostsByFilterIdAndPage( this._activeFilter.id, this._page );
+				newPosts = await this.feedService.getPostsByFilterAndPage( this._activeFilter.tags, this._page );
 				break;
 			}
 			case this.FEED_STATES.LIKED: {
@@ -122,15 +122,14 @@ class FeedController extends CollectionController {
 
 	// FILTERS
 
-	async selectFilter( id ) {
+	async selectFilter( slug ) {
 		this.resetPaginator();
 		let filter = this.filters.find((f) => {
-			return f.id == id;
+			return f.slug == slug;
 		});
 		if( !filter ) {
 			try {
-				this._activeFilter = await this.filterService.getFilterById( id );
-				this._activeFilter.shared = true;
+				this._activeFilter = await this.filterService.getFilterBySlug( slug );
 				this.$scope.$digest();
 			} catch( e ) {
 				this.$state.go(this.FEED_STATES.POSTS);
@@ -139,7 +138,7 @@ class FeedController extends CollectionController {
 			this._activeFilter = Object.assign( {}, filter );
 			this._activeFilter.tags = filter.tags.slice(0);
 		}
-		let posts = await this.feedService.getPostsByFilterIdAndPage( this._activeFilter.id, this._page );
+		let posts = await this.feedService.getPostsByFilterAndPage( this._activeFilter.tags, this._page );
 		posts.forEach((post) => {
 			this.posts.push( post );
 		});
@@ -151,9 +150,10 @@ class FeedController extends CollectionController {
 			if( this._activeFilter.shared ) {
 				let model = await this.openCreateFilterDialog( this._activeFilter.name );
 				this._activeFilter.name = model.name;
-				let persistedModel = await this.filterService.copySharedFilterToCollection( this._activeFilter.id );
+				let persistedModel = await this.filterService.copySharedFilterToCollection( this._activeFilter.slug );
 				delete this._activeFilter.shared;
 				this._activeFilter.id = persistedModel.id;
+				this._activeFilter.slug = persistedModel.slug;
 				this.filters.push( this._activeFilter );
 			} else if( this._activeFilter.temporary ) {
 				let model = await this.openCreateFilterDialog( this._activeFilter.name );
@@ -161,13 +161,14 @@ class FeedController extends CollectionController {
 				let persistedModel = await this.filterService.createNewFilter( this._activeFilter );
 				delete this._activeFilter.temporary;
 				this._activeFilter.id = persistedModel.id;
+				this._activeFilter.slug = persistedModel.slug;
 				this.filters.push( this._activeFilter );
 			} else {
 				let model = await this.openCreateFilterDialog( this._activeFilter.name );
 				this._activeFilter.name = model.name;
-				let persistedModel = await this.filterService.updateFilter( this._activeFilter.id, this._activeFilter );
+				let persistedModel = await this.filterService.updateFilter( this._activeFilter.slug, this._activeFilter );
 				let filter = this.filters.find((f) => {
-					return f.id == this._activeFilter.id;
+					return f.slug == this._activeFilter.slug;
 				});
 				filter.name = persistedModel.name;
 				filter.tags = persistedModel.tags;
@@ -182,7 +183,7 @@ class FeedController extends CollectionController {
 	}
 
 	async deleteCurrentFilter() {
-		await this.filterService.deleteFilter( this._activeFilter.id );
+		await this.filterService.deleteFilter( this._activeFilter.slug );
 		this.filters = await this.filterService.getUserFilters();
 		this.resetPaginator();
 		this.posts = this.feedService.getFeedByPage( this._page );
@@ -212,13 +213,13 @@ class FeedController extends CollectionController {
 	createNewFilterModelWithName( name ) {
 		let model = this.filterService.createNewFilterModelWithName( name );
 		this._activeFilter = model;
-		this.$state.go( this.FEED_STATES.FILTERED, { filterId: model.id });
+		this.$state.go( this.FEED_STATES.FILTERED, { filterSlug: model.slug });
 	}
 
 	createTemporaryFilterWithTag( tag ) {
 		let model = this.filterService.createNewFilterModelWithNameAndTags( tag, [ tag ] );
 		this._activeFilter = model;
-		this.$state.go( this.FEED_STATES.FILTERED, { filterId: model.id });
+		this.$state.go( this.FEED_STATES.FILTERED, { filterSlug: model.slug });
 	}
 
 	addTag( tag ) {

@@ -7,7 +7,8 @@ class CollectionService {
 	static get $inject() {
 		return [
 			'$q',
-			'$http'
+			'$http',
+			'UserService'
 		];
 	}
 
@@ -17,111 +18,84 @@ class CollectionService {
 
 	*/
 
-	constructor( $q, $http ) {
+	constructor( $q, $http, userService ) {
 		this.$q = $q;
 		this.$http = $http;
-		this._collections = {
-			'0353arT45Q0r8L1CmKeT3oq10w665fZym655c6MGEqM7bxQ45872P2Z746ss7zyf':
-			{
-				parent: false,
-				name: 'Videos',
-				isPublic: true,
-				shared: true,
-				id: '0353arT45Q0r8L1CmKeT3oq10w665fZym655c6MGEqM7bxQ45872P2Z746ss7zyf'
-			}
-		};
+		this.userService = userService;
+		// this._collections = {
+		// 	'0353arT45Q0r8L1CmKeT3oq10w665fZym655c6MGEqM7bxQ45872P2Z746ss7zyf':
+		// 	{
+		// 		parent: false,
+		// 		name: 'Videos',
+		// 		isPublic: true,
+		// 		shared: true,
+		// 		id: '0353arT45Q0r8L1CmKeT3oq10w665fZym655c6MGEqM7bxQ45872P2Z746ss7zyf'
+		// 	}
+		// };
 	}
 
 	getGroupCollections() {
-
+		return this.$http.get(CONFIG.API_PATH + '/group/:groupSlug/collection').then((r) => {
+			return r.data;
+		});
 	}
 
 	getUserCollections( username ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve([
-				{
-					parent: false,
-					name: 'Tech stuff',
-					isPublic: true,
-					id: 'wAU2Fn2kib6bJKK75aoHXcFl01AEWYyl2SB1GdS9qUjcqWlfZucrVqDYbtf9pket'
-				}
-			]);
-		}, Math.random() * 1000);
-		return promise.promise;
+		if( username == this.userService.currentUser.username ) {
+			username = 'me';
+		}
+		return this.$http.get( CONFIG.API_PATH + '/user/' + username + '/collection' ).then((r) => {
+			return r.data;
+		});
 	}
 
 	getGroupCollections( slug ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve([
-				{
-					parent: false,
-					name: 'Tech stuff',
-					isPublic: true,
-					id: 'wAU2Fn2kib6bJKK75aoHXcFl01AEWYyl2SB1GdS9qUjcqWlfZucrVqDYbtf9pket'
-				}
-			]);
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.get( CONFIG.API_PATH + '/group/' + slug + '/collection' ).then((r) => {
+			return r.data;
+		});
 	}
 
-	getCollectionById( id ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			if( this._collections[ id ] ) {
-				promise.resolve(this._collections[ id ]);
-			} else {
-				promise.reject('Not found');
-			}
-		}, Math.random() * 1000);
-		return promise.promise;
+	getCollectionBySlug( slug ) {
+		return this.$http.get( CONFIG.API_PATH + '/collection/' + slug ).then((r) => {
+			return r.data;
+		});
 	}
 
 	copySharedCollectionToCollections( collection ) {
-		let payload = {};
-		payload.id = collection.id;
-		payload.name = collection.name;
-		payload.isPublic = collection.isPublic;
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve( Object.assign({}, payload ));
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.post( CONFIG.API_PATH + '/collection', {
+			name: collection.name,
+			isPublic: collection.isPublic,
+			parent: collection.id
+		}).then((r) => {
+			return r.data;
+		});
 	}
 
-	updateCollection( id, payload ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve( payload );
-		}, Math.random() * 1000);
-		return promise.promise;
+	updateCollection( slug, payload ) {
+		return this.$http.post( CONFIG.API_PATH + '/collection/' + slug, {
+			name: payload.name,
+			isPublic: payload.isPublic
+		}).then((r) => {
+			return r.data;
+		});
 	}
 
 	createNewCollectionModelWithName( name, isPublic ) {
-		let model = {
-			name: name.substr(0,1).toUpperCase() + name.substring(1),
-			isPublic: isPublic,
-			id: 'new_' + ( Math.floor( Math.random() * 99999 ) )
-		};
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve( model );
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.post( CONFIG.API_PATH + '/collection', {
+			name: collection.name,
+			isPublic: collection.isPublic
+		}).then((r) => {
+			return r.data;
+		});
 	}
 
 	createNewGroupCollectionModelWithSlugAndName( slug, name, isPublic ) {
-		let model = {
-			name: name.substr(0,1).toUpperCase() + name.substring(1),
-			isPublic: isPublic,
-			id: 'new_' + ( Math.floor( Math.random() * 99999 ) )
-		};
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve( model );
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.post( CONFIG.API_PATH + '/group/' + slug + '/collection', {
+			name: collection.name,
+			isPublic: collection.isPublic
+		}).then((r) => {
+			return r.data;
+		});
 	}
 
 }

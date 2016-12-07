@@ -49,6 +49,7 @@ class UserService {
 	}
 
 	getUserStats( username ) {
+		// TODO
 		let promise = this.$q.defer();
 		setTimeout(() => {
 			promise.resolve({
@@ -179,19 +180,15 @@ class UserService {
 	}
 
 	checkUsername( username ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve(true)
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.post( CONFIG.API_PATH + '/auth/check/username', {
+			username: username
+		} ).then( r => !r.data );
 	}
 
 	checkEmail( email ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve(true)
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.post( CONFIG.API_PATH + '/auth/check/email', {
+			email: email
+		} ).then( r => !r.data );
 	}
 
 	getUserRecommendations() {

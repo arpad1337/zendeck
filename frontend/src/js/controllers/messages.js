@@ -76,7 +76,7 @@ class MessagesController {
 	}
 
 	get MESSAGES_STATES() {
-		return STATES.APPLICATION.MESSAGES.THREAD;
+		return STATES.APPLICATION.MESSAGES;
 	}
 
 	get currentState() {

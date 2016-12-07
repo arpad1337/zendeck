@@ -24,7 +24,9 @@
                     {{message.updatedAt | timeAgo}}
                 </span>
             </div>
-            <pre class="content">{{message.message}}</pre>
+            <div class="content"
+                data-ng-bind-html=" message.message | formatContent | htmlSafe"
+            ></div>
         </div>
     </div>
     <div class="compose">

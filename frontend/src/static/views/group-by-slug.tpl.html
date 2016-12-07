@@ -61,8 +61,8 @@
                     ng-if="ctrl.profile.userIsMember || collection.isPublic"
                 >
                     <a 
-                        ui-sref="groupBySlug.collection({groupSlug:ctrl.currentSlug, collectionId: collection.id})" 
-                        ng-click="ctrl.selectCollection( collection.id )"
+                        ui-sref="groupBySlug.collection({groupSlug:ctrl.currentSlug, collectionSlug: collection.slug})" 
+                        ng-click="ctrl.selectCollection( collection.slug )"
                         class=" "
                         ng-class="ctrl.activeCollection == collection.id ? 'active' : ''"
                     >

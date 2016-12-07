@@ -70,7 +70,7 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.FEED.COLLECTION,
 		opts: {
-			path: '/collection/:collectionId',
+			path: '/collection/:collectionSlug',
 			view: 'views/feed/starred.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
@@ -79,7 +79,7 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.FEED.FILTERED,
 		opts: {
-			path: '/filter/:filterId',
+			path: '/filter/:filterSlug',
 			view: 'views/feed/filtered.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
@@ -125,7 +125,7 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.GROUP_BY_SLUG.COLLECTION,
 		opts: {
-			path: '/collection/:collectionId',
+			path: '/collection/:collectionSlug',
 			view: 'views/group-by-slug/starred.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
