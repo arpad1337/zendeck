@@ -30,6 +30,48 @@ class GroupService {
 		this.s3Provider = s3Provider;
 	}
 
+	quickSearch( predicate ) {
+		const GroupModel = this.databaseProvider.getModelByName( 'group' );
+		return GroupModel.findAll({
+			where: {
+				name: {
+					$like: predicate + '%'
+				}
+			},
+			limit: 10
+		}).then((models) => {
+			if( !models ) {
+				return [];
+			}
+			return models.map((model) => {
+				return {
+					key: model.name,
+					type: 'group',
+					data: model.get()
+				}
+			});
+		})
+	}
+
+	searchByPredicateAndPage( predicate, page ) {
+		page = isNaN( page ) ? 1 : page;
+		const GroupModel = this.databaseProvider.getModelByName( 'group' );
+		return GroupModel.findAll({
+			where: {
+				name: {
+					$like: predicate + '%'
+				}
+			},
+			limit: 20,
+			offset: ((page - 1) * 20)
+		}).then((models) => {
+			if( !models ) {
+				return [];
+			}
+			return Promise.all( models.map( (model) => this._createViewFromDBModel( model ) ) );
+		})
+	}
+
 	getGroupViewByUser( userId, slug ) {
 		return this.getGroupBySlug(slug).then((model) => {
 			return this._createViewFromDBModel( model ).then((model) => {

@@ -110,13 +110,6 @@ const ROUTES = [
 		middlewares: ['session-check'],
 		method: 'get'
 	},
-	{
-		path: '/user/me/collection',
-		method: 'get',
-		controller: 'collection',
-		middlewares: ['session-check'],
-		action: 'getCurrentUserCollections'
-	},
 
 	// USER PUBLIC
 
@@ -138,12 +131,6 @@ const ROUTES = [
 		action: 'getUserPosts',
 		method: 'get'
 	},
-	{
-		path: '/user/:username/collection',
-		method: 'get',
-		controller: 'collection',
-		action: 'getUserCollections'
-	},
 
 	// FEED
 
@@ -160,6 +147,51 @@ const ROUTES = [
 		action: 'createPost',
 		middlewares: ['session-check'],
 		method: 'post'
+	},
+
+	// FILTERS 
+
+	{
+		path: '/user/me/filter',
+		method: 'get',
+		controller: 'filter',
+		middlewares: ['session-check'],
+		action: 'getUserFilters',
+	},
+	{
+		path: '/user/me/filter',
+		method: 'post',
+		controller: 'filter',
+		middlewares: ['session-check'],
+		action: 'createFilter',
+	},
+	{
+		path: '/user/me/filter/:slug',
+		method: 'post',
+		controller: 'filter',
+		middlewares: ['session-check'],
+		action: 'updateFilter',
+	},
+	{
+		path: '/user/me/filter/:slug',
+		method: 'delete',
+		controller: 'filter',
+		middlewares: ['session-check'],
+		action: 'deleteFilter',
+	},
+	{
+		path: '/filter/:slug',
+		method: 'get',
+		controller: 'filter',
+		middlewares: ['session-check'],
+		action: 'getFilterBySlug'
+	},
+	{
+		path: '/filter',
+		method: 'post',
+		controller: 'filter',
+		middlewares: ['session-check'],
+		action: 'runFilter'
 	},
 
 	// POST 
@@ -189,6 +221,19 @@ const ROUTES = [
 	// COLLECTION
 
 	{
+		path: '/user/me/collection',
+		method: 'get',
+		controller: 'collection',
+		middlewares: ['session-check'],
+		action: 'getCurrentUserCollections'
+	},
+	{
+		path: '/user/:username/collection',
+		method: 'get',
+		controller: 'collection',
+		action: 'getUserCollections'
+	},
+	{
 		path: '/collection',
 		method: 'post',
 		controller: 'collection',
@@ -203,21 +248,21 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
-		path: '/collection/:collectionSlug/post',
+		path: '/collection/:collectionSlug/feed',
 		method: 'get',
 		controller: 'feed',
 		action: 'getCollectionFeed',
 		middlewares: ['session-check']
 	},
 	{
-		path: '/collection/:collectionSlug/post/:postId',
+		path: '/collection/:collectionSlug/feed/:postId',
 		method: 'post',
 		controller: 'feed',
 		action: 'addPostToCollection',
 		middlewares: ['session-check']
 	},
 	{
-		path: '/collection/:collectionSlug/post/:postId',
+		path: '/collection/:collectionSlug/feed/:postId',
 		method: 'delete',
 		controller: 'feed',
 		action: 'removePostFromCollection',
@@ -234,7 +279,7 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
-		path: '/group',
+		path: '/user/me/group',
 		method: 'get',
 		controller: 'group',
 		action: 'getGroupsOfUser',
@@ -378,12 +423,48 @@ const ROUTES = [
 		controller: 'notification',
 		action: 'touchNotification',
 		middlewares: ['session-check']
-	}
+	},
 
 	// MESSAGES
 
+	{
+		path: '/message',
+		method: 'get',
+		controller: 'message',
+		action: 'getThreadsByPage',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/message/:username',
+		method: 'get',
+		controller: 'message',
+		action: 'getThreadByRecipientUsername',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/message/:username',
+		method: 'post',
+		controller: 'message',
+		action: 'sendMessage',
+		middlewares: ['session-check']
+	},
+
 	// SEARCH
 
+	{
+		path: '/search/:predicate',
+		method: 'post',
+		controller: 'search',
+		action: 'performBulkSearch',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/search/:predicate/:topic',
+		method: 'post',
+		controller: 'search',
+		action: 'performSearchByTopic',
+		middlewares: ['session-check']
+	}
 
 
 ];

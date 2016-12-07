@@ -8,17 +8,19 @@ const FriendService = require('./friend');
 const PostService = require('./post');
 const CollectionService = require('./collection');
 const AttachmentService = require('./attachment');
+const FilterService = require('./filter');
 const Util = require('../../util/util');
 
 class FeedService {
 
-	constructor( databaseProvider, collectionService, friendService, groupService, postService, attachmentService ) {
+	constructor( databaseProvider, collectionService, friendService, groupService, postService, attachmentService, filterService ) {
 		this.databaseProvider = databaseProvider;
 		this.collectionService = collectionService;
 		this.friendService = friendService;
 		this.groupService = groupService;
 		this.postService = postService;
 		this.attachmentService = attachmentService;
+		this.filterService = filterService;
 	}
 
 	getUserPostsFeedByIdAndPage( userId, page ) {
@@ -121,6 +123,34 @@ class FeedService {
 		}).then(this._createPostViewsFromDBModels);
 	}
 
+	getUserPostsByUserAndFilteredPostIds( userId, postIds ) {
+		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+		return FeedModel.findAll({
+			userId: userId,
+			postId: postIds
+		}).then((postsInFeed) => {
+			postsInFeed = postsInFeed || [];
+			let postsInFeedMap = new Map();
+			postsInFeed.forEach((post) => {
+				post = post.get();
+				postsInFeedMap.set( post.id, post );
+			});
+			return this.postService.getPostsByPostIds( postIds ).then((postModels) => {
+				return postModels.map(( model ) => {
+					let postModel = postsInFeedMap.get( model.id );
+					if( postModel ) {
+						model.liked = postModel.liked;
+						model.starred = !!postModel.collectionId;
+					} else {
+						model.liked = false;
+						model.starred = false;
+					}
+					return model;
+				});
+			});
+		});
+	}
+
 	_createPostViewsFromDBModels( posts ) {
 		let postsMap = new Map();
 		if( !posts || posts.length == 0 ) {
@@ -200,6 +230,7 @@ class FeedService {
  			return promise.then(() => {
  				return this.postService.createPost( userId, model ).then((newModel) => {
 		 			return this.addPostToFeeds( userId, newModel.id, newModel.groupId ).then(() => {
+		 				this.filterService.storeTagsByPostId( newModel.id, newModel.tags );
 		 				return newModel;
 		 			});
 		 		});
@@ -207,6 +238,7 @@ class FeedService {
  		} else {
  			return this.postService.createPost( userId, model ).then((newModel) => {
 	 			return this.addPostToFeeds( userId, newModel.id, newModel.groupId ).then(() => {
+	 				this.filterService.storeTagsByPostId( newModel.id, newModel.tags );
 	 				return newModel;
 	 			});
 	 		});
@@ -359,7 +391,16 @@ class FeedService {
 			const groupService = GroupService.instance;
 			const postService = PostService.instance;
 			const attachmentService = AttachmentService.instance;
-			this.singleton = new FeedService( databaseProvider, collectionService, friendService, groupService, postService, attachmentService );
+			const filterService = FilterService.instance;
+			this.singleton = new FeedService( 
+				databaseProvider, 
+				collectionService, 
+				friendService, 
+				groupService, 
+				postService, 
+				attachmentService, 
+				filterService
+			);
 		}
 		return this.singleton;
 	}

@@ -6,7 +6,7 @@ const GroupService = require('../services/group');
 
 class GroupController {
 
-	constructor( groupService ) {
+	constructor( groupService, userService ) {
 		this.groupService = groupService;
 	}
 

@@ -27,6 +27,48 @@ class UserService {
 		this.s3Provider = s3Provider;
 	}
 
+	quickSearch( predicate ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		return UserModel.findAll({
+			where: {
+				username: {
+					$like: predicate + '%'
+				}
+			},
+			limit: 10
+		}).then((models) => {
+			if( !models ) {
+				return [];
+			}
+			return models.map((model) => {
+				return {
+					key: model.get('username'),
+					type: 'user',
+					data: model.getAuthorView()
+				};
+			});
+		});
+	}
+
+	searchByPredicateAndPage( predicate, page ) {
+		page = isNaN( page ) ? 1 : page;
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		return UserModel.findAll({
+			where: {
+				username: {
+					$like: predicate + '%'
+				}
+			},
+			limit: 20,
+			offset: ((page - 1) * 20)
+		}).then((models) => {
+			if( !models ) {
+				return [];
+			}
+			return models.map( (model) => model.getAuthorView() );
+		});
+	}
+
 	getUserById( id ) {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		id = Number( id );
@@ -81,7 +123,23 @@ class UserService {
 					status: 'REGISTERED'
 				}]
 			}
-		}).then( model => model.getPublicView() );
+		}).then( model => model.getAuthorView() );
+	}
+
+	getUserAuthorViewByUsername( username ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		id = Number( id );
+		return UserModel.findOne({
+			where: {
+				username: username,
+				enabled: true,
+				$or: [{
+					status: 'SUBMITED'
+				}, {
+					status: 'REGISTERED'
+				}]
+			}
+		}).then( model => model.getAuthorView() );
 	}
 
 	getUsersAuthorViewByIds( ids ) {

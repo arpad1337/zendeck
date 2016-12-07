@@ -40,7 +40,7 @@ class FilterService {
 		});
 	}
 
-	getUserFilters() {
+	getUserFilters( userId ) {
 		const FilterModel = this.databaseProvider.getModelByName( 'filter' );
 		return FilterModel.findAll({
 			where: {
@@ -56,13 +56,61 @@ class FilterService {
 		});
 	}
 
-	getFilterModelBySlug( slug ) {
+	getFilterModelBySlug( userId, slug ) {
 		const FilterModel = this.databaseProvider.getModelByName( 'filter' );
 		return FilterModel.findOne({
 			where: {
 				slug: slug
 			}
-		}).then( model => model.get() );
+		}).then(( model ) => {
+			if( !model ) {
+				throw new Error('Not found');
+			}
+			model = model.get();
+			return model;
+		});
+	}
+
+	updateFilterbySlug( userId, slug, payload ) {
+		const FilterModel = this.databaseProvider.getModelByName( 'filter' );
+		return FilterModel.findOne({
+			where: {
+				slug: slug,
+				userId: userId
+			}
+		}).then(( model ) => {
+			if( !model ) {
+				throw new Error('Not found');
+			}
+			let fields = {
+				name: payload.name,
+				tags: payload.tags
+			};
+			return FilterModel.update( fields, {
+				where: {
+					id: model.get('id')
+				}
+			});
+		});
+	}
+
+	deleteFilterBySlug( userId, slug ) {
+		const FilterModel = this.databaseProvider.getModelByName( 'filter' );
+		return FilterModel.findOne({
+			where: {
+				slug: slug,
+				userId: userId
+			}
+		}).then(( model ) => {
+			if( !model ) {
+				throw new Error('Not found');
+			}
+			return FilterModel.destroy({
+				where: {
+					id: model.get('id')
+				}
+			}).then( _ => true);
+		});
 	}
 
 	storeTagsByPostId( postId, tags ) {
@@ -71,9 +119,19 @@ class FilterService {
 		uniqueTags.forEach((tag) => {
 			tag = tag.trim().toLowerCase();
 			transaction.lpush( [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TAGS, tag ].join(':'), postId );
+			// transaction.ltrim( [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TAGS, tag ].join(':'), FilterService.CACHE_SIZE_LIMIT );
 			transaction.lpush( [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.POSTS, postId ].join(':'), tag );
 		});
+		// transaction.expire( [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.POSTS, postId ].join(':'), 60 * 60 * 24 * 7 * 4 ); // four week
 		return transaction.exec();
+	}
+
+	isFilterExists( tags  ) {
+		let tagsKey = this._createCacheKeyFromTags( tags );
+		let filterKey = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':');
+		return this.cacheProvider.exists( filterKey ).then(( isExists ) => {
+			return !!isExists;
+		});
 	}
 
 	createFilterWithTags( tags, force ) {
