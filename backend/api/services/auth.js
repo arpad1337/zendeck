@@ -37,14 +37,18 @@ class AuthService {
 	}
 
 	checkUsernameAvailability( username ) {
-		return this.userService.getUserbyUsername( username ).then((u) => {
-			return !!u;
+		return this.userService.getUserByUsername( username ).then( _ => {
+			return true;
+		}).catch(() => {
+			return false;
 		});
 	}
 
 	checkEmailAvailability( email ) {
-		return this.userService.getUserByEmail( username ).then((u) => {
-			return !!u;
+		return this.userService.getUserByEmail( email ).then( _ => {
+			return true;
+		}).catch(() => {
+			return false;
 		});
 	}
 

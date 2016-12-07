@@ -13,7 +13,7 @@ class NotificationController {
 	*getLastNotifications( context ) {
 		const userId = context.session.user.id;
 		try {
-			let models = yield this.notificationService.getUserLastNotifications( userId );
+			let models = yield this.notificationService.getUserLastNotifications( userId, context.query.lastId );
 			context.body = models;
 		} catch( e ) {
 			console.error(e, e.stack);

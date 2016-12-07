@@ -51,6 +51,21 @@ class CollectionController {
 		}
 	}
 
+	*getCollectionBySlug( context ) {
+		const userId = context.session.user.id;
+		const slug = context.params.collectionSlug;	
+		try {
+			let collection = yield this.collectionService.getCollectionBySlug( slug );
+			if( collection.userId != userId ) {
+				collection.shared = true;
+			}
+			context.body = collection;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	*updateCollection( context ) {
 		const userId = context.session.user.id;
 		const slug = context.params.collectionSlug;

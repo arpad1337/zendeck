@@ -162,6 +162,8 @@ class ApplicationController {
 					}, 1000);
 				}
 			}
+		} else {
+			model.lock = false;
 		}
 	}
 
@@ -184,6 +186,7 @@ class ApplicationController {
 				}
 			}
 		} else {
+			model.lock2 = false;
 			model.isEmailNotRegistered = true;
 		}
 	}
@@ -278,7 +281,10 @@ class ApplicationController {
 
 	validateRegistration( model ) {
 		if( !Validator.validateEmail( model.email ) ) {
+			model.error.email = true;
 			return false;
+		} else {
+			model.error.email = null;
 		}
 
 		if( !Validator.validatePasswordStrength( model.password ) ) {
@@ -288,12 +294,18 @@ class ApplicationController {
 			model.error.password = null;
 		}
 
-		if( Validator.validateUsername( model.username ) ) {
+		if( !Validator.validateUsername( model.username ) ) {
+			model.error.username = true;
 			return false
+		} else {
+			model.error.username = null;
 		}
 
 		if( Validator.isFieldEmpty( model.fullname ) ) {
+			model.error.fullname = true
 			return false
+		} else {
+			model.error.fullname = null;
 		}
 
 		if( !model.termsAccepted ) {

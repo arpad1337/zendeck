@@ -62,6 +62,18 @@ class FeedController {
 		}
 	}
 
+	*getGroupLikedFeed( context ) {
+		const userId = context.session.user.id;
+		const slug = context.params.groupSlug;
+		try {
+			let posts = yield this.feedService.getGroupLikedFeedByIdAndPage( userId, slug, context.query.page );
+			context.body = posts;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	*getCollectionFeed( context ) {
 		const userId = context.session.user.id;
 		const slug = context.params.collectionSlug;
@@ -69,6 +81,18 @@ class FeedController {
 			let collection = yield this.collectionService.getCollectionBySlug( slug );
 			let posts = yield this.feedService.getUserCollectionFeedByIdAndCollectionIdAndPage( userId, collection.id, context.query.page );
 			context.body = posts;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
+	*getPostById( context ) {
+		const userId = context.session.user.id;
+		const postId = context.params.postId;
+		try {
+			let post = yield this.feedService.getPostById( userId, postId );
+			context.body = post;
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );

@@ -14,6 +14,7 @@ class NotificationService {
 		];
 	}
 
+	/*
 	get dummyNotifications() {
 		return [
 			{
@@ -319,44 +320,65 @@ class NotificationService {
 		];
 	}
 
+	*/
+
 	constructor( $q, $http, messageBusService ) {
 		this.$q = $q;
 		this.$http = $http;
 		this.messageBusService = messageBusService;
+		this._notifications = [];
+		this._unreadNotifications = 0;
 	}
 
-	getLastNotifications() {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve(this.dummyNotifications.slice(0, 5));
-		}, Math.random() * 1000);
-		return promise.promise;
+	getLastNotifications( lastId ) {
+		lastId = isNaN( lastId ) ? 0 :lastId;
+		return this.$http.get( CONFIG.API_PATH + '/notifications/recent?lastId=' + lastId ).then((r) => {
+			let notifications = r.data;
+			if( this._notifications.length == 0 ) {
+				notifications.forEach((notif) => {
+					if( notif.type === NOTIFICATION_TYPE.NEW_MESSAGE ) {
+						this.messageBusService.emit( this.messageBusService.MESSAGES.NOTIFICATIONS.NEW_MESSAGE );
+					}
+					this._notifications.push( notif );
+					if( notif.seen == false ) {
+						this._unreadNotifications++;
+					}
+				});
+			} else {
+				notifications.forEach((notif) => {
+					if( notif.type === NOTIFICATION_TYPE.NEW_MESSAGE ) {
+						this.messageBusService.emit( this.messageBusService.MESSAGES.NOTIFICATIONS.NEW_MESSAGE );
+					}
+					this._notifications.unshift( notif );
+					this._unreadNotifications++;
+				});
+			}
+			return r.data;
+		});
 	}
 
 	getNotificationsByPage( page ) {
 		page = isNaN(page) ? 1 : page;
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve( this.dummyNotifications );
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.get( CONFIG.API_PATH + '/notifications?page=' + page).then((r) => {
+			return r.data;
+		});
 	}
 
 	startPolling() {
 		setTimeout(() => {
-			this.messageBusService.emit( this.messageBusService.MESSAGES.NOTIFICATIONS.NEW_MESSAGE );
+			try {
+				this.getLastNotifications( this._notifications[0].id );
+			} catch( e ) {
+				// baszok rá
+			}
 		}, 3000);
 	}
 
 	getUnreadNotificationCount() {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve(12);
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this._unreadNotifications;
 	}
 
-	acceptNotification( id ) {
+	acceptNotification( model ) {
 		
 	}
 

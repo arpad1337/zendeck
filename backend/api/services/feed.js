@@ -107,6 +107,39 @@ class FeedService {
 		});
 	}
 
+	getGroupLikedFeedByIdAndPage( userId, slug, page ) {
+		page = isNaN( page ) ? 1 : page;
+		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+		return this.groupService.getGroupBySlug( slug ).then((group) => {
+			return Promise.all([
+				this.groupService.isUserAdminOfGroup( userId, group.id ),
+				this.groupService.isUserMemberOfGroup( userId, group.id )
+			]).then((values) => {
+				let isAdmin = values[0];
+				let isMember = values[1];
+				let where = {
+					userId: userId,
+					groupId: groupId,
+					liked: true
+				};
+				if( !isAdmin && !isMember && !group.isOpen ) {
+					throw new Error('Unauthorized');
+				}
+				if( !isAdmin ) {
+					where.approved = true;
+				}
+				return FeedModel.findAll({
+					attributes: ['postId','liked'],
+					where: where,
+					limit: PostService.LIMIT,
+					offset: (( page - 1 ) * PostService.LIMIT),
+					order: [[ 'post_id', 'DESC' ]],
+					group: ['post_id','liked']
+				}).then(this._createPostViewsFromDBModels);
+			})
+		});
+	}
+
 	getUserCollectionFeedByIdAndCollectionIdAndPage( userId, collectionId, page ) {
 		page = isNaN( page ) ? 1 : page;
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
@@ -151,6 +184,26 @@ class FeedService {
 					return model;
 				});
 			});
+		});
+	}
+
+	getPostById( userId, postId ) {
+		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+		return Promise.all([
+			this.postService.getExtendedPostModelById( postId ),
+			FeedModel.findOne({
+				where: {
+					userId: userId,
+					postId: postId
+				}
+			})
+		]).then((values) => {
+			let post = values[0];
+			if( values[1] ) {
+				post.liked = values[1].liked;
+				post.starred = !!values[1].collectionId;
+			}
+			return post;
 		});
 	}
 

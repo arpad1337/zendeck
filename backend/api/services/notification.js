@@ -29,12 +29,18 @@ class NotificationService {
 		return NOTIFICATION_TYPE;
 	}
 
-	getUserLastNotifications( userId ) {
+	getUserLastNotifications( userId, lastId ) {
+		let where = {
+			userId: userId
+		};
+		if( lastId ) {
+			where.id = {
+				$gt: lastId
+			}
+		}
 		const NotificationModel = this.databaseProvider.getModelByName( 'notification' );
 		return NotificationModel.findAll({
-			where: {
-				userId: userId
-			},
+			where: where,
 			limit: 10,
 			order: [['id', 'DESC']]
 		}).then((models) => {

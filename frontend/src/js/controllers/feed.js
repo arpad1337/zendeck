@@ -150,7 +150,7 @@ class FeedController extends CollectionController {
 			if( this._activeFilter.shared ) {
 				let model = await this.openCreateFilterDialog( this._activeFilter.name );
 				this._activeFilter.name = model.name;
-				let persistedModel = await this.filterService.copySharedFilterToCollection( this._activeFilter.slug );
+				let persistedModel = await this.filterService.copySharedFilterToCollection( this._activeFilter );
 				delete this._activeFilter.shared;
 				this._activeFilter.id = persistedModel.id;
 				this._activeFilter.slug = persistedModel.slug;

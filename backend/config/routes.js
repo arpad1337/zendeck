@@ -145,7 +145,7 @@ const ROUTES = [
 		method: 'get'
 	},
 	{
-		path: '/user/:username/posts',
+		path: '/user/:username/post',
 		controller: 'feed',
 		action: 'getUserPosts',
 		method: 'get'
@@ -157,6 +157,13 @@ const ROUTES = [
 		path: '/feed',
 		controller: 'feed',
 		action: 'getUserFeed',
+		middlewares: ['session-check'],
+		method: 'get'
+	},
+	{
+		path: '/feed/liked',
+		controller: 'feed',
+		action: 'getLikedFeed',
 		middlewares: ['session-check'],
 		method: 'get'
 	},
@@ -231,6 +238,13 @@ const ROUTES = [
 	},
 	{
 		path: '/post/:postId',
+		method: 'get',
+		controller: 'feed',
+		middlewares: ['session-check'],
+		action: 'getPostById'
+	},
+	{
+		path: '/post/:postId',
 		method: 'delete',
 		controller: 'feed',
 		middlewares: ['session-check'],
@@ -264,6 +278,13 @@ const ROUTES = [
 		method: 'post',
 		controller: 'collection',
 		action: 'updateCollection',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/collection/:collectionSlug',
+		method: 'get',
+		controller: 'collection',
+		action: 'getCollectionBySlug',
 		middlewares: ['session-check']
 	},
 	{
@@ -330,6 +351,13 @@ const ROUTES = [
 		method: 'get',
 		controller: 'feed',
 		action: 'getGroupFeed',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/feed/liked',
+		method: 'get',
+		controller: 'feed',
+		action: 'getGroupLikedFeed',
 		middlewares: ['session-check']
 	},
 	{

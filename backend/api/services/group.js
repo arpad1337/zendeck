@@ -70,7 +70,8 @@ class GroupService {
 			where: {
 				name: {
 					$like: predicate + '%'
-				}
+				},
+				isPublic: true
 			},
 			limit: 20,
 			offset: ((page - 1) * 20)

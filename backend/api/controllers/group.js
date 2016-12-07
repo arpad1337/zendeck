@@ -3,11 +3,13 @@
  */
 
 const GroupService = require('../services/group');
+const CollectionService = require('../services/collection');
 
 class GroupController {
 
-	constructor( groupService, userService ) {
+	constructor( groupService, collectionService ) {
 		this.groupService = groupService;
+		this.collectionService = collectionService;
 	}
 
 	*getGroupViewBySlug( context ) {
@@ -45,6 +47,7 @@ class GroupController {
 				about: payload.about
 			};
 			let group = yield this.groupService.createGroup( userId, payload );
+			yield this.collectionService.createCollection( userId, 'Favorites', true, null, group.id );
 			context.body = group;
 		} catch( e ) {
 			console.error(e, e.stack);
@@ -204,7 +207,8 @@ class GroupController {
 	static get instance() {
 		if( !this.singleton ) {
 			const groupService = GroupService.instance;
-			this.singleton = new GroupController( groupService );
+			const collectionService = CollectionService.instance;
+			this.singleton = new GroupController( groupService, collectionService );
 		}
 		return this.singleton;
 	}

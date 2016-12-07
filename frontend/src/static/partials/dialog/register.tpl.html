@@ -16,7 +16,7 @@
                 <p>
                     <label for="password">{{ 'MODALS.REGISTER.PASSWORD' | translate }}*</label>
                     <input type="password" placeholder="{{ 'MODALS.REGISTER.PLACEHOLDER' | translate }}" id="password" ng-model="password" ng-change="checkPassword()">
-                    <span ng-if="error.password" class="hint">
+                    <span ng-if="error.password && password.length > 0" class="hint">
                         <span class="negative">Password seems to be weak</span>
                     </span>
                 </p>
