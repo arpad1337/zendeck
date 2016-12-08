@@ -332,7 +332,7 @@ class NotificationService {
 
 	getLastNotifications( lastId ) {
 		lastId = isNaN( lastId ) ? 0 :lastId;
-		return this.$http.get( CONFIG.API_PATH + '/notifications/recent?lastId=' + lastId ).then((r) => {
+		return this.$http.get( CONFIG.API_PATH + '/notification/recent?lastId=' + lastId ).then((r) => {
 			let notifications = r.data;
 			if( this._notifications.length == 0 ) {
 				notifications.forEach((notif) => {
@@ -359,7 +359,7 @@ class NotificationService {
 
 	getNotificationsByPage( page ) {
 		page = isNaN(page) ? 1 : page;
-		return this.$http.get( CONFIG.API_PATH + '/notifications?page=' + page).then((r) => {
+		return this.$http.get( CONFIG.API_PATH + '/notification?page=' + page).then((r) => {
 			return r.data;
 		});
 	}

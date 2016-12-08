@@ -24,6 +24,10 @@ class AuthService {
 		this.notificationService = notificationService;
 	}
 
+	getSystemUser() {
+		return this.userService.getUserByUsername('system');
+	}
+
 	login( usernameOrEmail, password ) {
 		return this.userService.searchUserByKeyword( usernameOrEmail ).then((user) => {
 			if( user &&

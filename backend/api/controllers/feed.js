@@ -16,6 +16,34 @@ class FeedController {
 		this.groupService = groupService;
 	}
 
+	*likePost( context ) {
+		const userId = context.session.user.id;
+		const postId = context.params.postId;
+		try {
+			let liked = yield this.feedService.likePostByUserId( userId, postId );
+			context.body = {
+				liked: liked
+			};
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw(400);
+		}
+	}
+
+	*dislikePost( context ) {
+		const userId = context.session.user.id;
+		const postId = context.params.postId;
+		try {
+			let liked = yield this.feedService.dislikePostByUserId( userId, postId );
+			context.body = {
+				liked: liked
+			};
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw(400);
+		}
+	}
+
 	*getUserPosts( context ) {
 		const username = context.params.username;
 		try {
@@ -145,7 +173,7 @@ class FeedController {
 		const postId = context.params.postId;
 		const collectionSlug = context.params.collectionSlug;
 		try {
-			let userHasRightToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, slug );
+			let isUserHasRightsToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, collectionSlug );
 			if( !isUserHasRightsToCollection ) {
 				throw new Error('Unauthorized');
 			}
@@ -164,7 +192,7 @@ class FeedController {
 		const groupSlug = context.params.groupSlug;
 		const collectionSlug = context.params.collectionSlug;
 		try {
-			let userHasRightToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, collectionSlug );
+			let isUserHasRightsToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, collectionSlug );
 			if( !isUserHasRightsToCollection ) {
 				throw new Error('Unauthorized');
 			}
@@ -187,7 +215,7 @@ class FeedController {
 		const postId = context.params.postId;
 		const collectionSlug = context.params.collectionSlug;
 		try {
-			let userHasRightToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, slug );
+			let isUserHasRightsToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, slug );
 			if( !isUserHasRightsToCollection ) {
 				throw new Error('Unauthorized');
 			}
@@ -206,7 +234,7 @@ class FeedController {
 		const groupSlug = context.params.groupSlug;
 		const collectionSlug = context.params.collectionSlug;
 		try {
-			let userHasRightToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, collectionSlug );
+			let isUserHasRightsToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, collectionSlug );
 			if( !isUserHasRightsToCollection ) {
 				throw new Error('Unauthorized');
 			}

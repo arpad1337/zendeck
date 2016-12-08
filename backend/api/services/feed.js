@@ -24,6 +24,8 @@ class FeedService {
 		this.attachmentService = attachmentService;
 		this.filterService = filterService;
 		this.notificationService = notificationService;
+
+		this._createPostViewsFromDBModels = this._createPostViewsFromDBModels.bind( this );
 	}
 
 	getUserPostsFeedByIdAndPage( userId, page ) {
@@ -31,13 +33,13 @@ class FeedService {
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
 		return this.postService.getPostIdsByUserIdAndPage( userId ).then((postIds) => {
 			return FeedModel.findAll({
-				attributes: ['postId','liked'],
+				attributes: ['postId','liked', 'collectionId'],
 				where: {
 					userId: userId,
 					postId: postIds
 				},
 				order: [[ 'post_id', 'DESC' ]],
-				group: ['post_id','liked']
+				group: ['post_id','liked', 'collection_id']
 			}).then(this._createPostViewsFromDBModels);
 		});
 	}
@@ -46,7 +48,7 @@ class FeedService {
 		page = isNaN( page ) ? 1 : page;
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
 		return FeedModel.findAll({
-			attributes: ['postId','liked'],
+			attributes: ['postId','liked', 'collectionId'],
 			where: {
 				userId: userId,
 				approved: true
@@ -54,7 +56,7 @@ class FeedService {
 			limit: PostService.LIMIT,
 			offset: (( page - 1 ) * PostService.LIMIT),
 			order: [[ 'post_id', 'DESC' ]],
-			group: ['post_id','liked']
+			group: ['post_id','liked', 'collection_id']
 		}).then(this._createPostViewsFromDBModels);
 	}
 
@@ -62,7 +64,7 @@ class FeedService {
 		page = isNaN( page ) ? 1 : page;
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
 		return FeedModel.findAll({
-			attributes: ['postId','liked'],
+			attributes: ['postId','liked', 'collectionId'],
 			where: {
 				userId: userId,
 				liked: true,
@@ -71,7 +73,7 @@ class FeedService {
 			limit: PostService.LIMIT,
 			offset: (( page - 1 ) * PostService.LIMIT),
 			order: [[ 'post_id', 'DESC' ]],
-			group: ['post_id','liked']
+			group: ['post_id','liked', 'collection_id']
 		}).then(this._createPostViewsFromDBModels);
 	}
 
@@ -96,12 +98,12 @@ class FeedService {
 					where.approved = true;
 				}
 				return FeedModel.findAll({
-					attributes: ['postId','liked'],
+					attributes: ['postId','liked', 'collectionId'],
 					where: where,
 					limit: PostService.LIMIT,
 					offset: (( page - 1 ) * PostService.LIMIT),
 					order: [[ 'post_id', 'DESC' ]],
-					group: ['post_id','liked']
+					group: ['post_id','liked', 'collection_id']
 				}).then(this._createPostViewsFromDBModels);
 			})
 		});
@@ -129,12 +131,12 @@ class FeedService {
 					where.approved = true;
 				}
 				return FeedModel.findAll({
-					attributes: ['postId','liked'],
+					attributes: ['postId','liked', 'collection_id'],
 					where: where,
 					limit: PostService.LIMIT,
 					offset: (( page - 1 ) * PostService.LIMIT),
 					order: [[ 'post_id', 'DESC' ]],
-					group: ['post_id','liked']
+					group: ['post_id','liked', 'collection_id']
 				}).then(this._createPostViewsFromDBModels);
 			})
 		});
@@ -145,7 +147,7 @@ class FeedService {
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
 		return this.collectionService.getCollectionIdsRecursivellyByCollectionId( collectionId ).then(( collectionIds ) => {
 			return FeedModel.findAll({
-				attributes: ['postId','liked'],
+				attributes: ['postId','liked', 'collectionId'],
 				where: {
 					userId: userId,
 					collectionId: collectionId,
@@ -154,7 +156,7 @@ class FeedService {
 				limit: PostService.LIMIT,
 				offset: (( page - 1 ) * PostService.LIMIT),
 				order: [[ 'post_id', 'DESC' ]],
-				group: ['post_id','liked']
+				group: ['post_id','liked', 'collection_id']
 			});
 		}).then(this._createPostViewsFromDBModels);
 	}
@@ -407,6 +409,7 @@ class FeedService {
 			}
 		}).then(() => {
 			return this.postService.getPostById( postId ).then((post) => {
+				console.log(this.notificationService);
 				return this.notificationService.createNotification( post.userId, this.notificationService.NOTIFICATION_TYPE.POST_LIKE, {
 					user: {
 						id: userId
@@ -419,7 +422,7 @@ class FeedService {
 		});
 	}
 
-	unlikePostByUserId( userId, postId ) {
+	dislikePostByUserId( userId, postId ) {
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
 		return FeedModel.update({liked: false}, {
 			where: {

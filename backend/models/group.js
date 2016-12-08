@@ -19,6 +19,7 @@ const model = sequelizeModelHelper.buildModel(
 			allowNull: false
 		},
 		userId: {
+			field: 'user_id',
 			type: TYPES.INTEGER,
 			allowNull: false,
 		},

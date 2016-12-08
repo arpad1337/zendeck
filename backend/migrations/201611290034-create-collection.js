@@ -13,11 +13,10 @@ module.exports = {
 				autoIncrement: true,
 				primaryKey: true
 			},
-			user_id: {
-				type: TYPES.INTEGER,
-				allowNull: false
+			name: {
+				type: TYPES.STRING(60)
 			},
-			post_id: {
+			user_id: {
 				type: TYPES.INTEGER,
 				allowNull: false
 			},
@@ -33,10 +32,13 @@ module.exports = {
 			},
 			group_id: {
 				type: TYPES.INTEGER
+			},
+			created_at: {
+				type: TYPES.DATE
+			},
+			updated_at: {
+				type: TYPES.DATE
 			}
-		})
-		.then(() => {
-			return queryInterface.addIndex( TABLE_NAME,  ['post_id']);
 		})
 		.then(() => {
 			return queryInterface.addIndex( TABLE_NAME,  ['user_id']);
@@ -49,16 +51,10 @@ module.exports = {
 		})
 		.then(() => {
 			return queryInterface.addIndex( TABLE_NAME,  ['slug']);
-		})
-		.then(() => {
-			return queryInterface.addIndex( TABLE_NAME,  ['user_id', 'post_id']);
 		});
 	},
 	down: ( queryInterface, TYPES ) => {
 		return queryInterface.removeIndex( TABLE_NAME,  ['user_id'])
-		.then(() => {
-			return queryInterface.removeIndex( TABLE_NAME,  ['post_id'])
-		})
 		.then(() => {
 			return queryInterface.removeIndex( TABLE_NAME,  ['parent'])
 		})
@@ -67,9 +63,6 @@ module.exports = {
 		})
 		.then(() => {
 			return queryInterface.removeIndex( TABLE_NAME,  ['slug'])
-		})
-		.then(() => {
-			return queryInterface.removeIndex( TABLE_NAME,  ['user_id', 'post_id'])
 		})
 		.then(() => {
 			return queryInterface.dropTable( TABLE_NAME )

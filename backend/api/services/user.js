@@ -133,7 +133,7 @@ class UserService {
 					status: 'REGISTERED'
 				}]
 			}
-		}).then( model => model.getAuthorView() );
+		}).then( model => model.getPublicView() );
 	}
 
 	getUserAuthorViewByUsername( username ) {

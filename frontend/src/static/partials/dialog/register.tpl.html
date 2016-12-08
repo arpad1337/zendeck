@@ -10,14 +10,18 @@
                         ng-change="checkEmailIfRegistered()"
                     >
                     <span ng-if="!isEmailNotRegistered" class="hint">
-                        <span class="negative">Already registered!</span> What about <a ng-click="cancel();gotoLogin()">logging in?</a>
+                        <span class="negative">
+                            {{ 'MODALS.REGISTER.ERROR.EMAIL_ALREADY_REGISTERED' | translate }}
+                        </span><a ng-click="cancel();gotoLogin()">
+                            {{ 'MODALS.REGISTER.ERROR.LOGGING_IN' | translate }}
+                        </a>
                     </span>
                 </p>
                 <p>
                     <label for="password">{{ 'MODALS.REGISTER.PASSWORD' | translate }}*</label>
                     <input type="password" placeholder="{{ 'MODALS.REGISTER.PLACEHOLDER' | translate }}" id="password" ng-model="password" ng-change="checkPassword()">
                     <span ng-if="error.password && password.length > 0" class="hint">
-                        <span class="negative">Password seems to be weak</span>
+                        <span class="negative">{{ 'MODALS.REGISTER.ERROR.PASSWORD_WEAK' | translate }}</span>
                     </span>
                 </p>
                 <p>
@@ -27,16 +31,19 @@
                     >
                     <span ng-class="isUsernameAvailable ? 'available' : ''" ng-if="username.trim().length > 2" class="hint">
                         <span ng-if="isUsernameAvailable" class="positive">
-                            Available!
+                            {{ 'MODALS.REGISTER.ERROR.USERNAME_AVAILABLE' | translate }}
                         </span>
                         <span ng-if="!isUsernameAvailable" class="negative">
-                            Taken
+                            {{ 'MODALS.REGISTER.ERROR.USERNAME_TAKEN' | translate }}
                         </span>
                     </span>
                 </p>
                 <p>
                     <label for="fullname">{{ 'MODALS.REGISTER.FULLNAME' | translate }}*</label>
                     <input type="text" placeholder="{{ 'MODALS.REGISTER.PLACEHOLDER' | translate }}" id="fullname" ng-model="fullname">
+                    <span ng-if="error.fullname && fullname.length > 0" class="hint">
+                        <span class="negative">{{ 'MODALS.REGISTER.ERROR.FULLNAME_EMPTY' | translate }}</span>
+                    </span>
                 </p>
                 <p>
                     <label for="isBusiness">{{ 'MODALS.REGISTER.IS_BUSINESS' | translate }}</label>
@@ -53,14 +60,17 @@
                     <label for="tac">I accept the <a ui-sref="tac">terms &amp; conditions</a>
                         <input type="checkbox" id="tac" ng-model="termsAccepted">
                     </label>
-                    <span ng-if="error.termsAccepted" class="hint">
-                        <span class="negative">Must accept!</span>
-                    </span>
+                </p>
+                <p ng-if="error.termsAccepted" class="hint">
+                    <span class="negative">{{ 'MODALS.REGISTER.ERROR.TNC_NOT_ACCEPTED' | translate }}</span>
                 </p>
             </form>
         </div>
         <div class="secondary-actions">
-            Or go to <a ng-click="cancel();gotoLogin()">Login</a>
+            {{ 'MODALS.REGISTER.OR_GO_TO' | translate }} 
+            <a ng-click="cancel();gotoLogin()">
+                {{ 'MODALS.REGISTER.LOGIN' | translate }}
+            </a>
         </div>
         <div class="actions">
             <modal-button

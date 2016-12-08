@@ -36,6 +36,10 @@ class PostController {
 		return this.feedService.likePost( postId );
 	}
 
+	dislikePost( postId ) {
+		return this.feedService.dislikePost( postId );
+	}
+
 	commentPost( entryId, comment ) {
 		return this.feedService.commentPost( entryId, comment );
 	}

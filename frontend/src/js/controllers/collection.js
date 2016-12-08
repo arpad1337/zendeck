@@ -25,6 +25,8 @@ class CollectionController extends PostController {
 		this.$state = $state;
 		this.STATE_KEY = STATE_KEY || 'FEED';
 
+		this._loading = false;
+
 		this.checkActiveCollectionName = this.checkActiveCollectionName.bind(this);
 	}
 
@@ -52,21 +54,26 @@ class CollectionController extends PostController {
 			return this.collectionService.getGroupCollections( opts.groupSlug ).then((collections) => {
 				this._collections = collections;
 				if( this.$state.params.collectionId ) {
-					this.selectCollection( this.$state.params.collectionId );
+					this.selectCollection( this.$state.params.collectionSlug );
 				}
 			});
 		};
-		return this.collectionService.getUserCollections( this.username ).then((collections) => {
+		return this.collectionService.getUserCollections( this.$state.params.username ).then((collections) => {
 			this._collections = collections;
 			if( this.$state.params.collectionId ) {
-				this.selectCollection( this.$state.params.collectionId );
+				this.selectCollection( this.$state.params.collectionSlug );
 			}
 		});
 	}
 
 	get collections() {
-		if( !this._collections ) {
-			this.loadCollections();
+		if( !this._collections && !this._loading) {
+			this._loading = true;
+			this.loadCollections().catch(_ => {
+				this._collections = [];
+			}).finally(() => {
+				this._loading = false;
+			});
 		}
 		return this._collections;
 	}
@@ -193,8 +200,11 @@ class CollectionController extends PostController {
 		return model;
 	}
 
-	async savePostToCollection( collectionId, postId ) {
-		
+	async addPostToCollection( collectionSlug, postId ) {
+		if( this.$state.params.groupSlug ) {
+			return this.feedService.addPostToGroupCollection( this.$state.params.groupSlug, collectionSlug, postId );
+		}
+		return this.feedService.addPostToCollection( collectionSlug, postId );
 	}
 
 }

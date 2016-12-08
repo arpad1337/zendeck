@@ -90,6 +90,15 @@ class FilterService {
 				where: {
 					id: model.get('id')
 				}
+			}).then(() => {
+				return FilterModel.findOne({
+					where: {
+						slug: slug,
+						userId: userId
+					}
+				});
+			}).then((result) => {
+				return result.get();
 			});
 		});
 	}

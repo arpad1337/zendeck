@@ -19,13 +19,11 @@ const model = sequelizeModelHelper.buildModel(
 			type: TYPES.INTEGER,
 			allowNull: false
 		},
-		postId: {
-			field: 'post_id',
-			type: TYPES.INTEGER,
-			allowNull: false
+		name: {
+			type: TYPES.STRING(60)
 		},
 		isPublic: {
-			field: 'is_public'
+			field: 'is_public',
 			type: TYPES.BOOLEAN,
 			defaultValue: true
 		},
@@ -36,7 +34,7 @@ const model = sequelizeModelHelper.buildModel(
 			type: TYPES.STRING(64)
 		},
 		groupId: {
-			field: 'group_id'
+			field: 'group_id',
 			type: TYPES.INTEGER
 		}
 	},

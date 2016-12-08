@@ -7,6 +7,11 @@ const FeedService = require('../services/feed');
 
 class FilterController {
 
+	constructor( filterService, feedService ) {
+		this.filterService = filterService;
+		this.feedService = feedService;
+	}
+
 	*getUserFilters( context ) {
 		const userId = context.session.user.id;
 		try {

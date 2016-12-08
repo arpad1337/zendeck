@@ -275,6 +275,7 @@ class ApplicationController {
 					return;
 				}
 				model.error.backend = e.data;
+				this.$rootScope.$digest();
 			}
 		}
 	}

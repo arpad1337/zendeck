@@ -1,21 +1,10 @@
 <div class="user-preview"
     ng-class="vm.isFriend ? 'following' : ''"
 >
-	<div
-        ng-if="vm.user.photos.medium"
-        class="photo" 
-        style="background-image:url('{{vm.user.photos.small}}')"
-    >
-    </div>
-    <div
-        ng-if="!vm.user.photos.medium"
-        class="photo no-photo" 
-        ng-init="startChar = vm.user.username.substr(0,1).toUpperCase()"
-        ng-style="{background:vm.user.photos.profileColor}"
-        title="@{{vm.user.username}}"
-    >
-        {{ startChar }}
-    </div>
+	<profile-pic
+        user="vm.user"
+        size="medium"
+    ></profile-pic>
     <div class="right-col">
     	<h5 
     		ui-sref="profile({username:vm.user.username})"

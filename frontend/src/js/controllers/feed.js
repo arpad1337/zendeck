@@ -52,7 +52,7 @@ class FeedController extends CollectionController {
 
 		this.filterService.getUserFilters().then((filters) => {
 			this.filters = filters;
-			if( this.$state.params.filterId ) {
+			if( this.$state.params.filterSlug ) {
 				this.selectFilter( this.$state.params.filterSlug );
 			}
 		});
@@ -163,6 +163,7 @@ class FeedController extends CollectionController {
 				this._activeFilter.id = persistedModel.id;
 				this._activeFilter.slug = persistedModel.slug;
 				this.filters.push( this._activeFilter );
+				this.$state.go( this.FEED_STATES.FILTERED, { filterSlug: model.slug });
 			} else {
 				let model = await this.openCreateFilterDialog( this._activeFilter.name );
 				this._activeFilter.name = model.name;
@@ -171,6 +172,11 @@ class FeedController extends CollectionController {
 					return f.slug == this._activeFilter.slug;
 				});
 				filter.name = persistedModel.name;
+				if( JSON.stringify( filter.tags ) != JSON.stringify( persistedModel.tags ) ) {
+					this.posts.length = 0;
+					this._page = 0;
+					this.getMorePosts();
+				}
 				filter.tags = persistedModel.tags;
 				this._activeFilter = persistedModel;
 			}
@@ -201,6 +207,7 @@ class FeedController extends CollectionController {
 			name: name || ''
 		}, this.setActiveFilterName.bind(this) ).then((model) => {
 			this.createNewFilterModelWithName( model.name );
+			this.resetPaginator();
 		});
 	}
 
@@ -282,9 +289,12 @@ class FeedController extends CollectionController {
 	// RECOMMENDATIONS
 
 	async addFriend( username ) {
-		let friend = this.friends.find((f) => {
-			return f.username == username
-		});
+		let friend;
+		try {
+			friend = this.friends.find((f) => {
+				return f.username == username
+			});
+		} catch(e) {}
 		if( friend ) {
 			await this.friendService.removeFriend( username );
 		} else {

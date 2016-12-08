@@ -14,6 +14,7 @@ class FilterService {
 	constructor( $q, $http ) {
 		this.$q = $q;
 		this.$http = $http;
+		this._filters = new Map();
 		// this._filters = {
 		// 	'0353arT45Q0r8L1CmKeT3oq10w665fZym655c6MGEqM7bxQ45872P2Z746ss7zyf':
 		// 	{
@@ -42,6 +43,9 @@ class FilterService {
 	}
 
 	getFilterBySlug( slug ) {
+		if( this._filters.get( slug ) ) {
+			return this.$q.resolve( this._filters.get(slug) );
+		}
 		return this.$http.get( CONFIG.API_PATH + '/filter/' + slug ).then((r) => {
 			return r.data;
 		});
@@ -52,6 +56,7 @@ class FilterService {
 			name: payload.name,
 			tags: payload.tags
 		}).then((r) => {
+			this._filters.set( r.data.slug, r.data );
 			return r.data;
 		});
 	}
@@ -79,12 +84,13 @@ class FilterService {
 			name: payload.name,
 			tags: payload.tags
 		}).then((r) => {
+			this._filters.set( r.data.slug, r.data );
 			return r.data;
 		});
 	}
 
 	updateFilter( slug, payload ) {
-		return this.$http.post( CONFIG.API_PATH + '/user/me/filter/slug', {
+		return this.$http.post( CONFIG.API_PATH + '/user/me/filter/' + slug, {
 			name: payload.name,
 			tags: payload.tags
 		}).then((r) => {
@@ -95,20 +101,22 @@ class FilterService {
 	createNewFilterModelWithNameAndTags( name, tags ) {
 		let model = {
 			name: name.substr(0,1).toUpperCase() + name.substring(1),
-			id: 'temporary_' + ( Math.floor( Math.random() * 99999 ) ),
+			slug: 'temporary_' + ( Math.floor( Math.random() * 99999 ) ),
 			tags: tags,
 			temporary: true
 		};
+		this._filters.set( model.slug, model );
 		return model;
 	}
 
 	createNewFilterModelWithName( name ) {
 		let model = {
 			name: name.substr(0,1).toUpperCase() + name.substring(1),
-			id: 'temporary_' + ( Math.floor( Math.random() * 99999 ) ),
+			slug: 'temporary_' + ( Math.floor( Math.random() * 99999 ) ),
 			tags: [],
 			temporary: true
 		};
+		this._filters.set( model.slug, model );
 		return model;
 	}
 

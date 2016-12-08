@@ -160,7 +160,7 @@ class CollectionService {
 		const CollectionModel = this.databaseProvider.getModelByName( 'collection' );
 		return CollectionModel.findOne({
 			where: {
-				collectionId: collectionId
+				id: collectionId
 			}
 		}).then((collection) => {
 			accumulator.push( collectionId );

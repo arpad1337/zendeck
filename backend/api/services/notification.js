@@ -8,13 +8,12 @@ const UserService = require('../services/user');
 const GroupService = require('../services/group');
 const FriendService = require('../services/friend');
 const CommentService = require('../services/comment');
-const FeedService = require('../services/feed');
 
 const NOTIFICATION_TYPE = require('../config/notification-type');
 
 class NotificationService {
 
-	constructor( cacheProvider, databaseProvider, userService, groupService, friendService, commentService, feedService) {
+	constructor( cacheProvider, databaseProvider, userService, groupService, friendService, commentService) {
 		// TODO: caching
 		this.cacheProvider = cacheProvider;
 		this.databaseProvider = databaseProvider;
@@ -22,7 +21,15 @@ class NotificationService {
 		this.groupService = groupService;
 		this.friendService = friendService;
 		this.commentService = commentService;
-		this.feedService = feedService;
+	}
+
+	get feedService() {
+		if( this._feedService ) {
+			// lazy load because circular dependency
+			const FeedService = require('../services/feed');
+			this._feedService = FeedService.instance;
+		}
+		return this._feedService;
 	}
 
 	get NOTIFICATION_TYPE() {
@@ -177,7 +184,7 @@ class NotificationService {
 			userId: userId,
 			type: type,
 			createdAt: {
-				$gt: lastHour.toISOString()
+				$gt: lastHour
 			}
 		};
 		if( type === NOTIFICATION_TYPE.POST_LIKE || type === NOTIFICATION_TYPE.POST_COMMENT ) {
@@ -327,15 +334,13 @@ class NotificationService {
 			const groupService = GroupService.instance;
 			const friendService = FriendService.instance;
 			const commentService = CommentService.instance;
-			const feedService = FeedService.instance;
 			this.singleton = new NotificationService(
 				cacheProvider,
 				databaseProvider, 
 				userService, 
 				groupService, 
 				friendService, 
-				commentService,
-				feedService
+				commentService
 			);
 		}
 		return this.singleton;

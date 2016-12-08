@@ -4,6 +4,8 @@
 
 const TABLE_NAME = 'user';
 
+const Util = require('../util/util');
+
 module.exports = {
 	up: ( queryInterface, TYPES ) => {
 		return queryInterface.createTable( TABLE_NAME, {
@@ -18,7 +20,7 @@ module.exports = {
 				allowNull: false
 			},
 			password: {
-				type: TYPES.STRING( 18 ),
+				type: TYPES.STRING( 64 ),
 				allowNull: false
 			},
 			phone_number: {
@@ -92,6 +94,21 @@ module.exports = {
 				indexName: 'email_unique',
 				indicesType: 'UNIQUE'
 			});
+		}).then(() =>  {
+			return queryInterface.bulkInsert( TABLE_NAME, [
+				{
+					username: 'system',
+					enabled: true,
+					fullname: 'ZenDeck',
+					profile_color: '#00BFFF',
+					password: Util.createSHA256HashForPassword('T1tk0SKOOOOD'),
+					about: 'Peace & Love',
+					is_business: true,
+					email: 'system@zendeck.co',
+					created_at: (new Date()).toISOString()
+					updated_at: (new Date()).toISOString()
+				}
+			]);
 		});
 	},
 	down: ( queryInterface, TYPES ) => {

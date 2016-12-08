@@ -41,7 +41,7 @@ class CollectionService {
 	}
 
 	getUserCollections( username ) {
-		if( username == this.userService.currentUser.username ) {
+		if( !username || username == this.userService.currentUser.username ) {
 			username = 'me';
 		}
 		return this.$http.get( CONFIG.API_PATH + '/user/' + username + '/collection' ).then((r) => {

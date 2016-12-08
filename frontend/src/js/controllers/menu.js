@@ -39,14 +39,11 @@ class MenuController {
 			this.unreadMessageCount = count;
 		});
 
-		this.notificationService.getUnreadNotificationCount().then((count) => {
-			this.unreadNotificationCount = count;
-		});
-
 		this.notificationService.getLastNotifications().then((notifications) => {
 			notifications.forEach((notif) => {
 				this.lastNotifications.push( notif );
 			});
+			this.unreadNotificationCount = this.notificationService.getUnreadNotificationCount();
 		});
 
 		this.notificationService.startPolling();

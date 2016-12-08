@@ -129,16 +129,24 @@ class PostEntryComponent {
 	}
 
 	async like() {
-		if( this._delegateRespondsToSelector( 'likePost' ) ) {
-			await this.delegate.likePost( this.entry.id );
+		if( this.entry.liked ) {
+			if( this._delegateRespondsToSelector( 'dislikePost' ) ) {
+				await this.delegate.dislikePost( this.entry.id );
+			}
+		} else {
+			if( this._delegateRespondsToSelector( 'likePost' ) ) {
+				await this.delegate.likePost( this.entry.id );
+			}
 		}
 		this.entry.liked = !this.entry.liked;
 	}
 
 	async saveToCollection() {
-		console.log('selected collection:', this.targetCollection);
 		if( this.targetCollection === -1 || this.targetCollection == '' ) {
 			return;
+		}
+		if( this._delegateRespondsToSelector( 'addPostToCollection' ) ) {
+			await this.delegate.addPostToCollection( this.targetCollection.slug, this.entry.id );
 		}
 		this.entry.starred = !this.entry.starred;
 	}

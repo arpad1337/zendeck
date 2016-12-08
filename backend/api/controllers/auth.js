@@ -4,12 +4,14 @@
 
 const AuthService = require( '../services/auth' );
 const CollectionService = require( '../services/collection' );
+const MessageService = require('../services/message');
 
 class AuthController {
 
-	constructor( authService, collectionService ) {
+	constructor( authService, collectionService, messageService ) {
 		this.authService = authService;
 		this.collectionService = collectionService;
+		this.messageService = messageService;
 	}
 
 	*login( context ) {
@@ -50,12 +52,15 @@ class AuthController {
 				yield this.authService.acceptInvitation( user.id, invitationKey );
 				user.enabled = true;
 			}
+			let system = yield this.authService.getSystemUser();
+			yield this.messageService.createMessage( system.id, user.id, 'Welcome at ZenDeck! Hope you will have a good time using the platform.\n\nBest\nZenDeck Team');
 			if( !user.enabled ) {
 				throw new Error('User login disabled');
 			}
 			context.session.user = user;
 			context.body = user;
 		} catch(e) {
+			console.error(e, e.stack);
 			if( e.message === 'User login disabled' ) {
 				context.throw( 403, e.message );
 				return;
@@ -119,7 +124,8 @@ class AuthController {
 		if( !this.singleton ) {
 			const authService = AuthService.instance;
 			const collectionService = CollectionService.instance;
-			this.singleton = new AuthController( authService, collectionService );
+			const messageService = MessageService.instance;
+			this.singleton = new AuthController( authService, collectionService, messageService );
 		}
 		return this.singleton;
 	}

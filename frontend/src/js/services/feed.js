@@ -189,6 +189,12 @@ class FeedService {
 		});
 	}
 
+	dislikePost( postId ) {
+		return this.$http.delete( CONFIG.API_PATH + '/post/' + postId + '/like' ).then((r) => {
+			return r.data;
+		});
+	}
+
 	commentPost( postId, comment ) {
 		return this.$http.post( CONFIG.API_PATH + '/post/' + postId + '/comment', { content: comment } ).then((r) => {
 			return r.data;
@@ -205,6 +211,14 @@ class FeedService {
 		return this.$http.delete( CONFIG.API_PATH + '/post/' + postId ).then((_) => {
 			return true;
 		});
+	}
+
+	addPostToGroupCollection( groupSlug, collectionSlug, postId ) {
+		return this.$http.post(CONFIG.API_PATH + '/group/' + groupSlug + '/collection/' + collectionSlug + '/feed/' +postId);
+	}
+
+	addPostToCollection( slug, postId ) {
+		return this.$http.post(CONFIG.API_PATH + '/collection/' + slug + '/feed/' +postId);
 	}
 
 	scrapeUrl( url ) {

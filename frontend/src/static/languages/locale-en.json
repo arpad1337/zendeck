@@ -236,7 +236,18 @@
 			"YES": "Yes",
 			"NO": "No",
 			"OK": "Sign up",
-			"CANCEL": "Cancel"
+			"CANCEL": "Cancel",
+			"OR_GO_TO": "Or go to",
+			"LOGIN": "Login",
+			"ERROR": {
+				"EMAIL_ALREADY_REGISTERED": "Already registered!",
+				"LOGGING_IN": "What about logging in?",
+				"PASSWORD_WEAK": "Password seems to be weak",
+				"USERNAME_TAKEN": "Taken",
+				"USERNAME_AVAILABLE": "Available!",
+				"FULLNAME_EMPTY": "You must type your fullname/avatar",
+				"TNC_NOT_ACCEPTED": "You must accept the terms & conditions to proceed"
+			}
 		},
 		"LOGIN": {
 			"TITLE": "Login to your account",

@@ -250,6 +250,20 @@ const ROUTES = [
 		middlewares: ['session-check'],
 		action: 'deletePost'
 	},
+	{
+		path: '/post/:postId/like',
+		method: 'post',
+		controller: 'feed',
+		middlewares: ['session-check'],
+		action: 'likePost'
+	},
+	{
+		path: '/post/:postId/like',
+		method: 'delete',
+		controller: 'feed',
+		middlewares: ['session-check'],
+		action: 'dislikePost'
+	},
 
 	// COLLECTION
 
@@ -382,14 +396,14 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
-		path: '/group/:groupSlug/collection/:collectionSlug/post/:postId',
+		path: '/group/:groupSlug/collection/:collectionSlug/feed/:postId',
 		method: 'post',
 		controller: 'feed',
 		action: 'addPostToGroupCollection',
 		middlewares: ['session-check']
 	},
 	{
-		path: '/group/:groupSlug/collection/:collectionSlug/post/:postId',
+		path: '/group/:groupSlug/collection/:collectionSlug/feed/:postId',
 		method: 'delete',
 		controller: 'feed',
 		action: 'removePostFromGroupCollection',
