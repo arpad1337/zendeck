@@ -27,6 +27,7 @@ import MenuController from './controllers/menu';
 import NotificationsController from './controllers/notifications';
 import GroupsController from './controllers/groups';
 import GroupBySlugController from './controllers/group-by-slug';
+import RecommendationBoxController from './controllers/recommendation-box';
 
 // S E R V I C E S
 
@@ -78,6 +79,7 @@ module.controller( 'MenuController', MenuController );
 module.controller( 'NotificationsController', NotificationsController );
 module.controller( 'GroupsController', GroupsController );
 module.controller( 'GroupBySlugController', GroupBySlugController );
+module.controller( 'RecommendationBoxController', RecommendationBoxController );
 
 module.service( 'MessageBusService', MessageBusService );
 module.service( 'UserService', UserService );

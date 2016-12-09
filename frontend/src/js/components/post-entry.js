@@ -44,6 +44,7 @@ class PostEntryComponent {
 	reset() {
 		this.charactersLeft = PostEntryComponent.MAX_CONTENT_LENGTH;
 		this._comment = '';
+		this._commentPage = 0;
 	}
 
 	get shareableUrl() {
@@ -149,6 +150,16 @@ class PostEntryComponent {
 			await this.delegate.addPostToCollection( this.targetCollection.slug, this.entry.id );
 		}
 		this.entry.starred = !this.entry.starred;
+	}
+
+	async getMoreComments() {
+		if( this._delegateRespondsToSelector( 'getMoreCommentsForPost' ) ) {
+			let comments = await this.delegate.getMoreCommentsForPost( this.entry.id, (this._commentPage + 1) );
+			this._commentPage++;
+			comments.forEach((comment) => {
+				this.entry.comments.data.push( comment );
+			});
+		}	
 	}
 
 	// customSelect delegate

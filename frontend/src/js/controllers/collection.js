@@ -60,7 +60,7 @@ class CollectionController extends PostController {
 		};
 		return this.collectionService.getUserCollections( this.$state.params.username ).then((collections) => {
 			this._collections = collections;
-			if( this.$state.params.collectionId ) {
+			if( this.$state.params.collectionSlug ) {
 				this.selectCollection( this.$state.params.collectionSlug );
 			}
 		});

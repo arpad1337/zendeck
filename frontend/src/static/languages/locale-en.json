@@ -182,7 +182,8 @@
 		"MESSAGES_WITH": "Messages with",
 		"SEND_MESSAGE": "Send message",
 		"PREVIOUS_MESSAGES": "Previous messages",
-		"GET_MORE_THREAD": "More threads"
+		"GET_MORE_THREAD": "More threads",
+		"NO_THREADS": "There are no messages yet."
 	},
 	"PROFILE": {
 		"POSTS": {
@@ -209,8 +210,8 @@
 			"TITLE": "Connections",
 			"MORE_BUTTON": "More"
 		},
-		"FOLLOWING": {
-			"TITLE": "Following",
+		"FOLLOWERS": {
+			"TITLE": "Followers",
 			"MORE_BUTTON": "More"
 		}
 	},

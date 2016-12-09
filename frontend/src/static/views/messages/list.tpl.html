@@ -17,7 +17,7 @@
                     <strong>{{ thread.recipient.fullname }}</strong> @{{ thread.recipient.username }}
                     <br>
                     <span class="date">
-                        {{thread.updatedAt | timeAgo}}
+                        {{thread.lastMessage.createdAt | timeAgo}}
                     </span>
                 </div>
             </div>
@@ -33,6 +33,7 @@
                 {{ 'MESSAGES.OPEN_THREAD' | translate }}
             </button>
         </div>
+        <div ng-if="ctrl.threads.length == 0" class="message">{{'MESSAGES.NO_THREADS' | translate}}</div>
         <hr>
         <more-button 
             callback="ctrl.getMoreThreads()"

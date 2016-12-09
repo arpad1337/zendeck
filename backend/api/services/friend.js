@@ -38,6 +38,12 @@ class FriendService {
 		});
 	}
 
+	getFollowersByUsername( username, page ) {
+		return this.userService.getUserByUsername( username ).then((user) => {
+			return this.getFollowersByUserId( user.id, page );
+		});
+	}
+
 	getAllFriendIdsByUserId( userId ) {
 		const FriendModel = this.databaseProvider.getModelByName( 'friend' );
 		return FriendModel.findAll({
@@ -74,6 +80,31 @@ class FriendService {
 			return this.userService.getUsersByIds( friendIds );
 		});
 	}
+
+	getFollowersByUserId( userId, page ) {
+		page = page || 1;
+		const limit = FriendService.LIMIT;
+		const offset = ( Number(page) - 1 ) * limit;
+		const FriendModel = this.databaseProvider.getModelByName( 'friend' );
+		return FriendModel.findAll({
+			where: {
+				friendId: userId
+			},
+			attributes: [['user_id','friendId']],
+			limit: limit,
+			offset: offset,
+			order: [ 
+				['updated_at','DESC']
+			]
+		}).then((friends) => {
+			if( !friends ) {
+				return [];
+			}
+			let friendIds = friends.map( i => i.get('friendId') );
+			return this.userService.getUsersByIds( friendIds );
+		});
+	}
+
 
 	addFriend( userId, friendUsername ) {
 		const FriendModel = this.databaseProvider.getModelByName( 'friend' );

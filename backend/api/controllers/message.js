@@ -27,7 +27,7 @@ class MessageController {
 		const userId = context.session.user.id;
 		const recipientUsername = context.params.username;
 		try {
-			const recipient = yield this.userService.getUserByUsername( username );
+			const recipient = yield this.userService.getUserByUsername( recipientUsername );
 			let messages = yield this.messageService.getThreadByUserAndRecipientAndPage( userId, recipient.id, context.query.page );
 			context.body = messages;
 		} catch( e ) {
@@ -40,9 +40,22 @@ class MessageController {
 		const userId = context.session.user.id;
 		const recipientUsername = context.params.username;
 		try {
-			const recipient = yield this.userService.getUserByUsername( username );
+			const recipient = yield this.userService.getUserByUsername( recipientUsername );
 			let message = yield this.messageService.createMessage( userId, recipient.id, context.request.fields.content );
 			context.body = message;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw(400);
+		}
+	}
+
+	*getUnreadMessageCount( context ) {
+		const userId = context.session.user.id;
+		try {
+			const count = yield this.messageService.getUnreadMessageCountByUser( userId );
+			context.body = {
+				count: count
+			};
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw(400);

@@ -41,8 +41,11 @@ class NotificationsController {
 	}
 
 	async getMoreNotifications() {
-		this._page++;
-		let notifications = await this.notificationService.getNotificationsByPage( this._page );
+		let page = this._page + 1;
+		let notifications = await this.notificationService.getNotificationsByPage( page );
+		if( notifications.length ) {
+			this._page++;
+		}
 		notifications.forEach((notif) => {
 			this.notifications.push( notif );
 		});

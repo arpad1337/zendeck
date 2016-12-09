@@ -89,11 +89,11 @@
             </a>
         </div>
         <div class="comment-area">
-            <div class="pagination" ng-if="vm.entry.comments.count > 3 && vm.entry.comments.data.length - vm.entry.comments.count > 0">
-                <a href="#">{{ 'FEED.POST_ENTRY.PREVIOUS_COMMENTS' | translate : { difference: vm.entry.comments.data.length - vm.entry.comments.count } }}</a>
+            <div class="pagination" ng-if="vm.entry.comments.count > 3 && vm.entry.comments.count - vm.entry.comments.data.length > 0">
+                <a ng-click="vm.getMoreComments()">{{ 'FEED.POST_ENTRY.PREVIOUS_COMMENTS' | translate : { difference: vm.entry.comments.count - vm.entry.comments.data.length } }}</a>
             </div>
             <div class="comments">
-                <div class="comment" ng-repeat="comment in vm.entry.comments.data">
+                <div class="comment" ng-repeat="comment in vm.entry.comments.data | orderBy : 'id'">
                     <button 
                         ng-click="vm.deleteComment(comment.id)" 
                         class="delete"

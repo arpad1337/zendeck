@@ -14,7 +14,7 @@
                         model="recipient"
                         delegate="ctrl"
                         collection="ctrl.userAllFriends"
-                        key="id"
+                        key="username"
                         value="fullname"
                     >
                         <custom-select-selected>
@@ -30,6 +30,7 @@
                         </custom-select-item>
                     </custom-select>
                 </p>
+                <p ng-if="error.recipient">Recipient not selected</p>
                 <p>
                     <label for="message">
                         {{ 'MODALS.SEND_NEW_MESSAGE.MESSAGE' |translate }}*
@@ -43,6 +44,7 @@
                     >
                     </textarea>
                 </p>
+                <p ng-if="error.message">Message seems to be empty</p>
                 <p ng-if="error.backend" class="hint negative">{{error.backend}}</p>
             </form>
         </div>

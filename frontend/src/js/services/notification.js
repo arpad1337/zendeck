@@ -14,7 +14,90 @@ class NotificationService {
 		];
 	}
 
-	/*
+	constructor( $q, $http, messageBusService ) {
+		this.$q = $q;
+		this.$http = $http;
+		this.messageBusService = messageBusService;
+		this._notifications = [];
+		this._notifById = new Map();
+		this.lastId = 0;
+	}
+
+	getLastNotifications( lastId ) {
+		lastId = isNaN( lastId ) ? 0 :lastId;
+		return this.$http.get( CONFIG.API_PATH + '/notification/recent' ).then((r) => {
+			let notifications = r.data;
+			notifications.forEach((notif) => {
+				if( this._notifById.get( notif.id ) ) {
+					return;
+				}
+				this._notifById.set( notif.id, notif );
+				this._notifications.push( notif );
+				if( notif.id > this.lastId) {
+					this.lastId = notif.id;
+				}
+			});
+			return this._notifications;
+		});
+	}
+
+	getNotificationsByPage( page ) {
+		page = isNaN(page) ? 1 : page;
+		return this.$http.get( CONFIG.API_PATH + '/notification?page=' + page).then((r) => {
+			return r.data;
+		});
+	}
+
+	startPolling() {
+		this._timer = setInterval(() => {
+			try {
+				this.$http.get( CONFIG.API_PATH + '/notification/recent?lastId=' + this.lastId ).then((r) => {
+					let notifications = r.data;
+					notifications = notifications.sort((a, b) => {
+						return a.id - b.id;
+					});
+					notifications.forEach((notif) => {
+						if( this._notifById.get( notif.id ) ) {
+							return;
+						}
+						this._notifById.set( notif.id, notif );
+						this._notifications.unshift( notif );
+						if( notif.id > this.lastId) {
+							this.lastId = notif.id;
+						}
+						if( notif.type == NOTIFICATION_TYPE.NEW_MESSAGE ) {
+							this.messageBusService.emit( this.messageBusService.MESSAGES.NOTIFICATIONS.NEW_MESSAGE );
+						}
+						this.messageBusService.emit( this.messageBusService.MESSAGES.NOTIFICATIONS.NOTIFICATION, notif );
+					});
+				});
+			} catch( e ) {
+				// baszok rá
+			}
+		}, 10000);
+	}
+
+	stopPolling() {
+		clearInterval( this._timer );
+	}
+
+	touchNotifications() {
+		return this.$http.post(CONFIG.API_PATH + '/notification?lastId=' + this.lastId).then((r) => {
+			return r.data;
+		});
+	}
+
+	getUnreadNotificationCount() {
+		return this.$http.get( CONFIG.API_PATH + '/notification/unread' ).then((r) => {
+			return r.data.count;
+		});
+	}
+
+	acceptNotification( model ) {
+		
+	}
+
+		/*
 	get dummyNotifications() {
 		return [
 			{
@@ -321,66 +404,6 @@ class NotificationService {
 	}
 
 	*/
-
-	constructor( $q, $http, messageBusService ) {
-		this.$q = $q;
-		this.$http = $http;
-		this.messageBusService = messageBusService;
-		this._notifications = [];
-		this._unreadNotifications = 0;
-	}
-
-	getLastNotifications( lastId ) {
-		lastId = isNaN( lastId ) ? 0 :lastId;
-		return this.$http.get( CONFIG.API_PATH + '/notification/recent?lastId=' + lastId ).then((r) => {
-			let notifications = r.data;
-			if( this._notifications.length == 0 ) {
-				notifications.forEach((notif) => {
-					if( notif.type === NOTIFICATION_TYPE.NEW_MESSAGE ) {
-						this.messageBusService.emit( this.messageBusService.MESSAGES.NOTIFICATIONS.NEW_MESSAGE );
-					}
-					this._notifications.push( notif );
-					if( notif.seen == false ) {
-						this._unreadNotifications++;
-					}
-				});
-			} else {
-				notifications.forEach((notif) => {
-					if( notif.type === NOTIFICATION_TYPE.NEW_MESSAGE ) {
-						this.messageBusService.emit( this.messageBusService.MESSAGES.NOTIFICATIONS.NEW_MESSAGE );
-					}
-					this._notifications.unshift( notif );
-					this._unreadNotifications++;
-				});
-			}
-			return r.data;
-		});
-	}
-
-	getNotificationsByPage( page ) {
-		page = isNaN(page) ? 1 : page;
-		return this.$http.get( CONFIG.API_PATH + '/notification?page=' + page).then((r) => {
-			return r.data;
-		});
-	}
-
-	startPolling() {
-		setTimeout(() => {
-			try {
-				this.getLastNotifications( this._notifications[0].id );
-			} catch( e ) {
-				// baszok rá
-			}
-		}, 3000);
-	}
-
-	getUnreadNotificationCount() {
-		return this._unreadNotifications;
-	}
-
-	acceptNotification( model ) {
-		
-	}
 
 }
 

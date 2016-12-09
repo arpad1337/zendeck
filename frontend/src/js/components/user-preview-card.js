@@ -34,15 +34,22 @@ class UserPreviewCardComponent {
 	async addFriend() {
 		this.buttonEnabled = false;
 		try {
-			if( this._delegateRespondsToSelector( 'addFriend' ) ) {
-				await this.delegate.addFriend( this.user.username );
-				this.isFriend = !this.isFriend;
-				this.scope.$digest();
+			if( !this.isFriend ) {
+				if( this._delegateRespondsToSelector( 'addFriend' ) ) {
+					await this.delegate.addFriend( this.user.username );
+					this.isFriend = !this.isFriend;
+				}
+			} else {
+				if( this._delegateRespondsToSelector( 'removeFriend' ) ) {
+					await this.delegate.removeFriend( this.user.username );
+					this.isFriend = !this.isFriend;
+				}
 			}
 		} catch( e ) {
 			console.error( e );
 		} finally {
 			this.buttonEnabled = true;
+			this.scope.$digest();
 		}
 	}
 

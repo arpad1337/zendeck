@@ -77,17 +77,17 @@
                     {{'HEADER.SUB_MENU.FRIENDS' | translate}}
                 </span>
                 <span ng-if="ctrl.profile.isBusiness">
-                    {{'HEADER.SUB_MENU.FOLLOWERS' | translate}}
+                    {{'HEADER.SUB_MENU.FOLLOWING' | translate}}
                 </span>
             </a>
         </li>
-        <li ng-if="ctrl.profile.username == APP.currentUser.username">
+        <li>
             <a 
-                ui-sref="profile.following({username: ctrl.profile.username})"
+                ui-sref="profile.followers({username: ctrl.profile.username})"
                 class="members"
-                ng-class="ctrl.activeState == ctrl.PROFILE_STATES.FOLLOWING ? 'active' : ''"
+                ng-class="ctrl.activeState == ctrl.PROFILE_STATES.FOLLOWERS? 'active' : ''"
             >
-                {{'HEADER.SUB_MENU.FOLLOWING' | translate}}
+                {{'HEADER.SUB_MENU.FOLLOWERS' | translate}}
             </a>
         </li>
         <li
@@ -113,8 +113,8 @@
                 </li>
                 <li ng-repeat="collection in ctrl.collections track by $index">
                     <a 
-                        ui-sref="profile.collection({collectionId: collection.id})" 
-                        ng-click="ctrl.selectCollection( collection.id )"
+                        ui-sref="profile.collection({collectionSlug: collection.slug})" 
+                        ng-click="ctrl.selectCollection( collection.slug )"
                         class=" "
                         ng-class="ctrl.activeCollection == collection.id ? 'active' : ''"
                     >

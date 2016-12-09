@@ -28,13 +28,25 @@ class UserService {
 		this.s3Provider = s3Provider;
 	}
 
-	quickSearch( predicate ) {
+	quickSearch( userId, predicate ) {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		return UserModel.findAll({
 			where: {
-				username: {
-					$like: predicate + '%'
-				}
+				$or: [{
+					username: {
+						$like: predicate + '%'
+					},
+					userId: {
+						$ne: userId
+					}
+				},{
+					fullname: {
+						$like: predicate + '%'
+					},
+					userId: {
+						$ne: userId
+					}
+				}]
 			},
 			limit: 10
 		}).then((models) => {
@@ -51,11 +63,14 @@ class UserService {
 		});
 	}
 
-	searchByPredicateAndPage( predicate, page ) {
+	searchByPredicateAndPage( userId, predicate, page ) {
 		page = isNaN( page ) ? 1 : page;
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		return UserModel.findAll({
 			where: {
+				userId: {
+					$ne: userId
+				},
 				username: {
 					$like: predicate + '%'
 				}

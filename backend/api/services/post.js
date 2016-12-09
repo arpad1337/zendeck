@@ -40,6 +40,10 @@ class PostService {
 		})
 	}
 
+	getCommentsForPost( postId, page ) {
+		return this.commentService.getCommentsByPostIdAndPage( postId, page );
+	}
+
 	commentOnPost( userId, postId, content ) {
 		return this.commentService.commentOnPost( userId, postId, content );
 	}

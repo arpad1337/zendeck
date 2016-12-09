@@ -16,7 +16,7 @@
         </li>
         <li class="notifications list" alt="Notifications"
             ng-init="hover21=false"
-            ng-mouseenter="hover21 = true"
+            ng-mouseenter="hover21 = true;ctrl.touchNotifs()"
             ng-mouseleave="hover21 = false"
         >
             <a ng-class="{hover: hover21}">

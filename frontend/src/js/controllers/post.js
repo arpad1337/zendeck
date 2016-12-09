@@ -61,6 +61,10 @@ class PostController {
 		});
 	}
 
+	getMoreCommentsForPost( postId, page ) {
+		return this.feedService.getMoreCommentsForPost( postId, page );
+	}
+
 }
 
 export default PostController;

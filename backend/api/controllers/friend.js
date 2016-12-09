@@ -32,6 +32,28 @@ class FriendController {
 		}
 	}
 
+	*getFollowersByPage( context ) {
+		const page = context.query.page || 1;
+		const userId = context.session.user.id;
+		try {
+			let friends = yield this.friendService.getFollowersByUserId( userId, page );
+			context.body = friends;
+		} catch( e ) {
+			context.throw(400, e.message);
+		}
+	}
+
+	*getFollowersByUsernameAndPage( context ) {
+		const username = context.params.username;
+		const page = context.query.page || 1;
+		try {
+			let friends = yield this.friendService.getFollowersByUsername( username, page );
+			context.body = friends;
+		} catch( e ) {
+			context.throw(400, e.message);
+		}
+	}
+
 	*addFriend( context ) {
 		const userId = context.session.user.id;
 		const friendUsername = context.request.fields.username;

@@ -11,7 +11,8 @@ const USER_MESSAGES = new Enum([
 
 const NOTIFICATIONS = new Enum([
 	'NOTIFICATION',
-	'NEW_MESSAGE'
+	'NEW_MESSAGE',
+	'THREAD_VIEW'
 ], 'NOTIFICATIONS')
 
 export default {

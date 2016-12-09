@@ -48,6 +48,12 @@ class UserService {
 		return this._loadingPromise;
 	}
 
+	searchUsersByPedicate( predicate ) {
+		return this.$http.post(CONFIG.API_PATH + '/search/user', { predicate: predicate }).then((r) => {
+			return r.data;
+		});
+	}
+
 	getUserStats( username ) {
 		// TODO
 		let promise = this.$q.defer();

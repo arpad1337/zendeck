@@ -24,7 +24,7 @@ class NotificationService {
 	}
 
 	get feedService() {
-		if( this._feedService ) {
+		if( !this._feedService ) {
 			// lazy load because circular dependency
 			const FeedService = require('../services/feed');
 			this._feedService = FeedService.instance;
@@ -42,7 +42,7 @@ class NotificationService {
 		};
 		if( lastId ) {
 			where.id = {
-				$gt: lastId
+				$gt: Number(lastId)
 			}
 		}
 		const NotificationModel = this.databaseProvider.getModelByName( 'notification' );
@@ -171,6 +171,7 @@ class NotificationService {
 				break;
 			}
 			default: {
+				console.error('UNKNOWN:', model);
 				throw new Error('Unknown notification type');
 			}
 		};
@@ -253,8 +254,10 @@ class NotificationService {
 					}
 					return this.getLastNotifWithType( userId, NOTIFICATION_TYPE.STARTED_FOLLOWING_MULTI ).then((notif) => {
 						if( notif ) {
-							notif.payload.users.unshift( payload.user );
-							return this._updateNotificationById( id, {
+							if( !notif.payload.users.find((u) => { return u.id = payload.user.id; }) ) {
+								notif.payload.users.unshift( payload.user );
+							}
+							return this._updateNotificationById( notif.id, {
 								payload: notif.payload 
 							});
 						}
@@ -267,7 +270,8 @@ class NotificationService {
 				return this.getLastNotifWithType( userId, type, payload.post.id ).then((notif) => {
 					if( notif ) {
 						let newPayload = {
-							users: [ notif.payload.user, payload.user ]
+							users: [ notif.payload.user, payload.user ],
+							post: notif.post
 						};
 						return this.deleteNotificationWithId( notif.id ).then(() => {
 							return this._createNotification( userId, NOTIFICATION_TYPE.POST_COMMENT_MULTI, newPayload );
@@ -275,8 +279,10 @@ class NotificationService {
 					}
 					return this.getLastNotifWithType( userId, NOTIFICATION_TYPE.POST_COMMENT_MULTI ).then((notif) => {
 						if( notif ) {
-							notif.payload.users.unshift( payload.user );
-							return this._updateNotificationById( id, {
+							if( !notif.payload.users.find((u) => { return u.id == payload.user.id; }) ) {
+								notif.payload.users.unshift( payload.user );
+							}
+							return this._updateNotificationById( notif.id, {
 								payload: notif.payload 
 							});
 						}
@@ -314,17 +320,29 @@ class NotificationService {
 		}
 	}
 
-	touchNotification( userId, notificationId ) {
+	touchNotifications( userId, lastId ) {
 		const NotificationModel = this.databaseProvider.getModelByName( 'notification' );
 		return NotificationModel.update({
 			seen: true
 		}, {
 			where: {
 				userId: userId,
-				id: notificationId
+				id: {
+					$lte: Number(lastId)
+				}
 			}
-		}).then( this._createModelFromDBModel );
+		});
 	}
+
+	getUnreadNotificationCount( userId ) {
+		const NotificationModel = this.databaseProvider.getModelByName( 'notification' );
+		return NotificationModel.count({
+			where: {
+				userId: userId,
+				seen: false
+			}
+		});
+	}	
 
 	static get instance() {
 		if( !this.singleton ) {

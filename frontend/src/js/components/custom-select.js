@@ -139,7 +139,10 @@ class CustomSelectComponent {
 		let keyword = this._predicate.toLowerCase();
 		this.filteredCollection.length = 0;
 		this.collection.forEach((item) => {
-			if( item[ this.value ].toLowerCase().indexOf( keyword ) === 0 ) {
+			if(
+				item[ this.value ].toLowerCase().indexOf( keyword ) === 0 ||
+				String(item[ this.key ]).toLowerCase().indexOf( keyword ) === 0
+			) {
 				this.filteredCollection.push( item );
 			}
 		});

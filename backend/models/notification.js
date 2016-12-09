@@ -40,6 +40,6 @@ const model = sequelizeModelHelper.buildModel(
 	]
 );
 
-const Notifcation = connection.define( 'Notifcation', model.schema, model.settings );
+const Notification = connection.define( 'Notification', model.schema, model.settings );
 
-module.exports = Notifcation;
+module.exports = Notification;

@@ -4,20 +4,32 @@
 
 const DatabaseProvider = require('../../providers/database');
 const UserService = require('./user'); 
-const NotificationService = require('./notification');
 
 const striptags = require('striptags');
 
 class CommentService {
 	
 	static get LIMIT() {
-		return 10;
+		return 3;
 	}
 
-	constructor( databaseProvider, userService, notificationService ) {
+	constructor( databaseProvider, userService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
-		this.notificationService = notificationService;
+	}
+
+	get postService() {
+		if( !this._postService ) {
+			this._postService = require('./post').instance;
+		}
+		return this._postService;
+	}
+
+	get notificationService() {
+		if( !this._notificationService ) {
+			this._notificationService = require('./notification').instance;
+		}
+		return this._notificationService;
 	}
 
 	getCommentsByPostIdAndPage( postId, page ) {
@@ -27,8 +39,8 @@ class CommentService {
 			where: {
 				postId: postId
 			},
-			limit: CommentService.limit,
-			offset: ( page - 1 ) * CommentService.LIMIT + 3,
+			limit: CommentService.LIMIT,
+			offset: (( page - 1 ) * CommentService.LIMIT) + 3,
 			order: [
 				['created_at', 'ASC']
 			]
@@ -72,6 +84,9 @@ class CommentService {
 		}).then((model) => {
 			model = model.get();
 			return this.postService.getPostById( postId ).then((post) => {
+				if( postId.userId == userId ) {
+					return true;
+				}
 				return this.notificationService.createNotification( post.userId, this.notificationService.NOTIFICATION_TYPE.POST_COMMENT, {
 					user: {
 						id: userId
@@ -116,18 +131,34 @@ class CommentService {
 	}
 
 	getDistinctCommentCountByPostId( postId ) {
-		const CommentModel = this.databaseProvider.getModelByName( 'comment' );
-		return CommentModel.count({
-			where: {
-				postId: postId
-			},
-			group: ['user_id']
-		}).then(( count ) => {
-			if(count) {
-				return count;
-			}
-			return 0;
+
+		let query = `SELECT count("sub"."user_id") AS "count" 
+					 FROM ( 
+					 	SELECT DISTINCT "user_id" 
+					 	FROM "comment" AS "Comment" 
+					 	WHERE ("Comment"."deleted_at" IS NULL AND 
+					 		   "Comment"."post_id" = ${Number(postId)}) GROUP BY "user_id" 
+					 ) as "sub"`;
+
+		return this.databaseProvider.connection.query( query ).then((result) => {
+			return result[0][0].count;
 		});
+
+		// const CommentModel = this.databaseProvider.getModelByName( 'comment' );
+		// return CommentModel.findOne({
+		// 	attributes: [
+		// 		[ this.databaseProvider.Sequelize.fn('count', this.databaseProvider.Sequelize.col('user_id')), 'count']
+		// 	],
+		// 	where: {
+		// 		postId: postId
+		// 	},
+		// 	group: ['user_id']
+		// }).then(( row ) => {
+		// 	if(row) {
+		// 		return row.get('count');
+		// 	}
+		// 	return 0;
+		// });
 	}
 
 	getLastThreeCommentsByPostId( postId ) {
@@ -139,7 +170,7 @@ class CommentService {
 			limit: 3,
 			offset: 0,
 			order: [
-				['created_at', 'ASC']
+				['created_at', 'DESC']
 			]
 		}).then((models) => {
 			if( models && models.length > 0 ) {
@@ -163,8 +194,7 @@ class CommentService {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
-			const notificationService = NotificationService.instance;
-			this.singleton = new CommentService( databaseProvider, userService, notificationService );
+			this.singleton = new CommentService( databaseProvider, userService );
 		}
 		return this.singleton;
 	}

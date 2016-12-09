@@ -221,6 +221,10 @@ class FeedService {
 		return this.$http.post(CONFIG.API_PATH + '/collection/' + slug + '/feed/' +postId);
 	}
 
+	getMoreCommentsForPost( postId, page ) {
+		return this.$http.get( CONFIG.API_PATH + '/post/' + postId + '/comment?page=' + page ).then((r) => r.data);
+	}
+
 	scrapeUrl( url ) {
 		let promise = this.$q.defer();
 		setTimeout(() => {

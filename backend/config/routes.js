@@ -109,6 +109,13 @@ const ROUTES = [
 		method: 'get'
 	},
 	{
+		path: '/user/me/followers',
+		controller: 'friend',
+		action: 'getFollowersByPage',
+		middlewares: ['session-check'],
+		method: 'get'
+	},
+	{
 		path: '/user/me/friend',
 		controller: 'friend',
 		action: 'addFriend',
@@ -142,6 +149,12 @@ const ROUTES = [
 		path: '/user/:username/friend',
 		controller: 'friend',
 		action: 'getFriendsByUsernameAndPage',
+		method: 'get'
+	},
+	{
+		path: '/user/:username/followers',
+		controller: 'friend',
+		action: 'getFollowersByUsernameAndPage',
 		method: 'get'
 	},
 	{
@@ -222,6 +235,13 @@ const ROUTES = [
 
 	// POST 
 
+	{
+		path: '/post/:postId/comment',
+		method: 'get',
+		controller: 'post',
+		middlewares: ['session-check'],
+		action: 'getCommentsForPost'
+	},
 	{
 		path: '/post/:postId/comment',
 		method: 'post',
@@ -486,6 +506,13 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
+		path: '/notification/unread',
+		method: 'get',
+		controller: 'notification',
+		action: 'getUnreadNotificationCount',
+		middlewares: ['session-check']
+	},
+	{
 		path: '/notification',
 		method: 'get',
 		controller: 'notification',
@@ -493,48 +520,57 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
-		path: '/notification/:notificationId',
+		path: '/notification',
 		method: 'post',
 		controller: 'notification',
-		action: 'touchNotification',
+		action: 'touchNotifications',
 		middlewares: ['session-check']
 	},
 
 	// MESSAGES
 
 	{
-		path: '/message',
+		path: '/message/unread',
+		method: 'get',
+		controller: 'message',
+		action: 'getUnreadMessageCount',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/message/thread',
 		method: 'get',
 		controller: 'message',
 		action: 'getThreadsByPage',
 		middlewares: ['session-check']
 	},
 	{
-		path: '/message/:username',
+		path: '/message/thread/:username',
 		method: 'get',
 		controller: 'message',
 		action: 'getThreadByRecipientUsername',
 		middlewares: ['session-check']
 	},
 	{
-		path: '/message/:username',
+		path: '/message/thread/:username',
 		method: 'post',
 		controller: 'message',
 		action: 'sendMessage',
 		middlewares: ['session-check']
 	},
 
+	// getUnreadMessageCount
+
 	// SEARCH
 
 	{
-		path: '/search/:predicate',
+		path: '/search/',
 		method: 'post',
 		controller: 'search',
 		action: 'performBulkSearch',
 		middlewares: ['session-check']
 	},
 	{
-		path: '/search/:predicate/:topic',
+		path: '/search/:topic',
 		method: 'post',
 		controller: 'search',
 		action: 'performSearchByTopic',

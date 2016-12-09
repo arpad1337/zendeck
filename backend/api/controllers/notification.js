@@ -12,8 +12,9 @@ class NotificationController {
 
 	*getLastNotifications( context ) {
 		const userId = context.session.user.id;
+		const lastId = context.query.lastId;
 		try {
-			let models = yield this.notificationService.getUserLastNotifications( userId, context.query.lastId );
+			let models = yield this.notificationService.getUserLastNotifications( userId, lastId );
 			context.body = models;
 		} catch( e ) {
 			console.error(e, e.stack);
@@ -32,12 +33,25 @@ class NotificationController {
 		}
 	}
 
-	*touchNotification( context ) {
+	*touchNotifications( context ) {
 		const userId = context.session.user.id;
-		const notificationId = context.params.notificationId;
+		const lastId = context.query.lastId;
 		try {
-			let model = yield this.notificationService.touchNotification( userId, notificationId );
+			let model = yield this.notificationService.touchNotifications( userId, lastId );
 			context.body = model;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw(400);
+		}
+	}
+
+	*getUnreadNotificationCount( context ) {
+		const userId = context.session.user.id;
+		try {
+			let count = yield this.notificationService.getUnreadNotificationCount( userId );
+			context.body = {
+				count: count
+			};
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw(400);

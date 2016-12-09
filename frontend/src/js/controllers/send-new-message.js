@@ -7,13 +7,15 @@ class SendNewMessageController {
 	static get $inject() {
 		return [
 			'$scope',
+			'UserService',
 			'FriendService',
 			'MessageService'
 		];
 	}
 
-	constructor( $scope, friendService, messageService ) {
+	constructor( $scope, userService, friendService, messageService ) {
 		this.$scope = $scope;
+		this.userService = userService;
 		this.friendService = friendService;
 		this.messageService = messageService;
 		this._allFriendsPage = 1;
@@ -33,6 +35,21 @@ class SendNewMessageController {
 		this.$scope.$digest();
 	}
 
+	onPredicateChange( predicate ) {
+		if( predicate.length == 0 ) {
+			return;
+		}
+		return this.userService.searchUsersByPedicate( predicate ).then((results) => {
+			results.forEach((user) => {
+				if( !this.userAllFriends.find((u)  => {
+					return u.username == user.username
+				}) ) {
+					this.userAllFriends.unshift( user );
+				}
+			});
+		});
+	}
+
 	async onBottomReached(  ) {
 		if( !this._noMoreFriends ) {
 			this._allFriendsPage++;
@@ -45,12 +62,16 @@ class SendNewMessageController {
 
 	async sendMessage( recipient, message, error, callback ) {
 		if(!recipient) {
-			error.recipient = 'Recipient not selected';
+			error.recipient = true;
 			return;
+		} else {
+			error.recipient = false;
 		}
 		if( !message ) {
-			error.message = 'Message is empty';
+			error.message = true;
 			return;
+		} else {
+			error.message = false;
 		}
 		message = message.trim()
 			.replace(/\n\s*\n\s*\n/g, '\n\n')
@@ -59,9 +80,10 @@ class SendNewMessageController {
 			let result = await this.messageService.sendMessageToUser( recipient.username, message );
 			callback( result );
 		} catch( e ) {
-			error.backend = e.data;
+			error.backend = e.data || e.message;
+		} finally {
+			this.$scope.$digest();
 		}
-
 	}
 
 }

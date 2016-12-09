@@ -86,24 +86,27 @@ class FeedController extends CollectionController {
 
 	async getMorePosts() {
 		let newPosts = [];
-		this._page++;
+		let page = this._page + 1;
 		switch( this.$state.current.name ) {
 			case this.FEED_STATES.POSTS: {
-				newPosts = await this.feedService.getFeedByPage( this._page );
+				newPosts = await this.feedService.getFeedByPage( page );
 				break;
 			}
 			case this.FEED_STATES.FILTERED: {
-				newPosts = await this.feedService.getPostsByFilterAndPage( this._activeFilter.tags, this._page );
+				newPosts = await this.feedService.getPostsByFilterAndPage( this._activeFilter.tags, page );
 				break;
 			}
 			case this.FEED_STATES.LIKED: {
-				newPosts = await this.feedService.getLikedPostsByPage( this._page );
+				newPosts = await this.feedService.getLikedPostsByPage( page );
 				break;
 			}
 			case this.FEED_STATES.COLLECTION: {
-				newPosts = await this.feedService.getPostsByCollectionIdAndPage( this._activeCollection.id, this._page );
+				newPosts = await this.feedService.getPostsByCollectionIdAndPage( this._activeCollection.id, page );
 				break;
 			}
+		}
+		if( newPosts.length ) {
+			this._page++;
 		}
 		newPosts.forEach((post) => {
 			this.posts.push( post );
@@ -268,9 +271,6 @@ class FeedController extends CollectionController {
 		posts.forEach((post) => {
 			this.posts.push( post );
 		});
-	 	if( this.posts.length == 0 ) {
-			this.recommendations = await this.userService.getUserRecommendations();
-		}
 		this.$scope.$digest();
 	}
 
@@ -283,24 +283,6 @@ class FeedController extends CollectionController {
 		this.posts.unshift( model );
 		this.$scope.$digest();
 		return true;
-	}
-
-
-	// RECOMMENDATIONS
-
-	async addFriend( username ) {
-		let friend;
-		try {
-			friend = this.friends.find((f) => {
-				return f.username == username
-			});
-		} catch(e) {}
-		if( friend ) {
-			await this.friendService.removeFriend( username );
-		} else {
-			await this.friendService.addFriend( username );
-		}
-		this.friends = await this.friendService.getCurrentUserFriends( true );
 	}
 
 }

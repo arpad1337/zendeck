@@ -1,9 +1,9 @@
 <section role="members">
-    <h4>{{'PROFILE.FOLLOWING.TITLE' | translate}}</h4>
+    <h4>{{'PROFILE.FOLLOWERS.TITLE' | translate}}</h4>
     <div class="members">
         <div 
             class="member"
-            ng-repeat="friend in ctrl.following track by $index"
+            ng-repeat="friend in ctrl.followers track by $index"
         >
             <div 
                 class="pic"
@@ -20,5 +20,5 @@
             </div>            
         </div>
     </div>
-    <more-button callback="ctrl.getMoreFollowing()"></more-button> 
+    <more-button callback="ctrl.getMoreFollowers()"></more-button> 
 </section>

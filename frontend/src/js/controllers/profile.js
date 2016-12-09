@@ -54,8 +54,8 @@ class ProfileController extends CollectionController {
 		this.posts = [];
 		this.friends = [];
 		this.stats = null;
-		this._followingPage = 1;
-		this.following = [];
+		this._followersPage = 1;
+		this.followers = [];
 
 		this.userService.getProfileByUsername( this.$state.params.username ).then((profile) => {
 			this.profile = profile;
@@ -67,11 +67,9 @@ class ProfileController extends CollectionController {
 			};
 		});
 
-		this.feedService.getUserPostsByUsernameAndPage( this.$state.params.username, this._page ).then(( posts ) => {
-			posts.forEach((post) => {
-				this.posts.push( post );
-			});
-		});
+		if( this.$state.current.name === STATES.APPLICATION.PROFILE.POSTS ) {
+			this.selectFeed();
+		}
 
 		this.friendService.getFriendsByUsernameAndPage( this.$state.params.username, this._friendsPage ).then((friends) => {
 			friends.forEach((friend) => {
@@ -79,9 +77,9 @@ class ProfileController extends CollectionController {
 			});
 		});
 
-		this.friendService.getFollowingByUsernameAndPage( this.$state.params.username, this._followingPage ).then((following) => {
-			following.forEach((friend) => {
-				this.following.push( friend );
+		this.friendService.getFollowersByUsernameAndPage( this.$state.params.username, this._followersPage ).then((followers) => {
+			followers.forEach((friend) => {
+				this.followers.push( friend );
 			});
 		});
 
@@ -103,11 +101,11 @@ class ProfileController extends CollectionController {
 		});
 	}
 
-	async getMoreFollowing() {
-		this._followingPage++;
-		this.friendService.getFollowingByUsernameAndPage( this.$state.params.username, this._followingPage ).then((following) => {
-			following.forEach((friend) => {
-				this.following.push( friend );
+	async getMoreFollowers() {
+		this._followersPage++;
+		this.friendService.getFollowersByUsernameAndPage( this.$state.params.username, this._followersPage ).then((followers) => {
+			followers.forEach((friend) => {
+				this.followers.push( friend );
 			});
 		});
 	}
@@ -131,8 +129,11 @@ class ProfileController extends CollectionController {
 	}
 
 	async getMorePosts() {
-		this._page++;
-		let newPosts = await this.feedService.getUserPostsByUsernameAndPage( this.$state.params.username, this._page );
+		let page = this._page + 1;
+		let newPosts = await this.feedService.getUserPostsByUsernameAndPage( this.$state.params.username, page );
+		if( newPosts.length ) {
+			this._page++;
+		}
 		newPosts.forEach((post) => {
 			this.posts.push( post );
 		});
@@ -220,7 +221,9 @@ class ProfileController extends CollectionController {
 				image: src,
 				croppedImage: ''
 			}).then((model) => {
-				this.userService.uploadProfilePicBase64( file.name, model.croppedImage );
+				return this.userService.uploadProfilePicBase64( file.name, model.croppedImage ).then(() => {
+					this.profile.photos = this.userService.currentUser.photos;
+				});
 			});
 		};
 		reader.readAsDataURL(file);

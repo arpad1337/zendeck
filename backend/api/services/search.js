@@ -14,9 +14,9 @@ class SearchService {
 		this.groupService = groupService;
 	}
 
-	performBulkSearch( predicate ) {
+	performBulkSearch( userId, predicate ) {
 		return Promise.all([
-			this.userService.quickSearch( predicate ),
+			this.userService.quickSearch( userId, predicate ),
 			this.groupService.quickSearch( predicate )
 		]).then((values) => {
 			let results = Util.flattenArrayOfArrays( values );
@@ -35,8 +35,8 @@ class SearchService {
 		});
 	}
 
-	searchUsers( predicate, page ) {
-		return this.userService.searchByPredicateAndPage( predicate, page );
+	searchUsers( userId, predicate, page ) {
+		return this.userService.searchByPredicateAndPage( userId, predicate, page );
 	}
 
 	searchGroups( predicate, page ) {

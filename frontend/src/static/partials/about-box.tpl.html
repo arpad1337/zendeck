@@ -3,7 +3,7 @@
         class="edit"
         ng-if="
           APP.currentUser.username == ctrl.profile.username || 
-          ctrl.isUserAdmin()
+          ctrl.isUserAdmin
         "
         ng-click="ctrl.toggleEditing()">
         <span ng-if="!ctrl.isEditing">

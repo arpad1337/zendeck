@@ -11,9 +11,9 @@ class SearchController {
 	}
 
 	*performBulkSearch( context ) {
-		const predicate = context.params.predicate;
+		const predicate = context.request.fields.predicate;
 		try {
-			let results = yield this.searchService.performBulkSearch( predicate );
+			let results = yield this.searchService.performBulkSearch( userId, predicate );
 			context.body = results;
 		} catch( e ) {
 			console.error(e, e.stack);
@@ -22,17 +22,17 @@ class SearchController {
 	}
 
 	*performSearchByTopic( context ) {
-		const predicate = context.params.predicate;
+		const predicate = context.request.fields.predicate;
 		const topic = context.params.topic;
 		try {
 			let results;
 			switch( topic ) {
 				case 'user': {
-					results = yield this.searchService.searchUsers( predicate, context.query.page );
+					results = yield this.searchService.searchUsers( userId, predicate, context.query.page );
 					break;
 				}
 				case 'group': {
-					results = yield this.searchService.searchGroups( predicate, context.query.page );
+					results = yield this.searchService.searchGroups( userId, predicate, context.query.page );
 					break;
 				}
 				default: {

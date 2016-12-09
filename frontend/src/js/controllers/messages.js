@@ -48,12 +48,7 @@ class MessagesController {
 		});
 
 		if( this.$state.current.name === STATES.APPLICATION.MESSAGES.THREAD ) {
-			this.selectRecipient( this.$state.params.username );
-			this.messageService.getThreadByUsernameAndPage( this.$state.params.username, this._messagesPage ).then((messages) => {
-				messages.forEach((message) => {
-					this.messages.unshift( message );
-				});
-			});
+			this.selectThread( this.$state.params.username );
 		}
 	}
 
@@ -103,18 +98,26 @@ class MessagesController {
 	}
 
 	async getMoreMessages() {
-		this._messagesPage++;
-		let messages = await this.messageService.getThreadByUsernameAndPage( this._recipient.username, this._messagesPage );
-		messages.forEach((message) => {
-			this.messages.unshift( message );
+		let page = this._messagesPage + 1;
+		let messages = await this.messageService.getThreadByUsernameAndPage( this._recipient.username, page );
+		let newMessages = [];
+		if( messages.length ) {
+			this._messagesPage++;
+		}
+		messages.forEach((msg) => {
+			newMessages.unshift(msg);
 		});
+		this.messages = newMessages.concat(this.messages);
 		this.$scope.$digest();
 		return messages.length > 0;
 	}
 
 	async getMoreThreads() {
-		this._page++;
-		let threads = await this.messageService.getThreadsByPage( this._page );
+		let page = this._page + 1;
+		let threads = await this.messageService.getThreadsByPage( page );
+		if( threads.length ) {
+			this._page++;
+		}
 		threads.forEach((thread) => {
 			this.threads.push( thread );
 		});
@@ -136,7 +139,7 @@ class MessagesController {
 
 		this.messageService.getThreadByUsernameAndPage( username, this._messagesPage ).then((messages) => {
 			messages.forEach((message) => {
-				this.messages.push( message );
+				this.messages.unshift( message );
 			});
 		});
 	}

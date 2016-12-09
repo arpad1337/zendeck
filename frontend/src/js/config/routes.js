@@ -212,10 +212,10 @@ const ROUTES = [
 	},
 
 	{
-		state: STATES.APPLICATION.PROFILE.FOLLOWING,
+		state: STATES.APPLICATION.PROFILE.FOLLOWERS,
 		opts: {
-			path: '/following',
-			view: 'views/profile/following.tpl.html',
+			path: '/followers',
+			view: 'views/profile/followers.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},
@@ -232,7 +232,7 @@ const ROUTES = [
 	{
 		state: STATES.APPLICATION.PROFILE.COLLECTION,
 		opts: {
-			path: '/collection/:collectionId',
+			path: '/collection/:collectionSlug',
 			view: 'views/profile/starred.tpl.html',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
