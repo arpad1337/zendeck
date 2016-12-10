@@ -71,6 +71,10 @@ class ProfileController extends CollectionController {
 			this.selectFeed();
 		}
 
+		if( this.$state.current.name === STATES.APPLICATION.PROFILE.LIKED ) {
+			this.selectLiked();
+		}
+
 		this.friendService.getFriendsByUsernameAndPage( this.$state.params.username, this._friendsPage ).then((friends) => {
 			friends.forEach((friend) => {
 				this.friends.push( friend );
@@ -87,7 +91,6 @@ class ProfileController extends CollectionController {
 			this.stats = stats;
 		});
 		
-		this.loadCollections();
 	}
 
 	openSendNewMessageModal() {

@@ -82,8 +82,8 @@ class CollectionService {
 
 	createNewCollectionModelWithName( name, isPublic ) {
 		return this.$http.post( CONFIG.API_PATH + '/collection', {
-			name: collection.name,
-			isPublic: collection.isPublic
+			name: name,
+			isPublic: isPublic
 		}).then((r) => {
 			return r.data;
 		});

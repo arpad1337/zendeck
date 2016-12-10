@@ -107,7 +107,7 @@ class CollectionService {
 		let model = {
 			userId: userId,
 			slug: Util.createSHA256Hash( userId + name ),
-			name: name,
+			name: name.charAt(0).toUpperCase() + name.substr(1,name.length),
 			isPublic: isPublic,
 			parent: parent ? parent : null,
 			groupId: groupId ? groupId : null

@@ -80,7 +80,12 @@ class CollectionController extends PostController {
 
 	async selectLiked() {
 		this.resetPaginator();
-		let posts = await this.feedService.getLikedPostsByPage( this._page );
+		let posts;
+		if( this.$state.params.username ) {
+			posts = await this.feedService.getFriendLikedPostsByPage( this.$state.params.username, this._page );
+		} else {
+			posts = await this.feedService.getLikedPostsByPage( this._page );
+		}
 		posts.forEach((post) => {
 			this.posts.push( post );
 		});
@@ -182,9 +187,6 @@ class CollectionController extends PostController {
 			saveButton: false
 		}, this.checkActiveCollectionName ).then((model) => {
 			return this.createNewCollectionModelWithName( model.name, model.isPublic );
-		}).then((model) => {
-			this.collections.push( model );
-			return model;
 		});
 	}
 
@@ -194,10 +196,12 @@ class CollectionController extends PostController {
 		}
 	}
 
-	async createNewCollectionModelWithName( name, isPublic ) {
-		let model = await this.collectionService.createNewCollectionModelWithName( name, isPublic );
-		this._activeCollection = model;
-		return model;
+	createNewCollectionModelWithName( name, isPublic ) {
+		return this.collectionService.createNewCollectionModelWithName( name, isPublic ).then((model) => {
+			this._activeCollection = model;
+			this.collections.push( model );
+			return model;
+		});
 	}
 
 	async addPostToCollection( collectionSlug, postId ) {

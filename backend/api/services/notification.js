@@ -295,7 +295,8 @@ class NotificationService {
 				return this.getLastNotifWithType( userId, type, payload.post.id ).then((notif) => {
 					if( notif ) {
 						let newPayload = {
-							users: [ notif.payload.user, payload.user ]
+							users: [ notif.payload.user, payload.user ],
+							post: notif.post
 						};
 						return this.deleteNotificationWithId( notif.id ).then(() => {
 							return this._createNotification( userId, NOTIFICATION_TYPE.POST_LIKE_MULTI, newPayload );
@@ -303,7 +304,9 @@ class NotificationService {
 					}
 					return this.getLastNotifWithType( userId, NOTIFICATION_TYPE.POST_LIKE_MULTI ).then((notif) => {
 						if( notif ) {
-							notif.payload.users.unshift( payload.user );
+							if( !notif.payload.users.find((u) => { return u.id = payload.user.id; }) ) {
+								notif.payload.users.unshift( payload.user );
+							}
 							return this._updateNotificationById( id, {
 								payload: notif.payload 
 							});

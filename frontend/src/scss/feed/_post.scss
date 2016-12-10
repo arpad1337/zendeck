@@ -59,7 +59,7 @@ post-entry {
 			}
 
 		}
-		button.save {
+		button {
 			border: none !important;
 			background: $WHITE;
 			color: $MAIN-DARK;
@@ -68,7 +68,7 @@ post-entry {
 			font-size: 14px !important;
 			height: 23px !important;
 			font-size: 13px !important;
-			width: 60px;
+			min-width: 60px;
 		}
 		@extend .clear;
     }

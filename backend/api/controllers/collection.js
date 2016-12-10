@@ -91,7 +91,9 @@ class CollectionController {
 				throw new Error('Unauthorized');
 			}
 			yield this.collectionService.deleteCollectionBySlug( slug );
-			context.body = true;
+			context.body = {
+				success: true 
+			};
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );
@@ -100,10 +102,10 @@ class CollectionController {
 
 	*createCollection( context ) {
 		const userId = context.session.user.id;
-		const payload = context.fields;
+		const payload = context.request.fields;
 		try {
 			let collection = yield this.collectionService.createCollection( userId, payload.name, payload.isPublic, payload.parent );
-			context.body = true;
+			context.body = collection;
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );
@@ -112,7 +114,7 @@ class CollectionController {
 
 	*createGroupCollection( context ) {
 		const userId = context.session.user.id;
-		const payload = context.fields;
+		const payload = context.request.fields;
 		const slug = context.params.groupSlug;
 		try {
 			let group = yield this.groupService.getGroupBySlug( slug );

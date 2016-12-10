@@ -143,25 +143,36 @@ const ROUTES = [
 		path: '/user/:username',
 		controller: 'user',
 		action: 'getUserByUsername',
-		method: 'get'
+		method: 'get',
+		middlewares: ['session-check']
 	},
 	{
 		path: '/user/:username/friend',
 		controller: 'friend',
 		action: 'getFriendsByUsernameAndPage',
-		method: 'get'
+		method: 'get',
+		middlewares: ['session-check']
 	},
 	{
 		path: '/user/:username/followers',
 		controller: 'friend',
 		action: 'getFollowersByUsernameAndPage',
-		method: 'get'
+		method: 'get',
+		middlewares: ['session-check']
 	},
 	{
-		path: '/user/:username/post',
+		path: '/user/:username/feed',
 		controller: 'feed',
 		action: 'getUserPosts',
-		method: 'get'
+		method: 'get',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/user/:username/feed/liked',
+		controller: 'feed',
+		action: 'getFriendLikedPosts',
+		method: 'get',
+		middlewares: ['session-check']
 	},
 
 	// FEED

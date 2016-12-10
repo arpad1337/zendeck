@@ -78,6 +78,18 @@ class FeedController {
 		}
 	}
 
+	*getFriendLikedPosts( context ) {
+		const userId = context.session.user.id;
+		const username = context.params.username;
+		try {
+			let user = yield this.userService.getUserByUsername( username );
+			let posts = yield this.feedService.getFriendLikedFeedByIdAndPage( userId, user.id, context.query.page );
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	*getGroupFeed( context ) {
 		const userId = context.session.user.id;
 		const slug = context.params.groupSlug;
@@ -107,7 +119,12 @@ class FeedController {
 		const slug = context.params.collectionSlug;
 		try {
 			let collection = yield this.collectionService.getCollectionBySlug( slug );
-			let posts = yield this.feedService.getUserCollectionFeedByIdAndCollectionIdAndPage( userId, collection.id, context.query.page );
+			let posts;
+			if( collection.userId === userId ) {
+				posts = yield this.feedService.getUserCollectionFeedByIdAndCollectionIdAndPage( userId, collection.id, context.query.page );
+			} else {
+				posts = yield this.feedService.getFriendCollectionFeedByIdAndCollectionIdAndPage( userId, collection.userId, collection.id, context.query.page );
+			}
 			context.body = posts;
 		} catch( e ) {
 			console.error(e, e.stack);

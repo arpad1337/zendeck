@@ -39,8 +39,8 @@ class MessageService {
 
 	getThreadByUsernameAndPage( username, page ) {
 		page = isNaN( page ) ? 1 : page;
-		this.messageBusService.emit( this.messageBusService.MESSAGES.NOTIFICATIONS.THREAD_VIEW );
 		return this.$http.get( CONFIG.API_PATH + '/message/thread/' + username + '?page=' + page ).then((r) => {
+			this.messageBusService.emit( this.messageBusService.MESSAGES.NOTIFICATIONS.THREAD_VIEW );
 			return r.data;
 		});
 	}
