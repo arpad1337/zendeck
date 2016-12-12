@@ -95,6 +95,27 @@ class ApplicationController {
 		});
 	}
 
+	//
+
+	openCreateGroupModal() {
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.EDIT_GROUP, {
+			name: '',
+			about: '',
+			isPublic: 'true',
+			isModerated: 'false',
+			isOpen: 'true',
+			error: {
+				name: false,
+				backend: false
+			}
+		}).then((args) => {
+			let group = args.args;
+			console.log(group);
+		});
+	}
+
+	// todo: auth controller
+
 	openPasswordResetModal( signature ) {
 		this.modalService.openDialog( this.modalService.DIALOG_TYPE.PASSWORD_RESET, {
 			signature: signature,

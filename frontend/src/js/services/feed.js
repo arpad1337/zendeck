@@ -227,7 +227,13 @@ class FeedService {
 		let promise = this.$q.defer();
 		setTimeout(() => {
 			promise.resolve({
-				meta: this.dummyPost.attachment,
+				meta: {
+					preview: '/img/avatar.jpg',
+					title: 'Metamind has been acquired by Salesforce',
+					description: 'MetaMind, a Palo Alto-based AI startup founded in July 2014, is being acquired by Salesforce. According to a new post published at the company\'s website by CEO Richard Socher -- a Stanford PhD who stu',
+					source: 'TechCrunch',
+					url: 'http://techcrunch.com'
+				},
 				tags: ['article', 'techcrunch', 'startup', 'metamind', 'salesforce']
 			});
 		}, Math.random() * 1000);

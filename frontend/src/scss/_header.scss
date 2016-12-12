@@ -199,66 +199,75 @@ body > header {
 						background: url('../img/bell@2x.png');
 						background-size: 36px 40px;
 					}
-					.notifications-list {
-						&:before {
-							width: 0;
-							height: 0;
-							border-style: solid;
-							border-width: 0 11px 10px 10px;
-							border-color: transparent transparent #ffffff transparent;
-							content: " ";
+					li {
+						notification-view {
+							min-height: 38px;
 							display: block;
-							position: absolute;
-							left: 99px;
-							top: -10px;
-						}
-						position: absolute;
-						z-index: 1000;
-						color: $WHITE;
-						display: none;
-						border: 2px solid #fff;
-						background: none;
-						margin-top: 10px;
-						width: 222px;
-						left: -93px;
-						line-height: 18px;
-						h4 {
-							margin: -8px;
-							padding: 8px;
-							text-transform: uppercase;
-						}
-						a {
-							text-decoration: none;
-							padding: 8px;
-							font-size: 14px;
-							color:$WHITE;
-							background: $MAIN-DARK;
-							display: block;
-							border-top: 1px solid $MAIN-LIGHT;
-							&:first-child {
-								border: none;
-							}
-							&:hover, .label:hover {
-								background: $MAIN-LIGHT;
-							}
-							&.more {
-								text-transform: uppercase;
-								text-align: center;
-							}
-							span {
-								  background-image: url('img/avatar.jpg');
-								  width: 30px;
-								  height: 30px;
-								  display: block;
-								  padding: 0;
-								  float: left;
-								  border: 2px solid $WHITE;
-								  background-size: cover;
-								  @include border-radius(20px);
-								  margin-right: 4px;
+							a {
+								border-bottom: 1px dotted $WHITE;
 							}
 						}
 					}
+					// .notifications-list {
+					// 	&:before {
+					// 		width: 0;
+					// 		height: 0;
+					// 		border-style: solid;
+					// 		border-width: 0 11px 10px 10px;
+					// 		border-color: transparent transparent #ffffff transparent;
+					// 		content: " ";
+					// 		display: block;
+					// 		position: absolute;
+					// 		left: 99px;
+					// 		top: -10px;
+					// 	}
+					// 	position: absolute;
+					// 	z-index: 1000;
+					// 	color: $WHITE;
+					// 	display: none;
+					// 	border: 2px solid #fff;
+					// 	background: none;
+					// 	margin-top: 10px;
+					// 	width: 222px;
+					// 	left: -93px;
+					// 	line-height: 18px;
+					// 	h4 {
+					// 		margin: -8px;
+					// 		padding: 8px;
+					// 		text-transform: uppercase;
+					// 	}
+					// 	a {
+					// 		text-decoration: none;
+					// 		padding: 8px;
+					// 		font-size: 14px;
+					// 		color:$WHITE;
+					// 		background: $MAIN-DARK;
+					// 		display: block;
+					// 		border-top: 1px solid $MAIN-LIGHT;
+					// 		&:first-child {
+					// 			border: none;
+					// 		}
+					// 		&:hover, .label:hover {
+					// 			background: $MAIN-LIGHT;
+					// 		}
+					// 		&.more {
+					// 			text-transform: uppercase;
+					// 			text-align: center;
+					// 		}
+					// 		span {
+					// 			  background-image: url('img/avatar.jpg');
+					// 			  width: 30px;
+					// 			  height: 30px;
+					// 			  display: block;
+					// 			  padding: 0;
+					// 			  float: left;
+					// 			  border: 2px solid $WHITE;
+					// 			  background-size: cover;
+					// 			  @include border-radius(20px);
+					// 			  margin-right: 4px;
+					// 		}
+					// 	}
+					// }
 				}
 			}
 		}

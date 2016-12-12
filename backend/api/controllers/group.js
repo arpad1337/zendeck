@@ -39,14 +39,14 @@ class GroupController {
 		const userId = context.session.user.id;
 		const payload = context.request.fields;
 		try {
-			let payload = {
+			let model = {
 				name: payload.name,
 				isPublic: payload.isPublic, // todo: isUserPremium
 				isModerated: payload.isModerated, // todo: isUserPremium
 				isOpen: payload.isOpen, 
 				about: payload.about
 			};
-			let group = yield this.groupService.createGroup( userId, payload );
+			let group = yield this.groupService.createGroup( userId, model );
 			yield this.collectionService.createCollection( userId, 'Favorites', true, null, group.id );
 			context.body = group;
 		} catch( e ) {

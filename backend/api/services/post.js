@@ -154,9 +154,6 @@ class PostService {
 		}).then((posts) => {
 			if( posts && posts.length > 0 ) {
 				posts = posts.map(m => m.get());
-
-				console.log("\n\n\n\n",'PPPPPP', posts, "\n\n\n\n")
-
 				let users = new Map();
 				let groups = new Map();
 				let attachments = new Map();

@@ -128,7 +128,7 @@ class GroupService {
 	}
 
 	acceptGroupInvitation( userId, invitationKey ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.invitationService.resolveInvitation( invitationKey ).then((invitation) => {
 			if( invitation ) {
 				return this.userService.getUserById( userId ).then((user) => {
@@ -171,7 +171,7 @@ class GroupService {
 	getGroupViewsByUserAndPage( userId, page ) {
 		page = isNaN( page ) ? 1 : page;
 		const GroupModel = this.databaseProvider.getModelByName( 'group' );
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return GroupMemberModel.findAll({
 			where: {
 				userId: userId
@@ -245,7 +245,7 @@ class GroupService {
 	}
 
 	_createViewFromDBModel( model ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return GroupMemberModel.findAll({
 			where: {
 				groupId: model.id,
@@ -270,7 +270,7 @@ class GroupService {
 	}
 
 	isUserApprovedMemberOfGroup( userId, groupId ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return GroupMemberModel.findOne({
 			where: {
 				userId: userId,
@@ -281,7 +281,7 @@ class GroupService {
 	}
 
 	isUserMemberOfGroup( userId, groupId ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return GroupMemberModel.findOne({
 			where: {
 				userId: userId,
@@ -292,7 +292,7 @@ class GroupService {
 
 	isUserAdminOfGroup( userId, groupId ) {
 		const GroupModel = this.databaseProvider.getModelByName( 'group' );
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return GroupModel.findOne({
 			where: {
 				userId: userId,
@@ -314,11 +314,11 @@ class GroupService {
 	}
 
 	createGroup( userId, payload ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		const GroupModel = this.databaseProvider.getModelByName( 'group' );
 		let model = {
 			userId: userId,
-			slug: Util.createSHA256Hash( userId + payload.name ),
+			slug: Util.createSHA256Hash( userId + payload.name + Date.now() ),
 			isPublic: payload.isPublic,
 			isModerated: payload.isModerated || false,
 			isOpen: payload.isOpen || true,
@@ -420,7 +420,7 @@ class GroupService {
 
 	deleteGroupBySlug( userId, slug ) {
 		const GroupModel = this.databaseProvider.getModelByName( 'group' );
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.getGroupBySlug(slug).then((model) => {
 			return this.isUserAdminOfGroup( userId, model.id ).then(( isAdmin ) => {
 				if( !isAdmin ) {
@@ -445,7 +445,7 @@ class GroupService {
 	// MEMBER ACTIONS
 
 	joinGroup( userId, slug ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.getGroupBySlug(slug).then((model) => {
 			return GroupMemberModel.create({
 				groupId: model.id,
@@ -478,7 +478,7 @@ class GroupService {
 	}
 
 	leaveGroup( userId, slug ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.getGroupBySlug(slug).then((model) => {
 			return GroupMemberModel.destroy({
 				where: {
@@ -490,7 +490,7 @@ class GroupService {
 	}
 
 	approveUser( slug, adminId, userId ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.getGroupBySlug(slug).then((model) => {
 			return this.isUserAdminOfGroup( adminId, model.id ).then((isAdmin) => {
 				if( !isAdmin ) {
@@ -509,7 +509,7 @@ class GroupService {
 	}
 
 	kickUserFromGroup( slug, adminId, userId ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.getGroupBySlug(slug).then((model) => {
 			return this.isUserAdminOfGroup( adminId, model.id ).then((isAdmin) => {
 				if( !isAdmin ) {
@@ -528,7 +528,7 @@ class GroupService {
 	}
 
 	promoteUserToAdmin( slug, adminId, userId ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.getGroupBySlug(slug).then((model) => {
 			return this.isUserAdminOfGroup( adminId, model.id ).then((isAdmin) => {
 				if( !isAdmin ) {
@@ -547,7 +547,7 @@ class GroupService {
 	}
 
 	degradeUserFromAdmin( slug, adminId, userId ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.getGroupBySlug(slug).then((model) => {
 			return this.isUserAdminOfGroup( adminId, model.id ).then((isAdmin) => {
 				if( !isAdmin ) {
@@ -567,7 +567,7 @@ class GroupService {
 
 	getGroupMembersByPage( slug, userId, page ) {
 		page = isNaN( page ) ? 1 : 0;
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.getGroupBySlug(slug).then((model) => {
 			return this.isUserAdminOfGroup( adminId, model.id ).then((isAdmin) => {
 				if( !isAdmin ) {
@@ -610,7 +610,7 @@ class GroupService {
 	}
 
 	getAllMembersById( groupId ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return GroupMemberModel.findAll({
 			where: {
 				groupId: groupId
@@ -625,7 +625,7 @@ class GroupService {
 	}
 
 	checkMember( groupId, memberId ) {
-		const GroupMemberModel = this.databaseProvider.getModelByName( 'group' );
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return GroupMemberModel.findOne({
 			where: {
 				groupId: groupId,

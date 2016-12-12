@@ -80,7 +80,7 @@ class ModalService {
 
 	_okFunctor( scope, promise, callback ) {
 		let self = this;
-		return function() {
+		return function(args) {
 			if( callback && typeof callback === 'function' ) {
 				try {
 					return callback(scope);
@@ -88,7 +88,10 @@ class ModalService {
 
 				}
 			} else {
-				promise.resolve( scope );
+				promise.resolve({
+					model: scope, 
+					args: args 
+				});
 				scope.closeModal();
 				self._openNextModal();
 			}

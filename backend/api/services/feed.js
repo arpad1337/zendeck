@@ -498,14 +498,22 @@ class FeedService {
 
 	likePostByUserId( userId, postId ) {
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.upsert({liked: true}, {
+		return FeedModel.update({liked: true}, {
 			where: {
 				userId: userId,
 				postId: postId
 			}
+		}).catch(() => {
+			return FeedModel.create({
+				userId: userId,
+				postId: postId,
+				liked: true
+			});
 		}).then(() => {
 			return this.postService.getPostById( postId ).then((post) => {
-				console.log(this.notificationService);
+				if( post.userId === userId ) {
+					return; // self-like won't create a notif
+				}
 				return this.notificationService.createNotification( post.userId, this.notificationService.NOTIFICATION_TYPE.POST_LIKE, {
 					user: {
 						id: userId

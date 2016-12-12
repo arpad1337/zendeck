@@ -28,7 +28,7 @@ const model = sequelizeModelHelper.buildModel(
 			type: TYPES.JSON
 		},
 		groupId: {
-			field: 'group_id'
+			field: 'group_id',
 			type: TYPES.INTEGER
 		}
 	},

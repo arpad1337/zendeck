@@ -1,14 +1,17 @@
 .create-post {
-	width: 600px;
+	width: calc(100% - 16px);
 	margin: 10px auto 20px;
 	position: relative;
+	@include border-radius(10px);
+	background: $BOX-BACKGROUND;
+	padding: 8px;
+ 	border: $BOX-BORDER 1px solid;
 	textarea {
 		resize: none;
 		padding: 8px;
 		border: 1px solid $FOOTER-LIGHT;
-		width: 582px;
+		width: calc(100% - 18px);
 		font-weight: normal;
-		margin-top: -6px;
 		&:hover, &:focus {
 			background-color: $FOOTER-LIGHT;
 		}
@@ -48,7 +51,7 @@
 		font-weight: normal;
 		color: $MAIN-LIGHT;
 		font-size: 12px;
-		margin: 4px 0 -4px;
+		margin: 14px 0 -4px;
 	}
 	.embed {
 		color: $FOOTER-DARK;
@@ -60,9 +63,13 @@
 		min-height: 160px;
 		font-size: 12px;
 		position: relative;
+		background: $WHITE;
+		@include border-radius(10px);
 		.cover {
 			float: left;
 			margin-right: 8px;
+			@include border-radius(6px);
+			overflow: hidden;
 		}
 		h3 {
 			color: $MAIN-LIGHT;
@@ -119,7 +126,7 @@
 		border: 0;
 		display: block;
 		ul {
-			width: 530px;
+			width: calc(100% - 70px);
 		}
 		ul, li {
 			padding: 0;
@@ -168,6 +175,8 @@
 		}
 	}
 	.suggested-tags {
+		@extend .clear;
+		margin-bottom: -4px;
 		ul li span {
 			background-color: $MAIN-DARK;
 			background-image: url('../img/plus@2x.png');

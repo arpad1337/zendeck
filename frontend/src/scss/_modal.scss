@@ -62,6 +62,15 @@ $TRANSITION-DURATION: 0.3s;
 						text-indent: 10px;
 					}
 				}
+				&.disabled {
+					color: $YELLOW;
+					input:before {
+						border-color: $YELLOW !important;
+					}
+					input[checked="checked"]:after {
+						background-color: $YELLOW !important;
+					}
+				}
 			}
 
 			.hint {

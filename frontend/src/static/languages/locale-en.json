@@ -217,6 +217,23 @@
 		}
 	},
 	"MODALS": {
+		"CREATE_GROUP": {
+			"TITLE": "Create group",
+			"NAME": "Name",
+			"PLACEHOLDER": "Type here",
+			"ABOUT": "About",
+			"IS_PUBLIC": "Group is searchable?",
+			"IS_MODERATED": "Turn on moderation?",
+			"IS_OPEN": "Anyone can join?",
+			"OK": "Create",
+			"SAVE": "Save",
+			"CANCEL": "Cancel",
+			"YES": "Yes",
+			"NO": "No",
+			"ERROR": {
+				"NAME": "You must type a valid name"
+			}
+		},
 		"SUBSCRIPTION_SUCCESFUL": {
 			"TITLE": "Subscription successful",
 			"MESSAGE": "You have succesfully subscribed to the ZenDeck newsletter.<br><br>Thank you!",

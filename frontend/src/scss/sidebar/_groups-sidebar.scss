@@ -24,7 +24,7 @@ section[role="groups-sidebar"] {
 			&:hover {
 				color: $SECONDARY-DARK;
 			}
-			&:before {
+			& .before {
 				background-image: url(../img/members.png);
 				background-repeat: no-repeat;
 				background-size: 16px 16px;
@@ -39,11 +39,11 @@ section[role="groups-sidebar"] {
 				background-color:$SECONDARY-LIGHT;
 				padding: 2px;
 			}
-			span {
-				position: absolute;
-				right: 4px;
-				top: 4px;
-			}
+			// span {
+			// 	position: absolute;
+			// 	right: 4px;
+			// 	top: 4px;
+			// }
 		}
 	}
 	> a {

@@ -42,8 +42,10 @@ class GroupService {
 		this._groupProfileCache = {};
 	}
 
-	createGroupWithNameAndOptions( name, options ) {
-
+	createGroup( payload ) {
+		return this.$http.post( CONFIG.API_PATH + '/group', payload ).then((r) => {
+			return r.data;
+		});
 	}
 
 	assignAdminToGroup( slug, userId ) {
@@ -62,8 +64,10 @@ class GroupService {
 		
 	}
 
-	updateGroupProfileBySlug( groupSlug, payload ) {
-		return this.dummyGroup;
+	updateGroupBySlug( groupSlug, payload ) {
+		return this.$http.post( CONFIG.API_PATH + '/group/' + groupSlug, payload ).then((r) => {
+			return r.data;
+		});
 	}
 
 	getGroupMemebersBySlugAndPage( slug, page ) {

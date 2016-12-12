@@ -22,10 +22,9 @@ const DIALOG_TYPE = new Enum([
 	'CREATE_COLLECTION',
 	'VIEW_POST',
 	'CONFIRMATION',
-	// 'DELETE_POST_CONFIRMATION', // TODO
-	// 'DELETE_COMMENT_CONFIRMATION', // TODO
 	'SEND_NEW_MESSAGE',
-	'PROFILE_PIC_CROPPING'
+	'PROFILE_PIC_CROPPING',
+	'EDIT_GROUP'
 ], 'DIALOG_TYPE');
 
 const DIALOG_DESCIPTORS = {};
@@ -92,6 +91,12 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.PROFILE_PIC_CROPPING.toString() ] = {
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.CONFIRMATION.toString() ] = {
 	templateUrl: '/partials/dialog/confirmation.tpl.html'
+}
+
+// GROUPS
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.EDIT_GROUP.toString() ] = {
+	templateUrl: '/partials/dialog/create-group.tpl.html'
 }
 
 export {

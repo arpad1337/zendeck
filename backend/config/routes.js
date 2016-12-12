@@ -409,7 +409,7 @@ const ROUTES = [
 		path: '/group/:groupSlug',
 		method: 'post',
 		controller: 'group',
-		action: 'delete',
+		action: 'updateGroup',
 		middlewares: ['session-check']
 	},
 	{

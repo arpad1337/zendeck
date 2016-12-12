@@ -1,0 +1,103 @@
+<div class="modal" ng-controller="EditGroupController as ctrl">
+    <div class="container">
+        <h4>{{ 'MODALS.CREATE_GROUP.TITLE' |translate }}</h4>
+        <a class="close" ng-click="cancel()"></a>
+        <div class="content">
+            <form>
+                <div ng-if="!ctrl.groupSlug">
+                <p>
+                    <label for="name">{{ 'MODALS.CREATE_GROUP.NAME' | translate }}*</label>
+                    <input 
+                        type="text" 
+                        placeholder="{{ 'MODALS.CREATE_GROUP.PLACEHOLDER' | translate }}" 
+                        id="name" 
+                        ng-model="$parent.$parent.name"
+                    >
+                </p>
+                <p 
+                    ng-if="error.name" 
+                    class="hint negative"
+                >
+                    {{ 'MODALS.CREATE_GROUP.ERROR.NAME' | translate }}
+                </p>
+                <p>
+                    <label for="about">{{ 'MODALS.CREATE_GROUP.ABOUT' | translate }}</label>
+                    <textarea 
+                        rows="3"
+                        class="msd-elastic" 
+                        name="about" 
+                        ng-model="$parent.$parent.about"
+                        placeholder="{{ 'MODALS.CREATE_GROUP.PLACEHOLDER' |translate }}"
+                    >
+                    </textarea>
+                </p>
+                </div>
+                <p ng-class="!ctrl.isUserPremium ? 'disabled' : ''">
+                    <label for="isPublic">{{ 'MODALS.CREATE_GROUP.IS_PUBLIC' | translate }}</label>
+                    <label class="radio">
+                        <input type="radio" id="isPublic" 
+                        ng-disabled="!ctrl.isUserPremium"
+                        ng-model="isPublic" value="true" ng-checked="isPublic == 'true'"> {{ 'MODALS.CREATE_GROUP.YES' | translate }}
+                    </label>
+                    <label class="radio">
+                        <input type="radio" id="isPublic" 
+                        ng-disabled="!ctrl.isUserPremium"
+                        ng-model="isPublic" value="false" ng-checked="isPublic == 'false'"> {{ 'MODALS.CREATE_GROUP.NO' | translate }} 
+                    </label>
+                </p>
+                <p ng-class="!ctrl.isUserPremium ? 'disabled' : ''">
+                    <label for="isModerated">{{ 'MODALS.CREATE_GROUP.IS_MODERATED' | translate }}</label>
+                    <label class="radio">
+                        <input type="radio" id="isModerated" 
+                        ng-disabled="!ctrl.isUserPremium"
+                        ng-model="isModerated" value="true" ng-checked="isModerated == 'true'"> {{ 'MODALS.CREATE_GROUP.YES' | translate }}
+                    </label>
+                    <label class="radio">
+                        <input type="radio" id="isModerated" 
+                        ng-disabled="!ctrl.isUserPremium"
+                        ng-model="isModerated" value="false" ng-checked="isModerated == 'false'"> {{ 'MODALS.CREATE_GROUP.NO' | translate }} 
+                    </label>
+                </p>
+                <p>
+                    <label for="isOpen">{{ 'MODALS.CREATE_GROUP.IS_OPEN' | translate }}</label>
+                    <label class="radio">
+                        <input type="radio" id="isOpen" 
+                        ng-model="isOpen" value="true" ng-checked="isOpen == 'true'"> {{ 'MODALS.CREATE_GROUP.YES' | translate }}
+                    </label>
+                    <label class="radio">
+                        <input type="radio" id="isOpen" 
+                        ng-model="isOpen" value="false" ng-checked="isOpen == 'false'"> {{ 'MODALS.CREATE_GROUP.NO' | translate }} 
+                    </label>
+                </p>
+                <p ng-if="error.backend" class="hint negative">{{error.backend}}</p>
+            </form>
+        </div>
+        <div class="actions">
+               <modal-button
+                    class-name="'confirm'"
+                    callback="ctrl.saveGroup( 
+                        name, 
+                        about, 
+                        isPublic, 
+                        isModerated, 
+                        isOpen, 
+                        error, 
+                        ok
+                    )"
+                >
+                    <span ng-if="ctrl.groupSlug">
+                         {{ 'MODALS.CREATE_GROUP.SAVE' | translate }}
+                    </span>
+                    <span ng-if="!ctrl.groupSlug">
+                         {{ 'MODALS.CREATE_GROUP.OK' | translate }}
+                    </span>
+                </modal-button>
+                <modal-button
+                    class-name="'cancel'"
+                    callback="cancel()"
+                >
+                    {{ 'MODALS.CREATE_GROUP.CANCEL' | translate }}
+                </modal-button>
+        </div>
+    </div>
+</div>

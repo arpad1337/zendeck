@@ -4,11 +4,17 @@
         <li
         	ng-repeat="group in ctrl.groups track by $index"
         >
-        	<a ui-sref="groupBySlug.posts({groupSlug:group.slug})">{{group.name}} <span>{{group.newPosts}}</span></a>
+        	<a ui-sref="groupBySlug.posts({groupSlug:group.slug})">
+                <span 
+                    class="before" 
+                    ng-style="{'background-color': group.profileColor}"
+                ></span>
+                {{group.name}}
+            </a>
         </li>
     </ul>
     <div ng-if="ctrl.groups.length === 0" class="empty">
         {{'RIGHT_COLUMN.GROUPS.NO_GROUPS' | translate}}
     </div>
-    <a ng-click="ctrl.openCreateGroupModal()">{{'RIGHT_COLUMN.GROUPS.CREATE_GROUP' | translate}}</a>
+    <a ng-click="APP.openCreateGroupModal()">{{'RIGHT_COLUMN.GROUPS.CREATE_GROUP' | translate}}</a>
 </section>
