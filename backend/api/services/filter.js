@@ -14,7 +14,7 @@ class FilterService {
 			POSTS: 'POSTS',
 			TAGS: 'TAGS',
 			GROUP_TAGS: 'GROUP_TAGS',
-			TEMP_FILTER_LIST: 'TEMP'
+			TEMP_FILTER_LIST: 'TEMP',
 			TEMP_GROUP_FILTER_LIST: 'TEMP_GROUP'
 		}
 	}
@@ -32,7 +32,7 @@ class FilterService {
 		this.databaseProvider = databaseProvider;
 	}
 
-	createFilterModel( userId, name, tags groupId ) {
+	createFilterModel( userId, name, tags, groupId ) {
 		const FilterModel = this.databaseProvider.getModelByName( 'filter' );
 		return FilterModel.create({
 			userId: userId,
@@ -198,7 +198,7 @@ class FilterService {
 				}
 				uniqueTagsMap[ tag ] = true;
 				uniqueTags.push( tag );
-				key = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TAGS, tag ].join(':');
+				key = this.createTagKey( tag, groupId );
 				transaction.push(
 					this.cacheProvider.llen( key ),
 					this.cacheProvider.lrange( key, 0, FilterService.CACHE_SIZE_LIMIT - 1 )
@@ -226,7 +226,7 @@ class FilterService {
 					transaction.length = 0;
 
 					flattenedPosts.forEach((postId) => {
-						let key = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.POSTS, postId ].join(':');
+						let key = this.createTagKey( tag, groupId );
 						transaction.push(
 							this.cacheProvider.llen( key )
 						);
