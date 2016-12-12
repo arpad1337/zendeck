@@ -206,28 +206,56 @@ const ROUTES = [
 		method: 'get',
 		controller: 'filter',
 		middlewares: ['session-check'],
-		action: 'getUserFilters',
+		action: 'getUserFilters'
 	},
 	{
 		path: '/user/me/filter',
 		method: 'post',
 		controller: 'filter',
 		middlewares: ['session-check'],
-		action: 'createFilter',
+		action: 'createFilter'
 	},
 	{
 		path: '/user/me/filter/:slug',
 		method: 'post',
 		controller: 'filter',
 		middlewares: ['session-check'],
-		action: 'updateFilter',
+		action: 'updateFilter'
 	},
 	{
 		path: '/user/me/filter/:slug',
 		method: 'delete',
 		controller: 'filter',
 		middlewares: ['session-check'],
-		action: 'deleteFilter',
+		action: 'deleteFilter'
+	},
+	{
+		path: '/group/:groupSlug/filter',
+		method: 'get',
+		controller: 'filter',
+		action: 'getGroupFilters',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/filter',
+		method: 'post',
+		controller: 'filter',
+		action: 'createGroupFilter',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/filter/:slug',
+		method: 'get',
+		controller: 'filter',
+		action: 'updateGroupFilter',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug/filter/:slug',
+		method: 'delete',
+		controller: 'filter',
+		middlewares: ['session-check'],
+		action: 'deleteGroupFilter'
 	},
 	{
 		path: '/filter/:slug',

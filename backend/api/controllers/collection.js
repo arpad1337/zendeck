@@ -70,7 +70,7 @@ class CollectionController {
 		const userId = context.session.user.id;
 		const slug = context.params.collectionSlug;
 		try {
-			let userHasRightToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, slug );
+			let isUserHasRightsToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, slug );
 			if( !isUserHasRightsToCollection ) {
 				throw new Error('Unauthorized');
 			}
@@ -86,7 +86,7 @@ class CollectionController {
 		const userId = context.session.user.id;
 		const slug = context.params.collectionSlug;
 		try {
-			let userHasRightToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, slug );
+			let isUserHasRightsToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, slug );
 			if( !isUserHasRightsToCollection ) {
 				throw new Error('Unauthorized');
 			}

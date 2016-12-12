@@ -57,8 +57,6 @@ class FeedController extends CollectionController {
 			}
 		});
 
-		this.loadCollections();
-
 		this.friendService.getCurrentUserRecentFriends(  ).then((friends) => {
 			this.friends = friends;
 		});

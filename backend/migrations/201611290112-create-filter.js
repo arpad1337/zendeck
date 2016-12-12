@@ -25,6 +25,9 @@ module.exports = {
 			tags: {
 				type: TYPES.JSON
 			},
+			group_id: {
+				type: TYPES.INTEGER
+			},
 			created_at: {
 				type: TYPES.DATE
 			},

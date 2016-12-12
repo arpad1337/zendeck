@@ -17,6 +17,7 @@
 		},
 		"SUB_MENU": {
 			"FEED": "Feed",
+			"POSTS": "Posts",
 			"MEMBERS": "Members",
 			"LIKED": "Liked posts",
 			"COLLECTIONS": "Collections",

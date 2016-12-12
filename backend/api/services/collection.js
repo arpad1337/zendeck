@@ -127,6 +127,12 @@ class CollectionService {
 					id: collection.id
 				}
 			});
+		}).then(() => {
+			return CollectionModel.findOne({
+				where: {
+					id: collection.id
+				}
+			}).then((c) => c.get());
 		});
 	}
 

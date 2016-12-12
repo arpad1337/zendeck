@@ -137,13 +137,10 @@ class FeedService {
 
 	getUserPostsByUsernameAndPage( username, page, force ) {
 		page == isNaN( page ) ? 1 : page;
-		// DUMMY
-		return this.getFeedByPage( page );
-
 		if( !force && this._postsCache[ username ] ) {
 			return this.$q.resolve( this._postsCache[ username ] );
 		}
-		return this.$http.get( CONFIG.API_PATH + '/user/' + username + '/post?page=' + page ).then((r) => {
+		return this.$http.get( CONFIG.API_PATH + '/user/' + username + '/feed?page=' + page ).then((r) => {
 			this._postsCache[ username ] = r.data;
 			return r.data;
 		});
@@ -151,9 +148,6 @@ class FeedService {
 
 	getGroupPostsByGroupSlugAndPage( groupId, page, force ) {
 		page == isNaN( page ) ? 1 : page;
-		// DUMMY
-		return this.getFeedByPage( page );
-
 		if( !force && this._groupPostsCache[ groupId ] ) {
 			return this.$q.resolve( this._groupPostsCache[ groupId ] );
 		}

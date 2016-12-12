@@ -8,12 +8,12 @@ h4 + .post {
 }
 
 post-entry {
- 	border-bottom: 1px solid $FOOTER-LIGHT;
 	margin-bottom: 10px;
 	display: block;
-// 	background: $FOOTER-LIGHT;
-// 	display: block;
-// 	@include border-radius(10px);
+ 	@include border-radius(10px);
+	background: $BOX-BACKGROUND;
+	padding: 8px 8px 0;
+ 	border: $BOX-BORDER 1px solid;
 }
 
 .post {
@@ -21,8 +21,8 @@ post-entry {
 	display: block;
 	width: calc(100% - 70px);
 	max-width: 540px;
-	margin: 10px auto;
-	padding-top: 10px;
+	//margin: 10px auto;
+	//padding-top: 10px;
 	padding-left: 70px;
 
 	._right {
@@ -99,7 +99,7 @@ post-entry {
 		}
 
 		.meta-head {
-			padding-top: 8px;
+			padding-top: 14px;
 		}
 
 		.delete {
@@ -146,7 +146,7 @@ post-entry {
 			}
 			tooltip {
 				width: 100%;
-				margin: 14px auto;
+				margin: 6px auto;
 				display: block !important;
 			}
 		}
@@ -194,7 +194,7 @@ post-entry {
 				display: inline-block;
 				content: " ";
 				margin-top: 0px;
-				margin-bottom: -4px;
+				margin-bottom: -6px;
 			}
 			&:hover {
 				&:after {
@@ -270,17 +270,24 @@ post-entry {
 			}
 			.embed {
 				color: $FOOTER-DARK;
+				&:hover {
+					color: $FOOTER-DARK;
+				}
 				text-decoration: none;
 				display: block;
 				padding: 8px;
-				border: 1px solid $FOOTER-LIGHT;
+				border: #f1f1f1 1px solid;
 				margin-top: 8px;
 				min-height: 160px;
 				font-size: 12px;
 				position: relative;
+				background: $WHITE;
+				@include border-radius(10px);
 				.cover {
 					float: left;
 					margin-right: 8px;
+					@include border-radius(6px);
+					overflow: hidden;
 				}
 				h3 {
 					color: $MAIN-LIGHT;

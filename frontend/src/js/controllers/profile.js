@@ -124,7 +124,7 @@ class ProfileController extends CollectionController {
 
 	async selectFeed() {
 		this.resetPaginator();
-		let posts = await this.feedService.getFeedByPage( this._page );
+		let posts = await this.feedService.getUserPostsByUsernameAndPage( this.$state.params.username, this._page );
 		posts.forEach((post) => {
 			this.posts.push( post );
 		});

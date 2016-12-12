@@ -64,7 +64,7 @@
             ng-click="ctrl.selectFeed()"
             ng-class="ctrl.activeState == ctrl.PROFILE_STATES.POSTS ? 'active' : ''"
             >
-                {{'HEADER.SUB_MENU.FEED' | translate}}
+                {{'HEADER.SUB_MENU.POSTS' | translate}}
             </a>
         </li>
         <li>
@@ -131,7 +131,10 @@
             <span ng-if="!ctrl.profile.isFriend">Add friend</span>
             <span ng-if="ctrl.profile.isFriend">Unfriend</span>
         </a>
-        <a class="message" ng-click="ctrl.openSendNewMessageModal()">
+        <a 
+            class="message" 
+            ng-click="ctrl.openSendNewMessageModal()"
+        >
             <span>{{ 'HEADER.SUB_MENU.SEND_NEW_MESSAGE' | translate }}</span>
         </a>
     </div>

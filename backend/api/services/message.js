@@ -34,7 +34,7 @@ class MessageService {
 			offset: (( page - 1 ) * 20),
 			order: [['id', 'DESC']]
 		}).then((models) => {
-			if( !models ) {
+			if( !models || model.length == 0 ) {
 				return [];
 			}
 			return Promise.all(models.map((model) => {

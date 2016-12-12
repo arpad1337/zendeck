@@ -48,8 +48,8 @@ class FeedController {
 		const username = context.params.username;
 		try {
 			let user = yield this.userService.getUserByUsername( username );
-			let posts = yield this.feedService.getUserPostsFeedByIdAndPage( userId, context.query.page );
-			context.body = post;
+			let posts = yield this.feedService.getUserPostsFeedByIdAndPage( user.id, context.query.page );
+			context.body = posts;
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );
@@ -84,6 +84,7 @@ class FeedController {
 		try {
 			let user = yield this.userService.getUserByUsername( username );
 			let posts = yield this.feedService.getFriendLikedFeedByIdAndPage( userId, user.id, context.query.page );
+			context.body = posts;
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );

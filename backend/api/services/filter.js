@@ -13,7 +13,9 @@ class FilterService {
 			ROOT: 'FILTERS',
 			POSTS: 'POSTS',
 			TAGS: 'TAGS',
+			GROUP_TAGS: 'GROUP_TAGS',
 			TEMP_FILTER_LIST: 'TEMP'
+			TEMP_GROUP_FILTER_LIST: 'TEMP_GROUP'
 		}
 	}
 
@@ -30,13 +32,14 @@ class FilterService {
 		this.databaseProvider = databaseProvider;
 	}
 
-	createFilterModel( userId, name, tags ) {
+	createFilterModel( userId, name, tags groupId ) {
 		const FilterModel = this.databaseProvider.getModelByName( 'filter' );
 		return FilterModel.create({
 			userId: userId,
-			slug: Util.createSHA256Hash( userId + name ),
+			slug: Util.createSHA256Hash( userId + name + groupId ),
 			name: name.trim(),
-			tags: tags
+			tags: tags,
+			groupId: groupId
 		});
 	}
 
@@ -45,6 +48,23 @@ class FilterService {
 		return FilterModel.findAll({
 			where: {
 				userId: userId
+			}
+		}).then((filters) => {
+			if( !filters ) {
+				return [];
+			}
+			return filters.map(( filter ) => {
+				return filter.get();
+			});
+		});
+	}
+
+	getUserGroupFilters( userId, groupId ) {
+		const FilterModel = this.databaseProvider.getModelByName( 'filter' );
+		return FilterModel.findAll({
+			where: {
+				userId: userId,
+				groupId: groupId
 			}
 		}).then((filters) => {
 			if( !filters ) {
@@ -122,12 +142,27 @@ class FilterService {
 		});
 	}
 
-	storeTagsByPostId( postId, tags ) {
+	createTagKey( tag, groupId ) {
+		if( !groupId ) {
+			return [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TAGS, tag ].join(':');
+		}
+		return [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.GROUP_TAGS, groupId, tag ].join(':');
+	}
+
+	createTempFilterKey( tags, groupId ) {
+		let tagsKey = this._createCacheKeyFromTags( tags );
+		if( !groupId ) {
+			return [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':');
+		}
+		return [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_GROUP_FILTER_LIST, groupId, tagsKey ].join(':');
+	}
+
+	storeTagsByPostId( postId, tags, groupId ) {
 		let uniqueTags = new Set( tags );
 		let transaction = this.cacheProvider.multi();
 		uniqueTags.forEach((tag) => {
 			tag = tag.trim().toLowerCase();
-			transaction.lpush( [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TAGS, tag ].join(':'), postId );
+			transaction.lpush( this.createTagKey( tag, groupId ), postId );
 			// transaction.ltrim( [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TAGS, tag ].join(':'), FilterService.CACHE_SIZE_LIMIT );
 			transaction.lpush( [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.POSTS, postId ].join(':'), tag );
 		});
@@ -135,20 +170,22 @@ class FilterService {
 		return transaction.exec();
 	}
 
-	isFilterExists( tags  ) {
-		let tagsKey = this._createCacheKeyFromTags( tags );
-		let filterKey = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':');
+	isFilterExists( tags , groupId ) {
+		let filterKey = this.createTempFilterKey( tags );
 		return this.cacheProvider.exists( filterKey ).then(( isExists ) => {
 			return !!isExists;
 		});
 	}
 
-	createFilterWithTags( tags, force ) {
+	createFilterWithTags( tags, groupId, force ) {
 		let tagsKey = this._createCacheKeyFromTags( tags );
-		let filterKey = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':');
+		let filterKey = this.createTempFilterKey( tags, groupId );
 		return this.cacheProvider.exists( filterKey ).then(( isExists ) => {
 			if( isExists && !force ) {
-				return this.getFilterPostIdsByTagsAndPage( tags, 1 );
+				if( !groupId ) {
+					return this.getFilterPostIdsByTagsAndPage( tags, 1 );
+				}
+				return this.getGroupFilterPostIdsByTagsAndPage( tags, groupId, 1 );
 			}
 			let uniqueTagsMap = {};
 			let uniqueTags = [];
@@ -167,7 +204,7 @@ class FilterService {
 					this.cacheProvider.lrange( key, 0, FilterService.CACHE_SIZE_LIMIT - 1 )
 				);
 			});
-			return this.cacheProvider.del( [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':') ).then(() => {
+			return this.cacheProvider.del( filterKey ).then(() => {
 				return Promise.all(transaction).then((values) => {
 					let posts = [];
 					let tags = [];
@@ -254,10 +291,18 @@ class FilterService {
 		});
 	}
 
+	getGroupFilterPostIdsByTagsAndPage( tags, groupId, page ) {
+		let tagsKey = this._createCacheKeyFromTags( tags );
+		page = isNaN( page ) ? 1 : 0;
+		let key = this.createTempFilterKey( tags, groupId );
+		this.cacheProvider.expire( key, 100 ); // extend expiration
+		return this.cacheProvider.lrange( key, ( page - 1 ) * FilterService.LIMIT, FilterService.LIMIT - 1 );
+	}
+
 	getFilterPostIdsByTagsAndPage( tags, page ) {
 		let tagsKey = this._createCacheKeyFromTags( tags );
 		page = isNaN( page ) ? 1 : 0;
-		let key = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.TEMP_FILTER_LIST, tagsKey ].join(':');
+		let key = this.createTempFilterKey( tags );
 		this.cacheProvider.expire( key, 100 ); // extend expiration
 		return this.cacheProvider.lrange( key, ( page - 1 ) * FilterService.LIMIT, FilterService.LIMIT - 1 );
 	}

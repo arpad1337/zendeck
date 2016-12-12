@@ -23,7 +23,6 @@ section[role="about"] {
 	.joined {
 		margin-top: 10px;
 		color:$MAIN-LIGHT;
-		margin-bottom: 10px;
 		&:before {
 			background-image: url("../img/clock_big@2x.png");
 			background-size: 22px 22px;
@@ -42,7 +41,7 @@ section[role="about"] {
 
 	label {
 		line-height: 26px;
-		margin: 10px 0;
+		margin: 10px 0 0;
 		width: 190px;
 		display: block;
 	}
@@ -71,8 +70,8 @@ section[role="about"] {
 	}
 	.edit {
 		position: absolute;
-		top: 9px;
-		right: 0px;
+		top: 4px;
+		right: 4px;
 		background: $SECONDARY-LIGHT;
 		color: $WHITE;
 		border: none;

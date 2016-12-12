@@ -26,6 +26,10 @@ const model = sequelizeModelHelper.buildModel(
 		},
 		tags: {
 			type: TYPES.JSON
+		},
+		groupId: {
+			field: 'group_id'
+			type: TYPES.INTEGER
 		}
 	},
 	// Traits

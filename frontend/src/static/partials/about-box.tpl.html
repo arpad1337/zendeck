@@ -32,7 +32,7 @@
     <label ng-if="ctrl.isEditing">
         {{ 'PROFILE.PROFILE_COLOR' | translate }}: <color-picker ng-model="ctrl.profile.profileColor"></color-picker>
     </label>
-    <label ng-if="ctrl.isEditing && !ctrl.profile.createdBy">
+    <label ng-if="ctrl.isEditing && !ctrl.profile.userId">
       {{ 'PROFILE.BIRTHDATE' | translate }}: <input type="date" ng-model="ctrl.lastProfileFields.birthDate">
     </label>
 </section>
