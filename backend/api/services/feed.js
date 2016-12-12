@@ -134,24 +134,24 @@ class FeedService {
 			]).then((values) => {
 				let isAdmin = values[0];
 				let isMember = values[1];
-				let where = {
-					userId: userId,
-					groupId: groupId
-				};
 				if( !isAdmin && !isMember && !group.isOpen ) {
 					throw new Error('Unauthorized');
 				}
+				let where = {
+					userId: userId
+				};
 				if( !isAdmin ) {
 					where.approved = true;
 				}
-				return FeedModel.findAll({
-					attributes: ['postId','liked', 'collectionId'],
-					where: where,
-					limit: PostService.LIMIT,
-					offset: (( page - 1 ) * PostService.LIMIT),
-					order: [[ 'post_id', 'DESC' ]],
-					group: ['post_id','liked', 'collection_id']
-				}).then(this._createPostViewsFromDBModels);
+				return this.postService.getPostIdsByGroupIdAndPage( group.id, page ).then((ids) => {
+					where.postId = ids;
+					return FeedModel.findAll({
+						attributes: ['postId','liked', 'collectionId'],
+						where: where,
+						order: [[ 'post_id', 'DESC' ]],
+						group: ['post_id','liked', 'collection_id']
+					}).then(this._createPostViewsFromDBModels);
+				});
 			})
 		});
 	}
@@ -168,7 +168,7 @@ class FeedService {
 				let isMember = values[1];
 				let where = {
 					userId: userId,
-					groupId: groupId,
+					groupId: group.id,
 					liked: true
 				};
 				if( !isAdmin && !isMember && !group.isOpen ) {
@@ -197,6 +197,26 @@ class FeedService {
 				attributes: ['postId','liked', 'collectionId'],
 				where: {
 					userId: userId,
+					collectionId: collectionId,
+					approved: true
+				},
+				limit: PostService.LIMIT,
+				offset: (( page - 1 ) * PostService.LIMIT),
+				order: [[ 'post_id', 'DESC' ]],
+				group: ['post_id','liked', 'collection_id']
+			});
+		}).then(this._createPostViewsFromDBModels);
+	}
+
+	getGroupCollectionFeed( userId, groupId, collectionId, page ) {
+		page = isNaN( page ) ? 1 : page;
+		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+		return this.collectionService.getCollectionIdsRecursivellyByCollectionId( collectionId ).then(( collectionIds ) => {
+			return FeedModel.findAll({
+				attributes: ['postId','liked', 'collectionId'],
+				where: {
+					userId: userId,
+					groupId: groupId,
 					collectionId: collectionId,
 					approved: true
 				},
@@ -337,53 +357,37 @@ class FeedService {
 			    "group": "slug"
 			}
 
-		 */
-		 let model = {
-		 	content: payload.content,
-		 	urls: payload.urls,
-		 	tags: payload.tags || []
-		 }
-		 let promise;
-		 if( !isNaN(payload.preview) ) {
-		 	let url = payload.urls[ payload.preview ];
-		 	if( url ) {
-		 		promise = this.attachmentService.getAttachmentByUrl( url ).then((attachment) => {
-			 		if( attachment ) {
-			 			model.attachmentId = attachment.id;
-			 		} else {
-			 			return this.attachmentService.scrapeUrl( url ).then(( content ) => {
-			 				return this.attachmentService.createAttachment( Object.assign( content.meta, { tags: payload.tags || [] }) ).then((attachmentId) => {
-			 					model.attachmentId = attachmentId;
-			 				});
-			 			});
-			 		}
-			 	});
-		 	}
-		 }
- 		 if( payload.group ) {
- 			if( promise ) {
- 				promise.then( _ => {
- 					return this.groupService.getGroupBySlug( payload.group ).then((group) => {
- 						if( model.isModerated ) {
- 							model.approved = false;
- 						}
-	 					model.groupId = group.id;
-	 				});	
- 				});
- 			} else {
- 				promise = this.groupService.getGroupBySlug( payload.group ).then((group) => {
- 					if( model.isModerated ) {
- 						model.approved = false;
- 					}
- 					model.groupId = group.id;
- 				});
- 			}
- 		}
+		*/
+		let model = {
+			content: payload.content,
+			urls: payload.urls,
+			tags: payload.tags || []
+		}
+		let promise;
+		if( !isNaN(payload.preview) ) {
+			let url = payload.urls[ payload.preview ];
+			if( url ) {
+				promise = this.attachmentService.getAttachmentByUrl( url ).then((attachment) => {
+		 		if( attachment ) {
+		 			model.attachmentId = attachment.id;
+		 		} else {
+		 			return this.attachmentService.scrapeUrl( url ).then(( content ) => {
+		 				return this.attachmentService.createAttachment( Object.assign( content.meta, { tags: payload.tags || [] }) ).then((attachmentId) => {
+		 					model.attachmentId = attachmentId;
+		 				});
+		 			});
+		 		}
+		 	});
+			}
+		}
+		if( payload.groupId ) {
+			model.groupId = payload.groupId
+		}
 
  		if( promise ) {
  			return promise.then(() => {
  				return this.postService.createPost( userId, model ).then((newModel) => {
-		 			return this.addPostToFeeds( userId, newModel.id, newModel.groupId ).then(() => {
+		 			return this.addPostToFeeds( userId, newModel.id, payload.groupId ).then(() => {
 		 				this.filterService.storeTagsByPostId( newModel.id, newModel.tags );
 		 				return newModel;
 		 			});
@@ -391,7 +395,7 @@ class FeedService {
  			});
  		} else {
  			return this.postService.createPost( userId, model ).then((newModel) => {
-	 			return this.addPostToFeeds( userId, newModel.id, newModel.groupId ).then(() => {
+	 			return this.addPostToFeeds( userId, newModel.id, payload.groupId ).then(() => {
 	 				this.filterService.storeTagsByPostId( newModel.id, newModel.tags );
 	 				return newModel;
 	 			});
@@ -409,8 +413,6 @@ class FeedService {
 			}
 		});
 	}
-
-	//
 
 	addPostToCollection( userId, postId, collectionId, groupId ) {
 		let where = {
@@ -470,7 +472,7 @@ class FeedService {
 				let model = {
 					userId: id,
 					postId: postId,
-					liked: false
+					liked: false,
 				};
 				if( groupId ) {
 					model.groupId = groupId;
@@ -498,17 +500,13 @@ class FeedService {
 
 	likePostByUserId( userId, postId ) {
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.update({liked: true}, {
+		return FeedModel.upsert({ 
+			liked: true
+		}, {
 			where: {
 				userId: userId,
 				postId: postId
 			}
-		}).catch(() => {
-			return FeedModel.create({
-				userId: userId,
-				postId: postId,
-				liked: true
-			});
 		}).then(() => {
 			return this.postService.getPostById( postId ).then((post) => {
 				if( post.userId === userId ) {

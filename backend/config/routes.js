@@ -400,6 +400,13 @@ const ROUTES = [
 	},
 	{
 		path: '/group/:groupSlug',
+		method: 'get',
+		controller: 'group',
+		action: 'getGroupViewBySlug',
+		middlewares: ['session-check']
+	},
+	{
+		path: '/group/:groupSlug',
 		method: 'delete',
 		controller: 'group',
 		action: 'deleteGroup',
@@ -455,6 +462,13 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
+		path: '/group/:groupSlug/collection/:collectionSlug/feed',
+		method: 'get',
+		controller: 'feed',
+		action: 'getGroupCollectionFeed',
+		middlewares: ['session-check']
+	},
+	{
 		path: '/group/:groupSlug/collection/:collectionSlug/feed/:postId',
 		method: 'post',
 		controller: 'feed',
@@ -486,28 +500,28 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
-		path: '/group/:groupSlug/members',
+		path: '/group/:groupSlug/member',
 		method: 'get',
 		controller: 'group',
 		action: 'getGroupMembersByPage',
 		middlewares: ['session-check']
 	},
 	{
-		path: '/group/:groupSlug/members',
+		path: '/group/:groupSlug/member',
 		method: 'post',
 		controller: 'group',
 		action: 'joinGroup',
 		middlewares: ['session-check']
 	},
 	{
-		path: '/group/:groupSlug/members',
+		path: '/group/:groupSlug/member',
 		method: 'delete',
 		controller: 'group',
 		action: 'leaveGroup',
 		middlewares: ['session-check']
 	},
 	{
-		path: '/group/:groupSlug/members/:userId',
+		path: '/group/:groupSlug/member/:userId',
 		method: 'post',
 		controller: 'group',
 		action: 'approveUser',
@@ -528,7 +542,7 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
-		path: '/group/:groupSlug/members/:userId',
+		path: '/group/:groupSlug/member/:userId',
 		method: 'delete',
 		controller: 'group',
 		action: 'kickUserFromGroup',

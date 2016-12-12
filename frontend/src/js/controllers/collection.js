@@ -49,15 +49,7 @@ class CollectionController extends PostController {
 		throw new Error('CollectionController->getMorePosts Must override!');
 	}
 
-	loadCollections( opts ) {
-		if( opts && opts.groupSlug ) {
-			return this.collectionService.getGroupCollections( opts.groupSlug ).then((collections) => {
-				this._collections = collections;
-				if( this.$state.params.collectionId ) {
-					this.selectCollection( this.$state.params.collectionSlug );
-				}
-			});
-		};
+	loadCollections( ) {
 		return this.collectionService.getUserCollections( this.$state.params.username ).then((collections) => {
 			this._collections = collections;
 			if( this.$state.params.collectionSlug ) {
@@ -84,7 +76,11 @@ class CollectionController extends PostController {
 		if( this.$state.params.username ) {
 			posts = await this.feedService.getFriendLikedPostsByPage( this.$state.params.username, this._page );
 		} else {
-			posts = await this.feedService.getLikedPostsByPage( this._page );
+			if( this.$state.params.groupSlug ) {
+				posts = await this.feedService.getGroupLikedPostsByPage( this.$state.params.groupSlug, this._page );
+			} else {
+				posts = await this.feedService.getLikedPostsByPage( this._page );
+			}
 		}
 		posts.forEach((post) => {
 			this.posts.push( post );
@@ -107,7 +103,12 @@ class CollectionController extends PostController {
 		} else {
 			this._activeCollection = Object.assign( {}, collection );
 		}
-		let posts = await this.feedService.getPostsByCollectionSlugAndPage( this._activeCollection.slug, this._page );
+		let posts;
+		if( !this.$state.params.groupSlug ) {
+			posts = await this.feedService.getPostsByCollectionSlugAndPage( this._activeCollection.slug, this._page );
+		} else {
+			posts = await this.feedService.getPostsByGroupCollectionSlugAndPage( this.$state.params.groupSlug, this._activeCollection.slug, this._page );
+		}
 		posts.forEach((post) => {
 			this.posts.push( post );
 		});
@@ -191,7 +192,7 @@ class CollectionController extends PostController {
 	}
 
 	checkActiveCollectionName( model ) {
-		if( model.name.trim().length > 3 ) {
+		if( model.name.trim().length > 0 ) {
 			model.dismiss();
 		}
 	}
@@ -204,10 +205,7 @@ class CollectionController extends PostController {
 		});
 	}
 
-	async addPostToCollection( collectionSlug, postId ) {
-		if( this.$state.params.groupSlug ) {
-			return this.feedService.addPostToGroupCollection( this.$state.params.groupSlug, collectionSlug, postId );
-		}
+	addPostToCollection( collectionSlug, postId ) {
 		return this.feedService.addPostToCollection( collectionSlug, postId );
 	}
 

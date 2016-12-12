@@ -71,11 +71,9 @@ class GroupService {
 	}
 
 	getGroupMemebersBySlugAndPage( slug, page ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve([ this.userService.currentUser ])
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.get( CONFIG.API_PATH + '/group/' + slug + '/member?page=' + page ).then((r) => {
+			return r.data;
+		});
 	}
 
 	getGroupStatsBySlug( slug ) {
@@ -93,27 +91,21 @@ class GroupService {
 	}
 
 	getGroupListByPage( page, force ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve([ this.dummyGroup ]);
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.get( CONFIG.API_PATH + '/user/me/group?page=' + page ).then((r) => {
+			return r.data;
+		});
 	}
 
 	getRecentGroups() {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve([ this.dummyGroup ]);
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.get( CONFIG.API_PATH + '/user/me/group?page=' + "1" ).then((r) => {
+			return r.data;
+		});
 	}
 
 	getGroupProfileBySlug( slug ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve(this.dummyGroup);
-		}, Math.random() * 1000);
-		return promise.promise;
+		return this.$http.get( CONFIG.API_PATH + '/group/' + slug ).then((r) => {
+			return r.data;
+		});
 	}
 
 

@@ -29,6 +29,7 @@ class GroupController {
 		const page = context.query.page;
 		try {
 			let groups = yield this.groupService.getGroupViewsByUserAndPage( userId, page );
+			context.body = groups;
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );

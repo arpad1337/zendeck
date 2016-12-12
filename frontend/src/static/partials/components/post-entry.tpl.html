@@ -15,9 +15,9 @@
                 {{vm.entry.author.fullname}}
             </span>
             <span 
-                ng-if="vm.entry.inGroup"
+                ng-if="vm.entry.inGroup && !vm.hiddenFrom"
                 class="from"
-                data-ng-bind-html=" 'FEED.POST_ENTRY.IN_GROUP' | translate : { groupName: vm.entry.group.name, groupUrl: '#/groups/' + vm.entry.group.id } | htmlSafe "
+                data-ng-bind-html=" 'FEED.POST_ENTRY.IN_GROUP' | translate : { groupName: vm.entry.group.name, groupUrl: '/groups/' + vm.entry.group.slug } | htmlSafe "
             >
                 
             </span>

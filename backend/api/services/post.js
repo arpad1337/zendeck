@@ -90,6 +90,23 @@ class PostService {
 		});
 	}
 
+	getPostIdsByGroupIdAndPage( groupId, page ) {
+		page = isNaN( page ) ? 1 : page;
+		const PostModel = this.databaseProvider.getModelByName('post');
+		return PostModel.findAll({
+			where: {
+				groupId: groupId
+			},
+			limit: PostService.LIMIT,
+			offset: (( page - 1 ) * PostService.LIMIT),
+		}).then(( models ) => {
+			if( models ) {
+				return models.map(( m ) => m.get('id'));
+			}
+			return [];
+		});
+	}
+
 	getPostIdsByUserIdAndPage( userId, page ) {
 		page = isNaN( page ) ? 1 : page;
 		const PostModel = this.databaseProvider.getModelByName('post');

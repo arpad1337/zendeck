@@ -167,6 +167,10 @@ class FeedService {
 		return this.$http.get( CONFIG.API_PATH + '/collection/' + collectionSlug + '/feed?page=' + page ).then( r => r.data );
 	}
 
+	getPostsByGroupCollectionSlugAndPage( groupSlug, collectionSlug, page ) {
+		return this.$http.get( CONFIG.API_PATH + '/group/'+groupSlug+'/collection/' + collectionSlug + '/feed?page=' + page ).then( r => r.data );
+	}
+
 	getLikedPostsByPage( page ) {
 		return this.$http.get( CONFIG.API_PATH + '/feed/liked?page=' + page ).then( r => r.data );
 	}

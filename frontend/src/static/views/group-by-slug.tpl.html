@@ -76,6 +76,7 @@
         <a
             ng-class="ctrl.profile.userIsMember ? 'minus' : 'create'"
             ng-click="ctrl.joinGroup()"
+            ng-if="ctrl.profile.userId != APP.currentUser.id"
         >
             <span ng-if="!ctrl.profile.userIsMember">
                 {{ 'HEADER.SUB_MENU.JOIN_GROUP' | translate }}

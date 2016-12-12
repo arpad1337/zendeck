@@ -72,13 +72,13 @@ class GroupBySlugController extends CollectionController {
 			};
 		});
 
-		this.feedService.getGroupPostsByGroupSlugAndPage( this.currentSlug, this._page ).then((newPosts) => {
-			newPosts.forEach((post) => {
-				this.posts.push( post );
-			});
-		});
+		// this.feedService.getGroupPostsByGroupSlugAndPage( this.currentSlug, this._page ).then((newPosts) => {
+		// 	newPosts.forEach((post) => {
+		// 		this.posts.push( post );
+		// 	});
+		// });
 
-		this.loadCollections({groupSlug: this.currentSlug});
+		this.loadCollections();
 
 		this.groupService.getGroupStatsBySlug( this.currentSlug ).then((stats) => {
 			this.stats = stats;
@@ -178,7 +178,7 @@ class GroupBySlugController extends CollectionController {
 				break;
 			}
 			case this.GROUP_BY_SLUG_STATES.COLLECTION: {
-				newPosts = await this.feedService.getPostsByCollectionIdAndPage( this._activeCollection.id, this._page );
+				newPosts = await this.feedService.getPostsByGroupCollectionSlugAndPage( this.$state.params.groupSlug, this._activeCollection.id, this._page );
 				break;
 			}
 		}
@@ -197,11 +197,36 @@ class GroupBySlugController extends CollectionController {
 		return STATES.APPLICATION.GROUP_BY_SLUG;
 	}
 
+	// @override
+
+	loadCollections() {
+		return this.collectionService.getGroupCollections( this.$state.params.groupSlug ).then((collections) => {
+			this._collections = collections;
+			if( this.$state.params.collectionId ) {
+				this.selectCollection( this.$state.params.collectionSlug );
+			}
+		});
+	}
+
+	// @override
+
+	createNewCollectionModelWithName( name, isPublic ) {
+		return this.collectionService.createNewGroupCollectionModelWithSlugAndName( this.currentSlug, name, isPublic ).then((model) => {
+			this._activeCollection = model;
+			this.collections.push( model );
+			return model;
+		});
+	}
+
+	addPostToCollection( collectionSlug, postId ) {
+		return this.feedService.addPostToGroupCollection( this.$state.params.groupSlug, collectionSlug, postId );
+	}
+
 	// POSTS
 
 	async selectFeed() {
 		this.resetPaginator();
-		let posts = await this.feedService.getFeedByPage( this._page );
+		let posts = await this.feedService.getGroupPostsByGroupSlugAndPage( this.$state.params.groupSlug, this._page );
 		posts.forEach((post) => {
 			this.posts.push( post );
 		});

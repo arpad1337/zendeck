@@ -37,7 +37,8 @@ class CollectionService {
 		const CollectionModel = this.databaseProvider.getModelByName( 'collection' );
 		return CollectionModel.findAll({
 			where: {
-				userId: userId
+				userId: userId,
+				groupId: null
 			}
 		}).then((collections) => {
 			if( !collections ) {
@@ -52,7 +53,8 @@ class CollectionService {
 		return CollectionModel.findAll({
 			where: {
 				userId: userId,
-				isPublic: true
+				isPublic: true,
+				groupId: null
 			}
 		}).then((collections) => {
 			if( !collections ) {

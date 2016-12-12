@@ -176,15 +176,15 @@ class GroupService {
 			where: {
 				userId: userId
 			},
-			attributes: ['groupId'],
-			group: ['group_id'],
+			attributes: ['id'],
+			group: ['id'],
 			limit: 20,
 			offset: ((page - 1) * 20)
 		}).then((groups) => {
 			if( !groups ) {
 				return [];
 			}
-			groups = groups.map( group => group.get('groupId'));
+			groups = groups.map( group => group.get('id'));
 			return this.getGroupsByIds( groups ).then((models) => {
 				return Promise.all( models.map((model) => {
 					return this._createViewFromDBModel( model );
@@ -296,7 +296,7 @@ class GroupService {
 		return GroupModel.findOne({
 			where: {
 				userId: userId,
-				groupId: groupId
+				id: groupId
 			},
 			attributes: ['id']
 		}).then((model) => {
@@ -566,10 +566,10 @@ class GroupService {
 	}
 
 	getGroupMembersByPage( slug, userId, page ) {
-		page = isNaN( page ) ? 1 : 0;
+		page = isNaN( page ) ? 1 : page;
 		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.getGroupBySlug(slug).then((model) => {
-			return this.isUserAdminOfGroup( adminId, model.id ).then((isAdmin) => {
+			return this.isUserAdminOfGroup( userId, model.id ).then((isAdmin) => {
 				if( !isAdmin ) {
 					if( !model.isOpen || !model.isPublic ) {
 						throw new Error('Unauthorized');
@@ -597,7 +597,7 @@ class GroupService {
 					ids.add( m.get('userId') );
 					membersMap.set( m.get('userId'), m.get() );
 				});
-				return this.userService.getUsersAuthorViewByIds( ids ).then((profiles) => {
+				return this.userService.getUsersAuthorViewByIds( Array.from(ids) ).then((profiles) => {
 					profiles = profiles.map(( profile ) => {
 						profile.isAdmin = membersMap.get(profile.id).isAdmin;
 						profile.approved = membersMap.get(profile.id).approved;

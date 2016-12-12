@@ -110,7 +110,9 @@ class ApplicationController {
 			}
 		}).then((args) => {
 			let group = args.args;
-			console.log(group);
+			this.$state.go( STATES.APPLICATION.GROUP_BY_SLUG.POSTS, {
+				groupSlug: group.slug
+			});
 		});
 	}
 

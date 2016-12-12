@@ -59,6 +59,9 @@ module.exports = {
 			return queryInterface.addIndex( TABLE_NAME, ['user_id'])
 		})
 		.then(() => {
+			return queryInterface.addIndex( TABLE_NAME, ['group_id'])
+		})
+		.then(() => {
 			return queryInterface.addIndex( TABLE_NAME, ['slug'])
 		});
 	},
@@ -66,6 +69,9 @@ module.exports = {
 		return queryInterface.removeIndex( TABLE_NAME, ['user_id'])
 		.then(() => {
 			return queryInterface.removeIndex( TABLE_NAME, ['slug']);
+		})
+		.then(() => {
+			return queryInterface.removeIndex( TABLE_NAME, ['group_id']);
 		})
 		.then(() => {
 			return queryInterface.dropTable( TABLE_NAME );

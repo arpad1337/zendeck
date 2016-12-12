@@ -23,7 +23,8 @@ class PostEntryComponent {
 			restrict: 'E',
 			scope: {
 				delegate: '=?',
-				entry: '='
+				entry: '=',
+				hiddenFrom: '=?'
 			},
 			templateUrl: 'partials/components/post-entry.tpl.html',
 			bindToController: true,
@@ -33,6 +34,7 @@ class PostEntryComponent {
 	}
 
 	constructor( userService, modalService ) {
+		this.hiddenFrom = this.hiddenFrom || false;
 		this.buttonEnabled = true;
 		this.reset();
 		this.targetCollection = -1;

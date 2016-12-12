@@ -91,8 +91,8 @@ class CollectionService {
 
 	createNewGroupCollectionModelWithSlugAndName( slug, name, isPublic ) {
 		return this.$http.post( CONFIG.API_PATH + '/group/' + slug + '/collection', {
-			name: collection.name,
-			isPublic: collection.isPublic
+			name: name,
+			isPublic: isPublic
 		}).then((r) => {
 			return r.data;
 		});

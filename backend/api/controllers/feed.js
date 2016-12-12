@@ -133,6 +133,25 @@ class FeedController {
 		}
 	}
 
+	*getGroupCollectionFeed( context ) {
+		const userId = context.session.user.id;
+		const slug = context.params.collectionSlug;
+		const groupSlug = context.params.groupSlug;
+		try {
+			let collection = yield this.collectionService.getCollectionBySlug( slug );
+			let group = yield this.groupService.getGroupBySlug( groupSlug );
+			let isApprovedMember = yield this.groupService.isUserApprovedMemberOfGroup( userId, group.id );
+			if( !isApprovedMember ) {
+				throw new Error('Unauthorized');
+			}
+			let posts = yield this.feedService.getGroupCollectionFeed( userId, group.id, collection.id, context.query.page );
+			context.body = posts;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	*getPostById( context ) {
 		const userId = context.session.user.id;
 		const postId = context.params.postId;
@@ -159,8 +178,9 @@ class FeedController {
 	*createPostInGroup( context ) {
 		const userId = context.session.user.id;
 		const groupSlug = context.params.groupSlug;
+		const payload = context.request.fields;
 		try {
-			let group = yield this.groupService.getGroupBySlug( slug );
+			let group = yield this.groupService.getGroupBySlug( groupSlug );
 			let isApprovedMember = yield this.groupService.isUserApprovedMemberOfGroup( userId, group.id );
 			if( !isApprovedMember ) {
 				throw new Error('Unauthorized');

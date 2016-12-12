@@ -38,12 +38,12 @@ class CollectionController {
 		const userId = context.session.user.id;
 		const groupSlug = context.params.groupSlug;
 		try {
-			let group = yield this.groupService.getGroupBySlug( slug );
+			let group = yield this.groupService.getGroupBySlug( groupSlug );
 			let isApprovedMember = yield this.groupService.isUserApprovedMemberOfGroup( userId, group.id );
 			if( !isApprovedMember ) {
 				throw new Error('Unauthorized');
 			}
-			let collections = yield this.collectionService.getUserCollectionsByUsername( username );
+			let collections = yield this.collectionService.getGroupCollections( group.id );
 			context.body = collections;
 		} catch( e ) {
 			console.error(e, e.stack);
@@ -123,7 +123,7 @@ class CollectionController {
 				throw new Error('Unauthorized');
 			}
 			let collection = yield this.collectionService.createCollection( userId, payload.name, payload.isPublic, payload.parent, group.id );
-			context.body = true;
+			context.body = collection;
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );

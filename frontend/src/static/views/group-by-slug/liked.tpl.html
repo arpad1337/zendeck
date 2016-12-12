@@ -4,6 +4,7 @@
     	ng-repeat="post in ctrl.posts track by $index" 
     	entry="post" 
     	delegate="ctrl"
+    	hidden-from="true"
     >
 	</post-entry>
 	<more-button callback="ctrl.getMorePosts()"></more-button>
