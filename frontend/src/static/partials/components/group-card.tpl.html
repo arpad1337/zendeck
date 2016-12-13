@@ -10,6 +10,9 @@
         <header>
             <h5>{{vm.model.name}}</h5>
             <span class="members">{{vm.model.memberCount}} member</span>
+            <div class="background"
+                ng-style="{'background-color': vm.model.photos.cover ? vm.model.profileColor : '#00BFFF'}"
+            ></div>
         </header>
     </a>
 </div>

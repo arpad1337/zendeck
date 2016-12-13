@@ -11,18 +11,31 @@
 		position: relative;
 		display: block;
 		header {
-			background: rgba(0, 191, 255, 0.6);
 			position: absolute;
 			bottom: 0px;
 			right: 0px;
 			left: 0px;
 			padding: 10px;
+			.background {
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				background: $SECONDARY-LIGHT;
+				opacity: 0.6;
+				z-index: 1;
+			}
 			h5, h6 {
 				margin: 0;
-				color: $WHITE;;
+				color: $WHITE;
 			}
 			h5 {
 				font-size: 18px;
+			}
+			h5, span {
+				z-index: 2;
+				position: relative;
 			}
 		}
 	}
@@ -38,6 +51,7 @@
 			margin-top: 2px;
 			margin-right: 2px;
 			float: left;
+			position: relative;
 		}
 	}
 	.new-content {

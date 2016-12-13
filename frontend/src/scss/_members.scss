@@ -15,16 +15,8 @@ section[role="members"] {
 			height: 160px;
 			float: left;
 			.pic {
-				width: 80px;
-				height: 80px;
-				@include border-radius(80px);
-				border: 5px solid $FOOTER-LIGHT;
 				margin: auto;
-				background-size: cover;
-				color: $WHITE;
-				.photo {
-					border: none !important;
-				}
+				width: 84px;
 			}
 			.name {
 				text-align: center;
@@ -54,9 +46,34 @@ section[role="members"] {
 		color: $WHITE;
 		border: none;
 		display: block;
-		margin: auto;
+		margin: 4px auto;
 		&:hover {
 			background: $SECONDARY-DARK;
+		}
+
+		&:after {
+			display: block;
+			content: " ";
+			float: right;
+			width: 16px;
+			height: 16px;
+			margin-top: 2px;
+			margin-left: 2px;
+		}
+		&.create:after {
+			background-image: url(../img/plus.png);
+			background-repeat: no-repeat;
+			background-size: 15px 15px;
+			background-size: 15px 15px;
+		}
+		&.minus {
+			background: $RED;
+			&:after {
+				background-image: url(../img/minus.png);
+				background-repeat: no-repeat;
+				background-size: 15px 15px;
+				background-size: 15px 15px;
+			}
 		}
 	}
 }

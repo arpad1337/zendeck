@@ -30,7 +30,7 @@ const model = sequelizeModelHelper.buildModel(
 			type: TYPES.STRING(256)
 		},
 		tags: {
-			type: TYPES.JSON
+			type: TYPES.JSONB
 		}
 	},
 	// Traits

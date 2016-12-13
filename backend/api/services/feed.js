@@ -15,7 +15,7 @@ const Util = require('../../util/util');
 
 class FeedService {
 
-	constructor( databaseProvider, collectionService, friendService, groupService, postService, attachmentService, filterService, notificationService ) {
+	constructor( databaseProvider, collectionService, friendService, groupService, postService, attachmentService, filterService ) {
 		this.databaseProvider = databaseProvider;
 		this.collectionService = collectionService;
 		this.friendService = friendService;
@@ -23,9 +23,15 @@ class FeedService {
 		this.postService = postService;
 		this.attachmentService = attachmentService;
 		this.filterService = filterService;
-		this.notificationService = notificationService;
 
 		this._createPostViewsFromDBModels = this._createPostViewsFromDBModels.bind( this );
+	}
+
+	get notificationService() {
+		if( !this._notificationService) {
+			this._notificationService = NotificationService.instance;
+		}
+		return this._notificationService;
 	}
 
 	getUserPostsFeedByIdAndPage( userId, page ) {
@@ -451,14 +457,50 @@ class FeedService {
 
 	addPostToFeeds( userId, postId, groupId ) {
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		let promises = [
-			this.friendService.getAllFriendIdsByUserId( userId ),
-		];
 		if( groupId ) {
-			promises.push(
-				this.groupService.getAllMembersById( groupId )
-			);
+			return Promise.all([
+				this.groupService.getGroupById( groupId ),
+				this.groupService.isUserMemberOfGroup( userId, groupId )
+			]).then((values) => {
+				let group = values[0];
+				let isMember = values[1];
+				let promises = [];
+				if( group.isOpen && isMember ) {
+					promises.push(
+						this.friendService.getAllFriendIdsByUserId( userId )
+					);
+				}
+				promises.push(
+					this.groupService.getAllMembersById( groupId )
+				);
+				return Promise.all(promises).then((userIds) => {
+					userIds = Util.flattenArrayOfArrays( userIds );
+					userIds.push( userId );
+					let bulk = [];
+					let idSet = new Set();
+					userIds.forEach((id) => {
+						if( idSet.has(id) ) {
+							return;
+						}
+						idSet.add(id);
+						let model = {
+							userId: id,
+							postId: postId,
+							liked: false,
+						};
+						if( groupId ) {
+							model.groupId = groupId;
+						}
+						bulk.push(model);
+					});
+					return FeedModel.bulkCreate( bulk );
+				});
+			});
 		}
+		let promises = [];
+		promises.push(
+			this.friendService.getAllFriendIdsByUserId( userId )
+		);
 		return Promise.all(promises).then((userIds) => {
 			userIds = Util.flattenArrayOfArrays( userIds );
 			userIds.push( userId );
@@ -565,7 +607,6 @@ class FeedService {
 			const postService = PostService.instance;
 			const attachmentService = AttachmentService.instance;
 			const filterService = FilterService.instance;
-			const notificationService = NotificationService.instance;
 			this.singleton = new FeedService( 
 				databaseProvider, 
 				collectionService, 
@@ -573,8 +614,7 @@ class FeedService {
 				groupService, 
 				postService, 
 				attachmentService, 
-				filterService,
-				notificationService
+				filterService
 			);
 		}
 		return this.singleton;

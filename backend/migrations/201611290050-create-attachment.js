@@ -29,7 +29,7 @@ module.exports = {
 				type: TYPES.STRING(256)
 			},
 			tags: {
-				type: TYPES.JSON
+				type: TYPES.JSONB
 			},
 			created_at: {
 				type: TYPES.DATE

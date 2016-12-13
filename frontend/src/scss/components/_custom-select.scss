@@ -32,14 +32,14 @@ custom-select {
 				background: $WHITE;
 			}
 		}
-		button {
+		& > button {
 			position: absolute;
 			z-index: 1001;
 			right: 0;
 			top: 0;
-			width: 34px;
-			height: 35px;
-			border: none;
+			width: 34px !important;
+			height: 35px !important;
+			border: none !important;
 			background: $FOOTER-LIGHT;
 			&:after {
 				content: " ";
@@ -57,7 +57,7 @@ custom-select {
 			input {
 				display: block;
 			}
-			button:after {
+			& > button:after {
 				@include transform( rotateX(180deg) );
 			}	
 		}

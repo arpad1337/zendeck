@@ -30,14 +30,20 @@ class GroupService {
 		]
 	}
 
-	constructor( databaseProvider, userService, workerService, s3Provider, notificationService, emailProvider, invitationService ) {
+	constructor( databaseProvider, userService, workerService, s3Provider, emailProvider, invitationService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
 		this.workerService = workerService;
 		this.s3Provider = s3Provider;
-		this.notificationService = notificationService;
 		this.emailProvider = emailProvider;
 		this.invitationService = invitationService;
+	}
+
+	get notificationService() {
+		if( !this._notificationService) {
+			this._notificationService = NotificationService.instance;
+		}
+		return this._notificationService;
 	}
 
 	quickSearch( predicate ) {
@@ -285,7 +291,8 @@ class GroupService {
 		return GroupMemberModel.findOne({
 			where: {
 				userId: userId,
-				groupId: groupId
+				groupId: groupId,
+				approved: true
 			}
 		}).then((f) => !!f);
 	}
@@ -571,7 +578,11 @@ class GroupService {
 		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.getGroupBySlug(slug).then((model) => {
 			return this.isUserAdminOfGroup( userId, model.id ).then((isAdmin) => {
+				let where = {
+					groupId: model.id
+				};
 				if( !isAdmin ) {
+					where.approved = true;
 					if( !model.isOpen || !model.isPublic ) {
 						throw new Error('Unauthorized');
 					}
@@ -584,10 +595,8 @@ class GroupService {
 					});
 				}
 				return GroupMemberModel.findAll({
-					where: {
-						approved: true,
-						groupId: model.id
-					},
+					where: where,
+					order: [['created_at', 'DESC']],
 					limit: 20,
 					offset: (( page - 1 ) * 20)
 				});
@@ -661,12 +670,11 @@ class GroupService {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
-			const notificationService = NotificationService.instance;
 			const workerService = WorkerService.instance;
 			const s3Provider = S3Provider.instance;
 			const emailProvider = EmailProvider.instance;
 			const invitationService = InvitationService.instance;
-			this.singleton = new GroupService( databaseProvider, userService, workerService, s3Provider, notificationService, emailProvider, invitationService );
+			this.singleton = new GroupService( databaseProvider, userService, workerService, s3Provider, emailProvider, invitationService );
 		}
 		return this.singleton;
 	}

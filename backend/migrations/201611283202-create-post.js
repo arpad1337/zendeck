@@ -18,7 +18,7 @@ module.exports = {
 				allowNull: false
 			},
 			tags: {
-				type: TYPES.JSON
+				type: TYPES.JSONB
 			},
 			content: {
 				type: TYPES.TEXT

@@ -20,7 +20,7 @@ const model = sequelizeModelHelper.buildModel(
 			allowNull: false
 		},
 		tags: {
-			type: TYPES.JSON
+			type: TYPES.JSONB
 		},
 		content: {
 			type: TYPES.TEXT

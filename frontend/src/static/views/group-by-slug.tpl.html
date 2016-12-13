@@ -25,7 +25,15 @@
 </header>
 
 <nav>
-    <ul>
+    <div class="before"
+        ng-style="{'background-color': ctrl.profile.photos.cover.src ? ctrl.profile.profileColor : '#00bfff' }"
+    ></div>
+    <div class="after"
+        ng-style="{'background-color': ctrl.profile.photos.cover.src ? ctrl.profile.profileColor : '#00bfff' }"
+    ></div>
+    <ul 
+        ng-if="ctrl.profile.userIsMember || ctrl.profile.isOpen"
+    >
         <li>
             <a ui-sref="groupBySlug.posts({groupSlug:ctrl.currentSlug})" class="feed" 
                 ng-click="ctrl.selectFeed()"
