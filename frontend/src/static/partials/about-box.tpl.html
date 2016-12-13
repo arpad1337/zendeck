@@ -35,4 +35,7 @@
     <label ng-if="ctrl.isEditing && !ctrl.profile.userId">
       {{ 'PROFILE.BIRTHDATE' | translate }}: <input type="date" ng-model="ctrl.lastProfileFields.birthDate">
     </label>
+    <div ng-if="ctrl.isEditing && ctrl.profile.userId">
+      <button ng-click="ctrl.openGroupSettingsDialog()">Open group settings</button>
+    </div>
 </section>

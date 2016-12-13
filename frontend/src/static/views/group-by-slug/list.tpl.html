@@ -4,6 +4,7 @@
 <hr>
 <section role="feed" ng-if="ctrl.posts && ctrl.posts.length > 0">
     <h4>{{ 'FEED.POSTS.TITLE' | translate }}</h4>
+    <div ng-if="ctrl.posts && ctrl.posts.length > 0">
     <post-entry 
     	ng-repeat="post in ctrl.posts track by $index" 
     	entry="post" 
@@ -12,9 +13,8 @@
     >
 	</post-entry>
     <more-button callback="ctrl.getMorePosts()"></more-button>
+    </div>
+    <div ng-if="ctrl.posts && ctrl.posts.length == 0" class="message">
+        {{ 'COMMON.NO_POSTS' | translate }}
+    </div>
 </section>
-<section 
-	role="recommendation"
-	ng-if="!ctrl.posts || ctrl.posts.length == 0" 
-	ng-include="'partials/recommendations.tpl.html'"
-></section>

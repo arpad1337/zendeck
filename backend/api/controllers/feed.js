@@ -141,7 +141,7 @@ class FeedController {
 			let collection = yield this.collectionService.getCollectionBySlug( slug );
 			let group = yield this.groupService.getGroupBySlug( groupSlug );
 			let isApprovedMember = yield this.groupService.isUserApprovedMemberOfGroup( userId, group.id );
-			if( !isApprovedMember ) {
+			if( !group.isOpen && !isApprovedMember ) {
 				throw new Error('Unauthorized');
 			}
 			let posts = yield this.feedService.getGroupCollectionFeed( userId, group.id, collection.id, context.query.page );

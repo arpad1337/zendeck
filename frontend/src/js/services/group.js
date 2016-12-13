@@ -49,24 +49,48 @@ class GroupService {
 	}
 
 	assignAdminToGroup( slug, userId ) {
-
+		return this.$http.post( CONFIG.API_PATH + '/group/' + slug + '/admin/' + userId ).then( r => r.data );
 	}
 
 	removeAdminFromGroup( slug, userId ) {
-
+		return this.$http.delete( CONFIG.API_PATH + '/group/' + slug + '/admin/' + userId ).then( r => r.data );
 	}
 
-	joinToGroup() {
-
+	approveUser( slug, userId ) {
+		return this.$http.post( CONFIG.API_PATH + '/group/' + slug + '/member/' + userId ).then( r => r.data );
 	}
 
-	leaveGroup() {
-		
+	kickUserFromGroup( slug, userId ) {
+		return this.$http.delete( CONFIG.API_PATH + '/group/' + slug + '/member/' + userId ).then( r => r.data );
+	}
+
+	joinToGroup( slug ) {
+		return this.$http.post( CONFIG.API_PATH + '/group/' + slug + '/member' ).then( r => r.data );
+	}
+
+	leaveGroup( slug ) {
+		return this.$http.delete( CONFIG.API_PATH + '/group/' + slug + '/member' ).then( r => r.data );
 	}
 
 	updateGroupBySlug( groupSlug, payload ) {
 		return this.$http.post( CONFIG.API_PATH + '/group/' + groupSlug, payload ).then((r) => {
 			return r.data;
+		});
+	}
+
+	uploadCoverPic( slug, photo ) {
+		let data = new FormData();
+		data.append( 'file', photo );
+		return this.$http.post(
+			CONFIG.API_PATH + '/group/'+slug+'/cover', 
+			data, 
+			{
+            	transformRequest: angular.identity,
+            	headers: {'Content-Type': undefined}
+        	}
+        ).then((r) => {
+        	let resourceUrl = r.data.success;
+        	return resourceUrl;
 		});
 	}
 

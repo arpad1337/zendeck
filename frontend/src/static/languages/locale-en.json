@@ -5,7 +5,8 @@
 		"FOLLOW": "Follow",
 		"UNFRIEND": "Unfriend",
 		"UNFOLLOW": "Unfollow",
-		"MORE_ENTRIES": "More"
+		"MORE_ENTRIES": "More",
+		"NO_POSTS": "There are no posts yet."
 	},
 	"HEADER": {
 		"MENU": {
@@ -219,6 +220,7 @@
 	"MODALS": {
 		"CREATE_GROUP": {
 			"TITLE": "Create group",
+			"TITLE2": "Edit group",
 			"NAME": "Name",
 			"PLACEHOLDER": "Type here",
 			"ABOUT": "About",

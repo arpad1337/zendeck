@@ -499,8 +499,9 @@ class FeedService {
 	}
 
 	likePostByUserId( userId, postId ) {
+		console.log('WHOOOOOOT');
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.upsert({ 
+		return FeedModel.update({ 
 			liked: true
 		}, {
 			where: {

@@ -1,6 +1,6 @@
 <section role="messages">
     <h4>{{ 'MESSAGES.TITLE' | translate }}</h4>
-    <div class="messages">
+    <div class="messages" ng-if="ctrl.threads && ctrl.threads.length > 0">
         <div 
             class="message"
             ng-repeat=" thread in ctrl.threads track by $index "
@@ -41,5 +41,8 @@
         >
             {{ 'MESSAGES.GET_MORE_THREAD' | translate }}
         </more-button>
+    </div>
+    <div class="message" ng-if="!ctrl.threads || ctrl.threads.length == 0">
+        {{ 'MESSAGES.NO_THREADS' | translate }}
     </div>
 </section>

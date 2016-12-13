@@ -90,9 +90,12 @@ class CollectionController extends PostController {
 
 	async selectCollection( slug ) {
 		this.resetPaginator();
-		let collection = this.collections.find((f) => {
-			return f.slug == slug;
-		});
+		let collection;
+		if( this.collections ) {
+			collection = this.collections.find((f) => {
+				return f.slug == slug;
+			});
+		}
 		if( !collection ) {
 			try {
 				this._activeCollection = await this.collectionService.getCollectionBySlug( slug );

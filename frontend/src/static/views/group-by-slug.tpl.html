@@ -1,7 +1,7 @@
 <header 
     ng-style="{
         'background-color': ctrl.profile.profileColor,
-        'background-image': ( ctrl.profile.photos.cover ?  ctrl.profile.photos.cover : 'none' )
+        'background-image': ( ctrl.profile.photos.cover ? 'url(' + ctrl.profile.photos.cover.src + ')' : 'none' )
     }"    
 >
     <div ng-if="ctrl.isEditing">
@@ -85,7 +85,9 @@
                 {{ 'HEADER.SUB_MENU.LEAVE_GROUP' | translate }}
             </span>
         </a>
-        <a href="create-filter.html" class="members">Invite friends</a>
+        <a ng-click="ctrl.openInvitationDialog()" class="members">
+            {{ 'HEADER.SUB_MENU.INVITE_FRIENDS' | translate }}
+        </a>
         <span
             ng-if="ctrl.profile.userIsMember"
             ng-init="hover20=false"

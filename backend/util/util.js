@@ -93,21 +93,15 @@ const Util = {
 
 	findCommonElements: (arrs) => {
 	    var resArr = [];
-	    for (var i = arrs[0].length - 1; i > 0; i--) {
-
-
+	    for (var i = arrs[0].length - 1; i >= 0; i--) {
 	        for (var j = arrs.length - 1; j > 0; j--) {
-	            if (arrs[j].indexOf(arrs[0][i]) == -1) {
-	                break;
+	        	console.log('c',arrs[j],'a',arrs[0][i])
+	            if (arrs[j].indexOf(arrs[0][i]) != -1) {
+	                resArr.push(arrs[0][i]);
 	            }
 	        }
-
-	        if (j === 0) {
-	            resArr.push(arrs[0][i]);
-	        }
-
-
 	    }
+	    console.log(resArr);
 	    return resArr;
 	},
 

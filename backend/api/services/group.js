@@ -355,7 +355,7 @@ class GroupService {
 		});
 	}
 
-	updateGroupProfileBySlug( userId, slug, payload ) {
+	updateGroupProfileBySlug( userId, slug, fields ) {
 		const GroupModel = this.databaseProvider.getModelByName( 'group' );
 		return this.getGroupBySlug(slug).then((model) => {
 			return this.isUserAdminOfGroup( userId, model.id ).then(( isAdmin ) => {
@@ -367,17 +367,18 @@ class GroupService {
 				let payload = {};
 				updateable.forEach((key) => {
 					if( key == 'about' ) {
-						payload.about = striptags( payload.about );
+						payload.about = striptags( fields.about );
 					} else {
-						payload[ key ] = Util.trim( fields[ key ] );
+						payload[ key ] = fields[ key ];
 					}
 				});
+				console.log('PAYLOAD', payload, updateable, fields, fieldKeys, GroupService.allowedFields);
 				return GroupModel.update( payload, {
 					where: {
 						id: model.id
 					}	
 				}).then(( model ) => {
-					return this.getGroupViewByUser( userId, model.slug );
+					return this.getGroupViewByUser( userId, slug );
 				});
 			});
 		});
@@ -411,7 +412,7 @@ class GroupService {
 				const fileExtension = file.name.split('.').pop();
 				const newFileName = Util.createSHA256Hash( [userId, file.name].join('_') ) + '_' + Date.now() + '.' + fileExtension;
 				return this.s3Provider.putObject( this.s3Provider.OBJECT_TYPES.TEMP, newFileName, file ).then((response) => {
-					this._scheduleCoverPicResizingOperation( userId, response.tempFilename, file.type );
+					this._scheduleCoverPicResizingOperation( userId, model.id, response.tempFilename, file.type );
 					return response.url;
 				});
 			});

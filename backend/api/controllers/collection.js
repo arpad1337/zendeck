@@ -40,7 +40,7 @@ class CollectionController {
 		try {
 			let group = yield this.groupService.getGroupBySlug( groupSlug );
 			let isApprovedMember = yield this.groupService.isUserApprovedMemberOfGroup( userId, group.id );
-			if( !isApprovedMember ) {
+			if( !group.isOpen && !isApprovedMember ) {
 				throw new Error('Unauthorized');
 			}
 			let collections = yield this.collectionService.getGroupCollections( group.id );

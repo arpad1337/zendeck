@@ -38,13 +38,17 @@ class EditGroupController {
 		error, 
 		ok
 	) {
-		if( Validator.isFieldEmpty( name ) ) {
-			error.name = true;
-			return;
-		} 
+		if( !this.groupSlug ) {
+			if( Validator.isFieldEmpty( name ) ) {
+				error.name = true;
+				return;
+			} else {
+				error.name = false;
+			}
+		}
 
 		if( this.groupSlug ) {
-			return this.groupService.updateGroupBySlug( groupSlug, {
+			return this.groupService.updateGroupBySlug( this.groupSlug, {
 				isPublic: isPublic === 'true',
 				isModerated: isModerated === 'true',
 				isOpen: isOpen === 'true'

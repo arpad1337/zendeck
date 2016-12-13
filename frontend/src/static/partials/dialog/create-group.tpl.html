@@ -1,6 +1,13 @@
 <div class="modal" ng-controller="EditGroupController as ctrl">
     <div class="container">
-        <h4>{{ 'MODALS.CREATE_GROUP.TITLE' |translate }}</h4>
+        <h4>
+            <span ng-if="!ctrl.groupSlug">
+            {{ 'MODALS.CREATE_GROUP.TITLE' | translate }}
+            </span>
+            <span ng-if="ctrl.groupSlug">
+            {{ 'MODALS.CREATE_GROUP.TITLE2' | translate }}
+            </span>
+        </h4>
         <a class="close" ng-click="cancel()"></a>
         <div class="content">
             <form>

@@ -4,7 +4,7 @@
     	class="entry" 
     	ng-style="{
     		'background-color': vm.model.profileColor,
-    		'background-image': ( vm.model.photos.cover ?  vm.model.photos.cover : 'none' )
+    		'background-image': ( vm.model.photos.cover ? 'url(' + vm.model.photos.cover.src + ')' : 'none' )
 		}"
 	>
         <header>

@@ -46,6 +46,10 @@ class GroupBySlugController extends CollectionController {
 		return ( this.profile && ( this.profile.admins.indexOf(id) != -1 ));
 	}
 
+	get isUserOwner() {
+		return ( this.profile && this.profile.userId == this.userService.currentUser.id );
+	}
+
 	get currentSlug() {
 		try {
 			let slug = this.$state.params.groupSlug;
@@ -90,6 +94,10 @@ class GroupBySlugController extends CollectionController {
 			});
 		});
 
+		if( this.$state.current.name === this.GROUP_BY_SLUG_STATES.COLLECTION ) {
+			this.selectCollection( this.$state.params.collectionSlug );
+		}
+
 		if( this.$state.current.name === this.GROUP_BY_SLUG_STATES.LIKED ) {
 			this.selectLiked();
 		}
@@ -127,7 +135,7 @@ class GroupBySlugController extends CollectionController {
 				}
 			});
 			if( Object.keys( payload ).length > 0 ) {
-				let editedProfile = await this.groupService.updateGroupProfileBySlug( this.currentSlug, payload );
+				let editedProfile = await this.groupService.updateGroupBySlug( this.currentSlug, payload );
 				this.profile = editedProfile;
 				this.$scope.$digest();
 			}
@@ -283,20 +291,44 @@ class GroupBySlugController extends CollectionController {
 
 	// settings
 
+	openGroupSettingsDialog() {
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.EDIT_GROUP, {
+			isPublic: String(this.profile.isPublic),
+			isModerated: String(this.profile.isModerated),
+			isOpen: String(this.profile.isOpen),
+			error: {
+				backend: false
+			}
+		}).then(() => {
+			return this.groupService.getGroupProfileBySlug( this.currentSlug );
+		}).then((profile) => {
+			this.profile = profile;
+			this.$state.go( STATES.APPLICATION.GROUP_BY_SLUG.POSTS, {
+				groupSlug: group.slug
+			});
+		});
+	}
+
 	openCoverPicUploadDialog() {
-		this.fileUploadService.createUploadTargetWithCallback( this.onProfilePicFileSelected );
+		this.fileUploadService.createUploadTargetWithCallback( this.onCoverPicFileSelected );
 	}
 
 	async onCoverPicFileSelected( file ) {
 		if( file ) {
-			await this.userService.uploadCoverPic( file );
+			let resourceUrl = await this.groupService.uploadCoverPic( this.currentSlug, file );
+			this.profile.photos = this.profile.photos || {};
+        	this.profile.photos.cover = this.profile.photos.cover || {
+        		width: 1200,
+        		height: 400
+        	};
+        	this.profile.photos.cover.src = resourceUrl;
 		}
 	}
 
-	async onCoverPicFileSelected( file ) {
-		if( file ) {
-			await this.userService.uploadCoverPic( file );
-		}
+	// invitation
+
+	openInvitationDialog() {
+
 	}
 
 }
