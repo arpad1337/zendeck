@@ -79,15 +79,27 @@ body > header {
 				}
 
 				&.list {
-					position: relative;
+					position: relative;						
 					ul {
 						display: none;
 						position: absolute;
 						right: 0px;
-						top: 40px;
+						top: 42px;
 						width: 180px;
 						z-index: 10000;
-						border: 2px solid $WHITE;
+						border: 2px solid $MAIN-DARK;
+						&:before {
+							position: absolute;
+							right: 8px;
+							top: -10px;
+							content: " ";
+							display: block;
+							width: 0;
+							height: 0;
+							border-style: solid;
+							border-width: 0 10px 10px 10px;
+							border-color: transparent transparent $MAIN-DARK transparent;
+						}
 						&.stretch {
 							width: 240px;
 							right: -90px;
@@ -190,8 +202,10 @@ body > header {
 				}
 
 				&.notifications {
-					&.show-notifications .notifications-list {
-						display: block;
+					ul {
+						&:before {
+							right: 95px !important;
+						}
 					}
 					> a {
 						width: 36px;

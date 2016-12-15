@@ -32,7 +32,7 @@
         ng-style="{'background-color': ctrl.profile.photos.cover.src ? ctrl.profile.profileColor : '#00bfff' }"
     ></div>
     <ul 
-        ng-if="ctrl.profile.userIsMember || ctrl.profile.isOpen"
+        ng-if="(ctrl.profile.userIsMember || ctrl.profile.isOpen) && !ctrl.profile.pending"
     >
         <li>
             <a ui-sref="groupBySlug.posts({groupSlug:ctrl.currentSlug})" class="feed" 
@@ -41,7 +41,9 @@
                 {{ 'HEADER.SUB_MENU.FEED' | translate }}
         </a>
         </li>
-        <li><a ui-sref="groupBySlug.members({groupBySlug:ctrl.currentSlug})" class="members">Members</a></li>
+        <li><a 
+            ui-sref="groupBySlug.members({groupBySlug:ctrl.currentSlug})" class="members"
+            ng-class="ctrl.activeState == ctrl.GROUP_BY_SLUG_STATES.MEMBERS ? 'active' : ''">Members</a></li>
         <li
             ng-init="hover1=false"
             ng-mouseenter="hover1 = true"
@@ -89,8 +91,11 @@
             <span ng-if="!ctrl.profile.userIsMember">
                 {{ 'HEADER.SUB_MENU.JOIN_GROUP' | translate }}
             </span>
-            <span ng-if="ctrl.profile.userIsMember">
+            <span ng-if="ctrl.profile.userIsMember && !ctrl.profile.pending">
                 {{ 'HEADER.SUB_MENU.LEAVE_GROUP' | translate }}
+            </span>
+            <span ng-if="ctrl.profile.pending">
+                {{ 'HEADER.SUB_MENU.PENDING_JOIN_REQUEST' | translate }}
             </span>
         </a>
         <a ng-click="ctrl.openInvitationDialog()" class="members">

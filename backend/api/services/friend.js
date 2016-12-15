@@ -12,10 +12,16 @@ class FriendService {
 		return 20;
 	}
 
-	constructor( databaseProvider, userService, notificationService ) {
+	constructor( databaseProvider, userService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
-		this.notificationService = notificationService;
+	}
+
+	get notificationService() {
+		if( !this._notificationService ) {
+			this._notificationService = NotificationService.instance;
+		}
+		return this._notificationService;
 	}
 
 	touchFriendByUsername( userId, friendUsername ) {
@@ -200,8 +206,7 @@ class FriendService {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
-			const notificationService = NotificationService.instance;
-			this.singleton = new FriendService( databaseProvider, userService, notificationService );
+			this.singleton = new FriendService( databaseProvider, userService );
 		}
 		return this.singleton;
 	}

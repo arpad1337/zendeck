@@ -93,8 +93,8 @@ class NotificationService {
 		});
 	}
 
-	acceptNotification( model ) {
-		
+	acceptNotification( id ) {
+		return this.$http.post( CONFIG.API_PATH + '/notification/' + id ).then( r => r.data );
 	}
 
 		/*

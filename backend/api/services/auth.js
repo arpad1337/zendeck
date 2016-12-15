@@ -16,12 +16,18 @@ const ENV = require('../../config/environment');
 
 class AuthService {
 
-	constructor( databaseProvider, userService, emailProvider, invitationService, notificationService ) {
+	constructor( databaseProvider, userService, emailProvider, invitationService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
 		this.emailProvider = emailProvider;
 		this.invitationService = invitationService;
-		this.notificationService = notificationService;
+	}
+
+	get notificationService() {
+		if( !this._notificationService ) {
+			this._notificationService = NotificationService.instance;
+		}
+		return this._notificationService;
 	}
 
 	getSystemUser() {
@@ -180,8 +186,7 @@ class AuthService {
 			const userService = UserService.instance;
 			const emailProvider = EmailProvider.instance;
 			const invitationService = InvitationService.instance;
-			const notificationService = NotificationService.instance;
-			this.singleton = new AuthService( databaseProvider, userService, emailProvider, invitationService, notificationService );
+			this.singleton = new AuthService( databaseProvider, userService, emailProvider, invitationService );
 		}
 		return this.singleton;
 	}

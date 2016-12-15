@@ -157,6 +157,8 @@ class CustomSelectComponent {
 			return item[ this.key ] === key;
 		});
 		this.model = this.collection[ index ];
+		this.collection.splice(index, 1);
+		this.collection.unshift(this.model);
 		this._isOpened = false;
 		this.placeholder = this.model[ this.value ];
 		if( this._delegateRespondsToSelector('onItemSelected') ) {

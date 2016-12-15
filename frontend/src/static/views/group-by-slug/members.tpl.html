@@ -1,7 +1,9 @@
 <section role="members">
     <h4>{{'GROUPS.MEMBERS.TITLE' | translate}}</h4>
     <div class="members">
-        <div class="member" ng-repeat="friend in ctrl.members track by $index" ng-class="ctrl.isAdmin(friend.id) ? 'admin' : ''">
+        <div class="member" ng-repeat="friend in ctrl.members track by $index" 
+        ng-class="friend.id === APP.currentUser.id ? 'you' : ''"
+        ng-class="ctrl.isAdmin(friend.id) ? 'admin' : ''">
             <div class="pic" ui-sref="profile.posts({username:friend.username})">
                 <profile-pic size="medium" user="friend"></profile-pic>
             </div>
@@ -10,19 +12,19 @@
                 <br> @{{ friend.username }}
             </div>
             <div ng-if="ctrl.isUserAdmin" class="actions">
-                <div ng-if="ctrl.profile.userId != friend.id" ng-click="ctrl.toggleAdminForUserId( friend.id )">
+                <div ng-if="ctrl.profile.userId != friend.id && friend.approved" ng-click="ctrl.toggleAdminForUserId( friend.id )">
                     <div ng-if="!ctrl.isAdmin(friend.id)">
-                        <button class="create">Promote</button>
+                        <button class="create" ng-click="ctrl.assignAdminToGroup( friend.id )">Promote</button>
                     </div>
-                    <div ng-if="ctrl.isAdmin(friend.id)">
-                        <button class="minus">Resign</button>
+                    <div ng-if="ctrl.isAdmin(friend.id) && friend.id != ctrl.profile.userId">
+                        <button class="minus" ng-click="ctrl.removeAdminFromGroup( friend.id )">Resign</button>
                     </div>
                 </div>
                 <div ng-if="!friend.approved">
-                    <button class="create">Approve</button>
+                    <button class="create" ng-click="ctrl.approveUser(friend.id);friend.approved = true;">Approve</button>
                 </div>
-                <div ng-if="!friend.approved">
-                    <button class="minus">Kick</button>
+                <div ng-if="friend.approved && ctrl.profile.userId != friend.id">
+                    <button class="minus" ng-click="ctrl.kickUserFromGroup(friend.id)">Kick</button>
                 </div>
             </div>
         </div>

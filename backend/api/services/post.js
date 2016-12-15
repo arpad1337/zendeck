@@ -17,13 +17,19 @@ class PostService {
 		return 20;
 	}
 
-	constructor( databaseProvider, userService, commentService, groupService, attachmentService, notificationService ) {
+	constructor( databaseProvider, userService, commentService, groupService, attachmentService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
 		this.commentService = commentService;
 		this.groupService = groupService;
 		this.attachmentService = attachmentService;
-		this.notificationService = notificationService;
+	}
+
+	get notificationService() {
+		if( !this._notificationService ) {
+			this._notificationService = NotificationService.instance;
+		}
+		return this._notificationService;
 	}
 
 	getPostById( id ) {
@@ -242,8 +248,7 @@ class PostService {
 			const commentService = CommentService.instance;
 			const groupService = GroupService.instance;
 			const attachmentService = AttachmentService.instance;
-			const notificationService = NotificationService.instance;
-			this.singleton = new PostService( databaseProvider, userService, commentService, groupService, attachmentService, notificationService );
+			this.singleton = new PostService( databaseProvider, userService, commentService, groupService, attachmentService );
 		}
 		return this.singleton;
 	}

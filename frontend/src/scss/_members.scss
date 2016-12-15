@@ -1,8 +1,23 @@
 section[role="members"] {
 	margin: auto;
 	.members {
-		margin: 0 -5px;
+		margin: -10px -10px 0;
 		.member {
+			border: 1px solid $BOX-BORDER;
+			background: $BOX-BACKGROUND;
+			&.you {
+				border-color: $SECONDARY-LIGHT;
+				background: $FOOTER-LIGHT;
+			}
+			min-width: 120px;
+			max-width: 25%;
+			width: calc(100% - 28px);
+			padding: 4px;
+			height: 180px;
+			float: left;
+			margin: 10px;
+			@include border-radius(10px);
+			@extend .clear;
 			&.admin {
 				.pic {
 					border-color: $MAIN-LIGHT;
@@ -11,9 +26,6 @@ section[role="members"] {
 					color: $MAIN-LIGHT;
 				}
 			}
-			width: 120px;
-			height: 160px;
-			float: left;
 			.pic {
 				margin: auto;
 				width: 84px;
@@ -22,15 +34,6 @@ section[role="members"] {
 				text-align: center;
 				color: $SECONDARY-DARK;
 				margin: auto;
-			}
-			&:hover {
-				cursor: pointer;
-				.name {
-					color: $SECONDARY-LIGHT;
-				}
-				.pic {
-					border-color: $SECONDARY-LIGHT;
-				}
 			}
 		}
 		&:after {

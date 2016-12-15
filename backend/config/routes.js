@@ -579,6 +579,13 @@ const ROUTES = [
 		action: 'touchNotifications',
 		middlewares: ['session-check']
 	},
+	{
+		path: '/notification/:notificationId',
+		method: 'post',
+		controller: 'notification',
+		action: 'acceptNotification',
+		middlewares: ['session-check']
+	},
 
 	// MESSAGES
 

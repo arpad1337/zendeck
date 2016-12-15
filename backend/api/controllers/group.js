@@ -117,7 +117,7 @@ class GroupController {
 		const groupSlug = context.params.groupSlug;
 		const invitationKey = context.params.invitationKey;
 		try {
-			context.body = yield this.groupService.acceptGroupInvitation( userId, groupSlug, invitationKey );
+			context.body = yield this.groupService.acceptGroupInvitation( userId, invitationKey );
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );

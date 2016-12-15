@@ -98,6 +98,41 @@
 					 "
 	></span>
 </span>
+<span ng-if="vm.model.type == vm.TYPES.GROUP_JOIN_REQUEST_ACCEPTED">
+	<profile-pic
+		user="vm.model.payload.user"
+		size="xsmall"
+		ui-sref="profile.posts({username:vm.model.payload.user.username})"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.GROUP_JOIN_REQUEST_ACCEPTED' | 
+						translate : { user: vm.model.payload.user, group: vm.model.payload.group }  | 
+						htmlSafe 
+					 "
+	></span>
+</span>
+<span ng-if="vm.model.type == vm.TYPES.GROUP_JOIN_REQUEST">
+	<profile-pic
+		user="vm.model.payload.user"
+		size="xsmall"
+		ui-sref="profile.posts({username:vm.model.payload.user.username})"
+	>
+	</profile-pic>
+	<span 
+		ng-bind-html=" 'NOTIFICATIONS.GROUP_JOIN_REQUEST' | 
+						translate : { user: vm.model.payload.user, group: vm.model.payload.group }  | 
+						htmlSafe 
+					 "
+	></span>
+	<button
+		ng-click="vm.commit()"
+		ng-disabled="!vm.buttonEnabled"
+	>
+		<span ng-if="!vm.model.payload.accepted"> {{ 'NOTIFICATIONS.BUTTON.ACCEPT' | translate }}</span>
+		<span ng-if="vm.model.payload.accepted"> {{ 'NOTIFICATIONS.BUTTON.ACCEPTED' | translate }}</span>
+	</button>
+</span>
 <span ng-if="vm.model.type == vm.TYPES.GROUP_INVITATION">
 	<profile-pic
 		user="vm.model.payload.user"

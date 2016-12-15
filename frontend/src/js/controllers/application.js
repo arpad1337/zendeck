@@ -228,6 +228,7 @@ class ApplicationController {
 			try {
 			await this.userService.login( model.userOrEmail, model.password );
 			model.dismiss();
+			window.location.reload();
 			} catch( e ) {
 				if( e.status === 401 ) {
 					// login disabled

@@ -42,6 +42,7 @@ class GroupService {
 	get notificationService() {
 		if( !this._notificationService) {
 			this._notificationService = NotificationService.instance;
+			console.log(this._notificationService);
 		}
 		return this._notificationService;
 	}
@@ -111,22 +112,24 @@ class GroupService {
 							FULLNAME: user.fullname,
 							GROUPNAME: group.name
 						});
-						return this.emailProvider.sendEmail( emails, email.subject, email.body );
-					}).then(() => {
-						return true;
-					}).catch((e) => {
-						return false;
-					}).then(() => {
-						return Promise.all( userIds.map((id) => {
-							return this.notificationService.createNotification( id, this.notificationService.NOTIFICATION_TYPE.GROUP_INVITATION, {
-								user: {
-									id: userId
-								},
-								group: {
-									id: group.id
-								}
-							});
-						}));
+						return this.emailProvider.sendEmail( emails, email.subject, email.body )
+						.then(() => {
+							return true;
+						}).catch((e) => {
+							return false;
+						}).then(() => {
+							return Promise.all( userIds.map((id) => {
+								return this.notificationService.createNotification( id, this.notificationService.NOTIFICATION_TYPE.GROUP_INVITATION, {
+									user: {
+										id: userId
+									},
+									group: {
+										id: group.id
+									},
+									invitationKey: invitationKey
+								});
+							}));
+						});
 					});
 				});
 			});
@@ -137,25 +140,29 @@ class GroupService {
 		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.invitationService.resolveInvitation( invitationKey ).then((invitation) => {
 			if( invitation ) {
-				return this.userService.getUserById( userId ).then((user) => {
-					if( invitation.payload.emails.indexOf( user.email ) === -1 ) {
-						throw new Error('Unauthorized');
-					}
-					return GroupMemberModel.update({
-						approved: true
-					}, {
-						where: {
-							userId: userId,
-							groupId: invitation.payload.group.id
-						}
-					}).then( _ => {
-						return this.notificationService.createNotification( invitation.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_INVITATION_ACCEPTED, {
-							user: {
-								id: userId
-							},
-							group: {
-								id: invitation.payload.group.id
+				return this.getGroupById( invitation.payload.group.id ).then((group) => {
+					return this.isUserAdminOfGroup( invitation.userId, invitation.payload.group.id ).then(( isAdmin ) => {
+						return this.userService.getUserById( userId ).then((user) => {
+							if( invitation.payload.emails.indexOf( user.email ) === -1 ) {
+								throw new Error('Unauthorized');
 							}
+							return GroupMemberModel.update({
+								approved: ( group.isOpen ) ? true : isAdmin
+							}, {
+								where: {
+									userId: userId,
+									groupId: invitation.payload.group.id
+								}
+							}).then( _ => {
+								return this.notificationService.createNotification( invitation.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_INVITATION_ACCEPTED, {
+									user: {
+										id: userId
+									},
+									group: {
+										id: invitation.payload.group.id
+									}
+								});
+							});
 						});
 					});
 				});
@@ -166,11 +173,27 @@ class GroupService {
 	getGroupViewByUser( userId, slug ) {
 		return this.getGroupBySlug(slug).then((model) => {
 			return this._createViewFromDBModel( model ).then((model) => {
-				return this.isUserMemberOfGroup( userId, model.id ).then((yes) => {
-					model.userIsMember = yes;
+				return this.checkUserMemberStatusOfGroup( userId, model.id ).then((member) => {
+					model.userIsMember = !!member;
+					model.pending = member ? !member.approved : false;
 					return model;
 				});
 			});
+		});
+	}
+
+	checkUserMemberStatusOfGroup( userId, groupId ) {
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
+		return GroupMemberModel.findOne({
+			where: {
+				userId: userId,
+				groupId: groupId,
+			}
+		}).then((f) => {
+			if( !f ) {
+				return false;
+			}
+			return f.get();
 		});
 	}
 
@@ -182,15 +205,15 @@ class GroupService {
 			where: {
 				userId: userId
 			},
-			attributes: ['id'],
-			group: ['id'],
+			attributes: ['groupId'],
+			group: ['groupId'],
 			limit: 20,
 			offset: ((page - 1) * 20)
 		}).then((groups) => {
 			if( !groups ) {
 				return [];
 			}
-			groups = groups.map( group => group.get('id'));
+			groups = groups.map( group => group.get('groupId'));
 			return this.getGroupsByIds( groups ).then((models) => {
 				return Promise.all( models.map((model) => {
 					return this._createViewFromDBModel( model );
@@ -459,20 +482,23 @@ class GroupService {
 				groupId: model.id,
 				userId: userId,
 				approved: model.isOpen
-			}).then(() => {
-				return true;
 			}).catch(() => {
 				return GroupMemberModel.restore({
 					where: {
 						groupId: model.id,
 						userId: userId
 					}
-				}).then(() => {
-					return true;
 				});
 			}).then(() => {
+				return GroupMemberModel.findOne({
+					where: {
+						groupId: model.id,
+						userId: userId
+					}
+				});
+			}).then((member) => {
 				if( !model.isOpen ) {
-					return this.notificationService.createNotification( model.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_JOIN_REQUEST, {
+					this.notificationService.createNotification( model.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_JOIN_REQUEST, {
 						user: {
 							id: userId
 						},
@@ -481,6 +507,7 @@ class GroupService {
 						}
 					});
 				}
+				return member.get();
 			})
 		});
 	}
@@ -511,7 +538,17 @@ class GroupService {
 						userId: userId,
 						groupId: model.id
 					}
-				}).then( _ => true);
+				}).then( _ => {
+					this.notificationService.createNotification( userId, this.notificationService.NOTIFICATION_TYPE.GROUP_JOIN_REQUEST_ACCEPTED, {
+						user: {
+							id: adminId
+						},
+						group: {
+							id: model.id
+						}
+					});
+					return true;
+				});
 			});
 		});
 	}
@@ -522,6 +559,9 @@ class GroupService {
 			return this.isUserAdminOfGroup( adminId, model.id ).then((isAdmin) => {
 				if( !isAdmin ) {
 					throw new Error('Unauthorized');
+				}
+				if( model.userId == userId ) {
+					throw new Error('Cannot kick superadmin');
 				}
 				return GroupMemberModel.update({
 					approved: false
@@ -577,43 +617,48 @@ class GroupService {
 		page = isNaN( page ) ? 1 : page;
 		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
 		return this.getGroupBySlug(slug).then((model) => {
-			return this.isUserAdminOfGroup( userId, model.id ).then((isAdmin) => {
-				let where = {
-					groupId: model.id
-				};
-				if( !isAdmin ) {
-					where.approved = true;
-					if( !model.isOpen || !model.isPublic ) {
-						throw new Error('Unauthorized');
+			return this.isUserMemberOfGroup( userId, model.id ).then((isMember) => {
+				return this.isUserAdminOfGroup( userId, model.id ).then((isAdmin) => {
+					let where = {
+						groupId: model.id
+					};
+					if( !isAdmin ) {
+						where.approved = true;
+						if( !isMember && (!model.isOpen || !model.isPublic ) ) {
+							throw new Error('Unauthorized');
+						}
+						return GroupMemberModel.findAll({
+							where: {
+								groupId: model.id
+							},
+							limit: 20,
+							offset: (( page - 1 ) * 20)
+						});
 					}
 					return GroupMemberModel.findAll({
-						where: {
-							groupId: model.id
-						},
+						where: where,
+						order: [['updated_at', 'DESC']],
 						limit: 20,
 						offset: (( page - 1 ) * 20)
 					});
-				}
-				return GroupMemberModel.findAll({
-					where: where,
-					order: [['created_at', 'DESC']],
-					limit: 20,
-					offset: (( page - 1 ) * 20)
-				});
-			}).then((members) => {
-				let membersMap = new Map();
-				let ids = new Set();
-				members.forEach(( m ) => {
-					ids.add( m.get('userId') );
-					membersMap.set( m.get('userId'), m.get() );
-				});
-				return this.userService.getUsersAuthorViewByIds( Array.from(ids) ).then((profiles) => {
-					profiles = profiles.map(( profile ) => {
-						profile.isAdmin = membersMap.get(profile.id).isAdmin;
-						profile.approved = membersMap.get(profile.id).approved;
-						return profile;
+				}).then((members) => {
+					let membersMap = new Map();
+					let ids = new Set();
+					members.forEach(( m ) => {
+						ids.add( m.get('userId') );
+						membersMap.set( m.get('userId'), m.get() );
 					});
-					return profiles;
+					return this.userService.getUsersAuthorViewByIds( Array.from(ids) ).then((profiles) => {
+						profiles = profiles.map(( profile ) => {
+							profile.isAdmin = membersMap.get(profile.id).isAdmin;
+							profile.approved = membersMap.get(profile.id).approved;
+							return profile;
+						});
+						profiles = profiles.sort((a, b) => {
+							return (Date.parse(membersMap.get(b.id).updatedAt)) - (Date.parse(membersMap.get(a.id).updatedAt));
+						});
+						return profiles;
+					});
 				});
 			});
 		});
@@ -639,7 +684,7 @@ class GroupService {
 		return GroupMemberModel.findOne({
 			where: {
 				groupId: groupId,
-				userId: userId,
+				userId: memberId,
 				approved: true
 			}
 		}).then((r) => !!r);

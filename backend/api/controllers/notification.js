@@ -58,6 +58,20 @@ class NotificationController {
 		}
 	}
 
+	*acceptNotification( context ) {
+		const userId = context.session.user.id;
+		const notificationId = context.params.notificationId;
+		try {
+			let result = yield this.notificationService.acceptNotification( userId, notificationId );
+			context.body = {
+				success: true
+			};
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw(400);
+		}
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const notificationService = NotificationService.instance;

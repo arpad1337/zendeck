@@ -4,32 +4,15 @@
 
 const CacheProvider = require('../../providers/cache');
 const DatabaseProvider = require('../../providers/database');
-const UserService = require('../services/user');
-const GroupService = require('../services/group');
-const FriendService = require('../services/friend');
-const CommentService = require('../services/comment');
 
 const NOTIFICATION_TYPE = require('../config/notification-type');
 
 class NotificationService {
 
-	constructor( cacheProvider, databaseProvider, userService, groupService, friendService, commentService) {
+	constructor( cacheProvider, databaseProvider) {
 		// TODO: caching
 		this.cacheProvider = cacheProvider;
 		this.databaseProvider = databaseProvider;
-		this.userService = userService;
-		this.groupService = groupService;
-		this.friendService = friendService;
-		this.commentService = commentService;
-	}
-
-	get feedService() {
-		if( !this._feedService ) {
-			// lazy load because circular dependency
-			const FeedService = require('../services/feed');
-			this._feedService = FeedService.instance;
-		}
-		return this._feedService;
 	}
 
 	get NOTIFICATION_TYPE() {
@@ -144,7 +127,8 @@ class NotificationService {
 				});
 				break;
 			}
-			case NOTIFICATION_TYPE.GROUP_JOIN_REQUEST: {
+			case NOTIFICATION_TYPE.GROUP_JOIN_REQUEST:
+			case NOTIFICATION_TYPE.GROUP_JOIN_REQUEST_ACCEPTED: {
 				return this.userService.getUserAuthorViewById( model.payload.user.id ).then((user) => {
 					model.payload.user = user;
 					return this.groupService.getGroupById( model.payload.group.id );
@@ -345,23 +329,93 @@ class NotificationService {
 				seen: false
 			}
 		});
-	}	
+	}
+
+	acceptNotification( userId, notificationId ) {
+		const NotificationModel = this.databaseProvider.getModelByName( 'notification' );
+		return NotificationModel.findOne({
+			where: {
+				userId: userId,
+				id: notificationId
+			}
+		}).then((model) => {
+			if( !model ) {
+				throw new Error('Unknown notif');
+			}
+			return this._createModelFromDBModel( model.get() ).then((notification) => {
+				switch( model.type ) {
+					case NOTIFICATION_TYPE.FRIEND_REQUEST: {
+						return this.friendService.addFriend( userId, notification.payload.user.username );
+						break;
+					}
+					case NOTIFICATION_TYPE.GROUP_JOIN_REQUEST: {
+						return this.groupService.approveUser( notification.payload.group.slug, userId, notification.payload.user.id );
+						break;
+					}
+					case NOTIFICATION_TYPE.GROUP_INVITATION: {
+						return this.groupService.joinGroup( userId, notification.payload.group.slug ).then(() => {
+							return this.groupService.acceptGroupInvitation( userId, notification.payload.invitationKey ).catch((e) => {
+								return false;
+							});
+						});
+						break;
+					}
+				}
+				return true;
+			}).then((r) => !!r);
+		});
+	}
+
+	// DEPS
+
+	get feedService() {
+		if( !this._feedService ) {
+			// lazy load because circular dependency
+			const FeedService = require('../services/feed');
+			this._feedService = FeedService.instance;
+		}
+		return this._feedService;
+	}
+
+	get userService() {
+		if( !this._userService ) {
+			const UserService = require('../services/user');
+			this._userService = UserService.instance;
+		}
+		return this._userService;
+	}
+
+	get groupService() {
+		if( !this._groupService ) {
+			const GroupService = require('../services/group');
+			this._groupService = GroupService.instance;
+		}
+		return this._groupService;
+	}
+
+	get friendService() {
+		if( !this._friendService ) {
+			const FriendService = require('../services/friend');
+			this._friendService = FriendService.instance;
+		}
+		return this._friendService;
+	}
+
+	get commentService() {
+		if( !this._commentService ) {
+			const CommentService = require('../services/comment');
+			this._commentService = CommentService.instance;
+		}
+		return this._commentService;
+	}
 
 	static get instance() {
 		if( !this.singleton ) {
 			const cacheProvider = CacheProvider.instance;
 			const databaseProvider = DatabaseProvider.instance;
-			const userService = UserService.instance;
-			const groupService = GroupService.instance;
-			const friendService = FriendService.instance;
-			const commentService = CommentService.instance;
 			this.singleton = new NotificationService(
 				cacheProvider,
-				databaseProvider, 
-				userService, 
-				groupService, 
-				friendService, 
-				commentService
+				databaseProvider
 			);
 		}
 		return this.singleton;

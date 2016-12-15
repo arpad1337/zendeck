@@ -6,12 +6,17 @@ import NOTIFICATION_TYPE from '../config/notification-type';
 
 class NotificationViewComponent {
 
+	static get $inject() {
+		return [
+			'NotificationService'
+		];
+	}
+
 	static get $descriptor() {
 		return {
 			restrict: 'E',
 			scope: {
-				model: '=',
-				delegate: '=?'
+				model: '='
 			},
 			templateUrl: 'partials/components/notification-view.tpl.html',
 			bindToController: true,
@@ -24,16 +29,15 @@ class NotificationViewComponent {
 		};
 	}
 
-	constructor() {
+	constructor( notificationService ) {
+		this.notificationService = notificationService;
 		this.buttonEnabled =  'accepted' in this.model.payload ? !this.model.payload.accepted : true;
 	}
 
 	async commit() {
 		this.buttonEnabled = false;
 		try {
-			if( this._delegateRespondsToSelector( 'onNotificationAction' ) ) {
-				await this.delegate.onNotificationAction( this.model );
-			}
+			await this.notificationService.acceptNotification( this.model.id );
 			this.model.payload.accepted = true;
 		} catch( e ) {
 			console.error( e );

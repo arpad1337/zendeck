@@ -53,13 +53,6 @@ class NotificationsController {
 		return notifications.length > 0;
 	}
 
-	async onNotificationAction( model ) {
-		if( model.type = NOTIFICATION_TYPE.FRIEND_REQUEST ) {
-			await this.friendService.addFriend( model.payload.user.username );
-		}
-		await this.notificationService.acceptNotification( model.id );
-	}
-
 }
 
 export default NotificationsController;

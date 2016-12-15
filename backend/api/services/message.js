@@ -10,10 +10,16 @@ const striptags = require('striptags');
 
 class MessageService {
 	
-	constructor( databaseProvider, userService, notificationService ) {
+	constructor( databaseProvider, userService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
-		this.notificationService = notificationService;
+	}
+
+	get notificationService() {
+		if( !this._notificationService ) {
+			this._notificationService = NotificationService.instance;
+		}
+		return this._notificationService;
 	}
 
 	getThreadsByUserAndPage( userId, page ) {
@@ -215,8 +221,7 @@ class MessageService {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;
 			const userService = UserService.instance;
-			const notificationService = NotificationService.instance;
-			this.singleton = new MessageService( databaseProvider, userService, notificationService );
+			this.singleton = new MessageService( databaseProvider, userService );
 		}
 		return this.singleton;
 	}

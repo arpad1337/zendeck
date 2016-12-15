@@ -45,7 +45,7 @@
             ng-mouseenter="hover = true"
             ng-mouseleave="hover = false"
         >
-            <a ui-sref="profile.posts({username:APP.currentUser.username})" 
+            <a 
                 ng-class="{hover: hover}">
                 <profile-pic
                     user="APP.currentUser"
@@ -53,6 +53,9 @@
                 ></profile-pic>
             </a>
             <ul>
+                <li>
+                    <a ui-sref="profile.posts({username:APP.currentUser.username})">{{ 'HEADER.PROFILE.VIEW_PROFILE' | translate }}</a>
+                </li>
                 <li>
                     <a ui-sref="settings">{{ 'HEADER.PROFILE.SETTINGS' | translate }}</a>
                 </li>

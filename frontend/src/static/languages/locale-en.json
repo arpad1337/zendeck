@@ -25,6 +25,7 @@
 			"FILTERS": "Filters",
 			"JOIN_GROUP": "Join group",
 			"LEAVE_GROUP": "Leave group",
+			"PENDING_JOIN_REQUEST": "Join request pending",
 			"INVITE_FRIENDS": "Invite friends",
 			"CREATE_FILTER": "Create filter",
 			"CREATE_COLLECTION": "Create collection",
@@ -38,6 +39,7 @@
 		},
 
 		"PROFILE": {
+			"VIEW_PROFILE": "View profile",
 			"SETTINGS": "Settings",
 			"LOGOUT": "Logout"
 		}
@@ -102,9 +104,11 @@
 			"ACCEPTED": "Accepted",
 			"GET_MORE": "More"
 		},
-		"GROUP_INVITATION": "{{invitee}} has invited you to {{group}}",
-		"GROUP_INVITATION_ACCEPTED": "{{invited}} has accepted your invitation to {{group}}",
-		"PLATFORM_INVITATION": "{{invited}} has joined to ZenDeck",
+		"GROUP_INVITATION": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> has invited you to <a href=\"/groups/{{group.slug}}\">{{group.name}} Group</a>",
+		"GROUP_INVITATION_ACCEPTED": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> has accepted your invitation to <a href=\"/groups/{{group.slug}}\">{{group.name}} Group</a>",
+		"GROUP_JOIN_REQUEST": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> has requested to join to <a href=\"/groups/{{group.slug}}\">{{group.name}} Group</a>",
+		"GROUP_JOIN_REQUEST_ACCEPTED": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> has approved you to join to <a href=\"/groups/{{group.slug}}\">{{group.name}} Group</a>",
+		"PLATFORM_INVITATION": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> has joined to ZenDeck",
 		"POST_COMMENT": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> has commented on your <a href=\"/post/{{post.id}}\">post</a>",
 		"POST_COMMENT_MULTI": "<a href=\"/{{users[1].username}}\">{{users[0].fullname}}</a>, <a href=\"/{{users[1].username}}\">{{users[1].fullname}}</a> and {{people}} more person commented on your <a href=\"/post/{{post.id}}\">post</a>",
 		"FRIEND_REQUEST": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> sent you a friend request",

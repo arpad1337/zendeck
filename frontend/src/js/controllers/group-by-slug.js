@@ -259,35 +259,41 @@ class GroupBySlugController extends CollectionController {
 
 	async joinGroup() {
 		if( !this.profile.userIsMember ) {
-			await this.groupService.joinToGroup( this.currentSlug );
+			let status = await this.groupService.joinToGroup( this.currentSlug );
+			this.profile.pending = !status.approved;
+			this.profile.userIsMember = status.approved;
 		} else {
+			// CONFIRM
 			await this.groupService.leaveGroup( this.currentSlug );
 		}
-		this.profile.userIsMember = !this.profile.userIsMember;
 		this.$scope.$digest();
 	}
 
 	// add friend
 
-	async addFriend( username ) {
-		let friend = this.friends.find((f) => {
-			return f.username == username
-		});
-		if( friend ) {
-			await this.friendService.removeFriend( username );
-		} else {
-			await this.friendService.addFriend( username );
-		}
-		this.friends = await this.friendService.getCurrentUserFriends( true );
+	approveUser(id) {
+		return this.groupService.approveUser( this.currentSlug, id );
 	}
 
-	async toggleAdminForUserId( id ) {
-		if( this.isAdmin(id) ) {
-			await this.groupService.assignAdminToGroup( this.currentSlug, id );
-		} else {
-			await this.groupService.removeAdminFromGroup( this.currentSlug, id );
-		}
+	kickUserFromGroup(id) {
+		return this.groupService.kickUserFromGroup( this.currentSlug, id ).then(() => {
+
+		});
 	}
+
+	assignAdminToGroup( id ) {
+		return this.groupService.assignAdminToGroup( this.currentSlug, id ).then(() => {
+			this.profile.admins.push(id);
+		});
+	}
+
+	removeAdminFromGroup( id ) {
+		return this.groupService.removeAdminFromGroup( this.currentSlug, id ).then(() => {
+			this.profile.admins.splice( this.profile.admins.indexOf(id),  1 );
+		});;
+	}
+
+	
 
 	// settings
 
