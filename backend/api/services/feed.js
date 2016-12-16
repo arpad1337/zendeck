@@ -199,11 +199,14 @@ class FeedService {
 		page = isNaN( page ) ? 1 : page;
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
 		return this.collectionService.getCollectionIdsRecursivellyByCollectionId( collectionId ).then(( collectionIds ) => {
+			console.log("\n\n\n", collectionIds);
+			console.log("\n\n\n");
+
 			return FeedModel.findAll({
 				attributes: ['postId','liked', 'collectionId'],
 				where: {
 					userId: userId,
-					collectionId: collectionId,
+					collectionId: collectionIds,
 					approved: true
 				},
 				limit: PostService.LIMIT,

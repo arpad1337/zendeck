@@ -149,7 +149,7 @@ class FilterController {
 		const userId = context.session.user.id;
 		const slug = context.params.slug;
 		try {
-			let filter = yield this.filterService.getFilterModelBySlug( slug );
+			let filter = yield this.filterService.getFilterModelBySlug( userId, slug );
 			if( filter.userId != userId ) {
 				filter.shared = true;
 			}

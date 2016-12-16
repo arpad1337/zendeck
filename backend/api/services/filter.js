@@ -87,6 +87,7 @@ class FilterService {
 				throw new Error('Not found');
 			}
 			model = model.get();
+			model.shared = model.userId != userId;
 			return model;
 		});
 	}
