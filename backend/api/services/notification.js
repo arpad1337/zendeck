@@ -141,7 +141,8 @@ class NotificationService {
 				});
 				break;
 			}
-			case NOTIFICATION_TYPE.GROUP_POST_REQUEST: {
+			case NOTIFICATION_TYPE.GROUP_POST_REQUEST:
+			case NOTIFICATION_TYPE.GROUP_POST_REQUEST_ACCEPTED: {
 				return this.userService.getUserAuthorViewById( model.payload.user.id ).then((user) => {
 					model.payload.user = user;
 					return this.groupService.getGroupById( model.payload.group.id );

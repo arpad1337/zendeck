@@ -113,6 +113,7 @@ class WorkerService {
 
 			} finally {
 				console.log( 'WorkerService->_scheduleWorkerTermination worker [' + worker.id + '] terminated' );
+				this.queueProvider.deleteQueueByPrefix( worker.id );
 				this._workers.delete( worker.id );
 			}
 		}, 10000);

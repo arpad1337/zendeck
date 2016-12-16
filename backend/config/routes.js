@@ -245,7 +245,7 @@ const ROUTES = [
 	},
 	{
 		path: '/group/:groupSlug/filter/:slug',
-		method: 'get',
+		method: 'post',
 		controller: 'filter',
 		action: 'updateGroupFilter',
 		middlewares: ['session-check']

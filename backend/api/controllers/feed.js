@@ -232,12 +232,12 @@ class FeedController {
 		try {
 			let isUserHasRightsToCollection = yield this.collectionService.isUserHasRightsToCollection( userId, collectionSlug );
 			if( !isUserHasRightsToCollection ) {
-				throw new Error('Unauthorized');
+				throw new Error('Unauthorized 1');
 			}
 			let group = yield this.groupService.getGroupBySlug( groupSlug );
 			let isApprovedMember = yield this.groupService.isUserApprovedMemberOfGroup( userId, group.id );
 			if( !isApprovedMember ) {
-				throw new Error('Unauthorized');
+				throw new Error('Unauthorized 2');
 			}
 			let collection = yield this.collectionService.getCollectionBySlug( collectionSlug );
 			let success = yield this.feedService.addPostToCollection( userId, postId, collection.id, group.id );

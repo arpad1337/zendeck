@@ -394,7 +394,7 @@ class FeedService {
  			return promise.then(() => {
  				return this.postService.createPost( userId, model ).then((newModel) => {
 		 			return this.addPostToFeeds( userId, newModel.id, payload.groupId ).then(() => {
-		 				this.filterService.storeTagsByPostId( newModel.id, newModel.tags );
+		 				this.filterService.storeTagsByPostId( newModel.id, newModel.tags, payload.groupId );
 		 				return newModel;
 		 			});
 		 		});
@@ -402,7 +402,7 @@ class FeedService {
  		} else {
  			return this.postService.createPost( userId, model ).then((newModel) => {
 	 			return this.addPostToFeeds( userId, newModel.id, payload.groupId ).then(() => {
-	 				this.filterService.storeTagsByPostId( newModel.id, newModel.tags );
+	 				this.filterService.storeTagsByPostId( newModel.id, newModel.tags, payload.groupId );
 	 				return newModel;
 	 			});
 	 		});

@@ -163,9 +163,16 @@ class FilterController {
 	*runFilter( context ) {
 		const userId = context.session.user.id;
 		const tags = context.request.fields.tags;
-		const groupId = context.request.fields.groupId || null;
+		const groupSlug = context.request.fields.groupSlug || null;
+		let groupId = null;
 		try {
-			let isExist = yield this.filterService.isFilterExists( tags );
+			if( groupSlug ) {
+				let group = yield this.groupService.getGroupBySlug( groupSlug );
+				groupId = group.id;
+			}
+			let isExist = yield this.filterService.isFilterExists( tags, groupId );
+							console.log("\n\n" + isExist + "\n\n");
+
 			let postIds;
 			if( !isExist ) {
 				postIds = yield this.filterService.createFilterWithTags( tags, groupId );

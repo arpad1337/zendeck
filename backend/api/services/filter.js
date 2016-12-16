@@ -158,6 +158,7 @@ class FilterService {
 	}
 
 	storeTagsByPostId( postId, tags, groupId ) {
+		console.log('STORE', arguments);
 		let uniqueTags = new Set( tags );
 		let transaction = this.cacheProvider.multi();
 		uniqueTags.forEach((tag) => {
@@ -171,7 +172,7 @@ class FilterService {
 	}
 
 	isFilterExists( tags , groupId ) {
-		let filterKey = this.createTempFilterKey( tags );
+		let filterKey = this.createTempFilterKey( tags, groupId );
 		return this.cacheProvider.exists( filterKey ).then(( isExists ) => {
 			return !!isExists;
 		});
@@ -226,7 +227,7 @@ class FilterService {
 					transaction.length = 0;
 
 					flattenedPosts.forEach((postId) => {
-						let key = this.createTagKey( tag, groupId );
+						let key = [ FilterService.NAMESPACE.ROOT, FilterService.NAMESPACE.POSTS, postId ].join(':');
 						transaction.push(
 							this.cacheProvider.llen( key )
 						);
@@ -291,18 +292,10 @@ class FilterService {
 		});
 	}
 
-	getGroupFilterPostIdsByTagsAndPage( tags, groupId, page ) {
+	getFilterPostIdsByTagsAndPage( tags, groupId, page ) {
 		let tagsKey = this._createCacheKeyFromTags( tags );
 		page = isNaN( page ) ? 1 : 0;
 		let key = this.createTempFilterKey( tags, groupId );
-		this.cacheProvider.expire( key, 100 ); // extend expiration
-		return this.cacheProvider.lrange( key, ( page - 1 ) * FilterService.LIMIT, FilterService.LIMIT - 1 );
-	}
-
-	getFilterPostIdsByTagsAndPage( tags, page ) {
-		let tagsKey = this._createCacheKeyFromTags( tags );
-		page = isNaN( page ) ? 1 : 0;
-		let key = this.createTempFilterKey( tags );
 		this.cacheProvider.expire( key, 100 ); // extend expiration
 		return this.cacheProvider.lrange( key, ( page - 1 ) * FilterService.LIMIT, FilterService.LIMIT - 1 );
 	}
