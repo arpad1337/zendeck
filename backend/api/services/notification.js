@@ -89,7 +89,7 @@ class NotificationService {
 					model.payload.user = user;
 					return this.groupService.getGroupById( model.payload.group.id );
 				}).then((group) => {
-					model.group = group;
+					model.payload.group = group;
 					return model;
 				})
 				break;
@@ -256,7 +256,9 @@ class NotificationService {
 					if( notif ) {
 						let newPayload = {
 							users: [ notif.payload.user, payload.user ],
-							post: notif.post
+							post: {
+								id: payload.post.id
+							}
 						};
 						return this.deleteNotificationWithId( notif.id ).then(() => {
 							return this._createNotification( userId, NOTIFICATION_TYPE.POST_COMMENT_MULTI, newPayload );
@@ -281,7 +283,9 @@ class NotificationService {
 					if( notif ) {
 						let newPayload = {
 							users: [ notif.payload.user, payload.user ],
-							post: notif.post
+							post: {
+								id: payload.post.id
+							}
 						};
 						return this.deleteNotificationWithId( notif.id ).then(() => {
 							return this._createNotification( userId, NOTIFICATION_TYPE.POST_LIKE_MULTI, newPayload );
@@ -293,7 +297,7 @@ class NotificationService {
 								notif.payload.users.unshift( payload.user );
 							}
 							return this._updateNotificationById( id, {
-								payload: notif.payload 
+								payload: notif.payload
 							});
 						}
 						return this._createNotification( userId, type, payload );

@@ -163,6 +163,12 @@ class FeedService {
 		});
 	}
 
+	getPostsByGroupFilterAndPage( groupSlug, tags, page ) {
+		return this.$http.post( CONFIG.API_PATH + '/filter?page=' + page, { tags: tags, groupSlug: groupSlug } ).then(( r ) => {
+			return r.data;
+		});
+	}
+
 	getPostsByCollectionSlugAndPage( collectionSlug, page ) {
 		return this.$http.get( CONFIG.API_PATH + '/collection/' + collectionSlug + '/feed?page=' + page ).then( r => r.data );
 	}

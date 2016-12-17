@@ -53,6 +53,11 @@ class ApplicationController {
 				this.openPostViewModal();
 				return;
 			}
+			if( newState.name == STATES.INVITATION ) {
+				e.preventDefault();
+				this._invitationKey = this.$state.params.invitationKey;
+				return;
+			}
 		});
 		this.userService.getCurrentUser();
 	}
@@ -288,9 +293,11 @@ class ApplicationController {
 					password: model.password,
 					email: model.email,
 					isBusiness: (model.isBusiness == "true"),
-					termsAccepted: model.termsAccepted
+					termsAccepted: model.termsAccepted,
+					invitationKey: this._invitationKey || null
 				});
 				model.dismiss();
+				window.location.reload();
 			} catch( e ) {
 				if( e.status === 403 ) {
 					// login disabled

@@ -14,17 +14,17 @@
             <div ng-if="ctrl.isUserAdmin" class="actions">
                 <div ng-if="ctrl.profile.userId != friend.id && friend.approved" ng-click="ctrl.toggleAdminForUserId( friend.id )">
                     <div ng-if="!ctrl.isAdmin(friend.id)">
-                        <button class="create" ng-click="ctrl.assignAdminToGroup( friend.id )">Promote</button>
+                        <button class="create" ng-click="ctrl.assignAdminToGroup( friend )">Promote</button>
                     </div>
                     <div ng-if="ctrl.isAdmin(friend.id) && friend.id != ctrl.profile.userId">
-                        <button class="minus" ng-click="ctrl.removeAdminFromGroup( friend.id )">Resign</button>
+                        <button class="minus" ng-click="ctrl.removeAdminFromGroup( friend )">Resign</button>
                     </div>
                 </div>
                 <div ng-if="!friend.approved">
-                    <button class="create" ng-click="ctrl.approveUser(friend.id);friend.approved = true;">Approve</button>
+                    <button class="create" ng-click="ctrl.approveUser(friend);friend.approved = true;">Approve</button>
                 </div>
                 <div ng-if="friend.approved && ctrl.profile.userId != friend.id">
-                    <button class="minus" ng-click="ctrl.kickUserFromGroup(friend.id)">Kick</button>
+                    <button class="minus" ng-click="ctrl.kickUserFromGroup(friend)">Kick</button>
                 </div>
             </div>
         </div>

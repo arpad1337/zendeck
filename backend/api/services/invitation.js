@@ -3,11 +3,16 @@
  */
 
 const Util = require('../../util/util');
+const DatabaseProvider = require('../../providers/database');
 
 class InivationService {
 
+	constructor( databaseProvider ) {
+		this.databaseProvider = databaseProvider;
+	}
+
 	createInvitation( userId, type, payload ) {
-		const late = new Date();
+		const later = new Date();
 		const now = new Date();
 		const InvitationModel = this.databaseProvider.getModelByName('invitation');
 		const KEY = Util.createSHA256Hash( userId + type + Date.now() + 'fing' );
@@ -29,7 +34,7 @@ class InivationService {
 			where: {
 				invitationKey: signature,
 				expiration: {
-					$lt: (new Date()).toISOString()
+					$gt: (new Date()).toISOString()
 				}
 			}
 		}).then((model) => {
@@ -42,7 +47,8 @@ class InivationService {
 
 	static get instance() {
 		if( !this.singleton ) {
-			this.singleton = new InivationService();
+			const databaseProvider = DatabaseProvider.instance;
+			this.singleton = new InivationService( databaseProvider );
 		}
 		return this.singleton;
 	}

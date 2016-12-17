@@ -16,10 +16,10 @@ const HTMLEMailFactory = {
 		languageKey = languageKey || 'EN';
 		const type = 'FORGOT_PASSWORD';
 		const variables = HTMLEMailFactory._prepareLanguageVariables( languageKey, type );
-		const HTML = HTMLEMailFactory._renderEmailHTML( payload, variables );
+		const model = HTMLEMailFactory._renderEmailHTML( payload, variables );
 		return {
-			body: HTML,
-			subject: variables.SUBJECT
+			body: model.HTML,
+			subject: model.SUBJECT
 		};
 	},
 
@@ -27,10 +27,10 @@ const HTMLEMailFactory = {
 		languageKey = languageKey || 'EN';
 		const type = 'PLATFORM_INVITATION';
 		const variables = HTMLEMailFactory._prepareLanguageVariables( languageKey, type );
-		const HTML = HTMLEMailFactory._renderEmailHTML( payload, variables );
+		const model = HTMLEMailFactory._renderEmailHTML( payload, variables );
 		return {
-			body: HTML,
-			subject: variables.SUBJECT
+			body: model.HTML,
+			subject: model.SUBJECT
 		};
 	},
 
@@ -38,10 +38,10 @@ const HTMLEMailFactory = {
 		languageKey = languageKey || 'EN';
 		const type = 'GROUP_INVITATION';
 		const variables = HTMLEMailFactory._prepareLanguageVariables( languageKey, type );
-		const HTML = HTMLEMailFactory._renderEmailHTML( payload, variables );
+		const model = HTMLEMailFactory._renderEmailHTML( payload, variables );
 		return {
-			body: HTML,
-			subject: variables.SUBJECT
+			body: model.HTML,
+			subject: model.SUBJECT
 		};
 	},
 
@@ -53,11 +53,15 @@ const HTMLEMailFactory = {
 
 	_renderEmailHTML: ( payload, variables ) => {
 		variables = Object.assign( {}, variables, payload );
-		variables.BODY = renderingEngine.compile( variables.BODY )( variables );
-		variables.DESCIPTION = renderingEngine.compile( variables.DESCIPTION )( variables );
+		console.log(variables);
+		variables.DESCRIPTION = renderingEngine.compile( variables.DESCRIPTION )( variables );
 		variables.SUBJECT = renderingEngine.compile( variables.SUBJECT )( variables );
+		variables.BODY = renderingEngine.compile( variables.BODY )( variables );
 		const frameTemplate = renderingEngine.compile( fs.readFileSync( path.resolve( [ __dirname, '../templates/frame.hbs'].join('/') ) ).toString() );
-		return frameTemplate( variables );
+		return {
+			HTML: frameTemplate( variables ),
+			SUBJECT: variables.SUBJECT
+		};
 	}
 
 };

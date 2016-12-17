@@ -56,6 +56,13 @@ const ROUTES = [
 		method: 'post',
 		action: 'checkEmailAvailability'
 	},
+	{
+		path: '/auth/feedback',
+		controller: 'auth',
+		method: 'post',
+		action: 'sendFeedback',
+		middlewares: ['session-check']
+	},
 
 	// USER
 

@@ -98,6 +98,16 @@ class AuthService {
 		});
 	}
 
+	sendFeedback( userId, content ) {
+		return this.userService.getUserById( userId ).then((user) => {
+			let body = ` User: ${user.fullname} <small>${user.username}</small> - ${user.email} has sent feedback:
+
+				${content}
+			`;
+			return this.emailProvider.sendEmail( 'arpad@zendeck.co', '[ZenDeck] User feedback', body);
+		});
+	}
+
 	acceptInvitation( userId, invitationKey ) {
 		return this.invitationService.resolveInvitation( invitationKey ).then((invitation) => {
 			if( invitation ) {

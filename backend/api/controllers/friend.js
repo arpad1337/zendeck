@@ -3,11 +3,15 @@
  */
 
 const FriendService = require('../services/friend');
+const UserService = require('../services/user');
+const FeedService = require('../services/feed');
 
 class FriendController {
 
-	constructor( friendService ) {
+	constructor( friendService, feedService, userService ) {
+		this.userService = userService;
 		this.friendService = friendService;
+		this.feedService = feedService;
 	}
 
 	*getFriendsByPage( context ) {
@@ -59,6 +63,8 @@ class FriendController {
 		const friendUsername = context.request.fields.username;
 		try {
 			let success = yield this.friendService.addFriend( userId, friendUsername );
+			let friend = yield this.userService.getUserByUsername( friendUsername );
+			this.feedService.userFollowOther( userId, friend.id );
 			context.body = {
 				success: success
 			};
@@ -72,6 +78,8 @@ class FriendController {
 		const friendUsername = context.params.friendUsername;
 		try {
 			let success = yield this.friendService.removeFriend( userId, friendUsername );
+			let friend = yield this.userService.getUserByUsername( friendUsername );
+			this.feedService.userUnfollowOther( userId, friend.id );
 			context.body = {
 				success: success
 			};
@@ -92,7 +100,9 @@ class FriendController {
 	static get instance() {
 		if( !this.singleton ) {
 			const friendService = FriendService.instance;
-			this.singleton = new FriendController( friendService );
+			const feedService = FeedService.instance;
+			const userService = UserService.instance;
+			this.singleton = new FriendController( friendService, feedService, userService );
 		}
 		return this.singleton;
 	}

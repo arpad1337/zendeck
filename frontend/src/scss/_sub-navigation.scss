@@ -119,6 +119,11 @@ main > nav {
 					width: 100%;
 					a {
 						width: calc(100% - 20px);
+						&.has-parent {
+							&:before {
+								content: "↳";
+							}
+						}
 						&.active {
 							background: $SECONDARY-DARK;
 						}

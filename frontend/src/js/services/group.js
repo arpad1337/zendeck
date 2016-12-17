@@ -132,7 +132,15 @@ class GroupService {
 		});
 	}
 
+	inviteUsersToGroup( slug, users ) {
+		return this.$http.post( CONFIG.API_PATH + '/group/' + slug + '/invitation', {
+			users: users
+		}).then((r) => r.data);
+	}
 
+	acceptInvitation( slug, key ) {
+		return this.$http.post( CONFIG.API_PATH + '/group/' + slug + '/invitation/' + key ).then((r)=>r.data);
+	}
 
 }
 

@@ -1,10 +1,10 @@
 <section role="feed">
     <h4>{{ ctrl.currentCollection.name }}</h4>
     <a class="save-to-collection" ng-click="ctrl.saveCurrentCollection()">
-    	<span ng-if="ctrl.currentCollection.shared">
+    	<span ng-if="!ctrl.isUserAdmin || ctrl.currentCollection.shared">
 		{{ 'FEED.SAVE_COLLECTION' | translate }}
 		</span>
-		<span ng-if="!ctrl.currentCollection.shared">
+		<span ng-if="ctrl.isUserAdmin && !ctrl.currentCollection.shared">
 		{{ 'FEED.EDIT_COLLECTION' | translate }}
 		</span>
 	</a>

@@ -35,6 +35,12 @@ const ROUTES = [
 			path: '/post/:postId'
 		}
 	},
+	{
+		state: STATES.INVITATION,
+		opts: {
+			path: '/invitation/:invitationKey'
+		}
+	},
 
 	// FEED
 
@@ -135,6 +141,21 @@ const ROUTES = [
 		opts: {
 			path: '/members',
 			view: 'views/group-by-slug/members.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+	{
+		state: STATES.APPLICATION.GROUP_BY_SLUG.FILTERED,
+		opts: {
+			path: '/filter/:filterSlug',
+			view: 'views/group-by-slug/filtered.tpl.html',
+			requiredStatus: USER_STATUS.SUBMITED
+		}
+	},
+	{
+		state: STATES.APPLICATION.GROUP_BY_SLUG.INVITATION,
+		opts: {
+			path: '/invitation/:invitationKey',
 			requiredStatus: USER_STATUS.SUBMITED
 		}
 	},

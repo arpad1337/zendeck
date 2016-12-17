@@ -4,12 +4,14 @@
 
 const GroupService = require('../services/group');
 const CollectionService = require('../services/collection');
+const FeedService = require('../services/feed');
 
 class GroupController {
 
-	constructor( groupService, collectionService ) {
+	constructor( groupService, collectionService, feedService ) {
 		this.groupService = groupService;
 		this.collectionService = collectionService;
+		this.feedService = feedService;
 	}
 
 	*getGroupViewBySlug( context ) {
@@ -103,9 +105,9 @@ class GroupController {
 	*inviteMembersToGroup( context ) {
 		const userId = context.session.user.id;
 		const groupSlug = context.params.groupSlug;
-		const emails = context.request.fields.emails;
+		const users = context.request.fields.users;
 		try {
-			context.body = yield this.groupService.inviteUsersToGroup( userId, groupSlug, emails );
+			context.body = yield this.groupService.inviteUsersToGroup( userId, groupSlug, users );
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );
@@ -117,7 +119,12 @@ class GroupController {
 		const groupSlug = context.params.groupSlug;
 		const invitationKey = context.params.invitationKey;
 		try {
-			context.body = yield this.groupService.acceptGroupInvitation( userId, invitationKey );
+			let group = yield this.groupService.getGroupBySlug( groupSlug );
+			let approved = yield this.groupService.acceptGroupInvitation( userId, invitationKey );
+			if( approved ) {
+				this.feedService.userJoinToGroup( userId, group.id );
+			}
+			context.body = approved;
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );
@@ -128,7 +135,12 @@ class GroupController {
 		const userId = context.session.user.id;
 		const groupSlug = context.params.groupSlug;
 		try {
-			context.body = yield this.groupService.joinGroup( userId, groupSlug );
+			let group = yield this.groupService.getGroupBySlug( groupSlug );
+			let member = yield this.groupService.joinGroup( userId, groupSlug );
+			if( member.approved ) {
+				yield this.feedService.userJoinToGroup( userId, group.id );
+			}
+			context.body = member;
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );
@@ -139,7 +151,10 @@ class GroupController {
 		const userId = context.session.user.id;
 		const groupSlug = context.params.groupSlug;
 		try {
-			context.body = yield this.groupService.leaveGroup( userId, groupSlug );
+			let group = yield this.groupService.getGroupBySlug( groupSlug );
+			let status = yield this.groupService.leaveGroup( userId, groupSlug );
+			this.feedService.userLeaveGroup( userId, group.id );
+			context.body = status;
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );
@@ -151,7 +166,10 @@ class GroupController {
 		const groupSlug = context.params.groupSlug;
 		const memberId = context.params.userId;
 		try {
-			context.body = yield this.groupService.approveUser( groupSlug, userId, memberId );
+			let group = yield this.groupService.getGroupBySlug( groupSlug );
+			let status = yield this.groupService.approveUser( groupSlug, userId, memberId );
+			this.feedService.userJoinToGroup( memberId, group.id );
+			context.body = status;
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );
@@ -187,7 +205,10 @@ class GroupController {
 		const groupSlug = context.params.groupSlug;
 		const memberId = context.params.userId;
 		try {
-			context.body = yield this.groupService.kickUserFromGroup( groupSlug, userId, memberId );
+			let group = yield this.groupService.getGroupBySlug( groupSlug );
+			let status = yield this.groupService.kickUserFromGroup( groupSlug, userId, memberId );
+			this.feedService.userLeaveGroup( memberId, group.id );
+			context.body = status;
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw( 400 );
@@ -209,7 +230,8 @@ class GroupController {
 		if( !this.singleton ) {
 			const groupService = GroupService.instance;
 			const collectionService = CollectionService.instance;
-			this.singleton = new GroupController( groupService, collectionService );
+			const feedService = FeedService.instance;
+			this.singleton = new GroupController( groupService, collectionService, feedService );
 		}
 		return this.singleton;
 	}

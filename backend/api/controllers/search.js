@@ -11,6 +11,7 @@ class SearchController {
 	}
 
 	*performBulkSearch( context ) {
+		const userId = context.session.user.id;
 		const predicate = context.request.fields.predicate;
 		try {
 			let results = yield this.searchService.performBulkSearch( userId, predicate );
@@ -22,6 +23,7 @@ class SearchController {
 	}
 
 	*performSearchByTopic( context ) {
+		const userId = context.session.user.id;
 		const predicate = context.request.fields.predicate;
 		const topic = context.params.topic;
 		try {

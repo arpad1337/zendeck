@@ -149,7 +149,7 @@ class PostEntryComponent {
 			return;
 		}
 		if( this._delegateRespondsToSelector( 'addPostToCollection' ) ) {
-			await this.delegate.addPostToCollection( this.targetCollection.slug, this.entry.id );
+			await this.delegate.addPostToCollection( this.targetCollection, this.entry.id );
 		}
 		this.entry.starred = !this.entry.starred;
 	}

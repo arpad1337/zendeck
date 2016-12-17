@@ -104,7 +104,7 @@
 			"ACCEPTED": "Accepted",
 			"GET_MORE": "More"
 		},
-		"GROUP_INVITATION": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> has invited you to <a href=\"/groups/{{group.slug}}\">{{group.name}} Group</a>",
+		"GROUP_INVITATION": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> has invited you to join <a href=\"/groups/{{group.slug}}\">{{group.name}} Group</a>",
 		"GROUP_INVITATION_ACCEPTED": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> has accepted your invitation to <a href=\"/groups/{{group.slug}}\">{{group.name}} Group</a>",
 		"GROUP_JOIN_REQUEST": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> has requested to join to <a href=\"/groups/{{group.slug}}\">{{group.name}} Group</a>",
 		"GROUP_JOIN_REQUEST_ACCEPTED": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> has approved you to join to <a href=\"/groups/{{group.slug}}\">{{group.name}} Group</a>",
@@ -133,10 +133,14 @@
 		},
 		"LINK_PREVIEW_TITLE": "Link preview",
 		"SAVE_FILTER": "Save",
+		"COPY_FILTER": "Copy",
+		"SHARED_FILTER": "shared",
+		"RUN_FILTER": "Run filter",
 		"LINK_PREVIEW": "<a href=\"{{url}}\" target=\"_blank\">From <span>{{medium}}</span></a>",
 		"SAVE_COLLECTION": "Subscribe",
 		"EDIT_COLLECTION": "Edit",
 		"POST_ENTRY": {
+			"COLLECTION_IN_GROUP": "in group",
 			"IN_GROUP": "from <a href=\"{{groupUrl}}\">{{groupName}}</a>",
 			"TIME_AGO_SUFFIX": "{{value}} ago",
 			"LIKES": "{{value}} people like this",
@@ -306,10 +310,14 @@
 		"SEND_NEW_MESSAGE": {
 			"TITLE": "Send new message",
 			"SELECT_RECIPIENT": "Select recipient",
+			"SELECT_RECIPIENT_PLACEHOLDER": "Select recipient",
 			"MESSAGE": "Message",
 			"PLACEHOLDER": "Type your message here...",
 			"OK": "Send message",
-			"CANCEL": "Cancel"
+			"CANCEL": "Cancel",
+			"ERROR": {
+				"MESSAGE": "Message seems to be empty"
+			}
 		},
 		"CREATE_FILTER": {
 			"TITLE": "Create filter",
@@ -344,6 +352,16 @@
 		"FRIEND_INVITED": {
 			"TITLE": "Friend invited",
 			"OK": "Invitation to {{email}} has been sent"
+		},
+		"GROUP_INVITE": {
+			"TITLE": "Invite friends to {{group.name}}",
+			"SELECT_RECIPIENT": "Select or type emails",
+			"SELECT_RECIPIENT_PLACEHOLDER": "Select recipient",
+			"OK": "Send invitations",
+			"CANCEL": "Cancel",
+			"ERROR": {
+				"NO_RECIPIENT": "You must select recipients"
+			}
 		},
 		"FRIEND_REQUESTED": {
 			"TITLE": "Oops, seems like {{friendName}} has already joined to ZenDeck",
@@ -383,8 +401,27 @@
 			"DELETE_COMMENT": {
 				"MESSAGE": "Are you sure you want to delete this comment?"
 			},
+			"KICK_USER": {
+				"MESSAGE": "Are your sure you want to kick <strong>{{user.fullname}}</strong> from the group?"
+			},
+			"PROMOTE_USER": {
+				"MESSAGE": "Are you sure your want to promote <strong>{{user.fullname}}</strong>?"
+			},
+			"DEGRADE_USER": {
+				"MESSAGE": "Are you sure your want to ressign admin role from <strong>{{user.fullname}}</strong>?"
+			},
+			"LEAVE_GROUP": {
+				"MESSAGE": "Are you sure your want to leave this group?"
+			},
 			"OK": "Confirm",
 			"CANCEL": "Cancel"
+		},
+		"MESSAGE": {
+			"TITLE": "Success",
+			"INVITATION_SENT": {
+				"MESSAGE": "The invitations has been sent successfully"
+			},
+			"OK": "Dismiss"
 		}
 	},
 	"ABOUT": {

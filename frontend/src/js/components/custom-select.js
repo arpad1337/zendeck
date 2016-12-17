@@ -140,8 +140,10 @@ class CustomSelectComponent {
 		this.filteredCollection.length = 0;
 		this.collection.forEach((item) => {
 			if(
-				item[ this.value ].toLowerCase().indexOf( keyword ) === 0 ||
-				String(item[ this.key ]).toLowerCase().indexOf( keyword ) === 0
+				(
+					item[ this.value ].toLowerCase().indexOf( keyword ) === 0 ||
+					String(item[ this.key ]).toLowerCase().indexOf( keyword ) === 0
+				) && !item.hidden
 			) {
 				this.filteredCollection.push( item );
 			}
@@ -164,6 +166,13 @@ class CustomSelectComponent {
 		if( this._delegateRespondsToSelector('onItemSelected') ) {
 			this.delegate.onItemSelected( this.model );
 		}
+	}
+
+	onEnter() {
+		if( this._delegateRespondsToSelector('onEnter') ) {
+			this.delegate.onEnter( this.predicate );
+		}
+		this._predicate = '';
 	}
 
 	_delegateRespondsToSelector( selector ) {

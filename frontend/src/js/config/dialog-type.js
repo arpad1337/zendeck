@@ -24,7 +24,9 @@ const DIALOG_TYPE = new Enum([
 	'CONFIRMATION',
 	'SEND_NEW_MESSAGE',
 	'PROFILE_PIC_CROPPING',
-	'EDIT_GROUP'
+	'EDIT_GROUP',
+	'GROUP_INVITE',
+	'MESSAGE'
 ], 'DIALOG_TYPE');
 
 const DIALOG_DESCIPTORS = {};
@@ -97,6 +99,16 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.CONFIRMATION.toString() ] = {
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.EDIT_GROUP.toString() ] = {
 	templateUrl: '/partials/dialog/create-group.tpl.html'
+}
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.GROUP_INVITE.toString() ] = {
+	templateUrl: '/partials/dialog/group-invite.tpl.html'
+}
+
+// MESSAGE
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.MESSAGE.toString() ] = {
+	templateUrl: '/partials/dialog/message.tpl.html'
 }
 
 export {

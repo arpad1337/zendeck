@@ -15,7 +15,10 @@
 	        placeholder="{{'FEED.POST_ENTRY.SELECT_COLLECTION' | translate}}"
 	        select-first="true"
 	    >
-	        <custom-select-item>{{$parent.item.name}}</custom-select-item>
+	        <custom-select-item>
+	        	{{$parent.item.name}}
+	        	<small ng-if="$parent.item.groupId">{{'FEED.POST_ENTRY.COLLECTION_IN_GROUP' | translate}}</small>
+	    	</custom-select-item>
 	    </custom-select>
 
 		<button class="save" ng-click="vm.saveToCollection();">

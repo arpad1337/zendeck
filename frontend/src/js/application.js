@@ -29,6 +29,7 @@ import GroupsController from './controllers/groups';
 import GroupBySlugController from './controllers/group-by-slug';
 import RecommendationBoxController from './controllers/recommendation-box';
 import EditGroupController from './controllers/edit-group';
+import GroupInvitationController from './controllers/group-invitation';
 
 // S E R V I C E S
 
@@ -82,6 +83,7 @@ module.controller( 'GroupsController', GroupsController );
 module.controller( 'GroupBySlugController', GroupBySlugController );
 module.controller( 'RecommendationBoxController', RecommendationBoxController );
 module.controller( 'EditGroupController', EditGroupController );
+module.controller( 'GroupInvitationController', GroupInvitationController );
 
 module.service( 'MessageBusService', MessageBusService );
 module.service( 'UserService', UserService );

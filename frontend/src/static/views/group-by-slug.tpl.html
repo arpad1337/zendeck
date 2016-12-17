@@ -68,15 +68,37 @@
 
                 <li 
                     ng-repeat="collection in ctrl.collections track by $index"
-                    ng-if="ctrl.profile.userIsMember || collection.isPublic"
+                    ng-if="(ctrl.profile.userIsMember || collection.isPublic) && collection.groupId"
                 >
                     <a 
                         ui-sref="groupBySlug.collection({groupSlug:ctrl.currentSlug, collectionSlug: collection.slug})" 
                         ng-click="ctrl.selectCollection( collection.slug )"
                         class=" "
-                        ng-class="ctrl.activeCollection == collection.id ? 'active' : ''"
+                        ng-class="{'active': ctrl.activeCollection == collection.id, 'has-parent': collection.parent}"
                     >
                         {{ collection.name }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li
+            ng-init="hover2=false"
+            ng-mouseenter="hover2 = true"
+            ng-mouseleave="hover2 = false"
+        >
+            <a class="filter list" 
+                ng-class="{hover: hover2, active: (ctrl.activeFilter != null )}">
+                {{ 'HEADER.SUB_MENU.FILTERS' | translate }}
+            </a>
+            <ul>
+                <li ng-repeat="filter in ctrl.filters track by $index">
+                    <a 
+                        ui-sref="groupBySlug.filtered({groupSlug:ctrl.currentSlug, filterSlug: filter.slug})" 
+                        ng-click="ctrl.selectFilter( filter.slug )"
+                        class=" "
+                        ng-class="ctrl.activeFilter == filter.id ? 'active' : ''"
+                    >
+                        {{ filter.name }}
                     </a>
                 </li>
             </ul>
@@ -102,7 +124,6 @@
             {{ 'HEADER.SUB_MENU.INVITE_FRIENDS' | translate }}
         </a>
         <span
-            ng-if="ctrl.profile.userIsMember"
             ng-init="hover20=false"
             ng-mouseenter="hover20 = true"
             ng-mouseleave="hover20 = false"
@@ -118,7 +139,7 @@
                         {{ 'HEADER.SUB_MENU.CREATE_FILTER' | translate }}
                     </a>
                 </li>
-                <li>
+                <li ng-if="ctrl.isUserAdmin">
                     <a ng-click="ctrl.openCreateCollectionDialog()" class="star">
                         {{ 'HEADER.SUB_MENU.CREATE_COLLECTION' | translate }}
                     </a>

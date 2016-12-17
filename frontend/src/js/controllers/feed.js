@@ -156,6 +156,7 @@ class FeedController extends CollectionController {
 				this._activeFilter.id = persistedModel.id;
 				this._activeFilter.slug = persistedModel.slug;
 				this.filters.push( this._activeFilter );
+				this.runCurrentFilter();
 			} else if( this._activeFilter.temporary ) {
 				let model = await this.openCreateFilterDialog( this._activeFilter.name );
 				this._activeFilter.name = model.name;
@@ -165,6 +166,7 @@ class FeedController extends CollectionController {
 				this._activeFilter.slug = persistedModel.slug;
 				this.filters.push( this._activeFilter );
 				this.$state.go( this.FEED_STATES.FILTERED, { filterSlug: model.slug });
+				this.runCurrentFilter();
 			} else {
 				let model = await this.openCreateFilterDialog( this._activeFilter.name );
 				this._activeFilter.name = model.name;
@@ -180,6 +182,7 @@ class FeedController extends CollectionController {
 				}
 				filter.tags = persistedModel.tags;
 				this._activeFilter = persistedModel;
+				this.runCurrentFilter();
 			}
 			this.$scope.$digest(); 
 		} catch( e ) {
@@ -187,6 +190,15 @@ class FeedController extends CollectionController {
 		}
 		// this.resetPaginator();
 		// this.posts = await this.feedService.getPostsByFilterIdAndPage( this._activeFilter.id, this._page );
+	}
+
+	async runCurrentFilter() {
+		this.resetPaginator();
+		let posts = await this.feedService.getPostsByGroupFilterAndPage( this.currentSlug, this._activeFilter.tags, this._page );
+		posts.forEach((post) => {
+			this.posts.push( post );
+		});
+		this.$scope.$digest();
 	}
 
 	async deleteCurrentFilter() {

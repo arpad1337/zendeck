@@ -1,0 +1,12 @@
+<div class="modal">
+    <div class="container">
+        <h4>{{ 'MODALS.MESSAGE.TITLE' | translate }}</h4>
+        <a class="close" ng-click="cancel()"></a>
+        <div class="content">
+            <p class="message" data-ng-bind-html="'MODALS.MESSAGE.' + messageDialogTemplateKey + '.MESSAGE' | translate : { user: user } | htmlSafe"></p>
+        </div>
+        <div class="actions">
+            <button class="confirm" ng-click="ok()">{{ 'MODALS.MESSAGE.OK' | translate }}</button>
+        </div>
+    </div>
+</div>

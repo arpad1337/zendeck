@@ -3,7 +3,7 @@
         <h4>{{ 'MODALS.CONFIRM_DIALOG.TITLE' | translate }}</h4>
         <a class="close" ng-click="cancel()"></a>
         <div class="content">
-            <p class="message" data-ng-bind-html="'MODALS.CONFIRM_DIALOG.' + confirmationDialogTemplateKey + '.MESSAGE' | translate | htmlSafe"></p>
+            <p class="message" data-ng-bind-html="'MODALS.CONFIRM_DIALOG.' + confirmationDialogTemplateKey + '.MESSAGE' | translate : { user: user } | htmlSafe"></p>
         </div>
         <div class="actions">
             <button class="confirm" ng-click="ok()">{{ 'MODALS.CONFIRM_DIALOG.OK' | translate }}</button>

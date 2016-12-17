@@ -18,11 +18,12 @@ class GroupBySlugController extends CollectionController {
 			'ModalService',
 			'CollectionService',
 			'GroupService',
-			'FileUploadService'
+			'FileUploadService',
+			'FilterService'
 		];
 	}
 
-	constructor( $scope, $state, feedService, friendService, userService, modalService, collectionService, groupService, fileUploadService ) {
+	constructor( $scope, $state, feedService, friendService, userService, modalService, collectionService, groupService, fileUploadService, filterService ) {
 		super( $state, feedService, collectionService, modalService, 'GROUP_BY_SLUG' );
 		this.$scope = $scope;
 		this.$state = $state;
@@ -33,6 +34,8 @@ class GroupBySlugController extends CollectionController {
 		this.collectionService = collectionService;
 		this.groupService = groupService;
 		this.fileUploadService = fileUploadService;
+		this.filterService = filterService;
+
 		this.onCoverPicFileSelected = this.onCoverPicFileSelected.bind( this );
 
 		this._initState();
@@ -74,15 +77,23 @@ class GroupBySlugController extends CollectionController {
 				name: this.profile.name,
 				profileColor: this.profile.profileColor
 			};
+
+			if( this.$state.current.name === this.GROUP_BY_SLUG_STATES.INVITATION ) {
+				this.groupService.acceptInvitation( this.currentSlug, this.$state.params.invitationKey ).then((accepted) => {
+					if( accepted ) {
+						this.$state.go(this.GROUP_BY_SLUG_STATES.POSTS);
+						this._initState();
+					}
+				});
+			}
 		});
 
-		// this.feedService.getGroupPostsByGroupSlugAndPage( this.currentSlug, this._page ).then((newPosts) => {
-		// 	newPosts.forEach((post) => {
-		// 		this.posts.push( post );
-		// 	});
-		// });
-
-		this.loadCollections();
+		this.filterService.getGroupFilters( this.currentSlug ).then((filters) => {
+			this.filters = filters;
+			if( this.$state.params.filterSlug ) {
+				this.selectFilter( this.$state.params.filterSlug );
+			}
+		});
 
 		this.groupService.getGroupStatsBySlug( this.currentSlug ).then((stats) => {
 			this.stats = stats;
@@ -105,6 +116,7 @@ class GroupBySlugController extends CollectionController {
 		if( this.$state.current.name === this.GROUP_BY_SLUG_STATES.POSTS ) {
 			this.selectFeed();
 		}
+
 	}
 
 	get isEditing() {
@@ -189,6 +201,10 @@ class GroupBySlugController extends CollectionController {
 				newPosts = await this.feedService.getPostsByGroupCollectionSlugAndPage( this.$state.params.groupSlug, this._activeCollection.id, this._page );
 				break;
 			}
+			case this.GROUP_BY_SLUG_STATES.FILTERED: {
+				newPosts = await this.feedService.getPostsByGroupFilterAndPage( this.currentSlug, this._activeFilter.tags, this._page );
+				break;
+			}
 		}
 		newPosts.forEach((post) => {
 			this.posts.push( post );
@@ -208,11 +224,16 @@ class GroupBySlugController extends CollectionController {
 	// @override
 
 	loadCollections() {
-		return this.collectionService.getGroupCollections( this.$state.params.groupSlug ).then((collections) => {
-			this._collections = collections;
-			if( this.$state.params.collectionId ) {
-				this.selectCollection( this.$state.params.collectionSlug );
-			}
+		return super.loadCollections().then(_ => {
+			return this.collectionService.getGroupCollections( this.$state.params.groupSlug ).then((collections) => {
+				collections.forEach((collection) => {
+					this._collections.push({
+						hidden: !this.isUserAdmin,
+						shared: true,
+						...collection
+					});
+				});
+			});
 		});
 	}
 
@@ -226,8 +247,163 @@ class GroupBySlugController extends CollectionController {
 		});
 	}
 
-	addPostToCollection( collectionSlug, postId ) {
-		return this.feedService.addPostToGroupCollection( this.$state.params.groupSlug, collectionSlug, postId );
+	addPostToCollection( targetCollection, postId ) {
+		if( targetCollection.groupId ) {
+			return this.feedService.addPostToGroupCollection( this.$state.params.groupSlug, targetCollection.slug, postId );
+		}
+		return this.feedService.addPostToCollection( targetCollection.slug, postId );
+	}
+
+	// FILTERS
+
+	async selectFilter( slug ) {
+		this.resetPaginator();
+		let filter = this.filters.find((f) => {
+			return f.slug == slug;
+		});
+		if( !filter ) {
+			try {
+				this._activeFilter = await this.filterService.getFilterBySlug( slug );
+				this.$scope.$digest();
+			} catch( e ) {
+				this.$state.go(this.FEED_STATES.POSTS);
+			}
+		} else {
+			this._activeFilter = Object.assign( {}, filter );
+			this._activeFilter.tags = filter.tags.slice(0);
+		}
+		let posts = await this.feedService.getPostsByGroupFilterAndPage( this.currentSlug, this._activeFilter.tags, this._page );
+		posts.forEach((post) => {
+			this.posts.push( post );
+		});
+		this.$scope.$digest();
+	}
+
+	async runCurrentFilter() {
+		this.resetPaginator();
+		let posts = await this.feedService.getPostsByGroupFilterAndPage( this.currentSlug, this._activeFilter.tags, this._page );
+		posts.forEach((post) => {
+			this.posts.push( post );
+		});
+		this.$scope.$digest();
+	}
+
+	async saveCurrentFilter() {
+		try {
+			if( this._activeFilter.shared ) {
+				let model = await this.openCreateFilterDialog( this._activeFilter.name );
+				this._activeFilter.name = model.name;
+				let persistedModel = await this.filterService.copySharedGroupFilterToCollection( this.currentSlug, this._activeFilter );
+				delete this._activeFilter.shared;
+				this._activeFilter.id = persistedModel.id;
+				this._activeFilter.slug = persistedModel.slug;
+				this.filters.push( this._activeFilter );
+				this.runCurrentFilter();
+			} else if( this._activeFilter.temporary ) {
+				let model = await this.openCreateFilterDialog( this._activeFilter.name );
+				this._activeFilter.name = model.name;
+				let persistedModel = await this.filterService.createNewGroupFilter( this.currentSlug, this._activeFilter );
+				delete this._activeFilter.temporary;
+				this._activeFilter.id = persistedModel.id;
+				this._activeFilter.slug = persistedModel.slug;
+				this.filters.push( this._activeFilter );
+				this.$state.go( this.GROUP_BY_SLUG_STATES.FILTERED, { groupSlug: this.currentSlug, filterSlug: model.slug });
+				this.runCurrentFilter();
+			} else {
+				let model = await this.openCreateFilterDialog( this._activeFilter.name );
+				this._activeFilter.name = model.name;
+				let persistedModel = await this.filterService.updateGroupFilter( this.currentSlug, this._activeFilter.slug, this._activeFilter );
+				let filter = this.filters.find((f) => {
+					return f.slug == this._activeFilter.slug;
+				});
+				filter.name = persistedModel.name;
+				if( JSON.stringify( filter.tags ) != JSON.stringify( persistedModel.tags ) ) {
+					this.posts.length = 0;
+					this._page = 0;
+					this.getMorePosts();
+				}
+				filter.tags = persistedModel.tags;
+				this._activeFilter = persistedModel;
+				this.runCurrentFilter();
+			}
+			this.$scope.$digest(); 
+		} catch( e ) {
+
+		}
+		// this.resetPaginator();
+		// this.posts = await this.feedService.getPostsByFilterIdAndPage( this._activeFilter.id, this._page );
+	}
+
+	async deleteCurrentFilter() {
+		await this.filterService.deleteFilter( this._activeFilter.slug );
+		this.filters = await this.filterService.getUserFilters();
+		this.resetPaginator();
+		this.posts = this.feedService.getFeedByPage( this._page );
+		this.$state.go( this.FEED_STATES.POSTS );
+	}
+
+	openCreateFilterDialog( name ) {
+		if( name ) {
+			return this.modalService.openDialog( this.modalService.DIALOG_TYPE.CREATE_FILTER, {
+				name: name || '',
+				saveButton: true
+			}, this.setActiveFilterName.bind(this) );
+		}
+		return this.modalService.openDialog( this.modalService.DIALOG_TYPE.CREATE_FILTER, {
+			name: name || ''
+		}, this.setActiveFilterName.bind(this) ).then((model) => {
+			this.createNewFilterModelWithName( model.name );
+			this.resetPaginator();
+		});
+	}
+
+	setActiveFilterName( model ) {
+		if( model.name.trim().length > 3 ) {
+			model.dismiss();
+		}
+	}
+
+	createNewFilterModelWithName( name ) {
+		let model = this.filterService.createNewFilterModelWithName( name );
+		this._activeFilter = model;
+		this.$state.go( this.FEED_STATES.FILTERED, { filterSlug: model.slug });
+	}
+
+	createTemporaryFilterWithTag( tag ) {
+		let model = this.filterService.createNewFilterModelWithNameAndTags( tag, [ tag ] );
+		this._activeFilter = model;
+		this.$state.go( this.FEED_STATES.FILTERED, { filterSlug: model.slug });
+	}
+
+	addTag( tag ) {
+		tag = tag.trim().toLowerCase().replace(/\s\s+/g, ' ');
+		if( tag.length < 3 ) {
+			return;
+		}
+		if( this._activeFilter.tags.length <= 20 && this._activeFilter.tags.indexOf( tag ) === -1 ) {
+			this._activeFilter.tags.push( tag );
+		}
+	}
+
+	removeTag( tag ) {
+		tag = tag.trim().toLowerCase();
+		this._activeFilter.tags.splice( this._activeFilter.tags.indexOf( tag ), 1);
+	}
+
+
+	get activeFilter() {
+		if( 
+			this.activeState == this.FEED_STATES.FILTERED 
+			&& this._activeFilter 
+			&& !this._activeFilter.shared
+		) {
+			return this._activeFilter.id;
+		}
+		return null;
+	}
+
+	get currentFilter() {
+		return this._activeFilter;
 	}
 
 	// POSTS
@@ -238,9 +414,6 @@ class GroupBySlugController extends CollectionController {
 		posts.forEach((post) => {
 			this.posts.push( post );
 		});
-	 	if( this.posts.length == 0 ) {
-			this.recommendations = await this.userService.getUserRecommendations();
-		}
 		this.$scope.$digest();
 	}
 
@@ -262,35 +435,57 @@ class GroupBySlugController extends CollectionController {
 			let status = await this.groupService.joinToGroup( this.currentSlug );
 			this.profile.pending = !status.approved;
 			this.profile.userIsMember = status.approved;
+			if( status.approved ) {
+				this.selectFeed();
+			}
 		} else {
-			// CONFIRM
+			await this.modalService.openDialog( this.modalService.DIALOG_TYPE.CONFIRMATION, {
+				confirmationDialogTemplateKey: 'LEAVE_GROUP'
+			});
 			await this.groupService.leaveGroup( this.currentSlug );
+			this.profile.userIsMember = false;
+			this.posts.length = 0;
 		}
 		this.$scope.$digest();
 	}
 
 	// add friend
 
-	approveUser(id) {
-		return this.groupService.approveUser( this.currentSlug, id );
+	approveUser( user ) {
+		return this.groupService.approveUser( this.currentSlug, user.id );
 	}
 
-	kickUserFromGroup(id) {
-		return this.groupService.kickUserFromGroup( this.currentSlug, id ).then(() => {
-
+	async kickUserFromGroup( user ) {
+		await this.modalService.openDialog( this.modalService.DIALOG_TYPE.CONFIRMATION, {
+			confirmationDialogTemplateKey: 'KICK_USER',
+			user: user
 		});
-	}
-
-	assignAdminToGroup( id ) {
-		return this.groupService.assignAdminToGroup( this.currentSlug, id ).then(() => {
-			this.profile.admins.push(id);
+		await this.groupService.kickUserFromGroup( this.currentSlug, user.id );
+		this._membersPage = 1;
+		let members = await this.groupService.getGroupMemebersBySlugAndPage( this.currentSlug, this._membersPage );
+		this.members.length = 0;
+		members.forEach((member) => {
+			this.members.push( member );
 		});
+		this.$scope.$digest();
 	}
 
-	removeAdminFromGroup( id ) {
-		return this.groupService.removeAdminFromGroup( this.currentSlug, id ).then(() => {
-			this.profile.admins.splice( this.profile.admins.indexOf(id),  1 );
-		});;
+	async assignAdminToGroup( user ) {
+		await this.modalService.openDialog( this.modalService.DIALOG_TYPE.CONFIRMATION, {
+			confirmationDialogTemplateKey: 'PROMOTE_USER',
+			user: user
+		});
+		await this.groupService.assignAdminToGroup( this.currentSlug, user.id );
+		this.profile.admins.push(user.id);
+	}
+
+	async removeAdminFromGroup( user ) {
+		await this.modalService.openDialog( this.modalService.DIALOG_TYPE.CONFIRMATION, {
+			confirmationDialogTemplateKey: 'DEGRADE_USER',
+			user: user
+		});
+		await this.groupService.removeAdminFromGroup( this.currentSlug, user.id );
+		this.profile.admins.splice( this.profile.admins.indexOf( user.id ),  1 );
 	}
 
 	
@@ -334,7 +529,12 @@ class GroupBySlugController extends CollectionController {
 	// invitation
 
 	openInvitationDialog() {
-
+		return this.modalService.openDialog( this.modalService.DIALOG_TYPE.GROUP_INVITE, {
+			error: {
+				backend: null,
+				emails: null
+			}
+		}).then(console.log.bind(this));
 	}
 
 }

@@ -153,7 +153,6 @@ class MessageService {
 			attributes: ['id']
 		}).then((ids) => {
 			ids = ids.map(id => id.get('id'));
-			console.log('iiiiiii', ids);
 			return MessageModel.count({
 				where: {
 					threadId: ids,

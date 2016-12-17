@@ -14,6 +14,11 @@ const model = sequelizeModelHelper.buildModel(
 	'feed',
 	// Schema
 	{
+		authorId: {
+			field: 'author_id',
+			type: TYPES.INTEGER,
+			allowNull: false
+		},
 		userId: {
 			field: 'user_id',
 			type: TYPES.INTEGER,

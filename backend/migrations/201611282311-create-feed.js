@@ -13,6 +13,10 @@ module.exports = {
 				autoIncrement: true,
 				primaryKey: true
 			},
+			author_id: {
+				type: TYPES.INTEGER,
+				allowNull: false
+			},
 			user_id: {
 				type: TYPES.INTEGER,
 				allowNull: false
@@ -46,6 +50,12 @@ module.exports = {
 			return queryInterface.addIndex( TABLE_NAME, ['user_id'] );
 		})
 		.then(() => {
+			return queryInterface.addIndex( TABLE_NAME, ['author_id'] );
+		})
+		.then(() => {
+			return queryInterface.addIndex( TABLE_NAME, ['group_id'] );
+		})
+		.then(() => {
 			return queryInterface.addIndex( TABLE_NAME, ['post_id'] );
 		})
 		.then(() => {
@@ -59,6 +69,12 @@ module.exports = {
 		return queryInterface.removeIndex( TABLE_NAME, ['user_id'] )
 		.then(() => {
 			return queryInterface.removeIndex( TABLE_NAME, ['post_id'] );
+		})
+		.then(() => {
+			return queryInterface.removeIndex( TABLE_NAME, ['author_id'] );
+		})
+		.then(() => {
+			return queryInterface.removeIndex( TABLE_NAME, ['group_id'] );
 		})
 		.then(() => {
 			return queryInterface.removeIndex( TABLE_NAME, 'user_id-post_id_compound-unique' );

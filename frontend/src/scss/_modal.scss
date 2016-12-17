@@ -44,6 +44,34 @@ $TRANSITION-DURATION: 0.3s;
 
 		.content {
 
+			.user-list {
+				padding-left: 40px;
+				list-style-type: none;
+				li {
+					background: $SECONDARY-LIGHT;
+					color: $WHITE;
+					padding: 4px 8px;
+					margin: 2px;
+					display: inline-block;
+					&:after {
+						content: " ";
+						width: 15px;
+						height: 15px;
+						float: right;
+						margin-top: 2px;
+						margin-left: 4px;
+						background-image: url(../img/plus.png);
+						background-repeat: no-repeat;
+						background-size: 15px 15px;
+						background-size: 15px 15px;
+						background-image: url(../img/minus.png);
+					}
+					&:hover {
+						background: $RED;
+					}
+				}
+			}
+
 			label {
 				width: 140px;
 				display: block;
@@ -172,7 +200,6 @@ $TRANSITION-DURATION: 0.3s;
 				margin-right: 10px;
 				& > input[type="radio"] {
 					position: relative;
-					float: left;
 					&:after {
 						z-index: 202;
 						top: 9px;

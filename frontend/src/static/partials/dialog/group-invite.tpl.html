@@ -1,6 +1,6 @@
-<div class="modal" ng-controller="SendNewMessageController as ctrl">
+<div class="modal" ng-controller="GroupInvitationController as ctrl">
     <div class="container">
-        <h4>{{ 'MODALS.SEND_NEW_MESSAGE.TITLE' |translate }}</h4>
+        <h4 data-ng-bind-html=" 'MODALS.GROUP_INVITE.TITLE' | translate : {group:ctrl.profile} | htmlSafe"></h4>
         <a class="close" ng-click="cancel()"></a>
         <div class="content">
             <form>
@@ -8,7 +8,7 @@
                     <label 
                         for="recipient"
                     >
-                        {{ 'MODALS.SEND_NEW_MESSAGE.SELECT_RECIPIENT' |translate }}*
+                        {{ 'MODALS.GROUP_INVITE.SELECT_RECIPIENT' |translate }}*
                     </label> 
                     <custom-select
                         model="recipient"
@@ -16,7 +16,7 @@
                         collection="ctrl.userAllFriends"
                         key="username"
                         value="fullname"
-                        placeholder="{{'MODALS.SEND_NEW_MESSAGE.SELECT_RECIPIENT_PLACEHOLDER' | translate}}"
+                        placeholder="{{'MODALS.GROUP_INVITE.SELECT_RECIPIENT_PLACEHOLDER' | translate}}"
                     >
                         <custom-select-selected>
                             <strong>{{$parent.$select.model.fullname}}</strong> @{{$parent.$select.model.username}}
@@ -31,36 +31,32 @@
                         </custom-select-item>
                     </custom-select>
                 </p>
-                <p ng-if="error.recipient">Recipient not selected</p>
                 <p>
-                    <label for="message">
-                        {{ 'MODALS.SEND_NEW_MESSAGE.MESSAGE' |translate }}*
-                    </label>
-                    <textarea 
-                        rows="3"
-                        class="msd-elastic" 
-                        name="message" 
-                        ng-model="message"
-                        placeholder="{{ 'MODALS.SEND_NEW_MESSAGE.PLACEHOLDER' |translate }}"
-                    >
-                    </textarea>
+                    <ul class="user-list">
+                        <li 
+                            ng-repeat=" user in ctrl.users "
+                            ng-click=" ctrl.removeUser( user ) "
+                        >
+                            {{user.fullname}}
+                        </li>
+                    </ul>
                 </p>
-                <p ng-if="error.message">{{ 'MODALS.SEND_NEW_MESSAGE.ERROR.MESSAGE' | translate }}</p>
+                <p ng-if="error.users">{{'MODALS.GROUP_INVITE.ERROR.NO_RECIPIENT' | translate}}</p>
                 <p ng-if="error.backend" class="hint negative">{{error.backend}}</p>
             </form>
         </div>
         <div class="actions">
                <modal-button
                     class-name="'confirm'"
-                    callback="ctrl.sendMessage(recipient, message, error, ok)"
+                    callback="ctrl.inviteUsers(error, ok)"
                 >
-                    {{ 'MODALS.SEND_NEW_MESSAGE.OK' |translate }}
+                    {{ 'MODALS.GROUP_INVITE.OK' |translate }}
                 </modal-button>
                 <modal-button
                     class-name="'cancel'"
                     callback="cancel()"
                 >
-                    {{ 'MODALS.SEND_NEW_MESSAGE.CANCEL' |translate }}
+                    {{ 'MODALS.GROUP_INVITE.CANCEL' |translate }}
                 </modal-button>
         </div>
     </div>

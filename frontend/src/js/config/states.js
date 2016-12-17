@@ -22,7 +22,9 @@ const STATES = {
 			LIKED: 'groupBySlug.liked',
 			MEMBERS: 'groupBySlug.members',
 			JOIN_REQUESTS: 'groupBySlug.joinRequests',
-			COLLECTION: 'groupBySlug.collection'
+			COLLECTION: 'groupBySlug.collection',
+			FILTERED: 'groupBySlug.filtered',
+			INVITATION: 'groupBySlug.invitation'
 		},
 		NOTIFICATIONS: 'notifications',
 		MESSAGES: {

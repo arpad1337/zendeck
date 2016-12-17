@@ -226,7 +226,7 @@ class FeedService {
 				where: {
 					userId: userId,
 					groupId: groupId,
-					collectionId: collectionId,
+					collectionId: collectionIds,
 					approved: true
 				},
 				limit: PostService.LIMIT,
@@ -245,7 +245,7 @@ class FeedService {
 				attributes: ['postId','liked', 'collectionId'],
 				where: {
 					userId: friendId,
-					collectionId: collectionId,
+					collectionId: collectionIds,
 					approved: true
 				},
 				limit: PostService.LIMIT,
@@ -515,6 +515,7 @@ class FeedService {
 				}
 				idSet.add(id);
 				let model = {
+					authorId: userId,
 					userId: id,
 					postId: postId,
 					liked: false,
@@ -544,28 +545,30 @@ class FeedService {
 	}
 
 	likePostByUserId( userId, postId ) {
-		console.log('WHOOOOOOT');
-		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.update({ 
-			liked: true
-		}, {
-			where: {
+		return this.postService.getPostById( postId ).then((post) => {
+			const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+			return FeedModel.update({ 
+				liked: true,
 				userId: userId,
-				postId: postId
-			}
-		}).then(() => {
-			return this.postService.getPostById( postId ).then((post) => {
-				if( post.userId === userId ) {
-					return; // self-like won't create a notif
+				postId: postId,
+				authorId: post.userId
+			}, {
+				where: {
+					userId: userId,
+					postId: postId
 				}
-				return this.notificationService.createNotification( post.userId, this.notificationService.NOTIFICATION_TYPE.POST_LIKE, {
-					user: {
-						id: userId
-					},
-					post: {
-						id: postId
-					}
-				});
+			}).then((model) => {
+				if( post.userId !== userId ) {
+					this.notificationService.createNotification( post.userId, this.notificationService.NOTIFICATION_TYPE.POST_LIKE, {
+						user: {
+							id: userId
+						},
+						post: {
+							id: postId
+						}
+					});
+				}
+				return model;
 			});
 		});
 	}
@@ -599,6 +602,75 @@ class FeedService {
 				approved: true
 			}
 		}).then((r) => !!r);
+	}
+
+	userFollowOther( userId, otherId ) {
+		return new Promise((resolve, reject) => {	
+			const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+			return this.postService.getPostIdsByUserId(otherId).then((ids) => {
+				let buffer = [];
+				ids.forEach((id, index) => {
+					buffer.push({
+						userId: userId,
+						postId: id,
+						authorId: otherId
+					});
+					if( index === PostService.LIMIT - 1 ) {
+						FeedModel.bulkCreate( buffer.splice(0, PostService.LIMIT) );
+						resolve();
+					}
+				});
+				if( ids.length < PostService.LIMIT ) {
+					resolve();
+				}
+				return FeedModel.bulkCreate( buffer );
+			}).catch(reject);
+		});
+	}
+
+	userUnfollowOther( userId, otherId ) {
+		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+		return FeedModel.destroy({
+			where: {
+				userId: userId,
+				authorId: otherId
+			}
+		});
+	}
+
+	userJoinToGroup( userId, groupId ) {
+		return new Promise((resolve, reject) => {	
+			const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+			return this.postService.getPostIdsAndAuthorByGroupId(groupId).then((ids) => {
+				let buffer = [];
+				ids.forEach((id, index) => {
+					buffer.push({
+						userId: userId,
+						postId: id.id,
+						groupId: groupId,
+						authorId: id.userId
+					});
+					if( index === PostService.LIMIT - 1 ) {
+						FeedModel.bulkCreate( buffer.splice(0, PostService.LIMIT) );
+						resolve();
+					}
+				});
+				if( ids.length < PostService.LIMIT ) {
+					resolve();
+				}
+				return FeedModel.bulkCreate( buffer );
+			});
+		});
+	}
+
+	userLeaveGroup( userId, groupId ) {
+		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+		return FeedModel.destroy({
+			where: {
+				userId: userId,
+				groupId: groupId
+			}
+		});
 	}
 
 	static get instance() {

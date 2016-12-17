@@ -24,6 +24,7 @@
 		type="text" 
 		class="predicate" 
 		ng-model="vm.predicate"
+		enter-press="vm.onEnter()"
 		placeholder="{{ ( vm.placeholder ) ? vm.placeholder : 'Type here' }}"
 	>
 	<button

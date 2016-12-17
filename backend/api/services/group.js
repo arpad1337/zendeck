@@ -42,7 +42,6 @@ class GroupService {
 	get notificationService() {
 		if( !this._notificationService) {
 			this._notificationService = NotificationService.instance;
-			console.log(this._notificationService);
 		}
 		return this._notificationService;
 	}
@@ -90,45 +89,63 @@ class GroupService {
 		})
 	}
 
-	inviteUsersToGroup( userId, groupSlug, emails ) {
-		return this.userService.getUsersByEmails( emails ).then((users) => {
-			let userIds = users.map((user) => {
-				return user.id;
+	inviteUsersToGroup( userId, groupSlug, users ) {
+		let emails = new Set();
+		let userIds = new Set();
+		users.forEach((user) => {
+			if( user.email ) {
+				emails.add( user.email );
+			}
+			if( user.id ) {
+				userIds.add( user.id );
+			}  
+		});
+		return Promise.all([
+			this.userService.getUsersByIds( Array.from(userIds) ),
+			this.userService.getUsersByEmails( Array.from(emails) )
+		]).then((values) => {
+			let registeredUsers = values[0].concat(values[1]);
+			registeredUsers.forEach((user) => {
+				emails.add( user.email );
+				userIds.add( user.id );
 			});
-			return this.getGroupBySlug( groupSlug ).then((group) => {
-				return this.isUserApprovedMemberOfGroup( userId, group.id ).then((isApproved) => {
-					if( !isApproved ) {
-						throw new Error('Unauthorized');
-					}
-					return this.invitationService.createInvitation( userId, 'GROUP_INVITATION', {
-						group: {
-							id: group.id
-						},
-						emails: emails
-					}).then((invitationKey) => {
-						const email = HTMLEMailFactory.createGroupInvitationEmail({
-							ACTION_URL: ENV.BASE_URL + '/groups/' + groupSlug + '/invitation/' + invitationKey,
-							USERNAME: user.username,
-							FULLNAME: user.fullname,
-							GROUPNAME: group.name
-						});
-						return this.emailProvider.sendEmail( emails, email.subject, email.body )
-						.then(() => {
-							return true;
-						}).catch((e) => {
-							return false;
-						}).then(() => {
-							return Promise.all( userIds.map((id) => {
-								return this.notificationService.createNotification( id, this.notificationService.NOTIFICATION_TYPE.GROUP_INVITATION, {
-									user: {
-										id: userId
-									},
-									group: {
-										id: group.id
-									},
-									invitationKey: invitationKey
-								});
-							}));
+			console.log(emails, userIds);
+			return this.userService.getUserById( userId ).then((user) => {
+				return this.getGroupBySlug( groupSlug ).then((group) => {
+					return this.isUserApprovedMemberOfGroup( userId, group.id ).then((isApproved) => {
+						if( !isApproved ) {
+							throw new Error('Unauthorized');
+						}
+						return this.invitationService.createInvitation( userId, 'GROUP_INVITATION', {
+							group: {
+								id: group.id
+							},
+							emails: Array.from(emails)
+						}).then((invitationKey) => {
+							const email = HTMLEMailFactory.createGroupInvitationEmail({
+								ACTION_URL: ENV.BASE_URL + '/groups/' + groupSlug + '/invitation/' + invitationKey,
+								USERNAME: user.username,
+								FULLNAME: user.fullname,
+								GROUPNAME: group.name
+							});
+							return this.emailProvider.sendEmail( Array.from(emails), email.subject, email.body )
+							.then(() => {
+								return true;
+							}).catch((e) => {
+								return false;
+							}).then(() => {
+								return Promise.all( Array.from(userIds).map((id) => {
+									return this.notificationService.createNotification( id, this.notificationService.NOTIFICATION_TYPE.GROUP_INVITATION, {
+										user: {
+											id: userId
+										},
+										group: {
+											id: group.id
+										},
+										invitationKey: invitationKey
+									});
+								}));
+							});
 						});
 					});
 				});
@@ -142,19 +159,25 @@ class GroupService {
 			if( invitation ) {
 				return this.getGroupById( invitation.payload.group.id ).then((group) => {
 					return this.isUserAdminOfGroup( invitation.userId, invitation.payload.group.id ).then(( isAdmin ) => {
-						return this.userService.getUserById( userId ).then((user) => {
+						return this.userService.getFullUserById( userId ).then((user) => {
+							console.log('AAAA', user, group, invitation);
 							if( invitation.payload.emails.indexOf( user.email ) === -1 ) {
 								throw new Error('Unauthorized');
 							}
-							return GroupMemberModel.update({
-								approved: ( group.isOpen ) ? true : isAdmin
+
+							let approved = ( group.isOpen ) ? true : isAdmin;
+
+							return GroupMemberModel.upsert({
+								userId: userId,
+								groupId: invitation.payload.group.id,
+								approved: approved
 							}, {
 								where: {
 									userId: userId,
 									groupId: invitation.payload.group.id
 								}
 							}).then( _ => {
-								return this.notificationService.createNotification( invitation.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_INVITATION_ACCEPTED, {
+								this.notificationService.createNotification( invitation.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_INVITATION_ACCEPTED, {
 									user: {
 										id: userId
 									},
@@ -162,11 +185,13 @@ class GroupService {
 										id: invitation.payload.group.id
 									}
 								});
+								return approved;
 							});
 						});
 					});
 				});
 			}
+			return false;
 		});
 	}
 

@@ -52,16 +52,17 @@ class CollectionController extends PostController {
 	loadCollections( ) {
 		return this.collectionService.getUserCollections( this.$state.params.username ).then((collections) => {
 			this._collections = collections;
-			if( this.$state.params.collectionSlug ) {
-				this.selectCollection( this.$state.params.collectionSlug );
-			}
 		});
 	}
 
 	get collections() {
 		if( !this._collections && !this._loading) {
 			this._loading = true;
-			this.loadCollections().catch(_ => {
+			this.loadCollections().then(_ => {
+				if( this.$state.params.collectionSlug ) {
+					this.selectCollection( this.$state.params.collectionSlug );
+				}
+			}).catch(_ => {
 				this._collections = [];
 			}).finally(() => {
 				this._loading = false;

@@ -6,23 +6,23 @@
 		"FORGOT_PASSWORD": {
 			"SUBJECT": "Password reset requested at ZenDeck.co",
 			"TITLE": "Password reset requested",
-			"DESCIPTION": "You have requested a password reset at ZenDeck.co",
+			"DESCRIPTION": "You have requested a password reset at ZenDeck.co",
 			"ACTION": "Reset my password",
-			"BODY": "<h2>Dear @{{USERNAME}}</h2><p>You have requested a password reset at {{DATE}}. <br><br>Click the link below to reset your password:</p>"
+			"BODY": "<h3>Dear @{{USERNAME}}</h3><p>You have requested a password reset at {{DATE}}. <br><br>Click the link below to reset your password:</p>"
 		},
 		"PLATFORM_INVITATION": {
 			"SUBJECT": "{{FULLNAME}} invited you to ZenDeck",
 			"TITLE": "Platform invitation",
-			"DESCIPTION": "{{FULLNAME}} invited you to ZenDeck",
+			"DESCRIPTION": "{{FULLNAME}} invited you to ZenDeck",
 			"ACTION": "Accept invitation",
-			"BODY": "<h2>{{FULLNAME}} <small>@{{USERNAME}}</small> invited you to join their network at ZenDeck</h2><p><br><br>Click the link below and join to ZenDeck to be amongst the pioneers:</p>"
+			"BODY": "<h3>{{FULLNAME}} <small>@{{USERNAME}}</small> invited you to join their network at ZenDeck</h3><p><br><br>Click the link below and join to ZenDeck to be amongst the first users:</p>"
 		},
 		"GROUP_INVITATION": {
-			"SUBJECT": "You have been invited to {{GROUPNAME}} group at ZenDeck",
+			"SUBJECT": "You have been invited to {{GROUPNAME}} Group at ZenDeck",
 			"TITLE": "Group invitation",
-			"DESCIPTION": "{{FULLNAME}} invited you to {{GROUPNAME}} ZenDeck",
+			"DESCRIPTION": "{{FULLNAME}} invited you to join {{GROUPNAME}} Group at ZenDeck",
 			"ACTION": "Accept invitation",
-			"BODY": "<h2>{{FULLNAME}} <small>@{{USERNAME}}</small> invited you to join {{GROUPNAME}} group at ZenDeck</h2><p><br><br>Click the link below and join to ZenDeck to be amongst the pioneers:</p>"
+			"BODY": "<h3>{{FULLNAME}} <i>@{{USERNAME}}</i> invited you to join {{GROUPNAME}} Group at ZenDeck</h3><p><br>Click the link below and join to ZenDeck to be amongst the first users:</p>"
 		}
 	}
 }

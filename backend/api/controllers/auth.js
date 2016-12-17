@@ -120,6 +120,20 @@ class AuthController {
 		}
 	}
 
+	*sendFeedback( context ) {
+		const sender = context.session.user.id;
+		const content = context.request.fields.content;
+		try {
+			let success = yield this.authService.sendFeedback( sender, content );
+			context.body = {
+				success: success
+			};
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw(e);
+		}
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const authService = AuthService.instance;

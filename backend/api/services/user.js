@@ -36,14 +36,21 @@ class UserService {
 					username: {
 						$like: predicate + '%'
 					},
-					userId: {
+					id: {
 						$ne: userId
 					}
 				},{
 					fullname: {
 						$like: predicate + '%'
 					},
-					userId: {
+					id: {
+						$ne: userId
+					}
+				},{
+					email: {
+						$like: predicate + '%'
+					},
+					id: {
 						$ne: userId
 					}
 				}]
@@ -68,12 +75,29 @@ class UserService {
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		return UserModel.findAll({
 			where: {
-				userId: {
-					$ne: userId
+				$or: [{
+					username: {
+						$like: predicate + '%'
+					},
+					id: {
+						$ne: userId
+					}
+				},{
+					fullname: {
+						$like: predicate + '%'
+					},
+					id: {
+						$ne: userId
+					}
 				},
-				username: {
-					$like: predicate + '%'
-				}
+				{
+					email: {
+						$like: predicate + '%'
+					},
+					id: {
+						$ne: userId
+					}
+				}]
 			},
 			limit: 20,
 			offset: ((page - 1) * 20)
@@ -124,6 +148,16 @@ class UserService {
 				id: id
 			}
 		}).then( model => model.getPublicView() );
+	}
+
+	getFullUserById( id ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		id = Number( id );
+		return UserModel.findOne({
+			where: {
+				id: id
+			}
+		}).then( model => model.get() );
 	}
 
 	getUserAuthorViewById( id ) {

@@ -17,6 +17,10 @@ class PostService {
 		return 20;
 	}
 
+	static get HISTORY_LIMIT() {
+		return 100000;
+	}
+
 	constructor( databaseProvider, userService, commentService, groupService, attachmentService ) {
 		this.databaseProvider = databaseProvider;
 		this.userService = userService;
@@ -118,13 +122,51 @@ class PostService {
 		const PostModel = this.databaseProvider.getModelByName('post');
 		return PostModel.findAll({
 			where: {
-				userId: userId
+				userId: userId,
+				groupId: null,
 			},
 			limit: PostService.LIMIT,
 			offset: (( page - 1 ) * PostService.LIMIT),
 		}).then(( models ) => {
 			if( models ) {
 				return models.map(( m ) => m.get('id'));
+			}
+			return [];
+		});
+	}
+
+	getPostIdsByUserId( userId ) {
+		const PostModel = this.databaseProvider.getModelByName('post');
+		return PostModel.findAll({
+			where: {
+				userId: userId,
+				groupId: null
+			},
+			attributes: ['id','userId'],
+			limit: PostService.HISTORY_LIMIT,
+			offset: 0,
+			raw: true
+		}).then(( models ) => {
+			if( models ) {
+				return models.map(m => m.id);
+			}
+			return [];
+		});
+	}
+
+	getPostIdsAndAuthorByGroupId( groupId ) {
+		const PostModel = this.databaseProvider.getModelByName('post');
+		return PostModel.findAll({
+			where: {
+				groupId: groupId
+			},
+			attributes: ['id','userId'],
+			limit: PostService.HISTORY_LIMIT,
+			offset: 0,
+			raw: true
+		}).then(( models ) => {
+			if( models ) {
+				return models;
 			}
 			return [];
 		});
