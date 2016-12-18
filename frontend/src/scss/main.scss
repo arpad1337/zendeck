@@ -111,10 +111,22 @@ main {
     background: $MAIN-DARK;
     color: $WHITE;
     border: none;
+    text-align: left;
+    width: 160px;
     &:before {
         content: "?";
-        font-size: 36px;
+        font-size: 16px;
+        font-weight: bold;
         float: left;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        display: block;
+        margin: 4px 2px 2px 0;
+        @include border-radius(50px);
+        background: $WHITE;
+        color:$MAIN-DARK;
+        text-align: center;
     }
     &.show {
         display: block;

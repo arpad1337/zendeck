@@ -25,7 +25,19 @@ body > header {
 		cursor: pointer;
 		margin-top: -2px;
 		float: left;
+		position: relative;
 		@include text-shadow(1px 1px 0px rgba(50, 50, 50, 0.15));
+
+		&:after{
+			display: block;
+			content: "β";
+			font-size: 17px;
+			font-weight: bold;
+			font-style: italic;
+			position: absolute;
+			right: -12px;
+			top: -10px;
+		}
 	}
 	nav {
 		position: absolute;
