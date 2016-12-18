@@ -63,6 +63,12 @@ const ROUTES = [
 		action: 'sendFeedback',
 		middlewares: ['session-check']
 	},
+	{
+		path: '/auth/subscribe',
+		controller: 'auth',
+		method: 'post',
+		action: 'subscribe'
+	},
 
 	// USER
 

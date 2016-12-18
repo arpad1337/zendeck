@@ -86,18 +86,18 @@ module.exports = {
 			}
 		}).then(() => {
 			return queryInterface.addIndex( TABLE_NAME, ['username'], {
-				indexName: 'username_unique',
+				indexName: 'user_username_unique',
 				indicesType: 'UNIQUE'
 			});
 		}).then(() => {
 			return queryInterface.addIndex( TABLE_NAME, ['email'], {
-				indexName: 'email_unique',
+				indexName: 'user_email_unique',
 				indicesType: 'UNIQUE'
 			});
 		}).then(() =>  {
 			return queryInterface.bulkInsert( TABLE_NAME, [
 				{
-					username: 'system',
+					username: 'zendeck',
 					enabled: true,
 					fullname: 'ZenDeck',
 					profile_color: '#00BFFF',
@@ -112,8 +112,8 @@ module.exports = {
 		});
 	},
 	down: ( queryInterface, TYPES ) => {
-		return queryInterface.removeIndex( TABLE_NAME, 'username_unique' ).then(() => {
-			return queryInterface.removeIndex( TABLE_NAME, 'email_unique' );
+		return queryInterface.removeIndex( TABLE_NAME, 'user_username_unique' ).then(() => {
+			return queryInterface.removeIndex( TABLE_NAME, 'user_email_unique' );
 		}).then(() => {
 			return queryInterface.dropTable( TABLE_NAME );
 		});

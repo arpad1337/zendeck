@@ -81,20 +81,22 @@ class AuthService {
 		});
 	}
 
-	inviteUsers( userId, emails ) {
+	inviteUsers( userId, users ) {
+		let emails = users.map( u => u.email );
 		return this.userService.getUserById( userId ).then((user) => {
 			return this.invitationService.createInvitation( userId, 'PLATFORM_INVITATION' ).then((invitationKey) => {
-					const email = HTMLEMailFactory.createPlatformInvitationEmail({
-						ACTION_URL: ENV.BASE_URL + '/invitation/' + invitationKey,
-						USERNAME: user.username,
-						FULLNAME: user.fullname
-					});
-					return this.emailProvider.sendEmail( emails, email.subject, email.body );
-				}).then(() => {
-					return true;
-				}).catch((e) => {
-					return false;
+				const email = HTMLEMailFactory.createPlatformInvitationEmail({
+					ACTION_URL: ENV.BASE_URL + '/invitation/' + invitationKey,
+					USERNAME: user.username,
+					FULLNAME: user.fullname
 				});
+				return this.emailProvider.sendEmail( emails, email.subject, email.body );
+			}).then(() => {
+				return true;
+			}).catch((e) => {
+				console.log(e, emails);
+				return false;
+			});
 		});
 	}
 
@@ -187,6 +189,14 @@ class AuthService {
 					return user;
 				});
 			});
+		});
+	}
+
+	subscribe( name, email ) {
+		const SubscriberModel = this.databaseProvider.getModelByName( 'subscriber' );
+		return SubscriberModel.create({
+			name: name,
+			email: email
 		});
 	}
 

@@ -18,7 +18,7 @@ class PostService {
 	}
 
 	static get HISTORY_LIMIT() {
-		return 100000;
+		return 10000;
 	}
 
 	constructor( databaseProvider, userService, commentService, groupService, attachmentService ) {
@@ -280,6 +280,28 @@ class PostService {
 				});
 			}
 			return [];
+		});
+	}
+
+	likePost( postId ) {
+		const PostModel = this.databaseProvider.getModelByName('post');
+		return this.getPostById( postId ).then((post) => {
+			return PostModel.update({likes: post.likes + 1}, {
+				where: {
+					id: postId
+				}
+			});
+		});
+	}
+
+	dislikePost( postId ) {
+		const PostModel = this.databaseProvider.getModelByName('post');
+		return this.getPostById( postId ).then((post) => {
+			return PostModel.update({likes: post.likes - 1}, {
+				where: {
+					id: postId
+				}
+			});
 		});
 	}
 

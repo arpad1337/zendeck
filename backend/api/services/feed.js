@@ -558,6 +558,7 @@ class FeedService {
 					postId: postId
 				}
 			}).then((model) => {
+				this.postService.likePost( postId );
 				if( post.userId !== userId ) {
 					this.notificationService.createNotification( post.userId, this.notificationService.NOTIFICATION_TYPE.POST_LIKE, {
 						user: {
@@ -580,6 +581,9 @@ class FeedService {
 				userId: userId,
 				postId: postId
 			}
+		}).then((_) => {
+			this.postService.dislikePost( postId );
+			return _;
 		});
 	}
 
@@ -616,8 +620,7 @@ class FeedService {
 						authorId: otherId
 					});
 					if( index === PostService.LIMIT - 1 ) {
-						FeedModel.bulkCreate( buffer.splice(0, PostService.LIMIT) );
-						resolve();
+						FeedModel.bulkCreate( buffer.splice(0, PostService.LIMIT) ).then(resolve);
 					}
 				});
 				if( ids.length < PostService.LIMIT ) {
@@ -651,8 +654,7 @@ class FeedService {
 						authorId: id.userId
 					});
 					if( index === PostService.LIMIT - 1 ) {
-						FeedModel.bulkCreate( buffer.splice(0, PostService.LIMIT) );
-						resolve();
+						FeedModel.bulkCreate( buffer.splice(0, PostService.LIMIT) ).then(resolve);
 					}
 				});
 				if( ids.length < PostService.LIMIT ) {

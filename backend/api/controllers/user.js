@@ -11,7 +11,6 @@ class UserController {
 	constructor( userService, friendService, workerService, s3Provider ) {
 		this.userService = userService;
 		this.friendService = friendService;
-
 	}
 
 	*getCurrentUser( context ) {

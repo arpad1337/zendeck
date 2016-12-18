@@ -108,9 +108,9 @@ class AuthController {
 
 	*inviteUsers( context ) {
 		const userId = context.session.user.id;
-		const emails = context.request.fields.emails;
+		const users = context.request.fields.users;
 		try {
-			let success = yield this.authService.inviteUsers( userId, emails );
+			let success = yield this.authService.inviteUsers( userId, users );
 			context.body = {
 				success: success
 			};
@@ -128,6 +128,17 @@ class AuthController {
 			context.body = {
 				success: success
 			};
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw(e);
+		}
+	}
+
+	*subscribe( context ) {
+		const name = context.request.fields.name;
+		const email = context.request.fields.email;
+		try {
+			context.body = yield this.authService.subscribe( name, email );
 		} catch( e ) {
 			console.error(e, e.stack);
 			context.throw(e);
