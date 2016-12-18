@@ -102,6 +102,25 @@ main {
     padding-bottom: 20px;
 }
 
+.feedback {
+    display: none;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 10000;
+    background: $MAIN-DARK;
+    color: $WHITE;
+    border: none;
+    &:before {
+        content: "?";
+        font-size: 36px;
+        float: left;
+    }
+    &.show {
+        display: block;
+    }
+}
+
 section {
     display: block;
     float: left;

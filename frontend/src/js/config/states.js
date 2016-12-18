@@ -40,6 +40,11 @@ const STATES = {
 			FOLLOWERS: 'profile.followers',
 			COLLECTION: 'profile.collection'
 		},
+		SEARCH: {
+			SELF: 'search',
+			USERS: 'search.users',
+			GROUPS: 'search.groups'
+		},
 		SETTINGS: {
 			SELF: 'settings',
 			PROFILE: 'settings.profile',

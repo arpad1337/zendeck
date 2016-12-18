@@ -24,6 +24,7 @@ body > header {
 		text-indent: 20px;
 		cursor: pointer;
 		margin-top: -2px;
+		float: left;
 		@include text-shadow(1px 1px 0px rgba(50, 50, 50, 0.15));
 	}
 	nav {
@@ -321,7 +322,7 @@ body > header {
 					outline: none;
 				}
 			}
-			&.show-results .results {
+			&.opened .results {
 				display: block;
 			}
 
@@ -345,25 +346,39 @@ body > header {
 				width: 260px;
 				left: 14px;
 				line-height: 18px;
-				h4 {
-					margin: -8px;
-					padding: 8px;
-					text-transform: uppercase;
-				}
-				a {
-					text-decoration: none;
+				top: 40px;
+				& > span {
 					padding: 8px;
 					font-size: 14px;
 					color:$WHITE;
 					background: $MAIN-DARK;
-					display: block;
 					border-top: 1px solid $MAIN-LIGHT;
+					display: block;
 					&:hover, .label:hover {
 						background: $MAIN-LIGHT;
 					}
-					&.more {
-						text-transform: uppercase;
-						text-align: center;
+					a {
+						color: $WHITE;
+						text-decoration: none;
+						display: block;
+						&.more {
+							text-transform: uppercase;
+							text-align: center;
+						}
+						// &.group:after {
+						// 	content: " ";
+						// 	width: 16px;
+						// 	height: 16px;
+						// 	display: block;
+						// 	float: right;
+						// 	background: transparent;
+						// 	padding: 2px;
+						// 	background-position: 2px 2px;
+						// 	margin-right: 4px;
+						// 	background-image: url(../img/members.png);
+						// 	background-repeat: no-repeat;
+						// 	background-size: 16px 16px;
+						// }
 					}
 				}
 			}

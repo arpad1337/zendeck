@@ -1,0 +1,27 @@
+<div class="modal" ng-controller="FeedbackController as ctrl">
+    <div class="container">
+        <h4>{{ 'MODALS.FEEDBACK.TITLE' | translate }}</h4>
+        <a class="close" ng-click="cancel()"></a>
+        <div class="content">
+            <p>
+                <label for="message">
+                    {{ 'MODALS.FEEDBACK.MESSAGE' |translate }}*
+                </label>
+                <textarea 
+                    rows="3"
+                    class="msd-elastic" 
+                    name="message" 
+                    ng-model="message"
+                    placeholder="{{ 'MODALS.FEEDBACK.PLACEHOLDER' |translate }}"
+                >
+                </textarea>
+            </p>
+            <p ng-if="error.message">{{ 'MODALS.FEEDBACK.ERROR.MESSAGE' | translate }}</p>
+            <p ng-if="error.backend" class="hint negative">{{error.backend}}</p>
+        </div>
+        <div class="actions">
+            <button class="confirm" ng-click="ctrl.sendFeedback( message, error, ok )">{{ 'MODALS.FEEDBACK.OK' | translate }}</button>
+             <button class="cancel" ng-click="cancel()">{{ 'MODALS.FEEDBACK.CANCEL' | translate }}</button>
+        </div>
+    </div>
+</div>

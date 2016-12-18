@@ -51,8 +51,9 @@ class GroupService {
 		return GroupModel.findAll({
 			where: {
 				name: {
-					$like: predicate + '%'
-				}
+					$iLike: predicate + '%'
+				},
+				isPublic: true
 			},
 			limit: 10
 		}).then((models) => {
@@ -75,7 +76,7 @@ class GroupService {
 		return GroupModel.findAll({
 			where: {
 				name: {
-					$like: predicate + '%'
+					$iLike: predicate + '%'
 				},
 				isPublic: true
 			},

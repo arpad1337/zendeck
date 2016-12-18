@@ -246,6 +246,14 @@
 				"NAME": "You must type a valid name"
 			}
 		},
+		"FEEDBACK": {
+			"TITLE": "Send us feedback",
+			"OK": "Send",
+			"CANCEL": "Cancel",
+			"ERROR": {
+				"MESSAGE": "Please type your message"
+			}
+		},
 		"SUBSCRIPTION_SUCCESFUL": {
 			"TITLE": "Subscription successful",
 			"MESSAGE": "You have succesfully subscribed to the ZenDeck newsletter.<br><br>Thank you!",

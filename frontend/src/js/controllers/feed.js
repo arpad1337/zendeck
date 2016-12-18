@@ -17,7 +17,8 @@ class FeedController extends CollectionController {
 			'UserService',
 			'ModalService',
 			'CollectionService',
-			'GroupService'
+			'GroupService',
+			'MessageBusService'
 		];
 	}
 
@@ -30,7 +31,8 @@ class FeedController extends CollectionController {
 		userService, 
 		modalService, 
 		collectionService, 
-		groupService
+		groupService,
+		messageBus
 	) {
 		super( $state, feedService, collectionService, modalService, 'FEED' );
 		this.$scope = $scope;
@@ -43,6 +45,9 @@ class FeedController extends CollectionController {
 		this.userService = userService;
 		this.collectionService = collectionService;
 		this.groupService = groupService;
+		this.messageBus = messageBus;
+
+		this.onTempFilter = this.onTempFilter.bind(this);
 
 		this._initState();
 	}
@@ -79,7 +84,17 @@ class FeedController extends CollectionController {
 		if( this.$state.current.name === this.FEED_STATES.POSTS ) {
 			this.selectFeed();
 		}
-		
+		this.messageBus.on( this.messageBus.MESSAGES.UI_EVENTS.TEMP_FILTER_CREATED, this.onTempFilter );
+		this.$scope.$on('$destroy', this.destructor.bind(this));
+	}
+
+	onTempFilter( filter ) {
+		this.$state.go(STATES.APPLICATION.FEED.FILTERED, {filterSlug: filter.slug});
+		this.selectFilter( filter.slug );
+	}
+
+	destructor() {
+		this.messageBus.removeListener( this.messageBus.MESSAGES.UI_EVENTS.TEMP_FILTER_CREATED, this.onTempFilter );
 	}
 
 	async getMorePosts() {

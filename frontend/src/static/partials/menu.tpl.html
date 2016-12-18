@@ -1,9 +1,46 @@
 <nav ng-controller="MenuController as ctrl">
     <div class="fleft">
-        <div class="search" ng-controller="SearchController as ctrl">
+        <div 
+            class="search" 
+            ng-controller="SearchController as ctrl"
+            ng-class="{opened:ctrl.opened}"
+            ng-mouseenter="ctrl.opened=true;"
+            ng-mouseleave="ctrl.opened=false;"
+        >
             <div style="position: relative">
-            <input type="text" name="search" placeholder="{{ctrl.currentSearchTerm}}" ng-model="ctrl.currentSearchTerm">
+            <input 
+                type="text" 
+                name="search" 
+                placeholder="{{ctrl.currentSearchTerm}}" 
+                ng-model="ctrl.currentSearchTerm"
+            >
             <button class="icon"></button>
+            </div>
+            <div class="results" ng-if="ctrl.results.length > 0 || ctrl.currentSearchTerm.length > 0">
+                <span ng-repeat="result in ctrl.results">
+                    <a 
+                        ng-if="result.type=='user'" 
+                        ui-sref="profile.posts({username:result.data.username})"
+                    >
+                        User: <strong>{{result.data.fullname}}</strong> @{{result.data.username}}
+                    </a>
+                    <a 
+                        ng-if="result.type=='group'" 
+                        ui-sref="groupBySlug.posts({groupSlug:result.data.slug})"
+                    >
+                        Group: <strong>{{result.data.name}}</strong>
+                    </a>
+                </span>
+                <span>
+                    <a ng-click="ctrl.gotoFilter()">
+                        Filter with 
+                        <span class="label" ng-repeat="tag in ctrl.tagsFromPredicate">{{tag}}</span>
+                        <span ng-if="ctrl.inGroup">in group</span>
+                    </a>
+                </span>
+                <span>
+                    <a ui-sref="search.users({predicate:ctrl.currentSearchTerm})" class="more">more results</a>
+                </span>
             </div>
         </div>
     </div>

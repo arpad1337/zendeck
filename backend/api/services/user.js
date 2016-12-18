@@ -34,26 +34,20 @@ class UserService {
 			where: {
 				$or: [{
 					username: {
-						$like: predicate + '%'
-					},
-					id: {
-						$ne: userId
+						$iLike: predicate + '%'
 					}
 				},{
 					fullname: {
-						$like: predicate + '%'
-					},
-					id: {
-						$ne: userId
+						$iLike: predicate + '%'
 					}
 				},{
 					email: {
-						$like: predicate + '%'
-					},
-					id: {
-						$ne: userId
+						$iLike: predicate + '%'
 					}
-				}]
+				}],
+				id: {
+					$ne: userId
+				}
 			},
 			limit: 10
 		}).then((models) => {
@@ -77,27 +71,21 @@ class UserService {
 			where: {
 				$or: [{
 					username: {
-						$like: predicate + '%'
-					},
-					id: {
-						$ne: userId
+						$iLike: predicate + '%'
 					}
 				},{
 					fullname: {
-						$like: predicate + '%'
-					},
-					id: {
-						$ne: userId
+						$iLike: predicate + '%'
 					}
 				},
 				{
 					email: {
-						$like: predicate + '%'
-					},
-					id: {
-						$ne: userId
+						$iLike: predicate + '%'
 					}
-				}]
+				}],
+				id: {
+					$ne: userId
+				}
 			},
 			limit: 20,
 			offset: ((page - 1) * 20)

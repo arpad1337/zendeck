@@ -77,6 +77,9 @@ class FilterService {
 	}
 
 	createNewFilter( payload ) {
+		if( payload.tags.length == 0 ) {
+			return this.$q.reject('Tags must be set');
+		}
 		return this.$http.post( CONFIG.API_PATH + '/user/me/filter', {
 			name: payload.name,
 			tags: payload.tags,
@@ -88,6 +91,9 @@ class FilterService {
 	}
 
 	createNewGroupFilter( slug, payload ) {
+		if( payload.tags.length == 0 ) {
+			return this.$q.reject('Tags must be set');
+		}
 		return this.$http.post( CONFIG.API_PATH + '/group/'+slug+'/filter', {
 			name: payload.name,
 			tags: payload.tags,

@@ -27,7 +27,8 @@ const DIALOG_TYPE = new Enum([
 	'EDIT_GROUP',
 	'GROUP_INVITE',
 	'PLATFORM_INVITE',
-	'MESSAGE'
+	'MESSAGE',
+	'FEEDBACK'
 ], 'DIALOG_TYPE');
 
 const DIALOG_DESCIPTORS = {};
@@ -116,6 +117,12 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.MESSAGE.toString() ] = {
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.PLATFORM_INVITE.toString() ] = {
 	templateUrl: '/partials/dialog/platform-invite.tpl.html'
+}
+
+// FEEDBACK
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.PLATFORM_INVITE.toString() ] = {
+	templateUrl: '/partials/dialog/feedback.tpl.html'
 }
 
 export {

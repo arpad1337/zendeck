@@ -19,11 +19,12 @@ class GroupBySlugController extends CollectionController {
 			'CollectionService',
 			'GroupService',
 			'FileUploadService',
-			'FilterService'
+			'FilterService',
+			'MessageBusService'
 		];
 	}
 
-	constructor( $scope, $state, feedService, friendService, userService, modalService, collectionService, groupService, fileUploadService, filterService ) {
+	constructor( $scope, $state, feedService, friendService, userService, modalService, collectionService, groupService, fileUploadService, filterService, messageBus ) {
 		super( $state, feedService, collectionService, modalService, 'GROUP_BY_SLUG' );
 		this.$scope = $scope;
 		this.$state = $state;
@@ -35,6 +36,10 @@ class GroupBySlugController extends CollectionController {
 		this.groupService = groupService;
 		this.fileUploadService = fileUploadService;
 		this.filterService = filterService;
+
+		this.messageBus = messageBus;
+
+		this.onTempFilter = this.onTempFilter.bind(this);
 
 		this.onCoverPicFileSelected = this.onCoverPicFileSelected.bind( this );
 
@@ -117,6 +122,18 @@ class GroupBySlugController extends CollectionController {
 			this.selectFeed();
 		}
 
+		this.messageBus.on( this.messageBus.MESSAGES.UI_EVENTS.TEMP_FILTER_CREATED, this.onTempFilter );
+		this.$scope.$on('$destroy', this.destructor.bind(this));
+
+	}
+
+	onTempFilter( filter ) {
+		this.$state.go(STATES.APPLICATION.GROUP_BY_SLUG.FILTERED, {groupSlug: this.currentSlug, filterSlug: filter.slug});
+		this.selectFilter( filter.slug );
+	}
+
+	destructor() {
+		this.messageBus.removeListener( this.messageBus.MESSAGES.UI_EVENTS.TEMP_FILTER_CREATED, this.onTempFilter );
 	}
 
 	get isEditing() {

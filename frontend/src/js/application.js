@@ -31,6 +31,7 @@ import RecommendationBoxController from './controllers/recommendation-box';
 import EditGroupController from './controllers/edit-group';
 import InvitationController from './controllers/invitation';
 import GroupInvitationController from './controllers/group-invitation';
+import FeedbackController from './controllers/feedback';
 
 // S E R V I C E S
 
@@ -87,6 +88,7 @@ module.controller( 'RecommendationBoxController', RecommendationBoxController );
 module.controller( 'EditGroupController', EditGroupController );
 module.controller( 'InvitationController', InvitationController );
 module.controller( 'GroupInvitationController', GroupInvitationController );
+module.controller( 'FeedbackController', FeedbackController );
 
 module.service( 'MessageBusService', MessageBusService );
 module.service( 'UserService', UserService );
