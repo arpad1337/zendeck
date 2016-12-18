@@ -32,7 +32,7 @@ class LandingController {
 		this._name = value;
 	}
 
-	get email() {
+	get name() {
 		return this._name;
 	}
 
@@ -42,6 +42,8 @@ class LandingController {
 			if( result ) {
 				this.modalService.openDialog( this.modalService.DIALOG_TYPE.SUBSCRIPTION_SUCCESFUL );
 			}
+			this._email = '';
+			this._name = '';
 		}
 	}
 

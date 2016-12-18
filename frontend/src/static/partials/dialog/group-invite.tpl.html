@@ -41,7 +41,7 @@
                         </li>
                     </ul>
                 </p>
-                <p ng-if="error.users">{{'MODALS.GROUP_INVITE.ERROR.NO_RECIPIENT' | translate}}</p>
+                <p ng-if="error.users" class="hint negative">{{'MODALS.GROUP_INVITE.ERROR.NO_RECIPIENT' | translate}}</p>
                 <p ng-if="error.backend" class="hint negative">{{error.backend}}</p>
             </form>
         </div>

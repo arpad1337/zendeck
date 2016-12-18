@@ -205,6 +205,7 @@ module.filter('pretifyNumber', function(){
 		else if( stringValue.length > 3) {
 			return stringValue.substr( 0, stringValue.length - 3 ) +'k';
 		}
+		return stringValue;
 	};
 });
 

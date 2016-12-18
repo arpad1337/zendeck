@@ -29,6 +29,7 @@ import GroupsController from './controllers/groups';
 import GroupBySlugController from './controllers/group-by-slug';
 import RecommendationBoxController from './controllers/recommendation-box';
 import EditGroupController from './controllers/edit-group';
+import InvitationController from './controllers/invitation';
 import GroupInvitationController from './controllers/group-invitation';
 
 // S E R V I C E S
@@ -44,6 +45,7 @@ import CollectionService from './services/collection';
 import MessageService from './services/message';
 import NotificationService from './services/notification';
 import GroupService from './services/group';
+import SearchService from './services/search';
 
 // C O M P O N E N T S
 
@@ -83,6 +85,7 @@ module.controller( 'GroupsController', GroupsController );
 module.controller( 'GroupBySlugController', GroupBySlugController );
 module.controller( 'RecommendationBoxController', RecommendationBoxController );
 module.controller( 'EditGroupController', EditGroupController );
+module.controller( 'InvitationController', InvitationController );
 module.controller( 'GroupInvitationController', GroupInvitationController );
 
 module.service( 'MessageBusService', MessageBusService );
@@ -96,6 +99,7 @@ module.service( 'CollectionService', CollectionService );
 module.service( 'MessageService', MessageService );
 module.service( 'NotificationService', NotificationService );
 module.service( 'GroupService', GroupService );
+module.service( 'SearchService', SearchService );
 
 module.directive( 'postingBox', createComponent( PostingBoxComponent ) );
 module.directive( 'postEntry', createComponent( PostEntryComponent ) );

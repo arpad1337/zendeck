@@ -16,5 +16,5 @@
     <div ng-if="ctrl.groups.length === 0" class="empty">
         {{'RIGHT_COLUMN.GROUPS.NO_GROUPS' | translate}}
     </div>
-    <a ng-click="APP.openCreateGroupModal()">{{'RIGHT_COLUMN.GROUPS.CREATE_GROUP' | translate}}</a>
+    <button ng-click="APP.openCreateGroupModal()" class="button-positive">{{'RIGHT_COLUMN.GROUPS.CREATE_GROUP' | translate}}</button>
 </section>

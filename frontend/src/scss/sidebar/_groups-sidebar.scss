@@ -46,33 +46,33 @@ section[role="groups-sidebar"] {
 			// }
 		}
 	}
-	> a {
-		background: $SECONDARY-LIGHT;
-		color: $WHITE;
-		display: inline-block;
-		padding: 2px 8px;
-		text-align: center;
-		height: 20px;
-		line-height: 20px;
-		text-decoration: none;
-		margin-top: 4px;
-		&:hover {
-			background: $SECONDARY-DARK;
-		}
-		&:after {
-			background-image: url(../img/plus.png);
-			background-repeat: no-repeat;
-			background-size: 15px 15px;
-			content: " ";
-			display: inline-block;
-			width: 15px;
-			height: 15px;
-			margin-top: 3px;
-			margin-left: 4px;
-			margin-right: -4px;
-			float: right;
-		}
-	}
+	// > a {
+	// 	background: $SECONDARY-LIGHT;
+	// 	color: $WHITE;
+	// 	display: inline-block;
+	// 	padding: 2px 8px;
+	// 	text-align: center;
+	// 	height: 20px;
+	// 	line-height: 20px;
+	// 	text-decoration: none;
+	// 	margin-top: 4px;
+	// 	&:hover {
+	// 		background: $SECONDARY-DARK;
+	// 	}
+	// 	&:after {
+	// 		background-image: url(../img/plus.png);
+	// 		background-repeat: no-repeat;
+	// 		background-size: 15px 15px;
+	// 		content: " ";
+	// 		display: inline-block;
+	// 		width: 15px;
+	// 		height: 15px;
+	// 		margin-top: 3px;
+	// 		margin-left: 4px;
+	// 		margin-right: -4px;
+	// 		float: right;
+	// 	}
+	// }
 	button {
 		cursor: pointer;
 	}

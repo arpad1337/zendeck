@@ -135,10 +135,12 @@ class PostEntryComponent {
 		if( this.entry.liked ) {
 			if( this._delegateRespondsToSelector( 'dislikePost' ) ) {
 				await this.delegate.dislikePost( this.entry.id );
+				this.entry.likes--;
 			}
 		} else {
 			if( this._delegateRespondsToSelector( 'likePost' ) ) {
 				await this.delegate.likePost( this.entry.id );
+				this.entry.likes++;
 			}
 		}
 		this.entry.liked = !this.entry.liked;

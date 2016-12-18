@@ -36,6 +36,6 @@
       {{ 'PROFILE.BIRTHDATE' | translate }}: <input type="date" ng-model="ctrl.lastProfileFields.birthDate">
     </label>
     <div ng-if="ctrl.isEditing && ctrl.profile.userId">
-      <button ng-click="ctrl.openGroupSettingsDialog()">Open group settings</button>
+      <button ng-click="ctrl.openGroupSettingsDialog()" class="button-positive">{{'PROFILE.GROUP_SETTINGS' | translate}}</button>
     </div>
 </section>

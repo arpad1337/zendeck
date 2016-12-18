@@ -1,0 +1,45 @@
+<div class="modal" ng-controller="InvitationController as ctrl">
+    <div class="container">
+        <h4 data-ng-bind-html=" 'MODALS.PLATFORM_INVITE.TITLE' | translate | htmlSafe"></h4>
+        <a class="close" ng-click="cancel()"></a>
+        <div class="content">
+            <form>
+                <p>
+                    <label 
+                        for="recipient"
+                    >
+                        {{ 'MODALS.PLATFORM_INVITE.SELECT_RECIPIENT' |translate }}*
+                    </label> 
+                    <input type="email" ng-model="ctrl.email" enter-press="ctrl.onEnter(ctrl.email);ctrl.email='';" placeholder="{{'MODALS.PLATFORM_INVITE.SELECT_RECIPIENT_PLACEHOLDER' | translate}}">
+                    <span ng-if="ctrl.users.length == 0" class="hint">{{ 'MODALS.PLATFORM_INVITE.HINT' |translate }}</span>
+                </p>
+                <p>
+                    <ul class="user-list">
+                        <li 
+                            ng-repeat=" user in ctrl.users "
+                            ng-click=" ctrl.removeUser( user ) "
+                        >
+                            {{user.fullname}}
+                        </li>
+                    </ul>
+                </p>
+                <p ng-if="error.users" class="hint negative">{{'MODALS.PLATFORM_INVITE.ERROR.NO_RECIPIENT' | translate}}</p>
+                <p ng-if="error.backend" class="hint negative">{{error.backend}}</p>
+            </form>
+        </div>
+        <div class="actions">
+               <modal-button
+                    class-name="'confirm'"
+                    callback="ctrl.inviteUsers(error, ok)"
+                >
+                    {{ 'MODALS.PLATFORM_INVITE.OK' |translate }}
+                </modal-button>
+                <modal-button
+                    class-name="'cancel'"
+                    callback="cancel()"
+                >
+                    {{ 'MODALS.PLATFORM_INVITE.CANCEL' |translate }}
+                </modal-button>
+        </div>
+    </div>
+</div>

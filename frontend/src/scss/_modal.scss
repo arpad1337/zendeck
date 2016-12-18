@@ -126,11 +126,15 @@ $TRANSITION-DURATION: 0.3s;
 			}
 
 			* > input[type="checkbox"] {
-				width: 20px;
-				height: 20px;
-				display: block;
-				float: left;
-				&:after {
+				display: none;
+				& + span {
+					// width: 20px;
+					// height: 20px;
+					text-indent: 30px;
+					display: block;
+					float: left;
+				}
+				& + span:after {
 					z-index: 202;
 					top: 9px;
 					width: 12px;
@@ -144,11 +148,11 @@ $TRANSITION-DURATION: 0.3s;
 					@include border-radius( 16px );
 				}
 				&:checked {
-					&:after{
+					& + span:after{
 						display: block;
 					} 
 				}
-				&:before {
+				& + span:before {
 					position: absolute;
 					z-index: 201;
 					top: 9px;
@@ -199,8 +203,12 @@ $TRANSITION-DURATION: 0.3s;
 				width: auto;
 				margin-right: 10px;
 				& > input[type="radio"] {
-					position: relative;
-					&:after {
+					display: none;
+					& + span {
+						position: relative;
+						display: block;
+					}
+					& + span:after {
 						z-index: 202;
 						top: 9px;
 						width: 12px;
@@ -214,11 +222,11 @@ $TRANSITION-DURATION: 0.3s;
 						@include border-radius( 16px );
 					}
 					&:checked {
-						&:after {
+						& + span:after {
 							display: block;
 						}
 					}
-					&:before {
+					& + span:before {
 						position: absolute;
 						z-index: 201;
 						top: 9px;

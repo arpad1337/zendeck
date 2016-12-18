@@ -66,7 +66,8 @@
 	"RIGHT_COLUMN": {
 		"FRIENDS": {
 			"TITLE": "Recent friends",
-			"NO_FRIENDS": "You have no connections yet. Why not searching?"
+			"NO_FRIENDS": "You have no connections yet. Invite or find some via search!",
+			"INVITE_FRIENDS": "Invite friends"
 		},
 		"GROUPS": {
 			"TITLE": "Groups",
@@ -216,6 +217,7 @@
 		"EDIT_COLLECTION": "Edit",
 		"PROFILE_COLOR": "Set profile color",
 		"BIRTHDATE": "Set your birth date",
+		"GROUP_SETTINGS": "Open group settings",
 		"FRIENDS": {
 			"TITLE": "Connections",
 			"MORE_BUTTON": "More"
@@ -353,6 +355,17 @@
 			"TITLE": "Friend invited",
 			"OK": "Invitation to {{email}} has been sent"
 		},
+		"PLATFORM_INVITE": {
+			"TITLE": "Invite friends to ZenDeck",
+			"SELECT_RECIPIENT": "Type emails",
+			"SELECT_RECIPIENT_PLACEHOLDER": "email@example.com",
+			"OK": "Send invitations",
+			"CANCEL": "Cancel",
+			"HINT": "Press enter after each email",
+			"ERROR": {
+				"NO_RECIPIENT": "You must add recipients"
+			}
+		},
 		"GROUP_INVITE": {
 			"TITLE": "Invite friends to {{group.name}}",
 			"SELECT_RECIPIENT": "Select or type emails",
@@ -360,7 +373,7 @@
 			"OK": "Send invitations",
 			"CANCEL": "Cancel",
 			"ERROR": {
-				"NO_RECIPIENT": "You must select recipients"
+				"NO_RECIPIENT": "You must add recipients"
 			}
 		},
 		"FRIEND_REQUESTED": {

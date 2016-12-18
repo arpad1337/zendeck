@@ -26,6 +26,7 @@ const DIALOG_TYPE = new Enum([
 	'PROFILE_PIC_CROPPING',
 	'EDIT_GROUP',
 	'GROUP_INVITE',
+	'PLATFORM_INVITE',
 	'MESSAGE'
 ], 'DIALOG_TYPE');
 
@@ -109,6 +110,12 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.GROUP_INVITE.toString() ] = {
 
 DIALOG_DESCIPTORS[ DIALOG_TYPE.MESSAGE.toString() ] = {
 	templateUrl: '/partials/dialog/message.tpl.html'
+}
+
+// PLATFORM_INVITE
+
+DIALOG_DESCIPTORS[ DIALOG_TYPE.PLATFORM_INVITE.toString() ] = {
+	templateUrl: '/partials/dialog/platform-invite.tpl.html'
 }
 
 export {

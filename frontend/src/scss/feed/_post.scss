@@ -185,7 +185,7 @@ post-entry {
 			font-size: 12px;
 			line-height: 20px;
 			color: $MAIN-LIGHT;
-			&:after {
+			&:before {
 				width: 20px;
 				height: 20px;
 				background: url('../img/hearth.png');
@@ -197,17 +197,17 @@ post-entry {
 				margin-bottom: -6px;
 			}
 			&:hover {
-				&:after {
+				&:before {
 					background-image: url('../img/hearth-hover.png'); 
 				}
 			}
 			&.liked {
-				&:after {
+				&:before {
 					background-image: url('../img/hearth-liked.png');
 				}
 				color: $SECONDARY-LIGHT;
 				&:hover {
-					&:after {
+					&:before {
 						background-image: url('../img/hearth-liked.png');
 					}
 				}

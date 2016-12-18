@@ -202,7 +202,11 @@ class UserService {
 	}
 
 	subscribeToNewsletter( name, email ) {
-		return this.$http.post( CONFIG.API_PATH + '/auth/subscibe', { email: email, fullname: name } ).then( r => r.data ).catch( _ => 'ok' );
+		return this.$http.post( CONFIG.API_PATH + '/auth/subscribe', { email: email, name: name } ).then( r => r.data ).catch( _ => 'ok' );
+	}
+
+	inviteUsers( users ) {
+		return this.$http.post( CONFIG.API_PATH + '/auth/invite', { users: users } ).then(r => r.data);
 	}
 
 }

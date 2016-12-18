@@ -49,16 +49,18 @@
                     <label for="isBusiness">{{ 'MODALS.REGISTER.IS_BUSINESS' | translate }}</label>
                     <label class="radio">
                         <input type="radio" id="isBusiness" 
-                        ng-model="isBusiness" value="true"> {{ 'MODALS.REGISTER.YES' | translate }}
+                        ng-model="isBusiness" value="true"><span>{{ 'MODALS.REGISTER.YES' | translate }}</span>
                     </label>
                     <label class="radio">
                         <input type="radio" id="isBusiness" 
-                        ng-model="isBusiness" value="false" ng-checked="true"> {{ 'MODALS.REGISTER.NO' | translate }} 
+                        ng-model="isBusiness" value="false" ng-checked="true"> 
+                        <span>{{ 'MODALS.REGISTER.NO' | translate }} </span>
                     </label>
                 </p>
                 <p class="stretch">
-                    <label for="tac">I accept the <a ui-sref="tac">terms &amp; conditions</a>
+                    <label for="tac">
                         <input type="checkbox" id="tac" ng-model="termsAccepted">
+                        <span>I accept the <a ui-sref="tac">terms &amp; conditions</a></span>
                     </label>
                 </p>
                 <p ng-if="error.termsAccepted" class="hint">

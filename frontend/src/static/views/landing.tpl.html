@@ -70,14 +70,14 @@
         </div>
     </div>
 </section>
-<section role="subscription" id="subscription">
+<section role="subscription" id="subscription" ng-controller="LandingController as ctrl">
     <h3>Subscribe to newsletter</h3>
     <p>
         Type your email below and we will let you know when the beta period starts.
     </p>
     <form>
-        <input type="name" placeholder="Type your name here" required name="email" ng-model="ctrl.name">
-        <input type="email" placeholder="email@example.com" required name="email" ng-model="ctrl.email">
+        <input type="name" placeholder="Type your name here" required ng-model="ctrl.name">
+        <input type="email" placeholder="email@example.com" required ng-model="ctrl.email">
         <button type="submit" ng-click="ctrl.submit()">Notify me</button>
     </form>
 </section>

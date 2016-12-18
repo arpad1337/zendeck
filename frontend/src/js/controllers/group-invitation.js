@@ -2,34 +2,26 @@
  * @rpi1337
  */
 
+import InvitationController from './invitation';
 import Validator from '../helpers/validator';
 
-class GroupInvitationController {
+class GroupInvitationController extends InvitationController {
 
 	static get $inject() {
-		return [
-			'$state',
-			'$scope',
-			'UserService',
-			'FriendService',
-			'GroupService',
-			'ModalService'
-		];
+		let parentDeps = InvitationController.$inject;
+		return parentDeps.concat([
+			'GroupService'
+		]);
 	}
 
-	constructor( $state, $scope, userService, friendService, groupService, modalService ) {
-		this.$state = $state;
-		this.$scope = $scope;
-		this.userService = userService;
-		this.friendService = friendService;
-		this.groupService = groupService;
-		this.modalService = modalService;
+	constructor() {
+		super( ...arguments );
+		this.groupService = arguments[ arguments.length -1 ];
 
 		this._initState();
 	}
 
 	_initState() {
-		this._users = new Set();
 		this._allFriendsPage = 1;
 		this.userAllFriends = [];
 		this._noMoreFriends = false;
@@ -79,14 +71,12 @@ class GroupInvitationController {
 		}
 	}
 
-	get users() {
-		return Array.from( this._users );
-	}
-
-	addUser( user ) {
+	onItemSelected( user ) {
 		this._users.add( user );
+		user.hidden = true;
 	}
 
+	// @override
 	removeUser( user ) {
 		let found = this.userAllFriends.find((u) => {
 			return u.fullname == user.fullname;
@@ -94,25 +84,11 @@ class GroupInvitationController {
 		if( found ) {
 			found.hidden = false;
 		}
-		this._users.delete( user );
+		super.removeUser(user);
 	}
 
-	onItemSelected( user ) {
-		this._users.add( user );
-		user.hidden = true;
-	}
-
-	onEnter( email ) {
-		if( Validator.validateEmail( email ) ) {
-			this._users.add({
-				email: email,
-				fullname: email
-			});
-		}
-	}
-
+	// @override
 	inviteUsers( error, ok ) {
-		console.log(this.users);
 		if( this.users.length === 0 ) {
 			error.users = true;
 			return;
@@ -121,9 +97,7 @@ class GroupInvitationController {
 		}
 		return this.groupService.inviteUsersToGroup( this.currentSlug, this.users ).then(() =>{
 			ok();
-			this.modalService.openDialog( this.modalService.DIALOG_TYPE.MESSAGE, {
-				messageDialogTemplateKey: 'INVITATION_SENT'
-			});
+			this.done();
 		}).catch(e => { 
 			error.backend = e.data;
 		});

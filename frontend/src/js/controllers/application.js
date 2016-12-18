@@ -100,7 +100,18 @@ class ApplicationController {
 		});
 	}
 
-	//
+	// INVITE
+
+	openInviteFriendsModal() {
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.PLATFORM_INVITE, {
+			error: {
+				users: null,
+				backend: null
+			}
+		});
+	}
+
+	// GROUPS
 
 	openCreateGroupModal() {
 		this.modalService.openDialog( this.modalService.DIALOG_TYPE.EDIT_GROUP, {
@@ -173,7 +184,7 @@ class ApplicationController {
 	}
 
 	async checkUsernameAvailability( model ) {
-		model.username = model.username.replace(/[^A-Za-z0-9_-]/g,'');
+		model.username = model.username.replace(/[^a-z0-9_-]/g,'');
 		if( model.username.trim().length > 2 ) {
 			if( !model.lock ) {
 				model.lock = true;

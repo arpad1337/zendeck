@@ -60,6 +60,7 @@
                                     ng-click="ctrl.selectFilter( filter.slug )"
                                     class=" "
                                     ng-class="ctrl.activeFilter == filter.id ? 'active' : ''"
+                                    ng-class="filter.groupId ? 'in-group' : ''"
                                 >
                                     {{ filter.name }}
                                 </a>

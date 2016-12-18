@@ -4,6 +4,20 @@
         'background-image': ( ctrl.profile.photos.cover ? 'url(' + ctrl.profile.photos.cover.src + ')' : 'none' )
     }"    
 >
+    <style>
+        main h2,
+        main h3,
+        main h4,
+        main h5,
+        main aside a
+        {
+            color: {{ctrl.profile.profileColor}} !important;
+        }
+        main .wrap button,
+        main aside section[role="stats"] a:before {
+            background-color: {{ctrl.profile.profileColor}};
+        }
+    </style>
     <div ng-if="ctrl.isEditing">
         <div
             class="change-group-cover-pic cta"
