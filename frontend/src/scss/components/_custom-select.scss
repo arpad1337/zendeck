@@ -40,7 +40,7 @@ custom-select {
 			width: 34px !important;
 			height: 35px !important;
 			border: none !important;
-			background: $FOOTER-LIGHT;
+			background: $FOOTER-LIGHT !important;
 			&:after {
 				content: " ";
 				background: url('../img/selection@2x.png');

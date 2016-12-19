@@ -69,7 +69,12 @@
 			float: left;
 			margin-right: 8px;
 			@include border-radius(6px);
+			img {
+				@include border-radius(6px);
+				overflow: hidden;
+			}
 			overflow: hidden;
+			min-height: 160px;
 		}
 		h3 {
 			color: $MAIN-LIGHT;

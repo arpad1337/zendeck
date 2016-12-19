@@ -98,6 +98,10 @@ class CollectionService {
 		});
 	}
 
+	deleteCollection( slug ) {
+		return this.$http.delete( CONFIG.API_PATH + '/collection/' + slug ).then(r => r.data);
+	}
+
 }
 
 export default CollectionService;

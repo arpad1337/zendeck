@@ -36,22 +36,22 @@
 			}
 			&:hover {
 				.delete {
-					display: block;
+					display: block !important;
 				}
 			}
 		}
 	}
 
 	.delete {
-		display: none;
+		display: none !important;
 		width: 16px;
 		height: 16px;
 		position: absolute;
-		right: 8px;
+		right: 20px;
 		&:after {
 			background: url("../img/close.png");
 			background-size: 10px 10px;
-			background-position: 3px 2px;
+			background-position: 1px 2px;
 			background-repeat: no-repeat;
 			display: block;
 			content: " ";

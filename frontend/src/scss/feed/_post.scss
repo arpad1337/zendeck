@@ -117,7 +117,7 @@ post-entry {
 			&:after {
 				background: url("../img/close.png");
 				background-size: 10px 10px;
-				background-position: 3px 2px;
+				background-position: 1px 2px;
 				background-repeat: no-repeat;
 				display: block;
 				content: " ";
@@ -287,7 +287,12 @@ post-entry {
 					float: left;
 					margin-right: 8px;
 					@include border-radius(6px);
+					img {
+						@include border-radius(6px);
+						overflow: hidden;
+					}
 					overflow: hidden;
+					min-height: 160px;
 				}
 				h3 {
 					color: $MAIN-LIGHT;

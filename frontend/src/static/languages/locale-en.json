@@ -135,11 +135,13 @@
 		"LINK_PREVIEW_TITLE": "Link preview",
 		"SAVE_FILTER": "Save",
 		"COPY_FILTER": "Copy",
+		"DELETE_FILTER": "Delete",
 		"SHARED_FILTER": "shared",
 		"RUN_FILTER": "Run filter",
 		"LINK_PREVIEW": "<a href=\"{{url}}\" target=\"_blank\">From <span>{{medium}}</span></a>",
 		"SAVE_COLLECTION": "Subscribe",
 		"EDIT_COLLECTION": "Edit",
+		"INHERITED_COLLECTION": "inherit from",
 		"POST_ENTRY": {
 			"COLLECTION_IN_GROUP": "in group",
 			"IN_GROUP": "from <a href=\"{{groupUrl}}\">{{groupName}}</a>",
@@ -250,6 +252,8 @@
 			"TITLE": "Send us feedback",
 			"OK": "Send",
 			"CANCEL": "Cancel",
+			"MESSAGE": "Message",
+			"PLACEHOLDER": "Type your message here...",
 			"ERROR": {
 				"MESSAGE": "Please type your message"
 			}
@@ -434,6 +438,12 @@
 			"LEAVE_GROUP": {
 				"MESSAGE": "Are you sure your want to leave this group?"
 			},
+			"DELETE_FILTER": {
+				"MESSAGE": "Are you sure you want to delete this filter?"
+			},
+			"DELETE_COLLECTION": {
+				"MESSAGE": "Are you sure you want to delete this collection?"
+			},
 			"OK": "Confirm",
 			"CANCEL": "Cancel"
 		},
@@ -441,6 +451,9 @@
 			"TITLE": "Success",
 			"INVITATION_SENT": {
 				"MESSAGE": "The invitations has been sent successfully"
+			},
+			"FEEDBACK_SENT": {
+				"MESSAGE": "Thank you for your feedback!"
 			},
 			"OK": "Dismiss"
 		}

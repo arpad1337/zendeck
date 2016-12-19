@@ -121,6 +121,14 @@ class FilterService {
 		});
 	}
 
+	deleteGroupFilter( groupSlug, slug ) {
+		return this.$http.delete( CONFIG.API_PATH + '/group/' + groupSlug + '/filter/' + slug ).then( r => r.data );
+	}
+
+	deleteFilter( slug ) {
+		return this.$http.delete( CONFIG.API_PATH + '/user/me/filter/' + slug ).then( r => r.data );
+	}
+
 	createNewFilterModelWithNameAndTags( name, tags ) {
 		let model = {
 			name: name.substr(0,1).toUpperCase() + name.substring(1),

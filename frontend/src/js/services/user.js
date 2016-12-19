@@ -209,6 +209,10 @@ class UserService {
 		return this.$http.post( CONFIG.API_PATH + '/auth/invite', { users: users } ).then(r => r.data);
 	}
 
+	sendFeedback( message ) {
+		return this.$http.post( CONFIG.API_PATH + '/auth/feedback', { content: message } ).then(r => r.data);
+	}
+
 }
 
 export default UserService;

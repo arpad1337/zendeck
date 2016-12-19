@@ -27,6 +27,10 @@ class SearchController {
 		this.results = [];
 	}
 
+	get isFilterAvailable() {
+		return this.inGroup || (this.$state.$current.toString().indexOf('feed') == 0)
+	}
+
 	get inGroup() {
 		return "groupSlug" in this.$state.params;
 	}

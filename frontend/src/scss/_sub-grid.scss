@@ -35,7 +35,12 @@ main {
 		font-weight: bold;
 		margin: 10px 0 14px;
 		color: $SECONDARY-LIGHT;
-		
+		a {
+			color: $SECONDARY-LIGHT;
+			&:hover {
+				color: $SECONDARY-DARK;
+			}
+		}
 		.label {
 			// margin-top: -2px;
 			// display: inline-block;

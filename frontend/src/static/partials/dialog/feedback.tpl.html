@@ -11,7 +11,7 @@
                     rows="3"
                     class="msd-elastic" 
                     name="message" 
-                    ng-model="message"
+                    ng-model="ctrl.message"
                     placeholder="{{ 'MODALS.FEEDBACK.PLACEHOLDER' |translate }}"
                 >
                 </textarea>
@@ -20,7 +20,7 @@
             <p ng-if="error.backend" class="hint negative">{{error.backend}}</p>
         </div>
         <div class="actions">
-            <button class="confirm" ng-click="ctrl.sendFeedback( message, error, ok )">{{ 'MODALS.FEEDBACK.OK' | translate }}</button>
+            <button class="confirm" ng-click="ctrl.sendFeedback( error, ok )">{{ 'MODALS.FEEDBACK.OK' | translate }}</button>
              <button class="cancel" ng-click="cancel()">{{ 'MODALS.FEEDBACK.CANCEL' | translate }}</button>
         </div>
     </div>

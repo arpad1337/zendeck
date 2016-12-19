@@ -1,14 +1,16 @@
 <section role="feed">
     <h4>{{ ctrl.currentCollection.name }}</h4>
-    <a 
-    class="save-to-collection" ng-click="ctrl.saveCurrentCollection()" >
-    	<span  ng-if="APP.currentUser.username != ctrl.profile.username">
-		{{ 'PROFILE.COPY_COLLECTION' | translate }}
-		</span>
-		<span ng-if="APP.currentUser.username == ctrl.profile.username">
-		{{ 'PROFILE.EDIT_COLLECTION' | translate }}
-		</span>
-	</a>
+    <div class="actions">
+        <button 
+        class="save-to-collection" ng-click="ctrl.saveCurrentCollection()" >
+        	<span  ng-if="APP.currentUser.username != ctrl.profile.username">
+    		{{ 'PROFILE.COPY_COLLECTION' | translate }}
+    		</span>
+    		<span ng-if="APP.currentUser.username == ctrl.profile.username">
+    		{{ 'PROFILE.EDIT_COLLECTION' | translate }}
+    		</span>
+    	</button>
+    </div>
     <post-entry 
     	ng-repeat="post in ctrl.posts track by $index" 
     	entry="post" 

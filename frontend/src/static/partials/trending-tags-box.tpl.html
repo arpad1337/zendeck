@@ -3,7 +3,7 @@
     <div class="labels">
         <ul>
             <li ng-repeat="tag in ctrl.trendingTags track by $index">
-                <a ng-click="ctrl.createTemporaryFilterWithTag( tag.name )">
+                <a ng-click="ctrl.createTemporaryFilterWithTagAndRunFilter( tag.name )">
                     {{tag.name}} ({{tag.postCount | pretifyNumber }})
                 </a>
             </li>

@@ -1,13 +1,26 @@
 <section role="feed">
-    <h4>{{ ctrl.currentCollection.name }}</h4>
-    <a class="save-to-collection" ng-click="ctrl.saveCurrentCollection()">
-    	<span ng-if="ctrl.currentCollection.shared">
-		{{ 'FEED.SAVE_COLLECTION' | translate }}
-		</span>
-		<span ng-if="!ctrl.currentCollection.shared">
-		{{ 'FEED.EDIT_COLLECTION' | translate }}
-		</span>
-	</a>
+    <h4>
+        {{ ctrl.currentCollection.name }}
+        <small ng-if="ctrl.currentCollection.parent">{{'FEED.INHERITED_COLLECTION'| translate }} <a ui-sref="feed.collection({collectionSlug: ctrl.currentCollection.parent.slug})" ng-click="ctrl.selectCollection(ctrl.currentCollection.parent.slug)">{{ctrl.currentCollection.parent.name}}</a></small>
+    </h4>
+    <div class="actions">
+        <button class="save-to-collection" ng-click="ctrl.saveCurrentCollection()">
+        	<span ng-if="ctrl.currentCollection.shared">
+    		{{ 'FEED.SAVE_COLLECTION' | translate }}
+    		</span>
+    		<span ng-if="!ctrl.currentCollection.shared">
+    		{{ 'FEED.EDIT_COLLECTION' | translate }}
+    		</span>
+    	</button>
+        <button 
+            class="delete" 
+            ng-click="ctrl.deleteCurrentCollection()" 
+            title="{{'FEED.SAVE_FILTER' | translate}}"
+            ng-if="ctrl.isUserAdmin"
+        >
+            {{ 'FEED.DELETE_FILTER' | translate }}
+        </button>
+    </div>
     <div ng-if="ctrl.posts && ctrl.posts.length > 0">
     <post-entry 
     	ng-repeat="post in ctrl.posts track by $index" 

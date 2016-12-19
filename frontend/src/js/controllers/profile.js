@@ -45,6 +45,17 @@ class ProfileController extends CollectionController {
 		this._friendsPage = 1;
 	}
 
+	loadCollections() {
+		return super.loadCollections().then(() => {
+			if( this.userService.currentUser.username != this.$state.params.username ) {
+				this._collections = this._collections.map((c) => {
+					c.shared = true;
+					return c;
+				});
+			}
+		});
+	}
+
 	_initState() {
 		this.username = this.$state.params.username;
 

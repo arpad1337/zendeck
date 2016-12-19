@@ -13,11 +13,11 @@
                     <label for="isPublic">{{ 'MODALS.CREATE_COLLECTION.IS_PUBLIC' | translate }}</label>
                     <label class="radio">
                         <input type="radio" id="isPublic" 
-                        ng-model="isPublic" value="true" ng-checked="isPublic == 'true'"> {{ 'MODALS.CREATE_COLLECTION.YES' | translate }}
+                        ng-model="isPublic" value="true" ng-checked="isPublic == 'true'"><span>{{ 'MODALS.CREATE_COLLECTION.YES' | translate }}</span>
                     </label>
                     <label class="radio">
                         <input type="radio" id="isPublic" 
-                        ng-model="isPublic" value="false" ng-checked="isPublic == 'false'"> {{ 'MODALS.CREATE_COLLECTION.NO' | translate }} 
+                        ng-model="isPublic" value="false" ng-checked="isPublic == 'false'"><span>{{ 'MODALS.CREATE_COLLECTION.NO' | translate }}</span>
                     </label>
                 </p>
                 <p ng-if="error.backend" class="hint negative">{{error.backend}}</p>

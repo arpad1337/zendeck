@@ -125,12 +125,10 @@ class FeedController {
 		const slug = context.params.collectionSlug;
 		try {
 			let collection = yield this.collectionService.getCollectionBySlug( slug );
-			let posts;
-			if( collection.userId === userId ) {
-				posts = yield this.feedService.getUserCollectionFeedByIdAndCollectionIdAndPage( userId, collection.id, context.query.page );
-			} else {
-				posts = yield this.feedService.getFriendCollectionFeedByIdAndCollectionIdAndPage( userId, collection.userId, collection.id, context.query.page );
-			}
+			let posts = yield this.feedService.getUserCollectionFeedByIdAndCollectionIdAndPage( userId, collection.id, context.query.page );
+			// } else {
+			// 	posts = yield this.feedService.getFriendCollectionFeedByIdAndCollectionIdAndPage( userId, collection.userId, collection.id, context.query.page );
+			// }
 			context.body = posts;
 		} catch( e ) {
 			console.error(e, e.stack);

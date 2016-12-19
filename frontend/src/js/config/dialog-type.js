@@ -121,7 +121,7 @@ DIALOG_DESCIPTORS[ DIALOG_TYPE.PLATFORM_INVITE.toString() ] = {
 
 // FEEDBACK
 
-DIALOG_DESCIPTORS[ DIALOG_TYPE.PLATFORM_INVITE.toString() ] = {
+DIALOG_DESCIPTORS[ DIALOG_TYPE.FEEDBACK.toString() ] = {
 	templateUrl: '/partials/dialog/feedback.tpl.html'
 }
 

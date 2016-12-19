@@ -141,7 +141,7 @@ class ApplicationController {
 				backend: null,
 				usernameOrEmail: null
 			}
-		}, this.resetPassword.bind( this )).then(console.log.bind(console));
+		}, this.resetPassword.bind( this ));
 	}
 
 	openLoginModal() {
@@ -151,7 +151,7 @@ class ApplicationController {
 				backend: null,
 			},
 			gotoForgotPassword: this.openForgotPasswordModal.bind(this)
-		}, this.login.bind( this ) ).then(console.log.bind(console));
+		}, this.login.bind( this ) );
 	}
 
 	openForgotPasswordModal() {
@@ -159,7 +159,7 @@ class ApplicationController {
 			error: {
 				usernameOrEmail: null
 			}
-		}, this.fogotPassword.bind( this ) ).then(console.log.bind(console));
+		}, this.fogotPassword.bind( this ) );
 	}
 
 	openRegisterModal() {
@@ -180,7 +180,16 @@ class ApplicationController {
 				backend: null
 			}
 		}
-		this.modalService.openDialog( this.modalService.DIALOG_TYPE.REGISTER, extension, this.register.bind( this ) ).then(console.log.bind(console));
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.REGISTER, extension, this.register.bind( this ) );
+	}
+
+	openFeedbackModal() {
+		this.modalService.openDialog( this.modalService.DIALOG_TYPE.FEEDBACK, {
+			error: {
+				backend: null,
+				message: null
+			}
+		});
 	}
 
 	async checkUsernameAvailability( model ) {

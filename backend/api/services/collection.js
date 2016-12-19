@@ -205,14 +205,14 @@ class CollectionService {
 				where: {
 					id: collection.id
 				}
+			}).then(() => {
+				return CollectionModel.findOne({
+					where: {
+						id: collection.id
+					}
+				}).then((c) => c.get());
 			});
-		}).then(() => {
-			return CollectionModel.findOne({
-				where: {
-					id: collection.id
-				}
-			}).then((c) => c.get());
-		});
+		})
 	}
 
 	deleteCollectionBySlug( slug ) {

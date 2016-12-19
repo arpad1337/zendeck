@@ -31,7 +31,7 @@
                         Group: <strong>{{result.data.name}}</strong>
                     </a>
                 </span>
-                <span>
+                <span ng-if="ctrl.isFilterAvailable">
                     <a ng-click="ctrl.gotoFilter()">
                         Filter with 
                         <span class="label" ng-repeat="tag in ctrl.tagsFromPredicate">{{tag}}</span>

@@ -312,54 +312,54 @@ class FeedService {
 		});
 	}
 
-	getFriendCollectionFeedByIdAndCollectionIdAndPage( userId, friendId, collectionId, page ) {
-		page = isNaN( page ) ? 1 : page;
-		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return this.collectionService.getCollectionIdsRecursivellyByCollectionId( collectionId ).then(( collectionIds ) => {
-			return FeedModel.findAll({
-				attributes: ['postId','liked', 'collectionId'],
-				where: {
-					userId: friendId,
-					collectionId: collectionIds,
-					approved: true
-				},
-				limit: PostService.LIMIT,
-				offset: (( page - 1 ) * PostService.LIMIT),
-				order: [[ 'post_id', 'DESC' ]],
-				group: ['post_id','liked', 'collection_id']
-			});
-		}).then((posts) => {
-			if( !posts || posts.length == 0 ) {
-				return [];
-			}
-			let postIds = posts.map((post) => {
-				return post.get('postId');
-			});
-			return FeedModel.findAll({
-				where: {
-					userId: userId,
-					postId: postIds
-				}
-			}).then((sharedPosts) => {
-				let sharedPostMap = new Map();
-				sharedPosts.forEach((post) => {
-					sharedPostMap.set( post.get('postId'), post );
-				});
-				return this.postService.getPostsByPostIds( postIds ).then((postModels) => {
-					return postModels.map(( model ) => {
-						if( sharedPostMap.get(model.id) ) {
-							model.liked = sharedPostMap.get( model.id ).get('liked');
-							model.starred = !!sharedPostMap.get( model.id ).get('collectionId');
-						} else {
-							model.liked = false;
-							model.starred = false;
-						}
-						return model;
-					});
-				});
-			});
-		});
-	}
+	// getFriendCollectionFeedByIdAndCollectionIdAndPage( userId, friendId, collectionId, page ) {
+	// 	page = isNaN( page ) ? 1 : page;
+	// 	const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+	// 	return this.collectionService.getCollectionIdsRecursivellyByCollectionId( collectionId ).then(( collectionIds ) => {
+	// 		return FeedModel.findAll({
+	// 			attributes: ['postId','liked', 'collectionId'],
+	// 			where: {
+	// 				userId: friendId,
+	// 				collectionId: collectionIds,
+	// 				approved: true
+	// 			},
+	// 			limit: PostService.LIMIT,
+	// 			offset: (( page - 1 ) * PostService.LIMIT),
+	// 			order: [[ 'post_id', 'DESC' ]],
+	// 			group: ['post_id','liked', 'collection_id']
+	// 		});
+	// 	}).then((posts) => {
+	// 		if( !posts || posts.length == 0 ) {
+	// 			return [];
+	// 		}
+	// 		let postIds = posts.map((post) => {
+	// 			return post.get('postId');
+	// 		});
+	// 		return FeedModel.findAll({
+	// 			where: {
+	// 				userId: userId,
+	// 				postId: postIds
+	// 			}
+	// 		}).then((sharedPosts) => {
+	// 			let sharedPostMap = new Map();
+	// 			sharedPosts.forEach((post) => {
+	// 				sharedPostMap.set( post.get('postId'), post );
+	// 			});
+	// 			return this.postService.getPostsByPostIds( postIds ).then((postModels) => {
+	// 				return postModels.map(( model ) => {
+	// 					if( sharedPostMap.get(model.id) ) {
+	// 						model.liked = sharedPostMap.get( model.id ).get('liked');
+	// 						model.starred = !!sharedPostMap.get( model.id ).get('collectionId');
+	// 					} else {
+	// 						model.liked = false;
+	// 						model.starred = false;
+	// 					}
+	// 					return model;
+	// 				});
+	// 			});
+	// 		});
+	// 	});
+	// }
 
 	getUserPostsByUserAndFilteredPostIds( userId, postIds ) {
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );

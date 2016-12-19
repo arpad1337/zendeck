@@ -13,14 +13,24 @@
 	        </posting-box-tag>
         </ul>
     </div>
-	<button 
-		class="save-to-collection" 
-		ng-click="ctrl.saveCurrentFilter()" 
-		title="{{'FEED.SAVE_FILTER' | translate}}"
-		ng-disabled="ctrl.currentFilter.tags.length == 0"
-	>
-		{{ 'FEED.SAVE_FILTER' | translate }}
-	</button>
+    <div class="actions">
+		<button 
+			class="save-to-collection" 
+			ng-click="ctrl.saveCurrentFilter()" 
+			title="{{'FEED.SAVE_FILTER' | translate}}"
+			ng-disabled="ctrl.currentFilter.tags.length == 0"
+		>
+			{{ 'FEED.SAVE_FILTER' | translate }}
+		</button>
+		<button 
+			class="delete" 
+			ng-click="ctrl.deleteCurrentFilter()" 
+			title="{{'FEED.SAVE_FILTER' | translate}}"
+			ng-if="!ctrl.currentFilter.temporary"
+		>
+			{{ 'FEED.DELETE_FILTER' | translate }}
+		</button>
+	</div>
 	<div ng-if="ctrl.posts && ctrl.posts.length > 0">
     <post-entry 
     	ng-repeat="post in ctrl.posts track by $index" 

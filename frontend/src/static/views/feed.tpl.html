@@ -36,8 +36,7 @@
                                 <a 
                                     ui-sref="feed.collection({collectionSlug: collection.slug})" 
                                     ng-click="ctrl.selectCollection( collection.slug )"
-                                    class=" "
-                                    ng-class="ctrl.activeCollection == collection.id ? 'active' : ''"
+                                    ng-class="{active:ctrl.activeCollection == collection.id, inherited:collection.parent}"
                                 >
                                     {{ collection.name }}
                                 </a>

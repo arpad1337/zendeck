@@ -209,8 +209,25 @@ class CollectionController extends PostController {
 		});
 	}
 
-	addPostToCollection( collectionSlug, postId ) {
-		return this.feedService.addPostToCollection( collectionSlug, postId );
+	addPostToCollection( collection, postId ) {
+		return this.feedService.addPostToCollection( collection.slug, postId );
+	}
+
+	async deleteCurrentCollection() {
+		await this.modalService.openDialog( this.modalService.DIALOG_TYPE.CONFIRMATION, {
+			confirmationDialogTemplateKey: 'DELETE_COLLECTION'
+		});
+		await this.collectionService.deleteCollection( this._activeCollection.slug );
+		let index = this.collections.findIndex((a) => {
+			return a.slug == this._activeCollection.slug
+		});
+		this.collections.splice( index, 1 );
+		this._activeCollection = null;
+		this.onCollectionDeleted();
+	}
+
+	onCollectionDeleted() {
+		throw new Error('Must ovveride');
 	}
 
 }

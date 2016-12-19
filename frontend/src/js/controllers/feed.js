@@ -136,6 +136,13 @@ class FeedController extends CollectionController {
 		return STATES.APPLICATION.FEED;
 	}
 
+	// collections
+
+	onCollectionDeleted() {
+		this.$state.go(this.FEED_STATES.POSTS);
+		this.selectFeed();
+	}
+
 	// FILTERS
 
 	async selectFilter( slug ) {
@@ -216,14 +223,6 @@ class FeedController extends CollectionController {
 		this.$scope.$digest();
 	}
 
-	async deleteCurrentFilter() {
-		await this.filterService.deleteFilter( this._activeFilter.slug );
-		this.filters = await this.filterService.getUserFilters();
-		this.resetPaginator();
-		this.posts = this.feedService.getFeedByPage( this._page );
-		this.$state.go( this.FEED_STATES.POSTS );
-	}
-
 	openCreateFilterDialog( name ) {
 		if( name ) {
 			return this.modalService.openDialog( this.modalService.DIALOG_TYPE.CREATE_FILTER, {
@@ -257,6 +256,13 @@ class FeedController extends CollectionController {
 		this.$state.go( this.FEED_STATES.FILTERED, { filterSlug: model.slug });
 	}
 
+	createTemporaryFilterWithTagAndRunFilter( tag ) {
+		let model = this.filterService.createNewFilterModelWithNameAndTags( tag, [ tag ] );
+		this._activeFilter = model;
+		this.$state.go( this.FEED_STATES.FILTERED, { filterSlug: model.slug });
+		this.selectFilter( model.slug );
+	}
+
 	addTag( tag ) {
 		tag = tag.trim().toLowerCase().replace(/\s\s+/g, ' ');
 		if( tag.length < 3 ) {
@@ -264,14 +270,29 @@ class FeedController extends CollectionController {
 		}
 		if( this._activeFilter.tags.length <= 20 && this._activeFilter.tags.indexOf( tag ) === -1 ) {
 			this._activeFilter.tags.push( tag );
+			this.runCurrentFilter();
 		}
 	}
 
 	removeTag( tag ) {
 		tag = tag.trim().toLowerCase();
 		this._activeFilter.tags.splice( this._activeFilter.tags.indexOf( tag ), 1);
+		this.runCurrentFilter();
 	}
 
+	async deleteCurrentFilter() {
+		await this.modalService.openDialog( this.modalService.DIALOG_TYPE.CONFIRMATION, {
+			confirmationDialogTemplateKey: 'DELETE_FILTER'
+		});
+		await this.filterService.deleteFilter( this._activeFilter.slug );
+		let index = this.filters.findIndex((a) => {
+			return a.slug == this._activeFilter.slug
+		});
+		this.filters.splice( index, 1 );
+		this._activeFilter = null;
+		this.$state.go(this.FEED_STATES.POSTS);
+		this.selectFeed();
+	}
 
 	get activeFilter() {
 		if( 

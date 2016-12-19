@@ -127,6 +127,13 @@ main > nav {
 						&.active {
 							background: $SECONDARY-DARK;
 						}
+						&.inherited {
+							&:before {
+								content: "↳";
+								display: inline;
+								font-size: 10px;
+							}
+						}
 					}
 					&:first-child {
 						border-top: none;
