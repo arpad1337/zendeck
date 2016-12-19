@@ -40,6 +40,7 @@ const model = sequelizeModelHelper.buildModel(
 	},
 	// Traits
 	[
+		sequelizeModelHelper.PARANOID_MODEL_SETTINGS,
 		sequelizeModelHelper.TIMESTAMPS_SETTINGS
 	]
 );

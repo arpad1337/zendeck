@@ -3,11 +3,13 @@
  */
 
 const PostService = require('../services/post');
+const AttachmentService = require('../services/attachment');
 
 class PostController {
 
-	constructor( postService ) {
+	constructor( postService, attachmentService ) {
 		this.postService = postService;
+		this.attachmentService = attachmentService;
 	}
 
 	*commentOnPost( context ) {
@@ -47,10 +49,21 @@ class PostController {
 		}
 	}
 
+	*scrapeUrl( context ) {
+		try {
+			let data = yield this.attachmentService.scrapeUrl( context.request.fields.url );
+			context.body = data;
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const postService = PostService.instance;
-			this.singleton = new PostController( postService );
+			const attachmentService = AttachmentService.instance;
+			this.singleton = new PostController( postService, attachmentService );
 		}
 		return this.singleton;
 	}

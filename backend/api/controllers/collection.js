@@ -4,12 +4,14 @@
 
 const CollectionService = require('../services/collection');
 const GroupService = require('../services/group');
+const FeedService = require('../services/feed');
 
 class CollectionController {
 	
-	constructor( collectionService, groupService ) {
+	constructor( collectionService, groupService, feedService ) {
 		this.collectionService = collectionService;
 		this.groupService = groupService;
+		this.feedService = feedService;
 	}
 
 	*getCurrentUserCollections( context ) {
@@ -91,6 +93,7 @@ class CollectionController {
 				throw new Error('Unauthorized');
 			}
 			yield this.collectionService.deleteCollectionBySlug( slug );
+			yield this.feedService.deleteCollectionBySlug( slug );
 			context.body = {
 				success: true 
 			};
@@ -105,6 +108,9 @@ class CollectionController {
 		const payload = context.request.fields;
 		try {
 			let collection = yield this.collectionService.createCollection( userId, payload.name, payload.isPublic, payload.parent );
+			if( payload.parent ) {
+				yield this.feedService.createCollectionWithParent( userId, collection.id );
+			}
 			context.body = collection;
 		} catch( e ) {
 			console.error(e, e.stack);
@@ -134,7 +140,8 @@ class CollectionController {
 		if( !this.singleton ) {
 			const collectionService = CollectionService.instance;
 			const groupService = GroupService.instance;
-			this.singleton = new CollectionController( collectionService, groupService );
+			const feedService = FeedService.instance;
+			this.singleton = new CollectionController( collectionService, groupService, feedService );
 		}
 		return this.singleton;
 	}

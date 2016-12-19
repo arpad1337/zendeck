@@ -97,7 +97,7 @@ module.exports = {
 		}).then(() =>  {
 			return queryInterface.bulkInsert( TABLE_NAME, [
 				{
-					username: 'zendeck',
+					username: 'ship',
 					enabled: true,
 					fullname: 'ZenDeck',
 					profile_color: '#00BFFF',

@@ -50,6 +50,22 @@ class FeedService {
 		});
 	}
 
+	getCurrentUserPostsFeedByIdAndPage( userId, page ) {
+		page = isNaN( page ) ? 1 : page;
+		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+		return this.postService.getPostIdsByCurrentUserIdAndPage( userId ).then((postIds) => {
+			return FeedModel.findAll({
+				attributes: ['postId','liked', 'collectionId'],
+				where: {
+					userId: userId,
+					postId: postIds
+				},
+				order: [[ 'post_id', 'DESC' ]],
+				group: ['post_id','liked', 'collection_id']
+			}).then(this._createPostViewsFromDBModels);
+		});
+	}
+
 	getUserFeedByIdAndPage( userId, page ) {
 		page = isNaN( page ) ? 1 : page;
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
@@ -173,7 +189,7 @@ class FeedService {
 				let isAdmin = values[0];
 				let isMember = values[1];
 				let where = {
-					userId: userId,
+					//userId: userId,
 					groupId: group.id,
 					liked: true
 				};
@@ -203,18 +219,48 @@ class FeedService {
 			console.log("\n\n\n");
 
 			return FeedModel.findAll({
-				attributes: ['postId','liked', 'collectionId'],
+				attributes: ['postId', 'collectionId'],
 				where: {
-					userId: userId,
+					//userId: userId,
 					collectionId: collectionIds,
 					approved: true
 				},
 				limit: PostService.LIMIT,
 				offset: (( page - 1 ) * PostService.LIMIT),
 				order: [[ 'post_id', 'DESC' ]],
-				group: ['post_id','liked', 'collection_id']
+				group: ['post_id', 'collection_id']
 			});
-		}).then(this._createPostViewsFromDBModels);
+		}).then((posts) => {
+			if( !posts || posts.length == 0 ) {
+				return [];
+			}
+			let postIds = posts.map((post) => {
+				return post.get('postId');
+			});
+			return FeedModel.findAll({
+				where: {
+					userId: userId,
+					postId: postIds
+				}
+			}).then((sharedPosts) => {
+				let sharedPostMap = new Map();
+				sharedPosts.forEach((post) => {
+					sharedPostMap.set( post.get('postId'), post );
+				});
+				return this.postService.getPostsByPostIds( postIds ).then((postModels) => {
+					return postModels.map(( model ) => {
+						if( sharedPostMap.get(model.id) ) {
+							model.liked = sharedPostMap.get( model.id ).get('liked');
+							model.starred = !!sharedPostMap.get( model.id ).get('collectionId');
+						} else {
+							model.liked = false;
+							model.starred = false;
+						}
+						return model;
+					});
+				});
+			});
+		});
 	}
 
 	getGroupCollectionFeed( userId, groupId, collectionId, page ) {
@@ -222,9 +268,8 @@ class FeedService {
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
 		return this.collectionService.getCollectionIdsRecursivellyByCollectionId( collectionId ).then(( collectionIds ) => {
 			return FeedModel.findAll({
-				attributes: ['postId','liked', 'collectionId'],
+				attributes: ['postId', 'collectionId'],
 				where: {
-					userId: userId,
 					groupId: groupId,
 					collectionId: collectionIds,
 					approved: true
@@ -232,9 +277,39 @@ class FeedService {
 				limit: PostService.LIMIT,
 				offset: (( page - 1 ) * PostService.LIMIT),
 				order: [[ 'post_id', 'DESC' ]],
-				group: ['post_id','liked', 'collection_id']
+				group: ['post_id', 'collection_id']
 			});
-		}).then(this._createPostViewsFromDBModels);
+		}).then((posts) => {
+			if( !posts || posts.length == 0 ) {
+				return [];
+			}
+			let postIds = posts.map((post) => {
+				return post.get('postId');
+			});
+			return FeedModel.findAll({
+				where: {
+					userId: userId,
+					postId: postIds
+				}
+			}).then((sharedPosts) => {
+				let sharedPostMap = new Map();
+				sharedPosts.forEach((post) => {
+					sharedPostMap.set( post.get('postId'), post );
+				});
+				return this.postService.getPostsByPostIds( postIds ).then((postModels) => {
+					return postModels.map(( model ) => {
+						if( sharedPostMap.get(model.id) ) {
+							model.liked = sharedPostMap.get( model.id ).get('liked');
+							model.starred = !!sharedPostMap.get( model.id ).get('collectionId');
+						} else {
+							model.liked = false;
+							model.starred = false;
+						}
+						return model;
+					});
+				});
+			});
+		});
 	}
 
 	getFriendCollectionFeedByIdAndCollectionIdAndPage( userId, friendId, collectionId, page ) {
@@ -487,6 +562,7 @@ class FeedService {
 						}
 						idSet.add(id);
 						let model = {
+							authorId: userId,
 							userId: id,
 							postId: postId,
 							liked: false,
@@ -547,15 +623,28 @@ class FeedService {
 	likePostByUserId( userId, postId ) {
 		return this.postService.getPostById( postId ).then((post) => {
 			const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-			return FeedModel.update({ 
-				liked: true,
-				userId: userId,
-				postId: postId,
-				authorId: post.userId
-			}, {
+			return FeedModel.findOne({
 				where: {
 					userId: userId,
 					postId: postId
+				}
+			}).then((model) => {
+				if( model ) {
+					return FeedModel.update({
+						liked: true
+					}, {
+						where: {
+							userId: userId,
+							postId: postId
+						}
+					});
+				} else {
+					return FeedModel.create({
+						liked: true,
+						userId: userId,
+						postId: postId,
+						authorId: post.userId
+					});
 				}
 			}).then((model) => {
 				this.postService.likePost( postId );
@@ -672,6 +761,67 @@ class FeedService {
 				userId: userId,
 				groupId: groupId
 			}
+		});
+	}
+
+	createCollectionWithParent( userId, newCollectionId) {
+		return new Promise((resolve, reject) => {
+			return this.collectionService.getCollectionIdsRecursivellyByCollectionId( newCollectionId ).then((collectionIds) => {
+				const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+				return FeedModel.findAll({
+					where: {
+						userId: {
+							$ne: userId
+						},
+						collectionId: collectionIds
+					},
+					attributes: ['postId','authorId','groupId'],
+					group: ['postId','authorId','groupId'],
+					limit: PostService.HISTORY_LIMIT,
+					raw: true
+				}).then((ids) => {
+					let postIds = ids.map( i => i.postId );
+					return FeedModel.destroy({
+						where: {
+							postId: postIds,
+							userId: userId
+						},
+						force: true
+					}).then(() => {
+						let buffer = [];
+						ids.forEach((id, index) => {
+							buffer.push({
+								userId: userId,
+								postId: id.postId,
+								groupId: id.groupId,
+								authorId: id.authorId,
+								collectionId: newCollectionId,
+								approved: true
+							});
+							if( index === PostService.LIMIT - 1 ) {
+								FeedModel.bulkCreate( buffer.splice(0, PostService.LIMIT) ).then(resolve);
+							}
+						});
+						if( ids.length < PostService.LIMIT ) {
+							resolve();
+						}
+						return FeedModel.bulkCreate( buffer );
+					})
+				});
+			});
+		});
+	}
+
+	deleteCollectionBySlug( slug ) {
+		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
+		return this.collectionService.getCollectionBySlug( slug ).then((collection) => {
+			return FeedModel.update({
+				collectionId: null
+			},{
+				where: {
+					collectionId: collection.id
+				}
+			});
 		});
 	}
 

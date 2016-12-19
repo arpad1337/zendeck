@@ -12,6 +12,8 @@ const HTMLEMailFactory = require('../../util/html-email-factory');
 const DatabaseProvider = require('../../providers/database');
 const EmailProvider = require('../../providers/email');
 
+const striptags = require('striptags');
+
 const ENV = require('../../config/environment');
 
 class AuthService {
@@ -81,6 +83,10 @@ class AuthService {
 		});
 	}
 
+	enableUser( userId ) {
+		return this.userService.updateUser( userId, { enabled: true } );
+	}
+
 	inviteUsers( userId, users ) {
 		let emails = users.map( u => u.email );
 		return this.userService.getUserById( userId ).then((user) => {
@@ -101,12 +107,15 @@ class AuthService {
 	}
 
 	sendFeedback( userId, content ) {
-		return this.userService.getUserById( userId ).then((user) => {
+		content = striptags(content);
+		content = content.replace('\n','<br>');
+		return this.userService.getFullUserById( userId ).then((user) => {
 			let body = ` User: ${user.fullname} <small>${user.username}</small> - ${user.email} has sent feedback:
-
-				${content}
+			<br>
+			<br>
+			${content}
 			`;
-			return this.emailProvider.sendEmail( 'arpad@zendeck.co', '[ZenDeck] User feedback', body);
+			return this.emailProvider.sendEmail( ['arpad@zendeck.co','arpad1019@gmail.com'], '[ZenDeck] User feedback', body);
 		});
 	}
 

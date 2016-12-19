@@ -35,6 +35,12 @@ const Util = {
 	    return r;
 	},
 
+	checkEduEmail: ( email ) => {
+		let parts = email.split('.');
+		let suffix = parts[ parts.length - 1 ];
+		return ( suffix === 'edu' );
+	},
+
 	trim: ( string ) => {
 		if( !string ) {
 			return '';

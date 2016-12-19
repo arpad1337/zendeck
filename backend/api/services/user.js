@@ -241,6 +241,7 @@ class UserService {
 	}
 
 	createUser( payload ) {
+		const isEducationEmail = Util.checkEduEmail( payload.email );
 		const UserModel = this.databaseProvider.getModelByName( 'user' );
 		return UserModel.create({
 			username: payload.username,
@@ -249,7 +250,8 @@ class UserService {
 			fullname: payload.fullname,
 			isBusiness: payload.isBusiness,
 			termsAccepted: payload.termsAccepted,
-			profileColor: Util.generateRandomColor()
+			profileColor: Util.generateRandomColor(),
+			enabled: isEducationEmail
 		});
 	}
 

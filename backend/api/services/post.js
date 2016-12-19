@@ -154,6 +154,24 @@ class PostService {
 		});
 	}
 
+	getPostIdsByCurrentUserIdAndPage( userId ) {
+		const PostModel = this.databaseProvider.getModelByName('post');
+		return PostModel.findAll({
+			where: {
+				userId: userId
+			},
+			attributes: ['id','userId'],
+			limit: PostService.HISTORY_LIMIT,
+			offset: 0,
+			raw: true
+		}).then(( models ) => {
+			if( models ) {
+				return models.map(m => m.id);
+			}
+			return [];
+		});
+	}
+
 	getPostIdsAndAuthorByGroupId( groupId ) {
 		const PostModel = this.databaseProvider.getModelByName('post');
 		return PostModel.findAll({

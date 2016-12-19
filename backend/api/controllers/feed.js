@@ -47,8 +47,13 @@ class FeedController {
 	*getUserPosts( context ) {
 		const username = context.params.username;
 		try {
-			let user = yield this.userService.getUserByUsername( username );
-			let posts = yield this.feedService.getUserPostsFeedByIdAndPage( user.id, context.query.page );
+			let posts;
+			if( username == context.session.user.username ) {
+				posts = yield this.feedService.getCurrentUserPostsFeedByIdAndPage( context.session.user.id, context.query.page );
+			} else {
+				let user = yield this.userService.getUserByUsername( username );
+				posts = yield this.feedService.getUserPostsFeedByIdAndPage( user.id, context.query.page );
+			}
 			context.body = posts;
 		} catch( e ) {
 			console.error(e, e.stack);

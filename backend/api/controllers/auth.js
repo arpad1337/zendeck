@@ -50,10 +50,11 @@ class AuthController {
 			yield this.collectionService.createCollection( user.id, 'Favorites', true );
 			if( invitationKey ) {
 				yield this.authService.acceptInvitation( user.id, invitationKey );
+				yield this.authService.enableUser( user.id );
 				user.enabled = true;
 			}
 			let system = yield this.authService.getSystemUser();
-			yield this.messageService.createMessage( system.id, user.id, 'Welcome at ZenDeck! Hope you will have a good time using the platform.\n\nBest\nZenDeck Team');
+			yield this.messageService.createMessage( system.id, user.id, 'Welcome at ZenDeck! \n\nHope you will have a good time using the platform.\n\nBest\nZenDeck Team');
 			if( !user.enabled ) {
 				throw new Error('User login disabled');
 			}

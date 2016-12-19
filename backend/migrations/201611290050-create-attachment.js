@@ -17,7 +17,7 @@ module.exports = {
 				type: TYPES.STRING(256)
 			},
 			title: {
-				type: TYPES.STRING(60)
+				type: TYPES.STRING(256)
 			},
 			description: {
 				type: TYPES.TEXT
@@ -31,6 +31,9 @@ module.exports = {
 			tags: {
 				type: TYPES.JSONB
 			},
+			blob: {
+				type: TYPES.JSONB
+			},
 			created_at: {
 				type: TYPES.DATE
 			},
@@ -40,13 +43,13 @@ module.exports = {
 		})
 		.then(() => {
 			return queryInterface.addIndex( TABLE_NAME, ['url'], {
-				indexName: 'url_unique',
+				indexName: 'attachment_url_unique',
 				indicesType: 'UNIQUE'
 			});
 		});
 	},
 	down: ( queryInterface, TYPES ) => {
-		return queryInterface.removeIndex( TABLE_NAME, 'url_unique')
+		return queryInterface.removeIndex( TABLE_NAME, 'attachment_url_unique')
 		.then(() => {
 			return queryInterface.dropTable( TABLE_NAME );
 		});

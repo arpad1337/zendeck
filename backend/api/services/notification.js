@@ -296,7 +296,7 @@ class NotificationService {
 							if( !notif.payload.users.find((u) => { return u.id = payload.user.id; }) ) {
 								notif.payload.users.unshift( payload.user );
 							}
-							return this._updateNotificationById( id, {
+							return this._updateNotificationById( notif.id, {
 								payload: notif.payload
 							});
 						}

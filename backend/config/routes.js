@@ -374,6 +374,13 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
+		path: '/collection/:collectionSlug',
+		method: 'delete',
+		controller: 'collection',
+		action: 'deleteCollection',
+		middlewares: ['session-check']
+	},
+	{
 		path: '/collection/:collectionSlug/feed',
 		method: 'get',
 		controller: 'feed',
@@ -631,7 +638,13 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 
-	// getUnreadMessageCount
+	{
+		path: '/scrape',
+		method: 'post',
+		controller: 'post',
+		action: 'scrapeUrl',
+		middlewares: ['session-check']
+	},
 
 	// SEARCH
 

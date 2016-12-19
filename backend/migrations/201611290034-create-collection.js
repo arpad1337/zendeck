@@ -38,6 +38,9 @@ module.exports = {
 			},
 			updated_at: {
 				type: TYPES.DATE
+			},
+			deleted_at: {
+				type: TYPES.DATE
 			}
 		})
 		.then(() => {

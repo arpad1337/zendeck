@@ -18,7 +18,7 @@ const model = sequelizeModelHelper.buildModel(
 			type: TYPES.STRING(256)
 		},
 		title: {
-			type: TYPES.STRING(60)
+			type: TYPES.STRING(256)
 		},
 		description: {
 			type: TYPES.TEXT
@@ -30,6 +30,9 @@ const model = sequelizeModelHelper.buildModel(
 			type: TYPES.STRING(256)
 		},
 		tags: {
+			type: TYPES.JSONB
+		},
+		blob: {
 			type: TYPES.JSONB
 		}
 	},

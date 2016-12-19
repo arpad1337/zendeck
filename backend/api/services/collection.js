@@ -44,7 +44,29 @@ class CollectionService {
 			if( !collections ) {
 				return [];
 			}
-			return collections.map( c =>  c.get() );
+			let collectionParentSet = new Set();
+			collections = collections.map( c => {
+				if(c.get('parent')) {
+					collectionParentSet.add( c.get('parent') );
+				}
+				return c.get();
+			});
+			if( collectionParentSet.size > 0 ) {
+				return this.getCollectionsByIds( Array.from( collectionParentSet ) ).then((parents) => {
+					let parentsMap = new Map();
+					parents.forEach((parent) => {
+						parentsMap.set( parent.id, parent );
+					});
+					collections = collections.map( c => {
+						if(c.parent) {
+							c.parent = parentsMap.get( c.parent );
+						}
+						return c;
+					});
+					return collections;
+				});
+			}
+			return collections;
 		});
 	}
 
@@ -60,7 +82,29 @@ class CollectionService {
 			if( !collections ) {
 				return [];
 			}
-			return collections.map( c =>  c.get() );
+			let collectionParentSet = new Set();
+			collections = collections.map( c => {
+				if(c.get('parent')) {
+					collectionParentSet.add( c.get('parent') );
+				}
+				return c.get();
+			});
+			if( collectionParentSet.size > 0 ) {
+				return this.getCollectionsByIds( Array.from( collectionParentSet ) ).then((parents) => {
+					let parentsMap = new Map();
+					parents.forEach((parent) => {
+						parentsMap.set( parent.id, parent );
+					});
+					collections = collections.map( c => {
+						if(c.parent) {
+							c.parent = parentsMap.get( c.parent );
+						}
+						return c;
+					});
+					return collections;
+				});
+			}
+			return collections;
 		});
 	}
 
@@ -78,6 +122,28 @@ class CollectionService {
 		});
 	}
 
+	getCollectionById( id ) {
+		const CollectionModel = this.databaseProvider.getModelByName( 'collection' );
+		return CollectionModel.findOne({
+			where: {
+				id: id
+			}
+		}).then((collection) => {
+			return collection.get();
+		});
+	}
+
+	getCollectionsByIds( ids ) {
+		const CollectionModel = this.databaseProvider.getModelByName( 'collection' );
+		return CollectionModel.findAll({
+			where: {
+				id: ids
+			}
+		}).then((collections) => {
+			return collections.map( collection => collection.get() );
+		});
+	}
+
 	getCollectionBySlug( slug ) {
 		const CollectionModel = this.databaseProvider.getModelByName( 'collection' );
 		return CollectionModel.findOne({
@@ -85,11 +151,22 @@ class CollectionService {
 				slug: slug
 			}
 		}).then((collection) => {
-			return collection.get();
+			collection = collection.get();
+			if( collection.parent ) {
+				return CollectionModel.findOne({
+					where: {
+						id: collection.parent
+					}
+				}).then((parent) => {
+					collection.parent = parent.get();
+					return collection;
+				});
+			}
+			return collection;
 		});
 	}
 
-	getChildrenCollectionsBySlug() {
+	getChildrenCollectionsBySlug( slug ) {
 		const CollectionModel = this.databaseProvider.getModelByName( 'collection' );
 		return this.getCollectionBySlug( slug ).then((collection) => {
 			return CollectionModel.findAll({
@@ -140,27 +217,32 @@ class CollectionService {
 
 	deleteCollectionBySlug( slug ) {
 		const CollectionModel = this.databaseProvider.getModelByName( 'collection' );
-		return Promise.all([
-			this.getCollectionBySlug( slug ),
-			this.getChildrenCollectionsBySlug( slug )
-		]).then((values) => {
-			let collection = values[0];
-			let collections = values[1];
-			collections = collections.map( c => c.id );
-			return CollectionModel.update({
-				parent: collection.parent
-			}, {
-				where: {
-					id: collections
-				}
-			}).then(() => {
-				return CollectionModel.destroy({
-					where: {
-						id: collection.id
-					}
-				});
-			});
+		return CollectionModel.destroy({
+			where: {
+				id: collection.id
+			}
 		});
+		// return Promise.all([
+		// 	this.getCollectionBySlug( slug ),
+		// 	this.getChildrenCollectionsBySlug( slug )
+		// ]).then((values) => {
+		// 	let collection = values[0];
+		// 	let collections = values[1];
+		// 	collections = collections.map( c => c.id );
+		// 	return CollectionModel.update({
+		// 		parent: collection.parent
+		// 	}, {
+		// 		where: {
+		// 			id: collections
+		// 		}
+		// 	}).then(() => {
+		// 		return CollectionModel.destroy({
+		// 			where: {
+		// 				id: collection.id
+		// 			}
+		// 		});
+		// 	});
+		// });
 	}
 
 	getCollectionIdsRecursivellyByCollectionId( collectionId, accumulator ) {
@@ -169,9 +251,10 @@ class CollectionService {
 		return CollectionModel.findOne({
 			where: {
 				id: collectionId
-			}
+			},
+			paranoid: true
 		}).then((collection) => {
-			accumulator.push( collectionId );
+			accumulator.push(collectionId);
 			if( collection.get('parent') ) {
 				return this.getCollectionIdsRecursivellyByCollectionId( collection.get('parent'), accumulator );
 			}
