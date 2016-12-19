@@ -56,6 +56,9 @@ module.exports = {
 			return queryInterface.addIndex( TABLE_NAME, ['group_id'] );
 		})
 		.then(() => {
+			return queryInterface.addIndex( TABLE_NAME, ['collection_id'] );
+		})
+		.then(() => {
 			return queryInterface.addIndex( TABLE_NAME, ['post_id'] );
 		})
 		.then(() => {
@@ -75,6 +78,9 @@ module.exports = {
 		})
 		.then(() => {
 			return queryInterface.removeIndex( TABLE_NAME, ['group_id'] );
+		})
+		.then(() => {
+			return queryInterface.removeIndex( TABLE_NAME, ['collection_id'] );
 		})
 		.then(() => {
 			return queryInterface.removeIndex( TABLE_NAME, 'user_id-post_id_compound-unique' );
