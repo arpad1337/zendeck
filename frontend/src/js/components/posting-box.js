@@ -52,7 +52,8 @@ class PostingBoxComponent {
 			'photo',
 			'video',
 			'event',
-			'discussion'
+			'discussion',
+			'presentation'
 		];
 		this.charactersLeft = PostingBoxComponent.MAX_CONTENT_LENGTH;
 		return {

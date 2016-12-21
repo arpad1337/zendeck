@@ -56,7 +56,8 @@ const STATES = {
 	CONTACT: 'contact',
 	TNC: 'tnc',
 	PRIVACY_POLICY: 'privacyPolicy',
-	COOKIE_POLICY: 'cookiePolicy'
+	COOKIE_POLICY: 'cookiePolicy',
+	RULES: 'rules'
 };
 
 export default STATES;

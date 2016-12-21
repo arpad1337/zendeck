@@ -22,6 +22,10 @@ class EditGroupController {
 
 	//
 
+	get isUserPremium() {
+		return this.userService.currentUser && this.userService.currentUser.isPremium;
+	}
+
 	get groupSlug() {
 		if( this.$state && this.$state.params.groupSlug ) {
 			return this.$state.params.groupSlug;

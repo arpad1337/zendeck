@@ -17,10 +17,10 @@ class PostController {
 	constructor( feedService, modalService, $state ) {
 		this.feedService = feedService;
 		this.modalService = modalService;
+		this.$state = $state;
 		this.posts = [];
 
 		if( $state && $state.current.name === STATES.POST_VIEW ) {
-			this.$state = $state;
 			this._loadPost();
 		}
 	}
@@ -59,6 +59,10 @@ class PostController {
 			this.posts.splice( index, 1 );
 			return true;
 		});
+	}
+
+	approvePost( postId ) {
+
 	}
 
 	getMoreCommentsForPost( postId, page ) {

@@ -158,7 +158,7 @@ class AttachmentService {
 					title: response.title,
 					description: response.description,
 					source: response.provider_name,
-					tags: response.keywords && response.keywords.length > 0 ? response.keywords.map((k) => k.name.toLowerCase() ) : [],
+					tags: response.keywords && response.keywords.length > 0 ? response.keywords.map((k) => k.name.toLowerCase() ) : response.media && response.media.type == 'photo' ? ['photo'] : [],
 					blob: response
 				};
 

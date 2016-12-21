@@ -16,6 +16,12 @@ main {
 			width: 600px;
 			float: left;
 			margin-right: 10px;
+			&.full {
+				width: 100%;
+			}
+			&.static {
+				font-size: 14px;
+			}
 		}
 		& > aside {
 			width: 310px;
@@ -46,6 +52,13 @@ main {
 			// display: inline-block;
 			// padding: 0 2px;
 		}
+	}
+	h5 {
+		font-size: 16px;
+		margin: 4px 0 8px;
+	}
+	a {
+		color: $SECONDARY-LIGHT;
 	}
 	aside {
 		section {

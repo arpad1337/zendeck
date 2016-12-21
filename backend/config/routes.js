@@ -454,6 +454,13 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
+		path: '/group/:groupSlug/feed/:postId',
+		method: 'post',
+		controller: 'feed',
+		action: 'approvePostInGroup',
+		middlewares: ['session-check']
+	},
+	{
 		path: '/group/:groupSlug/feed/liked',
 		method: 'get',
 		controller: 'feed',

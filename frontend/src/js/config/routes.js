@@ -41,6 +41,48 @@ const ROUTES = [
 			path: '/invitation/:invitationKey'
 		}
 	},
+	{
+		state: STATES.FAQ,
+		opts: {
+			path: '/faq',
+			view: 'views/faq.tpl.html'
+		}
+	},
+	{
+		state: STATES.CONTACT,
+		opts: {
+			path: '/contact',
+			view: 'views/contact.tpl.html'
+		}
+	},
+	{
+		state: STATES.TNC,
+		opts: {
+			path: '/terms',
+			view: 'views/tnc.tpl.html'
+		}
+	},
+	{
+		state: STATES.PRIVACY_POLICY,
+		opts: {
+			path: '/privacy',
+			view: 'views/privacy-policy.tpl.html'
+		}
+	},
+	{
+		state: STATES.COOKIE_POLICY,
+		opts: {
+			path: '/cookie',
+			view: 'views/cookie-policy.tpl.html'
+		}
+	},
+	{
+		state: STATES.RULES,
+		opts: {
+			path: '/rules',
+			view: 'views/rules.tpl.html'
+		}
+	},
 
 	// FEED
 

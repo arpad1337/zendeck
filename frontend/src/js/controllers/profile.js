@@ -76,6 +76,8 @@ class ProfileController extends CollectionController {
 				birthDate: this.profile.birthDate,
 				profileColor: this.profile.profileColor
 			};
+		}).catch(() => {
+			this.$state.go(STATES.APPLICATION.FEED.POSTS);
 		});
 
 		if( this.$state.current.name === STATES.APPLICATION.PROFILE.POSTS ) {

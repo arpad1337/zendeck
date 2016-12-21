@@ -65,13 +65,17 @@
 		position: relative;
 		background: $WHITE;
 		@include border-radius(10px);
+		@extend .clear;
 		.cover {
 			float: left;
 			margin-right: 8px;
 			@include border-radius(6px);
+			text-align: center;
 			img {
 				@include border-radius(6px);
 				overflow: hidden;
+				max-height: 420px;
+				max-width: 100%;
 			}
 			overflow: hidden;
 			min-height: 160px;
@@ -123,6 +127,20 @@
 				width: 16px;
 				height: 16px;
 				color: white;
+			}
+		}
+		&.full-width {
+			.cover {
+				float: none;
+				width: 100%;
+			}
+			.resource {
+				float: left;
+				text-align: right;
+				width: 100%;
+				position: relative;
+				bottom: 0;
+				left: 0;
 			}
 		}
 	}

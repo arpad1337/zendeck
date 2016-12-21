@@ -142,6 +142,10 @@ class GroupService {
 		return this.$http.post( CONFIG.API_PATH + '/group/' + slug + '/invitation/' + key ).then((r)=>r.data);
 	}
 
+	approvePost( slug, postId ) {
+		return this.$http.post( CONFIG.API_PATH + '/group/' + slug + '/feed/' + postId ).then((r)=>r.data);
+	}
+
 }
 
 export default GroupService;

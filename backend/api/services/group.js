@@ -737,6 +737,24 @@ class GroupService {
 		});
 	}
 
+	getRandomGroupsWithExcludingIds( ids ) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		return UserModel.findAll({
+			where: {
+				id: {
+					$notIn: ids
+				}
+			},
+			order: [
+			    ['updated_at', 'DESC'],
+			    ['created_at', 'DESC']
+			],
+			limit: 10
+		}).then( models => {
+			return models.map( model => model.getPublicView() );
+		});
+	}
+
 	static get instance() {
 		if( !this.singleton ) {
 			const databaseProvider = DatabaseProvider.instance;

@@ -251,7 +251,8 @@ class UserService {
 			isBusiness: payload.isBusiness,
 			termsAccepted: payload.termsAccepted,
 			profileColor: Util.generateRandomColor(),
-			enabled: isEducationEmail
+			enabled: isEducationEmail,
+			isPremium: isEducationEmail
 		});
 	}
 

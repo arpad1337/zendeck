@@ -14,6 +14,7 @@ post-entry {
 	background: $BOX-BACKGROUND;
 	padding: 8px 8px 0;
  	border: $BOX-BORDER 1px solid;
+ 	position: relative;
 }
 
 .post {
@@ -21,9 +22,31 @@ post-entry {
 	display: block;
 	width: calc(100% - 70px);
 	max-width: 540px;
-	//margin: 10px auto;
-	//padding-top: 10px;
 	padding-left: 70px;
+
+	&.disapproved {
+		&:before {
+			content: " ";
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			border: 2px dashed $FOOTER-LIGHT;
+			@include border-radius(10px);
+		}
+	}
+
+	.approve {
+		border: none;
+		color: white;
+		position: absolute;
+		right: 0;
+		background: $SECONDARY-LIGHT !important;
+		&:hover {
+			background: $SECONDARY-DARK !important;
+		}
+	}
 
 	._right {
 		.tooltip-patch {
@@ -283,13 +306,17 @@ post-entry {
 				position: relative;
 				background: $WHITE;
 				@include border-radius(10px);
+				@extend .clear;
 				.cover {
 					float: left;
 					margin-right: 8px;
 					@include border-radius(6px);
+					text-align: center;
 					img {
 						@include border-radius(6px);
 						overflow: hidden;
+						max-height: 420px;
+						max-width: 100%;
 					}
 					overflow: hidden;
 					min-height: 160px;
@@ -312,6 +339,20 @@ post-entry {
 					left: 176px;
 					span {
 						color: $MAIN-LIGHT;
+					}
+				}
+				&.full-width {
+					.cover {
+						float: none;
+						width: 100%;
+					}
+					.resource {
+						float: left;
+						text-align: right;
+						width: 100%;
+						position: relative;
+						bottom: 0;
+						left: 0;
 					}
 				}
 			}

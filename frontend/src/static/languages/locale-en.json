@@ -53,7 +53,7 @@
 		},
 		"COL_2": {
 			"TITLE": "Legal",
-			"TNC": "Terms & Conditions",
+			"TNC": "Terms of Service",
 			"PRIVACY_POLICY": "Privacy Policy",
 			"COOKIE_POLICY": "Cookie Policy"
 		},
@@ -143,6 +143,7 @@
 		"EDIT_COLLECTION": "Edit",
 		"INHERITED_COLLECTION": "inherit from",
 		"POST_ENTRY": {
+			"APPROVE": "Approve",
 			"COLLECTION_IN_GROUP": "in group",
 			"IN_GROUP": "from <a href=\"{{groupUrl}}\">{{groupName}}</a>",
 			"TIME_AGO_SUFFIX": "{{value}} ago",
@@ -460,5 +461,23 @@
 	},
 	"ABOUT": {
 		"TITLE": "About this page"
+	},
+	"FAQ": {
+		"TITLE": "Frequently asked questions"
+	},
+	"CONTACT": {
+		"TITLE": "Contact"
+	},
+	"TNC": {
+		"TITLE": "Terms & Conditions (Terms of Service)"
+	},
+	"COOKIE_POLICY": {
+		"TITLE": "Cookie policy"
+	},
+	"PRIVACY_POLICY": {
+		"TITLE": "Privacy policy"
+	},
+	"RULES": {
+		"TITLE": "Rules"
 	}
 }

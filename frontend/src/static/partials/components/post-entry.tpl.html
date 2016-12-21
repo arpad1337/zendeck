@@ -1,10 +1,17 @@
-<div class="post left" ng-if="vm.entry">
+<div class="post left" ng-if="vm.entry" ng-class="!vm.isPostApproved ? 'disapproved' : ''">
     <div class="head">
         <button 
             ng-click="vm.deletePost()" 
             class="delete"
             ng-if="vm.entry.author.id == vm.currentUser.id"
         ></button>
+        <button 
+            ng-if="!vm.isPostApproved"
+            class="approve"
+            ng-click="vm.approvePost()"
+        >
+            {{'FEED.POST_ENTRY.APPROVE' | translate}}
+        </button>
         <profile-pic
                 size="xmedium"
                 user="vm.entry.author"
@@ -75,7 +82,7 @@
             <div class="message" 
                 data-ng-bind-html=" vm.entry.content | formatContent | htmlSafe ">
             </div>
-            <a class="embed" href="{{vm.entry.attachment.url}}" ng-if="vm.entry.attachment">
+            <a class="embed" href="{{vm.entry.attachment.url}}" ng-if="vm.entry.attachment && vm.entry.attachment.title">
                 <div class="cover">
                     <img ng-src="{{vm.entry.attachment.preview}}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="160">
                 </div>
@@ -87,6 +94,14 @@
                 >
                 </div>
             </a>
+            <a class="embed full-width" href="{{vm.entry.attachment.url}}" ng-if="vm.entry.attachment && !vm.entry.attachment.title">
+                <div class="cover">
+                    <img ng-src="{{vm.entry.attachment.preview}}"  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+                </div>
+                <div class="resource" ng-bind-html=" 'FEED.LINK_PREVIEW' | translate : { medium: vm.entry.attachment.source, url: vm.entry.attachment.url } | htmlSafe ">
+                </div>
+            </a>
+
         </div>
         <div class="comment-area">
             <div class="pagination" ng-if="vm.entry.comments.count > 3 && vm.entry.comments.count - vm.entry.comments.data.length > 0">

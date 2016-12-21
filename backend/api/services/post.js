@@ -18,7 +18,7 @@ class PostService {
 	}
 
 	static get HISTORY_LIMIT() {
-		return 10000;
+		return 500;
 	}
 
 	constructor( databaseProvider, userService, commentService, groupService, attachmentService ) {
@@ -74,7 +74,7 @@ class PostService {
 		}).then((model) => {
 			return this.getExtendedPostModelById( model.get('id') ).then((n) => {
 				if( n.inGroup && n.group.isModerated ) {
-					return this.notificationService.createNotification( ng.group.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_POST_REQUEST, {
+					return this.notificationService.createNotification( n.group.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_POST_REQUEST, {
 						user: {
 							id: userId
 						},

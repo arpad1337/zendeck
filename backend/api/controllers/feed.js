@@ -120,6 +120,19 @@ class FeedController {
 		}
 	}
 
+	*approvePostInGroup( context ) {
+		const userId = context.session.user.id;
+		const slug = context.params.groupSlug;
+		const postId = context.params.postId;
+		try {
+			let group = yield this.groupService.getGroupBySlug( slug );
+			context.body = yield this.feedService.approvePost( userId, postId, group.id );
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	*getCollectionFeed( context ) {
 		const userId = context.session.user.id;
 		const slug = context.params.collectionSlug;

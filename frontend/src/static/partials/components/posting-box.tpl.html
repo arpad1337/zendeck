@@ -50,7 +50,7 @@
                             </div>
                             <div ng-if="vm.linkPreview">
                                 <h4>{{'FEED.LINK_PREVIEW_TITLE' | translate}}</h4>
-                                <div class="embed">
+                                <div class="embed" ng-if="vm.linkPreview.meta.title">
                                     <div class="cover">
                                         <img ng-src="{{vm.linkPreview.meta.preview}}" width="160"  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
                                     </div>
@@ -58,6 +58,14 @@
                                     <p>{{vm.linkPreview.meta.description}}</p>
                                     <div class="resource" ng-bind-html=" 'FEED.LINK_PREVIEW' | translate : { medium: vm.linkPreview.meta.source, url: vm.linkPreview.meta.url } | htmlSafe ">
                                         
+                                    </div>
+                                    <div class="delete" ng-click="vm.removePreview()"></div>
+                                </div>
+                                <div class="embed full-width" ng-if="!vm.linkPreview.meta.title">
+                                    <div class="cover">
+                                        <img ng-src="{{vm.linkPreview.meta.preview}}"  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+                                    </div>
+                                    <div class="resource" ng-bind-html=" 'FEED.LINK_PREVIEW' | translate : { medium: vm.linkPreview.meta.source, url: vm.linkPreview.meta.url } | htmlSafe ">
                                     </div>
                                     <div class="delete" ng-click="vm.removePreview()"></div>
                                 </div>

@@ -49,6 +49,10 @@ class PostEntryComponent {
 		this._commentPage = 0;
 	}
 
+	get isPostApproved() {
+		return (this.entry && 'approved' in this.entry) ? this.entry.approved : true;
+	}
+
 	get shareableUrl() {
 		let base = '';
 		if( window ) {
@@ -164,6 +168,13 @@ class PostEntryComponent {
 				this.entry.comments.data.push( comment );
 			});
 		}	
+	}
+
+	async approvePost() {
+		if( this._delegateRespondsToSelector( 'approvePost' ) ) {
+			await this.delegate.approvePost( this.entry.id );
+			this.entry.approved = true;
+		}
 	}
 
 	// customSelect delegate

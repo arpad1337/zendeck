@@ -11,7 +11,7 @@
                 <strong>{{ friend.fullname }}</strong>
                 <br> @{{ friend.username }}
             </div>
-            <div ng-if="ctrl.isUserAdmin" class="actions">
+            <div ng-if="ctrl.isUserAdmin && friend.id != APP.currentUser.id" class="actions">
                 <div ng-if="ctrl.profile.userId != friend.id && friend.approved" ng-click="ctrl.toggleAdminForUserId( friend.id )">
                     <div ng-if="!ctrl.isAdmin(friend.id)">
                         <button class="create" ng-click="ctrl.assignAdminToGroup( friend )">Promote</button>

@@ -91,6 +91,8 @@ class GroupBySlugController extends CollectionController {
 					}
 				});
 			}
+		}).catch(() => {
+			this.$state.go( STATES.APPLICATION.GROUPS );
 		});
 
 		this.filterService.getGroupFilters( this.currentSlug ).then((filters) => {
@@ -461,6 +463,10 @@ class GroupBySlugController extends CollectionController {
 		return true;
 	}
 
+	async approvePost( postId ) {
+		await this.groupService.approvePost( this.currentSlug, postId );
+	}
+
 	// group actions
 
 	async joinGroup() {
@@ -536,7 +542,7 @@ class GroupBySlugController extends CollectionController {
 		}).then((profile) => {
 			this.profile = profile;
 			this.$state.go( STATES.APPLICATION.GROUP_BY_SLUG.POSTS, {
-				groupSlug: group.slug
+				groupSlug: profile.slug
 			});
 		});
 	}

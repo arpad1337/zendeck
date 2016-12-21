@@ -168,10 +168,10 @@ class FeedService {
 				return this.postService.getPostIdsByGroupIdAndPage( group.id, page ).then((ids) => {
 					where.postId = ids;
 					return FeedModel.findAll({
-						attributes: ['postId','liked', 'collectionId'],
+						attributes: ['postId','liked', 'collectionId', 'approved'],
 						where: where,
 						order: [[ 'post_id', 'DESC' ]],
-						group: ['post_id','liked', 'collection_id']
+						group: ['post_id','liked', 'collection_id', 'approved']
 					}).then(this._createPostViewsFromDBModels);
 				});
 			})
@@ -422,6 +422,7 @@ class FeedService {
 			return postModels.map(( model ) => {
 				model.liked = postsMap.get( model.id ).get('liked');
 				model.starred = !!postsMap.get( model.id ).get('collectionId');
+				model.approved = (postsMap.get( model.id ).get('approved') == true || postsMap.get( model.id ).get('approved') == false) ? postsMap.get( model.id ).get('approved') : true;
 				return model;
 			});
 		});
@@ -447,40 +448,53 @@ class FeedService {
 			urls: payload.urls,
 			tags: payload.tags || []
 		}
-		let promise;
+		let promise = false;
 		if( !isNaN(payload.preview) ) {
 			let url = payload.urls[ payload.preview ];
 			if( url ) {
 				promise = this.attachmentService.getAttachmentByUrl( url ).then((attachment) => {
-		 		if( attachment ) {
-		 			model.attachmentId = attachment.id;
-		 		} else {
-		 			return this.attachmentService.scrapeUrl( url ).then(( content ) => {
-		 				return this.attachmentService.createAttachment( Object.assign( content.meta, { tags: payload.tags || [] }) ).then((attachmentId) => {
-		 					model.attachmentId = attachmentId;
-		 				});
-		 			});
-		 		}
-		 	});
+			 		if( attachment ) {
+			 			model.attachmentId = attachment.id;
+			 		} else {
+			 			return this.attachmentService.scrapeUrl( url ).then(( attachment ) => {
+		 					model.attachmentId = attachment.id;
+			 			});
+			 		}
+			 	});
 			}
 		}
 		if( payload.groupId ) {
 			model.groupId = payload.groupId
+			// if( promise ) {
+			// 	promise.then(() => {
+			// 		return this.groupService.getGroupById( payload.groupId ).then((group) => {
+			// 			model.approved = !group.isModerated;
+			// 			model.groupId = payload.groupId
+			// 		});
+			// 	});
+			// } else {
+			// 	promise = this.groupService.getGroupById( payload.groupId ).then((group) => {
+			// 		model.approved = !group.isModerated;
+			// 		model.groupId = payload.groupId
+			// 	});
+			// }
 		}
 
  		if( promise ) {
  			return promise.then(() => {
  				return this.postService.createPost( userId, model ).then((newModel) => {
-		 			return this.addPostToFeeds( userId, newModel.id, payload.groupId ).then(() => {
+		 			return this.addPostToFeeds( userId, newModel.id, payload.groupId ).then((isApproved) => {
 		 				this.filterService.storeTagsByPostId( newModel.id, newModel.tags, payload.groupId );
+		 				newModel.approved = isApproved;
 		 				return newModel;
 		 			});
 		 		});
  			});
  		} else {
  			return this.postService.createPost( userId, model ).then((newModel) => {
-	 			return this.addPostToFeeds( userId, newModel.id, payload.groupId ).then(() => {
+	 			return this.addPostToFeeds( userId, newModel.id, payload.groupId ).then((isApproved) => {
 	 				this.filterService.storeTagsByPostId( newModel.id, newModel.tags, payload.groupId );
+	 				newModel.approved = isApproved;
 	 				return newModel;
 	 			});
 	 		});
@@ -489,12 +503,16 @@ class FeedService {
 
 	approvePost( userId, postId, groupId ) {
 		const FeedModel = this.databaseProvider.getModelByName( 'feed' );
-		return FeedModel.update({ approved: true }, {
-			where: {
-				userId: userId,
-				postId: postId,
-				groupId: groupId
+		return this.groupService.isUserAdminOfGroup( userId, groupId ).then((isAdmin) => {
+			if( !isAdmin ) {
+				throw new Error('Unauthorized');
 			}
+			return FeedModel.update({ approved: true }, {
+				where: {
+					postId: postId,
+					groupId: groupId
+				}
+			});
 		});
 	}
 
@@ -566,6 +584,7 @@ class FeedService {
 							userId: id,
 							postId: postId,
 							liked: false,
+							approved: !group.isModerated
 						};
 						if( groupId ) {
 							model.groupId = groupId;
@@ -573,6 +592,8 @@ class FeedService {
 						bulk.push(model);
 					});
 					return FeedModel.bulkCreate( bulk );
+				}).then(() => {
+					return !group.isModerated;
 				});
 			});
 		}
@@ -602,6 +623,8 @@ class FeedService {
 				bulk.push(model);
 			});
 			return FeedModel.bulkCreate( bulk );
+		}).then(() => {
+			return true;
 		});
 	}
 
