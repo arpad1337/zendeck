@@ -38,6 +38,17 @@ class GroupController {
 		}
 	}
 
+	*getRandomGroups( context ) {
+		const userId = context.session.user.id;
+		try {
+			let groupsIds = yield this.groupService.getAllGroupIdsByUser( userId );
+			context.body = yield this.groupService.getRandomGroupsWithExcludingIds( userId, groupsIds );
+		} catch( e ) {
+			console.error(e, e.stack);
+			context.throw( 400 );
+		}
+	}
+
 	*createGroup( context ) {
 		const userId = context.session.user.id;
 		const payload = context.request.fields;

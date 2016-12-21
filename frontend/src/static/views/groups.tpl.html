@@ -9,10 +9,21 @@
 </nav>
 <div class="wrap prt-30">
     <section role="groups">
-        <h4>Groups</h4>
-        <div class="groups">
+        <h4>{{'GROUPS.TITLE' | translate}}</h4>
+        <div class="groups" ng-if="ctrl.groups">
             <group-card
                 ng-repeat="group in ctrl.groups track by $index"
+                model="group"
+                ui-sref="groupBySlug.posts({groupSlug: group.slug})"
+            >
+            </group-card>
+        </div>
+        <div class="groups" ng-if="ctrl.groups.length == 0">
+            <p class="message">
+                {{'GROUPS.NO_GROUPS' | translate}}<br>
+            </p>
+            <group-card
+                ng-repeat="group in ctrl.recommendations track by $index"
                 model="group"
                 ui-sref="groupBySlug.posts({groupSlug: group.slug})"
             >

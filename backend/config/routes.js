@@ -419,6 +419,13 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
+		path: '/group/recommendation',
+		method: 'get',
+		controller: 'group',
+		action: 'getRandomGroups',
+		middlewares: ['session-check']
+	},
+	{
 		path: '/user/me/group',
 		method: 'get',
 		controller: 'group',

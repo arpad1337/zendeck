@@ -48,6 +48,12 @@ class GroupService {
 		});
 	}
 
+	getGroupRecommendations() {
+		return this.$http.get( CONFIG.API_PATH + '/group/recommendation' ).then((r) => {
+			return r.data;
+		});
+	}
+
 	assignAdminToGroup( slug, userId ) {
 		return this.$http.post( CONFIG.API_PATH + '/group/' + slug + '/admin/' + userId ).then( r => r.data );
 	}
@@ -100,19 +106,9 @@ class GroupService {
 		});
 	}
 
-	// getGroupStatsBySlug( slug ) {
-	// 	let promise = this.$q.defer();
-	// 	setTimeout(() => {
-	// 		promise.resolve({
-	// 			members: 12,
-	// 			articles: 10,
-	// 			photos: 2,
-	// 			videos: 4,
-	// 			events: 0
-	// 		})
-	// 	}, Math.random() * 1000);
-	// 	return promise.promise;
-	// }
+	getGroupRecommendations() {
+		return this.$http.get( CONFIG.API_PATH + '/group/recommendation' ).then(r => r.data);
+	}
 
 	getGroupListByPage( page, force ) {
 		return this.$http.get( CONFIG.API_PATH + '/user/me/group?page=' + page ).then((r) => {

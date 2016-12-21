@@ -269,6 +269,22 @@ class GroupService {
 		// });
 	}
 
+	getAllGroupIdsByUser( userId ) {
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
+		return GroupMemberModel.findAll({
+			where: {
+				userId: userId
+			},
+			attributes: ['groupId'],
+			group: ['groupId']
+		}).then((memberShips) => {
+			if( !memberShips ) {
+				return [];
+			}
+			return memberShips.map(ms => ms.get('groupId'));
+		})
+	}
+
 	getGroupBySlug( slug ) {
 		const GroupModel = this.databaseProvider.getModelByName( 'group' );
 		return GroupModel.findOne({
@@ -808,21 +824,25 @@ class GroupService {
 		});
 	}
 
-	getRandomGroupsWithExcludingIds( ids ) {
-		const UserModel = this.databaseProvider.getModelByName( 'user' );
-		return UserModel.findAll({
+	getRandomGroupsWithExcludingIds( userId, ids ) {
+		const GroupModel = this.databaseProvider.getModelByName( 'group' );
+		return GroupModel.findAll({
 			where: {
 				id: {
 					$notIn: ids
-				}
+				},
+				isPublic: true
 			},
+			attributes: ['slug'],
 			order: [
 			    ['updated_at', 'DESC'],
 			    ['created_at', 'DESC']
 			],
 			limit: 10
 		}).then( models => {
-			return models.map( model => model.getPublicView() );
+			return Promise.all(models.map( model => {
+				return this.getGroupViewByUser( userId, model.get('slug') );
+			}));
 		});
 	}
 

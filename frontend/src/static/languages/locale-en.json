@@ -186,6 +186,7 @@
 	},
 	"GROUPS": {
 		"TITLE": "Groups",
+		"NO_GROUPS": "You have not joined to any group yet, here are few to check",
 		"CTA": "Create group",
 		"MEMBER_COUNT": "{{memberCount}} member",
 		"CHANGE_COVER_PIC": "Change cover picture",

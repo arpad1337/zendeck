@@ -30,6 +30,11 @@ class GroupsController {
 			groups.forEach((group) => {
 				this.groups.push( group );
 			});
+			if( groups.length == 0 ) {
+				this.groupService.getGroupRecommendations().then((recommendations) => {
+					this.recommendations = recommendations;
+				});
+			}
 		});
 	}
 
