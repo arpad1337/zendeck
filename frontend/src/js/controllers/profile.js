@@ -76,6 +76,13 @@ class ProfileController extends CollectionController {
 				birthDate: this.profile.birthDate,
 				profileColor: this.profile.profileColor
 			};
+
+			this.friendService.getFriendCountByUsername( this.$state.params.username ).then((count) => {
+				this.stats = {
+					friends: count.count,
+					...profile.stats
+				};
+			})
 		}).catch(() => {
 			this.$state.go(STATES.APPLICATION.FEED.POSTS);
 		});
@@ -98,10 +105,6 @@ class ProfileController extends CollectionController {
 			followers.forEach((friend) => {
 				this.followers.push( friend );
 			});
-		});
-
-		this.userService.getUserStats( this.$state.params.username ).then((stats) => {
-			this.stats = stats;
 		});
 		
 	}

@@ -252,7 +252,36 @@ class UserService {
 			termsAccepted: payload.termsAccepted,
 			profileColor: Util.generateRandomColor(),
 			enabled: isEducationEmail,
-			isPremium: isEducationEmail
+			isPremium: isEducationEmail,
+			stats: {
+				article: 0,
+				photo: 0,
+				video: 0,
+				event: 0
+			}
+		});
+	}
+
+	incrementStats( userId, tags) {
+		const UserModel = this.databaseProvider.getModelByName( 'user' );
+		return UserModel.findOne({
+			where: {
+				id: userId
+			}
+		}).then((user) => {
+			let stats = user.get('stats');
+			tags.forEach((key) => {
+				if( key in stats ) {
+					stats[key] = stats[key] + 1;
+				}
+			});
+			return UserModel.update({
+				stats: stats
+			}, {
+				where: {
+					id: userId
+				}
+			});
 		});
 	}
 

@@ -148,7 +148,7 @@ class FeedService {
 
 	getGroupPostsByGroupSlugAndPage( groupId, page, force ) {
 		page == isNaN( page ) ? 1 : page;
-		if( !force && this._groupPostsCache[ groupId ] ) {
+		if( !force && this._groupPostsCache[ groupId ] && !(this._groupPostsCache[ groupId ].length < page * 20)) {
 			return this.$q.resolve( this._groupPostsCache[ groupId ] );
 		}
 		return this.$http.get( CONFIG.API_PATH + '/group/' + groupId + '/feed?page=' + page ).then((r) => {

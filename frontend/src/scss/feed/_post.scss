@@ -37,6 +37,18 @@ post-entry {
 		}
 	}
 
+	.approval-status {
+		font-size: 12px;
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		margin: auto;
+		width: 200px;
+		color: #aaa;
+	}
+
 	.approve {
 		border: none;
 		color: white;

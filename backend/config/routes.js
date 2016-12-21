@@ -167,6 +167,13 @@ const ROUTES = [
 		middlewares: ['session-check']
 	},
 	{
+		path: '/user/:username/friend/count',
+		controller: 'friend',
+		action: 'getFriendCountByUser',
+		method: 'get',
+		middlewares: ['session-check']
+	},
+	{
 		path: '/user/:username/followers',
 		controller: 'friend',
 		action: 'getFollowersByUsernameAndPage',

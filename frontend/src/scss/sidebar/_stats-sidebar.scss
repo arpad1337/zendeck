@@ -1,13 +1,10 @@
 section[role="stats"] {
-	a {
+	span {
 		color: $SECONDARY-LIGHT;
 		margin-bottom: 4px;
 		font-size: 14px;
 		line-height: 20px;
 		display: block;
-		&:hover {
-			color: $SECONDARY-DARK;
-		}
 		&:before {
 			content: " ";
 			width: 16px;

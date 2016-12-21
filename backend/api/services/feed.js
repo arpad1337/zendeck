@@ -160,10 +160,21 @@ class FeedService {
 					throw new Error('Unauthorized');
 				}
 				let where = {
-					userId: userId
 				};
 				if( !isAdmin ) {
-					where.approved = true;
+					where = {
+						$or: [{
+							approved: true,
+							userId: userId
+						}, {
+							authorId: userId,
+							userId: userId
+						}]
+					};
+				} else {
+					where = {
+						userId: userId
+					};
 				}
 				return this.postService.getPostIdsByGroupIdAndPage( group.id, page ).then((ids) => {
 					where.postId = ids;
@@ -507,11 +518,26 @@ class FeedService {
 			if( !isAdmin ) {
 				throw new Error('Unauthorized');
 			}
-			return FeedModel.update({ approved: true }, {
-				where: {
-					postId: postId,
-					groupId: groupId
-				}
+			return this.postService.getPostById( postId ).then((post) => {
+				return FeedModel.update({ approved: true }, {
+					where: {
+						postId: postId,
+						groupId: groupId
+					}
+				}).then(() => {
+					this.notificationService.createNotification( post.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_POST_REQUEST_ACCEPTED, {
+						group: {
+							id: groupId
+						},
+						post: {
+							id: postId
+						},
+						user: {
+							id: userId
+						}
+					});
+					return true;
+				});
 			});
 		});
 	}
@@ -556,10 +582,18 @@ class FeedService {
 		if( groupId ) {
 			return Promise.all([
 				this.groupService.getGroupById( groupId ),
-				this.groupService.isUserMemberOfGroup( userId, groupId )
+				this.groupService.isUserMemberOfGroup( userId, groupId ),
+				this.groupService.isUserAdminOfGroup( userId, groupId )
 			]).then((values) => {
 				let group = values[0];
 				let isMember = values[1];
+				let isAdmin = values[2];
+
+				let approved = !group.isModerated;
+				if( isAdmin ) {
+					approved = true;
+				}
+
 				let promises = [];
 				if( group.isOpen && isMember ) {
 					promises.push(
@@ -584,7 +618,7 @@ class FeedService {
 							userId: id,
 							postId: postId,
 							liked: false,
-							approved: !group.isModerated
+							approved: approved
 						};
 						if( groupId ) {
 							model.groupId = groupId;
@@ -593,7 +627,26 @@ class FeedService {
 					});
 					return FeedModel.bulkCreate( bulk );
 				}).then(() => {
-					return !group.isModerated;
+					if( !approved ) {
+						return this.groupService.getGroupAdminIdsByGroupId( group.id ).then((admins) => {
+							admins.forEach((admin) => {
+								this.notificationService.createNotification( admin, this.notificationService.NOTIFICATION_TYPE.GROUP_POST_REQUEST, {
+									group: {
+										id: group.id
+									},
+									post: {
+										id: postId
+									},
+									user: {
+										id: userId
+									}
+								});
+							});
+						}).then(() => {
+							return approved
+						});
+					}
+					return approved;
 				});
 			});
 		}

@@ -94,6 +94,9 @@ const model = sequelizeModelHelper.buildModel(
 			type: TYPES.BOOLEAN,
 			defaultValue: true
 		},
+		stats: {
+			type: TYPES.JSON
+		},
 		status: {
 			type: TYPES.ENUM,
 			values: [

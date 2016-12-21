@@ -36,6 +36,19 @@ class FriendController {
 		}
 	}
 
+	*getFriendCountByUser( context ) {
+		const username = context.params.username;
+		try {
+			let user = yield this.userService.getUserByUsername( username )
+			let count = yield this.friendService.getFriendCountByUserId( user.id );
+			context.body = {
+				count: count
+			};
+		} catch( e ) {
+			context.throw(400, e.message);
+		}
+	}
+
 	*getFollowersByPage( context ) {
 		const page = context.query.page || 1;
 		const userId = context.session.user.id;

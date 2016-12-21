@@ -75,6 +75,9 @@ module.exports = {
 				type: TYPES.BOOLEAN,
 				defaultValue: true
 			},
+			stats: {
+				type: TYPES.JSON
+			},
 			created_at: {
 				type: TYPES.DATE
 			},

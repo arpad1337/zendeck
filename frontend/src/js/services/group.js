@@ -100,19 +100,19 @@ class GroupService {
 		});
 	}
 
-	getGroupStatsBySlug( slug ) {
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve({
-				members: 12,
-				articles: 10,
-				photos: 2,
-				videos: 4,
-				events: 0
-			})
-		}, Math.random() * 1000);
-		return promise.promise;
-	}
+	// getGroupStatsBySlug( slug ) {
+	// 	let promise = this.$q.defer();
+	// 	setTimeout(() => {
+	// 		promise.resolve({
+	// 			members: 12,
+	// 			articles: 10,
+	// 			photos: 2,
+	// 			videos: 4,
+	// 			events: 0
+	// 		})
+	// 	}, Math.random() * 1000);
+	// 	return promise.promise;
+	// }
 
 	getGroupListByPage( page, force ) {
 		return this.$http.get( CONFIG.API_PATH + '/user/me/group?page=' + page ).then((r) => {

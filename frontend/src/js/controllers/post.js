@@ -61,10 +61,6 @@ class PostController {
 		});
 	}
 
-	approvePost( postId ) {
-
-	}
-
 	getMoreCommentsForPost( postId, page ) {
 		return this.feedService.getMoreCommentsForPost( postId, page );
 	}

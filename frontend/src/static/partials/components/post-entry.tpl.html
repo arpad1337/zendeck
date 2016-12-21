@@ -6,7 +6,7 @@
             ng-if="vm.entry.author.id == vm.currentUser.id"
         ></button>
         <button 
-            ng-if="!vm.isPostApproved"
+            ng-if="!vm.isPostApproved && vm.delegate.isUserAdmin"
             class="approve"
             ng-click="vm.approvePost()"
         >
@@ -32,6 +32,7 @@
                 title="{{vm.entry.createdAt}}"
                 >{{ vm.entry.createdAt | timeAgo }}
             </span>
+            <span ng-if="!vm.isPostApproved" class="approval-status">{{'FEED.POST_ENTRY.WAITING_FOR_APPROVAL' | translate}}</span>
             <div class="actions">
                 <a 
                     class="hearth"

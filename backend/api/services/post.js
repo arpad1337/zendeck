@@ -73,6 +73,10 @@ class PostService {
 			groupId: payload.groupId
 		}).then((model) => {
 			return this.getExtendedPostModelById( model.get('id') ).then((n) => {
+				this.userService.incrementStats( userId, model.get('tags') );
+				if( payload.groupId ) {
+					this.groupService.incrementStats( payload.groupId, model.get('tags') );
+				}
 				if( n.inGroup && n.group.isModerated ) {
 					return this.notificationService.createNotification( n.group.userId, this.notificationService.NOTIFICATION_TYPE.GROUP_POST_REQUEST, {
 						user: {
@@ -109,6 +113,7 @@ class PostService {
 			},
 			limit: PostService.LIMIT,
 			offset: (( page - 1 ) * PostService.LIMIT),
+			order: [['created_at', 'DESC']]
 		}).then(( models ) => {
 			if( models ) {
 				return models.map(( m ) => m.get('id'));
@@ -127,6 +132,7 @@ class PostService {
 			},
 			limit: PostService.LIMIT,
 			offset: (( page - 1 ) * PostService.LIMIT),
+			order: [['created_at', 'DESC']]
 		}).then(( models ) => {
 			if( models ) {
 				return models.map(( m ) => m.get('id'));
@@ -145,7 +151,8 @@ class PostService {
 			attributes: ['id','userId'],
 			limit: PostService.HISTORY_LIMIT,
 			offset: 0,
-			raw: true
+			raw: true,
+			order: [['created_at', 'DESC']]
 		}).then(( models ) => {
 			if( models ) {
 				return models.map(m => m.id);
@@ -163,7 +170,8 @@ class PostService {
 			attributes: ['id','userId'],
 			limit: PostService.HISTORY_LIMIT,
 			offset: 0,
-			raw: true
+			raw: true,
+			order: [['created_at', 'DESC']]
 		}).then(( models ) => {
 			if( models ) {
 				return models.map(m => m.id);
@@ -181,7 +189,8 @@ class PostService {
 			attributes: ['id','userId'],
 			limit: PostService.HISTORY_LIMIT,
 			offset: 0,
-			raw: true
+			raw: true,
+			order: [['created_at', 'DESC']]
 		}).then(( models ) => {
 			if( models ) {
 				return models;

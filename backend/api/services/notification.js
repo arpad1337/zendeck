@@ -84,7 +84,11 @@ class NotificationService {
 				break;
 			}
 			case NOTIFICATION_TYPE.GROUP_INVITATION:
-			case NOTIFICATION_TYPE.GROUP_INVITATION_ACCEPTED: {
+			case NOTIFICATION_TYPE.GROUP_INVITATION_ACCEPTED:
+			case NOTIFICATION_TYPE.GROUP_USER_PROMOTED:
+			case NOTIFICATION_TYPE.GROUP_USER_DEGRADED:
+			case NOTIFICATION_TYPE.GROUP_USER_KICKED:
+			 {
 				return this.userService.getUserAuthorViewById( model.payload.user.id ).then((user) => {
 					model.payload.user = user;
 					return this.groupService.getGroupById( model.payload.group.id );
@@ -363,6 +367,10 @@ class NotificationService {
 								return false;
 							});
 						});
+						break;
+					}
+					case NOTIFICATION_TYPE.GROUP_POST_REQUEST: {
+						return this.feedService.approvePost( userId, notification.payload.post.id, notification.payload.group.id );
 						break;
 					}
 				}

@@ -49,6 +49,9 @@ const model = sequelizeModelHelper.buildModel(
 			field: 'is_open', // anyone can join
 			type: TYPES.BOOLEAN,
 			defaultValue: true
+		},
+		stats: {
+			type: TYPES.JSON
 		}
 	},
 	// Traits

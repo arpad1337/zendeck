@@ -91,6 +91,11 @@ class GroupBySlugController extends CollectionController {
 					}
 				});
 			}
+
+			this.stats = {
+				members: profile.memberCount,
+				...profile.stats
+			};
 		}).catch(() => {
 			this.$state.go( STATES.APPLICATION.GROUPS );
 		});
@@ -100,10 +105,6 @@ class GroupBySlugController extends CollectionController {
 			if( this.$state.params.filterSlug ) {
 				this.selectFilter( this.$state.params.filterSlug );
 			}
-		});
-
-		this.groupService.getGroupStatsBySlug( this.currentSlug ).then((stats) => {
-			this.stats = stats;
 		});
 
 		this.groupService.getGroupMemebersBySlugAndPage( this.currentSlug, this._membersPage ).then((members) => {
@@ -202,25 +203,26 @@ class GroupBySlugController extends CollectionController {
 
 	async getMorePosts() {
 		let newPosts = [];
-		this._page++;
+		let page = this._page + 1;
 		switch( this.$state.current.name ) {
 			case this.GROUP_BY_SLUG_STATES.POSTS: {
-				newPosts = await this.feedService.getGroupPostsByGroupSlugAndPage( this.currentSlug, this._page );
+				newPosts = await this.feedService.getGroupPostsByGroupSlugAndPage( this.currentSlug, page );
 				break;
 			}
 			case this.GROUP_BY_SLUG_STATES.LIKED: {
-				newPosts = await this.feedService.getGroupLikedPostsByPage( this.currentSlug, this._page );
+				newPosts = await this.feedService.getGroupLikedPostsByPage( this.currentSlug, page );
 				break;
 			}
 			case this.GROUP_BY_SLUG_STATES.COLLECTION: {
-				newPosts = await this.feedService.getPostsByGroupCollectionSlugAndPage( this.$state.params.groupSlug, this._activeCollection.id, this._page );
+				newPosts = await this.feedService.getPostsByGroupCollectionSlugAndPage( this.$state.params.groupSlug, this._activeCollection.id, page );
 				break;
 			}
 			case this.GROUP_BY_SLUG_STATES.FILTERED: {
-				newPosts = await this.feedService.getPostsByGroupFilterAndPage( this.currentSlug, this._activeFilter.tags, this._page );
+				newPosts = await this.feedService.getPostsByGroupFilterAndPage( this.currentSlug, this._activeFilter.tags, page );
 				break;
 			}
 		}
+		this._page++;
 		newPosts.forEach((post) => {
 			this.posts.push( post );
 		});

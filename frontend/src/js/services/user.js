@@ -54,20 +54,20 @@ class UserService {
 		});
 	}
 
-	getUserStats( username ) {
-		// TODO
-		let promise = this.$q.defer();
-		setTimeout(() => {
-			promise.resolve({
-				friends: 12,
-				articles: 10,
-				photos: 2,
-				videos: 4,
-				events: 0
-			})
-		}, Math.random() * 1000);
-		return promise.promise;
-	}
+	// getUserStats( username ) {
+	// 	// TODO
+	// 	let promise = this.$q.defer();
+	// 	setTimeout(() => {
+	// 		promise.resolve({
+	// 			friends: 12,
+	// 			articles: 10,
+	// 			photos: 2,
+	// 			videos: 4,
+	// 			events: 0
+	// 		})
+	// 	}, Math.random() * 1000);
+	// 	return promise.promise;
+	// }
 
 	uploadProfilePicBase64( filename, base64String ) {
 		return this.$http.post( CONFIG.API_PATH + '/user/me/photo', {

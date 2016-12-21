@@ -61,6 +61,12 @@ class FriendService {
 		});
 	}
 
+	getFriendCountByUsername( username ) {
+		return this.$http.get( CONFIG.API_PATH + '/user/' + username + '/friend/count' ).then((r) => {
+			return r.data;
+		});
+	}
+
 }
 
 export default FriendService;

@@ -196,6 +196,18 @@ class GroupService {
 		});
 	}
 
+	getGroupAdminIdsByGroupId( groupId ) {
+		const GroupMemberModel = this.databaseProvider.getModelByName( 'group-member' );
+		return GroupMemberModel.findAll({
+			where: {
+				groupId: groupId,
+				isAdmin: true
+			}
+		}).then((admins) => {
+			return admins.map((admin) => {return admin.get('userId')});
+		});
+	}
+
 	getGroupViewByUser( userId, slug ) {
 		return this.getGroupBySlug(slug).then((model) => {
 			return this._createViewFromDBModel( model ).then((model) => {
@@ -282,6 +294,29 @@ class GroupService {
 				model = model.get();
 			}
 			return model;
+		});
+	}
+
+	incrementStats( groupId, tags) {
+		const GroupModel = this.databaseProvider.getModelByName( 'group' );
+		return GroupModel.findOne({
+			where: {
+				id: groupId
+			}
+		}).then((group) => {
+			let stats = group.get('stats');
+			tags.forEach((key) => {
+				if( key in stats ) {
+					stats[key] = stats[key] + 1;
+				}
+			});
+			return GroupModel.update({
+				stats: stats
+			}, {
+				where: {
+					id: groupId
+				}
+			});
 		});
 	}
 
@@ -380,7 +415,13 @@ class GroupService {
 			isOpen: payload.isOpen || true,
 			name: payload.name,
 			about: striptags(payload.about),
-			profileColor: Util.generateRandomColor()
+			profileColor: Util.generateRandomColor(),
+			stats: {
+				article: 0,
+				photo: 0,
+				video: 0,
+				event: 0
+			}
 		}
 		return GroupModel.create( model ).then((model) => {
 			return GroupMemberModel.create({
@@ -596,7 +637,17 @@ class GroupService {
 						userId: userId,
 						groupId: model.id
 					}
-				}).then( _ => true);
+				}).then( _ => {
+					this.notificationService.createNotification( userId, this.notificationService.NOTIFICATION_TYPE.GROUP_USER_KICKED, {
+						user: {
+							id: adminId
+						},
+						group: {
+							id: model.id
+						}
+					});
+					return true
+				});
 			});
 		});
 	}
@@ -615,7 +666,17 @@ class GroupService {
 						userId: userId,
 						groupId: model.id
 					}
-				}).then( _ => true);
+				}).then( _ => {
+					this.notificationService.createNotification( userId, this.notificationService.NOTIFICATION_TYPE.GROUP_USER_PROMOTED, {
+						user: {
+							id: adminId
+						},
+						group: {
+							id: model.id
+						}
+					});
+					return true;
+				});
 			});
 		});
 	}
@@ -634,7 +695,17 @@ class GroupService {
 						userId: userId,
 						groupId: model.id
 					}
-				}).then( _ => true);
+				}).then( _ => {
+					this.notificationService.createNotification( userId, this.notificationService.NOTIFICATION_TYPE.GROUP_USER_DEGRADED, {
+						user: {
+							id: adminId
+						},
+						group: {
+							id: model.id
+						}
+					});
+					return true;
+				});
 			});
 		});
 	}

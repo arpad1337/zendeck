@@ -192,6 +192,15 @@ class FriendService {
 		});
 	}
 
+	getFriendCountByUserId( userId ) {
+		const FriendModel = this.databaseProvider.getModelByName( 'friend' );
+		return FriendModel.count({
+			where: {
+				userId: userId,
+			}
+		});
+	}
+
 	getRecommendations( userId, ip ) {
 		return this.getAllFriendIdsByUserId( userId ).then((friendIds) => {
 			if( !friendIds ) {
