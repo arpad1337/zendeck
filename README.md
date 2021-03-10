@@ -1,5 +1,9 @@
 # Zendeck
 
-Angular/NodeJS app, Redis for session store, PostgreSQL for database, S3 for images, SES for email.
+Zendeck is a fully fledged social network application. It is supporting groups, messaging and filtering of content based on Tags.
 
-Copyright RPI1337 2016
+[![Zendeck](https://www.arpi.im/img/zendeck.png)](https://www.arpi.im)
+
+Tech used: AngularJS, NodeJS, Redis, PostgreSQL, AWS S3, SES
+
+Copyright @arpad1337 2016
