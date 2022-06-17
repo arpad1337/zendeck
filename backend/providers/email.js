@@ -23,6 +23,8 @@ class EmailProvider {
 			emails = [ emails ];
 		}
 		return new Promise((resolve, reject) => {
+			resolve();
+			/*
 			this.client.sendEmail(
 				{ 
 					Source: AWS_CONFIG.SES_FROM,
@@ -47,7 +49,7 @@ class EmailProvider {
 					}
 					resolve( data );
 				}
-			);
+			);*/
 		});
 	}
 

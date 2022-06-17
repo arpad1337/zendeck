@@ -31,7 +31,10 @@ class NotificationViewComponent {
 
 	constructor( notificationService ) {
 		this.notificationService = notificationService;
-		this.buttonEnabled =  'accepted' in this.model.payload ? !this.model.payload.accepted : true;
+		this.buttonEnabled = false;
+		setTimeout(() => {
+			this.buttonEnabled = 'accepted' in this.model.payload ? !this.model.payload.accepted : true;
+		}, 1);
 	}
 
 	async commit() {

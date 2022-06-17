@@ -119,7 +119,7 @@
 		"POST_COMMENT_MULTI": "<a href=\"/{{users[1].username}}\">{{users[0].fullname}}</a>, <a href=\"/{{users[1].username}}\">{{users[1].fullname}}</a> and {{people}} more person commented on your <a href=\"/post/{{post.id}}\">post</a>",
 		"FRIEND_REQUEST": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> sent you a friend request",
 		"STARTED_FOLLOWING": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> started following you",
-		"STARTED_FOLLOWING_MULTI": "<a href=\"/{{users[1].username}}\">{{users[0].fullname}}</a>, <a href=\"/{{users[1].username}}\">{{users[1].fullname}}</a> and {{people}} more person started following you",
+		"STARTED_FOLLOWING_MULTI": "<a href=\"/{{users[0].username}}\">{{users[0].fullname}}</a>, <a href=\"/{{users[1].username}}\">{{users[1].fullname}}</a> and {{people}} more person started following you",
 		"POST_LIKE": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> likes your <a href=\"/post/{{post.id}}\">post</a>",
 		"POST_LIKE_MULTI": "<a href=\"/{{users[1].username}}\">{{users[0].fullname}}</a>, <a href=\"/{{users[1].username}}\">{{users[1].fullname}}</a> and {{people}} more person likes your <a href=\"/post/{{post.id}}\">post</a>",
 		"GROUP_INVITATION": "<a href=\"/{{user.username}}\">{{user.fullname}}</a> invited your to the <a href=\"/groups/{{group.slug}}\">{{group.name}} Group</a>",

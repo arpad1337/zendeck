@@ -124,7 +124,7 @@ class NotificationService {
 				let userIds = model.payload.users.map((user) => user.id).slice(0, 2);
 				return this.userService.getUsersAuthorViewByIds( userIds ).then((users) => {
 					model.payload.users = users;
-					return this.friendService.getNewFollowersCountbyUserId( model.payload.post.id, model.createdAt );
+					return this.friendService.getNewFollowersCountbyUserId( model.user_id, model.createdAt );
 				}).then((count) => {
 					model.payload.people = count
 					return model;
@@ -238,6 +238,9 @@ class NotificationService {
 							users: [ notif.payload.user, payload.user ]
 						};
 						return this.deleteNotificationWithId( notif.id ).then(() => {
+							if (notif.user.id === userId) {
+								this._createNotification( userId, notif );
+							}
 							return this._createNotification( userId, NOTIFICATION_TYPE.STARTED_FOLLOWING_MULTI, newPayload );
 						});
 					}

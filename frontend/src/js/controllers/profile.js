@@ -240,7 +240,7 @@ class ProfileController extends CollectionController {
 				image: src,
 				croppedImage: ''
 			}).then((model) => {
-				return this.userService.uploadProfilePicBase64( file.name, model.croppedImage ).then(() => {
+				return this.userService.uploadProfilePicBase64( file.name, model.model.croppedImage ).then(() => {
 					this.profile.photos = this.userService.currentUser.photos;
 				});
 			});

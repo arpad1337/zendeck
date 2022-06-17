@@ -4,7 +4,7 @@
 
 
 const CONFIG = {
-	API_PATH: '/api'
+	API_PATH: 'http://zendeck.local/api'
 };
 
 module.exports = function( env ) {

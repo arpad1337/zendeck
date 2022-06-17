@@ -52,17 +52,19 @@ class CustomSelectComponent {
 	}
 
 	constructor() {
-		this.rowHeight = this.rowHeight || this.defaultRowHeight;
 		this.maxHeight = this.rowHeight;
-		this.model = this.model || null;
 		this._isOpened = false;
 		this._predicate = '';
 		this.localCollection = [];
 		this._bottomReachedEventSent = false;
-		this.filteredCollection = Array.prototype.slice.call( this.collection );
-		if( this.selectFirst ) {
-			this.selectItem( this.filteredCollection[0][this.key] );
-		}
+		setTimeout(() => {
+			this.rowHeight = this.rowHeight || this.defaultRowHeight;
+			this.model = this.model || null;
+			this.filteredCollection = Array.prototype.slice.call( this.collection );
+			if( this.selectFirst ) {
+				this.selectItem( this.filteredCollection[0][this.key] );
+			}
+		}, 1);
 	}
 
 	_bindEvents() {

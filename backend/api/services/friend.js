@@ -180,7 +180,7 @@ class FriendService {
 
 	getNewFollowersCountbyUserId( userId, from ) {
 		const since = new Date(from);
-		const anHour = since.setHours( since.getHours() + 1 );
+		const anHour = new Date(since.setHours( since.getHours() + 1 ));
 		const FriendModel = this.databaseProvider.getModelByName( 'friend' );
 		return FriendModel.count({
 			where: {

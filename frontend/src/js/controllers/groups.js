@@ -17,8 +17,6 @@ class GroupsController {
 		this.$state = $state;
 		this.groupService = groupService;
 
-		console.log('WHOOOOT');
-
 		this._initState();
 	}
 

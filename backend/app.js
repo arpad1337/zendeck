@@ -3,6 +3,7 @@
  */
 
 const koa = require('koa');
+//const cors = require('koa-cors');
 const compress = require('koa-compress');
 const router = require('koa-router')();
 const session = require('koa-session-redis');
@@ -15,6 +16,10 @@ const routes = require('./config/routes');
 const port = process.env.PORT || 1337;
 
 const app = koa();
+
+/* app.use( cors({
+    credentials: true
+}) );*/
 
 app.keys = [ require('./config/secrets').COOKIE_SECRET ];
 

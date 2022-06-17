@@ -108,7 +108,19 @@ module.exports = {
 					about: 'Peace & Love',
 					is_business: true,
 					email: 'system@zendeck.co',
-					created_at: (new Date()).toISOString()
+					created_at: (new Date()).toISOString(),
+					updated_at: (new Date()).toISOString()
+				},
+				{
+					username: 'rpi1337',
+					enabled: true,
+					fullname: 'ar.pi()',
+					profile_color: '#00BFFF',
+					password: Util.createSHA256HashForPassword('T1tk0SKOOOOD'),
+					about: 'Senior Web Engineer at @IBM 🚀 Passionate about #SystemsDesign and #CloudNative #Backend development',
+					is_business: true,
+					email: 'arpad@zendeck.co',
+					created_at: (new Date()).toISOString(),
 					updated_at: (new Date()).toISOString()
 				}
 			]);

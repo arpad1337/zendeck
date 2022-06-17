@@ -22,7 +22,7 @@ const ENVIRONMENT = {
 		},
 		BUCKET: {
 			KEY: 'zendeck-production',
-			BASE_URL: 'https://s3-eu-west-1.amazonaws.com/zendeck-production',
+			BASE_URL: 'https://localhost:9191/zendeck-production',
 			TYPES: {
 				TEMP: 'temp',
 				COVER: 'cover',
@@ -32,7 +32,7 @@ const ENVIRONMENT = {
 			}
 
 		},
-		BASE_URL: 'http://dev.zendeck.co'
+		BASE_URL: 'http://zendeck.local'
 	},
 	STAGING: {
 		DATABASE: {

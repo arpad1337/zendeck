@@ -25,6 +25,7 @@ class NotificationService {
 
 	getLastNotifications( lastId ) {
 		lastId = isNaN( lastId ) ? 0 :lastId;
+		this.lastId = lastId;
 		return this.$http.get( CONFIG.API_PATH + '/notification/recent' ).then((r) => {
 			let notifications = r.data;
 			notifications.forEach((notif) => {

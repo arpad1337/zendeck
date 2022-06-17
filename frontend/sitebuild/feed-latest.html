@@ -107,39 +107,81 @@
                     </section>
                     <section role="feed">
                         <h4>Posts</h4>
-                        <div class="post left">
+                        <div class="post left" ng-if="vm.entry" ng-class="!vm.isPostApproved ? 'disapproved' : ''">
                             <div class="head">
-                                <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                <div class="author">John Doe</div>
-                                <div class="from">from <a href="components.html">Frontend Meetup Group</a></div>
-                                <div class="date">23 hour ago</div>
-                                <a class="hearth">20 people like this</a>
-                                <a class="star"></a>
+                                <button
+                                    ng-click="vm.deletePost()"
+                                    class="delete"
+                                    ng-if="vm.entry.author.id == vm.currentUser.id"
+                                ></button>
+                                <button
+                                    ng-if="!vm.isPostApproved && vm.delegate.isUserAdmin"
+                                    class="approve"
+                                    ng-click="vm.approvePost()"
+                                >
+                                    {{'FEED.POST_ENTRY.APPROVE' | translate}}
+                                </button>
+                                <profile-pic
+                                        size="xmedium"
+                                        user="vm.entry.author"
+                                        ui-sref="profile.posts({username:vm.entry.author.username})"
+                                ></profile-pic>
+                                <div class="meta-head">
+                                    <span class="author" ui-sref="profile.posts({username:vm.entry.author.username})">
+                                        {{vm.entry.author.fullname}}
+                                    </span>
+                                    <span
+                                        ng-if="vm.entry.inGroup && !vm.hiddenFrom"
+                                        class="from"
+                                        data-ng-bind-html=" 'FEED.POST_ENTRY.IN_GROUP' | translate : { groupName: vm.entry.group.name, groupUrl: '/groups/' + vm.entry.group.slug } | htmlSafe "
+                                    >
+
+                                    </span>
+                                    <span class="date"
+                                        title="{{vm.entry.createdAt}}"
+                                        >{{ vm.entry.createdAt | timeAgo }}
+                                    </span>
+                                    <span ng-if="!vm.isPostApproved" class="approval-status">{{'FEED.POST_ENTRY.WAITING_FOR_APPROVAL' | translate}}</span>
+                                    <div class="actions">
+                                        <a
+                                            class="hearth"
+                                            ng-class=" vm.entry.liked ? 'liked' : '' "
+                                            ng-click="vm.like()"
+                                            tooltips
+                                            tooltip-class="tooltip-patch"
+                                            tooltip-template="{{ !vm.entry.liked ? ('FEED.POST_ENTRY.LIKEING' | translate) : ('FEED.POST_ENTRY.DISLIKEING' | translate) }}"
+                                        >
+                                            {{ vm.entry.likes | pretifyNumber }}
+                                        </a>
+                                        <a class="star"
+                                            ng-class=" vm.entry.starred ? 'starred' : '' "
+                                            ng-init="vm = vm"
+                                            tooltips
+                                            tooltip-template-url="partials/save-to-collection.tpl.html"
+                                            tooltip-class="tooltip-patch stretch2"
+                                            tooltip-show-trigger="click"
+                                            tooltip-hide-trigger="mouseleave"
+                                            tooltip-hidden="vm.entry.starred"
+                                        >
+
+
+                                        </a>
+                                        <a
+                                            class="share"
+                                            ng-init="vm = vm"
+                                            tooltips
+                                            tooltip-class="tooltip-patch stretch2"
+                                            tooltip-template-url="partials/shareable-url.tpl.html"
+                                        >
+
+                                        </a>
+                                    </div>
+                                </div>
                                 <div class="labels">
                                     <ul>
-                                        <li>
-                                            <a href="#">
-                                                article
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                marketing
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                customer development
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                inbound
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                discussion
+                                        <li ng-repeat="tag in vm.entry.tags track by $index">
+                                            <a ng-click="vm.createTemporaryFilterWithTag( tag )">
+                                                {{tag}}
                                             </a>
                                         </li>
                                     </ul>
@@ -147,98 +189,88 @@
                             </div>
                             <aside>
                                 <div class="content">
-                                    <div class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Maecenas lacinia odio nec dignissim elementum. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.</div>
+                                    <div class="message"
+                                        data-ng-bind-html=" vm.entry.content | formatContent | htmlSafe ">
+                                    </div>
+                                    <a class="embed" href="{{vm.entry.attachment.url}}" ng-if="vm.entry.attachment && vm.entry.attachment.title">
+                                        <div class="cover">
+                                            <img ng-src="{{vm.entry.attachment.preview}}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="160">
+                                        </div>
+                                        <h3>{{vm.entry.attachment.title}}</h3>
+                                        <p>{{vm.entry.attachment.description}}</p>
+                                        <div
+                                            class="resource"
+                                            data-ng-bind-html=" 'FEED.POST_ENTRY.ATTACHMENT_SOURCE' | translate : { source: vm.entry.attachment.source } | htmlSafe "
+                                        >
+                                        </div>
+                                    </a>
+                                    <a class="embed full-width" href="{{vm.entry.attachment.url}}" ng-if="vm.entry.attachment && !vm.entry.attachment.title">
+                                        <div class="cover">
+                                            <img ng-src="{{vm.entry.attachment.preview}}"  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+                                        </div>
+                                        <div class="resource" ng-bind-html=" 'FEED.LINK_PREVIEW' | translate : { medium: vm.entry.attachment.source, url: vm.entry.attachment.url } | htmlSafe ">
+                                        </div>
+                                    </a>
+
                                 </div>
                                 <div class="comment-area">
-                                    <div class="pagination">
-                                        <a href="#">previous comments (16)</a>
+                                    <div class="pagination" ng-if="vm.entry.comments.count > 3 && vm.entry.comments.count - vm.entry.comments.data.length > 0">
+                                        <a ng-click="vm.getMoreComments()">{{ 'FEED.POST_ENTRY.PREVIOUS_COMMENTS' | translate : { difference: vm.entry.comments.count - vm.entry.comments.data.length } }}</a>
                                     </div>
                                     <div class="comments">
-                                        <div class="comment">
-                                            <div class="author-pic has-tooltip" alt="2m" style="background-image:url('img/avatar.jpg')"></div>
+                                        <div class="comment" ng-repeat="comment in vm.entry.comments.data | orderBy : 'id'">
+                                            <button
+                                                ng-click="vm.deleteComment(comment.id)"
+                                                class="delete"
+                                                ng-if="comment.author.id == vm.currentUser.id"
+                                            ></button>
+                                            <profile-pic
+                                                title="{{comment.author.fullname}} @{{comment.author.username}}"
+                                                size="xxsmall"
+                                                user="comment.author"
+                                                ui-sref="profile.posts({username:comment.author.username})"
+                                            ></profile-pic>
                                             <div class="message">
-                                                <a class="author" href="#author">John Doe></a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis.<span class="date">2 minutes ago</span>
-                                            </div>
-                                        </div>
-                                        <div class="comment">
-                                            <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                            <div class="message">
-                                                <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.<span class="date">2 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="add-comment">
-                                         <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                         <textarea placeholder="write comment here..."></textarea>
-                                    </div>
-                                </div>
-                            <aside>
-                        </div>
-                        <div class="post left">
-                            <div class="head">
-                                <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                <div class="author">John Doe</div>
-                                <div class="date">23 hour ago</div>
-                                <a class="hearth">20 people like this</a>
-                                <a class="star"></a>
-                                <div class="labels">
-                                    <ul>
-                                        <li>
-                                            <a href="#">
-                                                article
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                marketing
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                customer development
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                inbound
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                discussion
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <aside>
-                                <div class="content">
-                                    <div class="message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Maecenas lacinia odio nec dignissim elementum. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.</div>
-                                </div>
-                                <div class="comment-area">
-                                    <div class="pagination">
-                                        <a href="#">previous comments (16)</a>
-                                    </div>
-                                    <div class="comments">
-                                        <div class="comment">
-                                            <div class="author-pic has-tooltip" alt="2m" style="background-image:url('img/avatar.jpg')"></div>
-                                            <div class="message">
-                                                <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis.<span class="date">2 minutes ago</span>
-                                            </div>
-                                        </div>
-                                        <div class="comment">
-                                            <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                            <div class="message">
-                                                <a class="author" href="#author">John Doe</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate mi ut sagittis mollis. Etiam posuere, ligula in aliquet dapibus, felis tortor feugiat lacus, viverra ullamcorper velit enim in erat. In hac habitasse platea dictumst.<span class="date">2 minutes ago</span>
+                                                <a
+                                                    class="author"
+                                                    ui-sref="profile.posts({username:comment.author.username})"
+                                                >
+                                                    {{comment.author.fullname}}
+                                                </a>
+                                                <div class="content" data-ng-bind-html=":: comment.content | formatContent | htmlSafe "></div>
+                                                <span class="date">
+                                                    {{ comment.createdAt | timeAgo }}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="add-comment">
-                                         <div class="author-pic" style="background-image:url('img/avatar.jpg')"></div>
-                                         <textarea placeholder="write comment here..."></textarea>
+                                    <div class="add-comment" ng-if="vm.currentUser">
+                                        <div
+                                            class="characters-left"
+                                            ng-class=" vm.charactersLeft < 10 ? 'red' : '' "
+                                            ng-if=" vm.charactersLeft < 100"
+                                        >
+                                            {{vm.charactersLeft}}
+                                        </div>
+                                        <profile-pic
+                                                size="xxsmall"
+                                                user="vm.currentUser"
+                                        ></profile-pic>
+                                        <textarea
+                                            class="msd-elastic"
+                                            ng-model="vm.comment"
+                                            placeholder="{{'FEED.POST_ENTRY.COMMENT_PLACEHOLDER' | translate}}"
+                                        ></textarea>
+                                        <button
+                                            ng-click="vm.sendComment()"
+                                            class="post-comment"
+                                            ng-disabled="!vm.buttonEnabled"
+                                        >
+                                            {{'FEED.POST_ENTRY.COMMENT_CTA' | translate}}
+                                        </button>
                                     </div>
                                 </div>
-                            <aside>
+                                <aside>
                         </div>
                     </section>
                 </div>
