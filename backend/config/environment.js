@@ -22,7 +22,8 @@ const ENVIRONMENT = {
 		},
 		BUCKET: {
 			KEY: 'zendeck-production',
-			BASE_URL: 'https://localhost:9191/zendeck-production',
+			BASE_URL: 'https://s3-eu-west-1.amazonaws.com',
+			//ENDPOINT: 'http://localhost:9090/zendeck-production',
 			TYPES: {
 				TEMP: 'temp',
 				COVER: 'cover',
@@ -53,7 +54,7 @@ const ENVIRONMENT = {
 		},
 		BUCKET: {
 			KEY: 'zendeck-production',
-			BASE_URL: 'https://s3-eu-west-1.amazonaws.com/zendeck-production',
+			BASE_URL: 'https://s3-eu-west-1.amazonaws.com',
 			TYPES: {
 				TEMP: 'temp',
 				COVER: 'cover',
@@ -83,7 +84,7 @@ const ENVIRONMENT = {
 		},
 		BUCKET: {
 			KEY: 'zendeck-production',
-			BASE_URL: 'https://s3-eu-west-1.amazonaws.com/zendeck-production',
+			BASE_URL: 'https://s3-eu-west-1.amazonaws.com',
 			TYPES: {
 				TEMP: 'temp',
 				COVER: 'cover',

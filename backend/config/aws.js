@@ -4,7 +4,7 @@
  */
 
 module.exports = {
-	API_KEY: 'AKIAI7YZTPGDBAFRMVOA',
-	API_SECRET: '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',
+	API_KEY: 'AKIA32CWPG4AMKHWFTHK',
+	API_SECRET: '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',
 	SES_FROM: 'Arpad <arpad@zendeck.co>'
 };

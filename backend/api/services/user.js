@@ -326,7 +326,7 @@ class UserService {
 
 	updateCoverPic( userId, file ) {
 		const fileExtension = file.name.split('.').pop();
-		const newFileName = Util.createSHA256Hash( [userId, file.name].join('_') ) + '_' + Date.now() + '.' + fileExtension;
+		const newFileName = Util.createSHA256Hash( [userId, file.name].join('_') )  + '_' + Date.now() + '.' + fileExtension;
 		return this.s3Provider.putObject( this.s3Provider.OBJECT_TYPES.TEMP, newFileName, file ).then((response) => {
 			this._scheduleCoverPicResizingOperation( userId, response.tempFilename, file.type );
 			return response.url;

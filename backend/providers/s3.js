@@ -17,30 +17,38 @@ class S3Provider {
 		return ENV.BUCKET.BASE_URL;
 	}
 
+	get ENDPOINT() {
+		return ENV.BUCKET.ENDPOINT;
+	}
+
 	constructor() {
-		const config = {
-            accessKeyId: AWS_CONFIG.API_KEY,
+		let config = {
+			accessKeyId: AWS_CONFIG.API_KEY,
 			secretAccessKey: AWS_CONFIG.API_SECRET,
 			region: 'eu-west-1'
 		};
+		if (ENV.BUCKET.ENDPOINT) {
+			config = Object.assign(config, { endpoint: ENV.BUCKET.ENDPOINT });
+		} 
 		this.client = new AWS.S3( config );
 	}
 
 	pubObjectFromBuffer( type, filename, body, fileType ) {
 		return new Promise((resolve, reject) => {
 			let tempFilename = type + '/' + filename;
-			this.client.putObject({
+			const payload = {
 				Bucket: ENV.BUCKET.KEY,
 				Key:  tempFilename,
 				Body: body,
 				ContentType: fileType
-			}, (err, data) => {
+			};
+			this.client.putObject(payload, (err, data) => {
 				if( err ) {
 					reject(err);
 					return;
 				}
 				resolve({
-					url: [ this.BASE_URL, type, filename ].join('/'),
+					url: [ this.BASE_URL, ENV.BUCKET.KEY, type, filename ].join('/'),
 					tempFilename: tempFilename,
 					data: data 
 				});

@@ -74,14 +74,14 @@ const Util = {
 	createTempFileFromImageBuffer: ( name, imageBuffer ) => {
 		return new Promise((resolve, reject) => {
 			let tmpFilename = Util.createSHA256Hash([ Date.now(), name ].join('')) + '_' + Util.createSHA256Hash( String(Math.random() * 9999999) );
-			fs.writeFile('/tmp/' + tmpFilename, imageBuffer.data, function(err) {
+			fs.writeFile(require("os").tmpdir() + '/' + tmpFilename, imageBuffer.data, function(err) {
 				if( err ) {
 					reject(err);
 					return;
 				}
 				resolve({
 					name: name,
-					path: '/tmp/' + tmpFilename,
+					path: require("os").tmpdir() + '/' + tmpFilename,
 					type: imageBuffer.type
 				});
 			});
