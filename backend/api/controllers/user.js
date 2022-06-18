@@ -57,7 +57,7 @@ class UserController {
 
 	*updateCoverPic( context ) {
 		const userId = context.session.user.id;
-		const file = context.request.fields.file[0];
+		const file = context.request.fields.files.file;
 		try {
 			let result = yield this.userService.updateCoverPic( userId, file );
 			context.body = {
