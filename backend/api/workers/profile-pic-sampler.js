@@ -96,7 +96,7 @@ class ProfilePicSamplerWorker extends WorkerAbstract {
 			images[ thumbnail.format ] = {
 				width: DIMENSIONS[ thumbnail.format ].width,
 				height: DIMENSIONS[ thumbnail.format ].height,
-				src: [ this.s3Provider.BASE_URL, this.s3Provider.OBJECT_TYPES.PROFILE, filename ].join('/')
+				src: [ this.s3Provider.BASE_URL, this.s3Provider.KEY, this.s3Provider.OBJECT_TYPES.PROFILE, filename ].join('/')
 			}
 			promises.push( promise );
 		});

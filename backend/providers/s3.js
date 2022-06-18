@@ -17,6 +17,10 @@ class S3Provider {
 		return ENV.BUCKET.BASE_URL;
 	}
 
+	get KEY() {
+		return ENV.BUCKET.KEY;
+	}
+
 	get ENDPOINT() {
 		return ENV.BUCKET.ENDPOINT;
 	}

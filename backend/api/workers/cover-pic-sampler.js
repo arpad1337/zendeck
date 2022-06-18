@@ -62,7 +62,7 @@ class CoverPicSamplerWorker extends WorkerAbstract {
 		let image = {
 			width: thumbnail.format.width,
 			height: thumbnail.format.height,
-			src: [ this.s3Provider.BASE_URL, this.s3Provider.OBJECT_TYPES.PROFILE, filename ].join('/')
+			src: [ this.s3Provider.BASE_URL, this.s3Provider.KEY, this.s3Provider.OBJECT_TYPES.PROFILE, filename ].join('/')
 		};
 		promise.then(() => {
 			this.sendComplete( image );
